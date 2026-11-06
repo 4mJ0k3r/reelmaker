@@ -95,7 +95,7 @@ def test_cli_discovery_without_native_renderer(capsys, monkeypatch):
     assert rows and all(row[2] == "architecture" for row in rows)
     assert "barn_01" in {row[0] for row in rows}
     assert main(["show", "barn_01"]) == 0
-    assert json.loads(capsys.readouterr().out)["variants"] == ["default", "dusk_graded"]
+    assert json.loads(capsys.readouterr().out)["variants"] == ["default", "dusk_graded", "doorway_shadow"]
     with pytest.raises(SystemExit, match="2"):
         main(["show", "missing"])
     assert "Unknown component ID" in capsys.readouterr().err

@@ -84,7 +84,8 @@
         "variant": {
           "choices": [
             "default",
-            "dusk_graded"
+            "dusk_graded",
+            "doorway_shadow"
           ]
         }
       },
@@ -96,7 +97,8 @@
       ],
       "restrictions": [
         "Use the registered scene node kind and scene-0.1 validation.",
-        "Opt-in dusk_graded quiets fine seams; default retains original artwork."
+        "Opt-in dusk_graded quiets fine seams; default retains original artwork.",
+        "doorway_shadow adds one clipped local-time occlusion."
       ],
       "sources": [
         "src/reelforge/scenes/assets.py:recipe",
@@ -107,7 +109,8 @@
       "type": "scene_asset",
       "variants": [
         "default",
-        "dusk_graded"
+        "dusk_graded",
+        "doorway_shadow"
       ]
     },
     {

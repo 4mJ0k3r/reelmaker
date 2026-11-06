@@ -333,6 +333,7 @@ def registered_components(planner_assets):
             restrictions.append(
                 "Opt-in dusk_graded quiets fine seams; default retains original artwork."
             )
+            restrictions.append("doorway_shadow adds one clipped local-time occlusion.")
         if asset.id == "beacon_01":
             details["interaction_sockets"] = {"activation_button_local": list(snowy.BEACON_SOCKET)}
             restrictions.append("ridge_surge adds a single local-frame 44–56 pulse.")

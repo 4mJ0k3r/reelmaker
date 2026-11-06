@@ -405,6 +405,37 @@ def barn_light(warmth: float) -> tuple[DrawPath, ...]:
     return tuple(c)
 
 
+# Inset from the actual visible aperture: the jambs hide the outer part of the
+# interior rectangle, and the threshold highlight starts below this clip.
+_BARN_APERTURE = rectangle(-42, -79, 36, 75)
+DOORWAY_SHADOW_START = 34
+DOORWAY_SHADOW_END = 56
+
+
+def barn_doorway_shadow(seconds: float) -> tuple[DrawPath, ...]:
+    """One right-to-left occlusion on the existing recessed interior."""
+    frame = seconds * 30
+    if not DOORWAY_SHADOW_START < frame < DOORWAY_SHADOW_END:
+        return ()
+    progress = (frame - DOORWAY_SHADOW_START) / (DOORWAY_SHADOW_END - DOORWAY_SHADOW_START)
+    x = 9 - 74 * progress
+    return (
+        DrawPath(
+            path(
+                ("M", x + 5, -81),
+                ("C", x + 2, -67, x - 3, -53, x + 1, -43),
+                ("C", x + 3, -34, x - 4, -14, x - 2, -2),
+                ("L", x + 19, -2),
+                ("C", x + 17, -19, x + 28, -35, x + 21, -47),
+                ("C", x + 18, -59, x + 25, -74, x + 26, -81),
+                ("Z",),
+            ),
+            gradient(color("101c1e", 0.62), color("0c1719", 0.94), -79, -4),
+            clip=_BARN_APERTURE,
+        ),
+    )
+
+
 def ground_light(
     left: tuple[float, float], right: tuple[float, float], warmth: float
 ) -> tuple[DrawPath, ...]:

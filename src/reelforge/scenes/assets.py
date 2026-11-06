@@ -63,7 +63,7 @@ ASSETS = (
         (180, 500),
         (-250, -80, 250, 250),
     ),
-    Asset("barn_01", "asset", ("default", "dusk_graded"), 256, 4000),
+    Asset("barn_01", "asset", ("default", "dusk_graded", "doorway_shadow"), 256, 4000),
     Asset("orchard_tree_01", "asset", ("broad", "lean", "compact", "windswept"), 64, 2000),
     Asset("fence_01", "asset", ("default",), 32, 300),
     Asset("foreground_boughs_01", "environment", ("default",), 320, 4000, False, (180, 640)),
@@ -174,9 +174,11 @@ def recipe(
     elif asset.id == "barn_01":
         commands = (
             _graded_barn(warmth, atmosphere)
-            if variant == "dusk_graded"
+            if variant in ("dusk_graded", "doorway_shadow")
             else art.barn() + polish.barn_light(warmth)
         )
+        if variant == "doorway_shadow":
+            commands += polish.barn_doorway_shadow(seconds)
     elif asset.id == "orchard_tree_01":
         seed = {"broad": 43, "lean": -15, "compact": 98, "windswept": 407}[variant]
         commands = polish.tree(seed, warmth, breeze, seconds)
