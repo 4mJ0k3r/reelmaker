@@ -26,6 +26,8 @@ from reelforge.visual_library.nature.farm_tree import farm_tree
 
 from reelforge.visual_library.world_assets import WORLD_ASSETS, draw_world_asset
 
+from reelforge.visual_library.living_assets import EFFECTS, PROPS
+
 from .transforms import Placement
 
 
@@ -113,7 +115,7 @@ ASSETS = (
     *(Asset(identity, "character", ("default",), 56, 440, upright=True)
       for identity in PROFILES),
     *(Asset(identity, "asset", definition.variants, *definition.budget, upright=definition.upright)
-      for identity, definition in WORLD_ASSETS.items()),
+      for identity, definition in {**WORLD_ASSETS, **PROPS, **EFFECTS}.items()),
     *(
         Asset(identity, "asset", tuple(key for key, _ in building.variants),
               *building.budget, upright=True)
@@ -192,6 +194,10 @@ def recipe(
         )
         if variant == "doorway_shadow":
             commands += polish.barn_doorway_shadow(seconds)
+    elif asset.id in PROPS:
+        commands = tuple(PROPS[asset.id].draw(variant))
+    elif asset.id in EFFECTS:
+        commands = tuple(EFFECTS[asset.id].draw(variant, seconds))
     elif asset.id in WORLD_ASSETS:
         commands = draw_world_asset(asset.id, variant)
     elif asset.id in BUILDINGS:
