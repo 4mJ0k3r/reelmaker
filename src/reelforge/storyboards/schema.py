@@ -1,7 +1,8 @@
 """Native-free discoverable storyboard structure; semantic compiler admission remains required."""
 
+from reelforge.blocking.schema import actor_performance_schema, is_yellow_mellow
 from reelforge.characters.presets import EXPRESSIONS
-from reelforge.characters.rowan_performance import performance_schema
+from reelforge.characters.registry import ROWAN_ID, YELLOW_MELLOW_ID, character_info
 from reelforge.direction.contract import BEHAVIORS, CLOSE_UP_ZOOM_RANGE
 from reelforge.direction.schema import direction_schema
 from reelforge.geometry.schema import array, number, obj
@@ -20,7 +21,7 @@ def storyboard_schema() -> dict:
     }
     actions = []
     for kind in ACTIONS:
-        props = {"kind": {"const": kind}, "expression": {"enum": list(EXPRESSIONS)}}
+        props = {"kind": {"const": kind}, "expression": {"type": "string"}}
         if kind in ("walk_to", "run_to", "stop_at"):
             props["end_x"] = number(0, 640)
         if kind in ("walk_to", "run_to"):
@@ -28,7 +29,24 @@ def storyboard_schema() -> dict:
                 10 if kind == "walk_to" else 40, 45 if kind == "walk_to" else 90
             )
         actions.append(obj(props))
+
+    def beat_expressions(choices):
+        return {
+            "properties": {
+                "beats": {
+                    "items": {
+                        "properties": {
+                            "action": {"properties": {"expression": {"enum": list(choices)}}}
+                        }
+                    }
+                }
+            }
+        }
+
     return {
+        "if": {"properties": {"rowan": is_yellow_mellow()}},
+        "then": beat_expressions(character_info(YELLOW_MELLOW_ID).expressions),
+        "else": beat_expressions(EXPRESSIONS),
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "$id": "urn:reelforge:storyboard-0.1",
         "$defs": direction_schema()["$defs"],
@@ -47,10 +65,12 @@ def storyboard_schema() -> dict:
                         "actor_id": identity,
                         "support_id": identity,
                         "start": obj({"position": point, "facing": {"enum": ["left", "right"]}}),
-                        "performance": performance_schema(),
+                        "character": {"enum": [ROWAN_ID, YELLOW_MELLOW_ID]},
+                        "performance": {"type": "object"},
                     },
-                    optional=("performance",),
-                ),
+                    optional=("character", "performance"),
+                )
+                | actor_performance_schema(),
                 "subjects": array(obj({"id": identity, "target": target}), 1, 16),
                 "views": array(
                     obj(

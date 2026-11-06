@@ -9,6 +9,8 @@ from pathlib import Path
 from reelforge.blocking.contract import load_blocking
 from reelforge.blocking.sampling import blocking_frame, blocking_layers, inspect_frame
 from reelforge.characters.rowan_performance import NAME, REACTIONS
+from reelforge.characters.yellow_mellow_v2.investigation import NAME as MELLOW_NAME
+from reelforge.characters.yellow_mellow_v2.investigation import REACTION as MELLOW_REACTION
 from reelforge.core.errors import InputError, OperationError
 
 
@@ -23,6 +25,12 @@ def capabilities():
             "character": "rowan_01",
             "name": NAME,
             "reactions": list(REACTIONS),
+        },
+        "yellow_mellow_performance": {
+            "contract": "blocking-0.2",
+            "character": "yellow_mellow_v2",
+            "name": MELLOW_NAME,
+            "reactions": [MELLOW_REACTION],
         },
         "base_versions": ["scene-0.1", "environment-0.1", "composition-0.1"],
         "frames": 90,
@@ -51,13 +59,15 @@ def capabilities():
 
 
 def inspect_plan(plan):
+    if plan.mellow_investigation:
+        selected = {"name": MELLOW_NAME, "reaction": MELLOW_REACTION}
+    elif plan.performance_reaction:
+        selected = {"name": NAME, "reaction": plan.performance_reaction}
+    else:
+        selected = None
     return {
-        "contract": "blocking-0.2" if plan.performance_reaction else "blocking-0.1",
-        **(
-            {"performance": {"name": NAME, "reaction": plan.performance_reaction}}
-            if plan.performance_reaction
-            else {}
-        ),
+        "contract": "blocking-0.2" if selected else "blocking-0.1",
+        **({"performance": selected} if selected else {}),
         "frames": 90,
         "corridor_world": plan.corridor,
         "support_world": plan.support,

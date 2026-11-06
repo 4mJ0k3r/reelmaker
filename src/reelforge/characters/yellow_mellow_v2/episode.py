@@ -20,8 +20,9 @@ from reelforge.rendering.model import DrawPath, RenderError
 
 from .artwork import Placement as ArtPlacement
 from .artwork import character_commands, contact_shadows
-from .character import ActionRequest, Performance, YellowMellowV2
+from .character import ActionRequest, CharacterFrame, Performance, YellowMellowV2
 from .expressions import EXPRESSIONS
+from .investigation import build_investigation
 from .rig import STANDING_HEIGHT
 
 # Rowan's artwork is authored at roughly ROWAN_REFERENCE_HEIGHT logical units at draw scale 1,
@@ -141,11 +142,19 @@ class YellowMellowDrawer:
     shift V2 produces.
     """
 
-    def __init__(self, specs: tuple[SegmentSpec, ...], *, draw_scale: float, seed: str):
+    def __init__(
+        self, specs: tuple[SegmentSpec, ...], *, draw_scale: float, seed: str, investigation=None
+    ):
         requests, start_expr, start_facing = requests_from_segments(specs)
-        self._perf: Performance = YellowMellowV2(
-            facing=_facing_value(start_facing), seed=seed
-        ).animate(requests, start_expression=start_expr)
+        character = YellowMellowV2(facing=_facing_value(start_facing), seed=seed)
+        self._route_displacement = None
+        if investigation is None:
+            self._perf: Performance = character.animate(requests, start_expression=start_expr)
+        else:
+            route, world_scale = investigation
+            self._perf, self._route_displacement = build_investigation(
+                character, route, world_scale
+            )
         if self._perf.frames != 90:
             raise RenderError(
                 f"Yellow Mellow segment must animate exactly 90 frames, got {self._perf.frames}"
@@ -162,6 +171,13 @@ class YellowMellowDrawer:
             raise RenderError("Yellow Mellow drawer frame must be an integer 0..89")
         return self._perf.sample(frame)
 
+    def local_origin(self, frame: CharacterFrame) -> float:
+        if self._route_displacement is None:
+            return 0.0
+        return (
+            frame.state.pose.pelvis_x - self._route_displacement(frame.frame)
+        ) * self._draw_scale
+
     def commands(self, frame: int, direction: str) -> tuple[DrawPath, ...]:
         if type(frame) is not int or not 0 <= frame < 90:
             raise RenderError("Yellow Mellow drawer frame must be an integer 0..89")
@@ -173,11 +189,19 @@ class YellowMellowDrawer:
         # origin. V2's baked locomotion travel (pelvis_x) is intentionally dropped here to avoid
         # double-counting horizontal motion and any resulting foot slide; vertical pelvis motion
         # (bob, crouch, jump) and the planted-foot contacts are kept by sampling the pose as-is.
-        placement = ArtPlacement(0.0, 0.0, self._draw_scale, sign)
+        placement = ArtPlacement(self.local_origin(cf), 0.0, self._draw_scale, sign)
         shadows = contact_shadows(cf.state, placement)
         body = character_commands(cf.state, cf.face, placement)
         return shadows + body
 
 
-def build_drawer(specs, *, draw_scale: float = DEFAULT_DRAW_SCALE, seed: str = "yellow_mellow_v2"):
-    return YellowMellowDrawer(tuple(specs), draw_scale=draw_scale, seed=seed)
+def build_drawer(
+    specs,
+    *,
+    draw_scale: float = DEFAULT_DRAW_SCALE,
+    seed: str = "yellow_mellow_v2",
+    investigation=None,
+):
+    return YellowMellowDrawer(
+        tuple(specs), draw_scale=draw_scale, seed=seed, investigation=investigation
+    )

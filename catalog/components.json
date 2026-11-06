@@ -2225,6 +2225,13 @@
           "max_paths": 384
         },
         "character_id": "yellow_mellow_v2",
+        "integration_evidence": [
+          "docs/visual-evidence/stage2b/farm-medium.jpg",
+          "docs/visual-evidence/stage2b/cold-ridge-medium.jpg"
+        ],
+        "preview_evidence": [
+          "docs/visual-evidence/stage2b/acting.jpg"
+        ],
         "scene_kind": "character",
         "standing_height_units": 142.5,
         "support_envelope": null,
@@ -2247,6 +2254,16 @@
             "tired"
           ],
           "default": "neutral"
+        },
+        "performance.name": {
+          "choices": [
+            "investigate_and_react"
+          ]
+        },
+        "performance.reaction": {
+          "choices": [
+            "surprised"
+          ]
         },
         "registry_actions": {
           "choices": [
@@ -2299,13 +2316,16 @@
       ],
       "restrictions": [
         "Use the registered scene node kind and scene-0.1 validation.",
-        "Registry actions are broader than the stationary actions accepted by scene-0.1."
+        "Registry actions are broader than the stationary actions accepted by scene-0.1.",
+        "Optional investigate_and_react uses blocking-0.2 or storyboard rowan.performance with a fixed-facing walk, stop and final idle."
       ],
       "sources": [
         "src/reelforge/scenes/assets.py:recipe",
         "src/reelforge/characters/registry.py:character_info",
         "src/reelforge/characters/registry.py:draw_commands_builder",
-        "src/reelforge/characters/yellow_mellow_v2/episode.py:build_drawer"
+        "src/reelforge/characters/yellow_mellow_v2/episode.py:build_drawer",
+        "src/reelforge/blocking/contract.py:compile_blocking",
+        "src/reelforge/characters/yellow_mellow_v2/investigation.py:build_investigation"
       ],
       "type": "character",
       "variants": [

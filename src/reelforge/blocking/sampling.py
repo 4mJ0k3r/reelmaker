@@ -11,6 +11,7 @@ from reelforge.characters.rowan import contact_shadows, draw_character
 from reelforge.characters.rowan_performance import NAME, apply_performance, face_cue
 from reelforge.characters.secondary import SecondaryMotion, preset_secondary
 from reelforge.characters.transition import contact_targets, transition_pose, transition_secondary
+from reelforge.characters.yellow_mellow_v2.investigation import NAME as MELLOW_NAME
 from reelforge.environments.polish import grade_character
 from reelforge.rendering.model import Color, LinearGradient, Transform
 from reelforge.scenes.graph import CharacterFrame, camera_at, evaluate_layers
@@ -137,9 +138,12 @@ def _yellow_mellow_drawer(plan):
     each with V2's own documented 48-entry primary cache."""
     drawer = _YM_DRAWERS.get(plan)
     if drawer is None:
-        from reelforge.characters.yellow_mellow_v2.episode import build_drawer
+        from reelforge.characters.yellow_mellow_v2.episode import DEFAULT_DRAW_SCALE, build_drawer
 
-        drawer = build_drawer(_segment_specs(plan))
+        investigation = (
+            (plan.segments, plan.scale * DEFAULT_DRAW_SCALE) if plan.mellow_investigation else None
+        )
+        drawer = build_drawer(_segment_specs(plan), investigation=investigation)
         _YM_DRAWERS[plan] = drawer
     return drawer
 
@@ -156,10 +160,11 @@ def fingertip_world(plan, frame: int, side: str = "near") -> tuple[float, float]
         raise ValueError("Fingertip measurement is defined for Yellow Mellow V2 only")
     _, _, _, _, _, x, facing, _ = sample(plan, frame / 30)
     drawer = _yellow_mellow_drawer(plan)
-    cx, cy = fingertip(drawer.sample(frame).state, side)
+    current = drawer.sample(frame)
+    cx, cy = fingertip(current.state, side)
     sign = 1 if facing == "right" else -1
     k = plan.scale * drawer.draw_scale
-    return x + sign * k * cx, plan.y + k * cy
+    return x + plan.scale * drawer.local_origin(current) + sign * k * cx, plan.y + k * cy
 
 
 def commands(plan, t):
@@ -262,7 +267,18 @@ def inspect_frame(plan, frame):
         turn_set_error = max(min(math.dist(a, b) for b in new) for a in old)
         turn_label_exchange = max(math.dist(a, b) for a, b in zip(old, new, strict=True))
     cue = _performance_face(plan, frame)
+    mellow = None
+    if plan.mellow_investigation:
+        current = _yellow_mellow_drawer(plan).sample(frame)
+        mellow = {
+            "name": MELLOW_NAME,
+            "action": current.action,
+            "blink": current.blink,
+            "face": asdict(current.face),
+            "gaze": current.state.pose.look_x,
+        }
     return {
+        **({"performance": mellow} if mellow else {}),
         **({"performance": {"name": NAME, **asdict(cue)}} if cue else {}),
         "turn_contact_set_error_world": turn_set_error,
         "turn_side_label_exchange_world": turn_label_exchange,
@@ -335,3 +351,34 @@ def validate_contacts(plan):
                 "exit_right requires a rightward departure beyond x=380",
                 "BLOCKING_CAMERA",
             )
+
+
+def validate_mellow_contacts(plan):
+    from reelforge.characters.yellow_mellow_v2.quality import PENETRATION_TOLERANCE
+    from reelforge.rendering.model import RenderError
+
+    from .contract import fail
+
+    left, top, right, bottom = plan.support
+    drawer = _yellow_mellow_drawer(plan)
+    scale = plan.scale * drawer.draw_scale
+    for frame in range(90):
+        try:
+            state = drawer.sample(frame).state
+        except RenderError as error:
+            fail("/performance", str(error), "BLOCKING_GAIT")
+        if state.clamped:
+            fail("/performance", "Yellow Mellow pose exceeds rig channel limits", "BLOCKING_GAIT")
+        for side in ("near", "far"):
+            if state.legs[side].reach_error > PENETRATION_TOLERANCE:
+                fail("/performance", "Yellow Mellow leg exceeds calibrated reach", "BLOCKING_GAIT")
+            for point in state.sole_points(side):
+                x, y = state.world(point)
+                x = plan.segments[0].x0 + x * scale
+                y = plan.y + y * scale
+                if not (left <= x <= right and top <= y <= bottom):
+                    fail(
+                        "/performance", "Yellow Mellow foot leaves the support", "BLOCKING_SUPPORT"
+                    )
+                if point[1] > PENETRATION_TOLERANCE:
+                    fail("/performance", "Yellow Mellow shoe penetrates the floor", "BLOCKING_GAIT")

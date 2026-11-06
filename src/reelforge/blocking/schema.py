@@ -2,10 +2,37 @@
 
 from reelforge.characters.presets import EXPRESSIONS
 from reelforge.characters.registry import ROWAN_ID, YELLOW_MELLOW_ID, character_info
-from reelforge.characters.rowan_performance import performance_schema
+from reelforge.characters.rowan_performance import performance_schema as rowan_performance_schema
+from reelforge.characters.yellow_mellow_v2.investigation import NAME as MELLOW_NAME
+from reelforge.characters.yellow_mellow_v2.investigation import REACTION as MELLOW_REACTION
 from reelforge.geometry.schema import array, composition_schema, number, obj
 from reelforge.procedural.schema import environment_schema
 from reelforge.scenes.schema import scene_schema
+
+
+def is_yellow_mellow():
+    return {
+        "required": ["character"],
+        "properties": {"character": {"const": YELLOW_MELLOW_ID}},
+    }
+
+
+def actor_performance_schema():
+    """Character-scoped selector rules shared by blocking and storyboard."""
+    return {
+        "if": is_yellow_mellow(),
+        "then": {
+            "properties": {
+                "performance": obj(
+                    {
+                        "name": {"const": MELLOW_NAME},
+                        "reaction": {"const": MELLOW_REACTION},
+                    }
+                )
+            }
+        },
+        "else": {"properties": {"performance": rowan_performance_schema()}},
+    }
 
 
 def blocking_schema():
@@ -42,15 +69,9 @@ def blocking_schema():
                     "not": {"anyOf": [{"required": ["performance"]}, {"required": ["character"]}]}
                 },
             },
+            actor_performance_schema(),
             {
-                "if": {"required": ["performance"]},
-                "then": {"properties": {"character": {"const": ROWAN_ID}}},
-            },
-            {
-                "if": {
-                    "required": ["character"],
-                    "properties": {"character": {"const": YELLOW_MELLOW_ID}},
-                },
+                "if": is_yellow_mellow(),
                 "then": {
                     "properties": {
                         "segments": {
@@ -76,7 +97,7 @@ def blocking_schema():
             {
                 "schema_version": {"enum": ["blocking-0.1", "blocking-0.2"]},
                 "character": {"enum": [ROWAN_ID, YELLOW_MELLOW_ID]},
-                "performance": performance_schema(),
+                "performance": {"type": "object"},
                 "title": {"type": "string", "minLength": 1, "maxLength": 120},
                 "base": {
                     "oneOf": [scene_schema(), environment_schema(), {"$ref": "#/$defs/composition"}]

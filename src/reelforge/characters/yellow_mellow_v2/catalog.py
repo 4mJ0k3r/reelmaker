@@ -1,9 +1,7 @@
-"""Small character-asset catalog and a Rowan-style command adapter.
+"""Trusted V2 character metadata and ground-origin drawing adapter.
 
-This is a preparation step for using Yellow Mellow in ordinary ReelForge episodes. It is
-NOT wired into the episode/scene/storyboard compilers: no accepted contract references
-``yellow_mellow_v2`` yet, and no episode-level test exists. The adapter only produces trusted
-``DrawPath`` tuples at a ground origin, the same shape that ``rowan.draw_character`` returns.
+Yellow Mellow V2 can be selected by validated blocking and storyboard timelines.
+The standalone command adapter also exposes the native action vocabulary.
 """
 
 from __future__ import annotations
@@ -37,8 +35,8 @@ CATALOG: dict[str, CatalogEntry] = {
         STANDING_HEIGHT,
         tuple(sorted(PRESETS)) + LOCOMOTION_ACTIONS,
         tuple(sorted(EXPRESSIONS)),
-        False,
-        "Rig/motion library ready; episode contracts still select Rowan only.",
+        True,
+        "Executable in blocking-0.2 and storyboard-0.1 with the registered V2 drawer.",
     )
 }
 

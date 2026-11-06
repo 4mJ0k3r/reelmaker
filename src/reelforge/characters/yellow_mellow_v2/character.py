@@ -111,11 +111,11 @@ class CharacterFrame:
 class Performance:
     """A sampled timeline. Random access; deterministic for a given request list and seed."""
 
-    def __init__(self, entries: list[Entry], frames: int, seed: str):
+    def __init__(self, entries: list[Entry], frames: int, seed: str, *, natural_blinks=True):
         self.entries = entries
         self.frames = frames
         self.seed = seed
-        self._blinks = blink_starts(seed, frames)
+        self._blinks = blink_starts(seed, frames) if natural_blinks else ()
         self._starts = [e.start for e in entries]
         self._cache: OrderedDict[int, RigState] = OrderedDict()
 

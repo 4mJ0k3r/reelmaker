@@ -1,0 +1,1431 @@
+{
+  "python": "3.12.14",
+  "renderer": {
+    "pycairo": "1.25.1",
+    "cairo": "1.18.0"
+  },
+  "resolution": [
+    720,
+    1280
+  ],
+  "frames": [
+    3,
+    20,
+    34,
+    46,
+    47,
+    58,
+    59,
+    64,
+    65,
+    70,
+    76,
+    83,
+    89
+  ],
+  "legacy": {
+    "geometry_seconds": 0.2641919109992159,
+    "raster_seconds": 0.22947892599995612,
+    "wall_seconds": 0.5371743979999337,
+    "hashes": {
+      "3": "98ad98efd517092b0431cf9908479ef33af25d8569659d13392889ed96e3e2da",
+      "20": "82c1ba65fbd6b804eec3bdcf3a6c951756ffcc14f6f6c3bf89528807eecb6ff3",
+      "34": "3895822938e99216339d0fcea09886af4bc486a032012d60d1e8da9cbc4821c4",
+      "46": "a5ff80ff3ba172c1fb67d46432810f3e23eea345c0f2ed2aea373735d6f49cae",
+      "47": "164bcb760ed9edefb022f081eb896f98cfc304c3a1b3ba6eb65097e59e86db53",
+      "58": "dd19a574aad088d0f09784be1e5ce66edab0cde2472d268ab850c3d221f20cf2",
+      "59": "0cd0722769041033cd25051bdf33f3ab2654b80d67d2a18aa147cc02bcc502cc",
+      "64": "7dd69c6c5bb6460ed7aa834d5abfca26045651a34a4136e57b669cefc224b8f5",
+      "65": "162f97a3c679d25ef72ef8f98b9641ca083b8be70c3a5dfb79b72d34d194c375",
+      "70": "e6ed5f3c101f4836e5482d2a7c5cfe50728f916b0e3edf5dc80ec2f1f79112cf",
+      "76": "e6bba1a43cb31326228f08f796c5f43007346a21c3c1c063415591d32d5b3735",
+      "83": "a439ede628bd5a7b740b698fb4eff5237b65f9a9c511b9d10a543ab296fc754e",
+      "89": "56aa10476c1e97e5a2515234f1e2d965bae12838502e85d7985b5314fe966221"
+    },
+    "paths_and_operations": [
+      322,
+      1797
+    ],
+    "scene_allowance": [
+      1795,
+      36418
+    ],
+    "fps": 30,
+    "host": {
+      "architecture": "x86_64",
+      "logical_cpus": 9,
+      "affinity_cpus": 9,
+      "effective_cpu_upper_bound": 8.0,
+      "cpu_max": "800000 100000",
+      "model": "INTEL(R) XEON(R) PLATINUM 8573C"
+    },
+    "peak_tree_rss_bytes": 46850048,
+    "cancelled": false,
+    "memory_policy": "strict",
+    "oom_event_delta": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    }
+  },
+  "refined": {
+    "geometry_seconds": 0.28706862400167665,
+    "raster_seconds": 0.22388753999894107,
+    "wall_seconds": 0.5598157869999341,
+    "hashes": {
+      "3": "69e8dc9227af254474a725a61ea6190cea2821ee267835329eee47d7b0812952",
+      "20": "46e3796777cdfa00512bc4da4ff3d8b17480e2d311bdce5af87ca39d4b59d500",
+      "34": "dfa320ba51e066fcc2e1a59ea9bfcfe7d174d00bda11054ca003bc280199c706",
+      "46": "e8e0207b01e43e2f80593106a867ce3b90ab5e70d39f5856ba030ae8f5cb32e6",
+      "47": "9d197d34d19dcde288677d0674caf21f7f94f854ca2971d4cae0b5d66f2f5068",
+      "58": "455377cd0ff2e84d2618c06087d48ba53d5a8ba53dc4feae1678a9f35de3af02",
+      "59": "54b510e848b470c05369e1d3f6c47bfa2e35c8c453cc8605247080d3ccf2bdd0",
+      "64": "cdf70a4f46e339a9aafcc51cbf2fe8639652c7fb97ac0fc8e4d53451ea519ea6",
+      "65": "f16b96dae09f484e13cfb70a76e83c98d10780eec765544cdaeb918f464fbe28",
+      "70": "5f61501a78ce5547c73f196a556583537797448e2f7304063bbb0b37bfae26db",
+      "76": "9d9f94e93ad4d354a3ea85781e4971455526e730ee4dbd97f1d70b137e0cb309",
+      "83": "712668ce211b56b69ee61e010f7909cc5d5abaf360fb971410ed1fe2ce08c6dc",
+      "89": "ef6169d918d66ebe5b9a3cd40cec4adbe113f46068d15b91f6f2df4b9d147514"
+    },
+    "paths_and_operations": [
+      323,
+      1797
+    ],
+    "scene_allowance": [
+      1795,
+      36418
+    ],
+    "fps": 30,
+    "host": {
+      "architecture": "x86_64",
+      "logical_cpus": 9,
+      "affinity_cpus": 9,
+      "effective_cpu_upper_bound": 8.0,
+      "cpu_max": "800000 100000",
+      "model": "INTEL(R) XEON(R) PLATINUM 8573C"
+    },
+    "peak_tree_rss_bytes": 46952448,
+    "cancelled": false,
+    "memory_policy": "strict",
+    "oom_event_delta": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    }
+  },
+  "motion": {
+    "legacy_ridge": {
+      "units": "canonical V2 rig units; proof world scale = 0.4266667 logical px/unit",
+      "tolerances": {
+        "ground_contact": 0.15,
+        "slide": 0.05,
+        "penetration": 0.05
+      },
+      "summary": {
+        "frames": 90,
+        "all_joint_transforms_finite": true,
+        "max_planted_contact_slide_units": 0.0,
+        "planted_slide_events_over_tolerance": 0,
+        "max_ground_penetration_units": 0.0,
+        "max_leg_reach_error_units": 0.0,
+        "clamped_channel_frames": {},
+        "knee_flip_events": [],
+        "thigh_projected_length_range": [
+          22.0,
+          22.0,
+          22.0
+        ],
+        "shin_projected_length_range": [
+          21.0,
+          21.0,
+          21.0
+        ],
+        "neck_head_distance_range": [
+          14.69,
+          15.21,
+          15.0
+        ],
+        "airborne_frames_total": 0,
+        "max_joint_step_units": 29.544,
+        "blink_frames": 4
+      },
+      "sections": [
+        {
+          "frames": [
+            0,
+            39
+          ],
+          "section": "walk",
+          "actions": [
+            "locomotion"
+          ],
+          "airborne_frames": 0,
+          "landings": {
+            "near": [
+              10
+            ],
+            "far": [
+              27
+            ]
+          },
+          "near_shoulder_range": [
+            -0.05,
+            0.79
+          ],
+          "far_shoulder_range": [
+            -0.85,
+            0.21
+          ],
+          "elbow_range": [
+            -0.44,
+            0.44
+          ],
+          "arm_shoulder_correlation": -0.546,
+          "min_hip_ankle": 35.66,
+          "pelvis_height_range": [
+            48.72,
+            50.81
+          ],
+          "travel_units": 46.5,
+          "max_speed_units_per_frame": 1.55,
+          "max_joint_step": 29.544,
+          "expressions_eye_scale_range": [
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "frames": [
+            40,
+            53
+          ],
+          "section": "brake",
+          "actions": [
+            "locomotion"
+          ],
+          "airborne_frames": 0,
+          "landings": {
+            "near": [
+              42
+            ],
+            "far": [
+              51
+            ]
+          },
+          "near_shoulder_range": [
+            0.29,
+            0.66
+          ],
+          "far_shoulder_range": [
+            -0.85,
+            -0.3
+          ],
+          "elbow_range": [
+            -0.3,
+            0.44
+          ],
+          "arm_shoulder_correlation": -0.44,
+          "min_hip_ankle": 36.46,
+          "pelvis_height_range": [
+            49.21,
+            50.75
+          ],
+          "travel_units": 13.41,
+          "max_speed_units_per_frame": 1.55,
+          "max_joint_step": 14.642,
+          "expressions_eye_scale_range": [
+            1.0,
+            1.1
+          ]
+        },
+        {
+          "frames": [
+            54,
+            62
+          ],
+          "section": "notice",
+          "actions": [
+            "surprise"
+          ],
+          "airborne_frames": 0,
+          "landings": {
+            "near": [],
+            "far": []
+          },
+          "near_shoulder_range": [
+            0.3,
+            1.16
+          ],
+          "far_shoulder_range": [
+            -1.16,
+            -0.3
+          ],
+          "elbow_range": [
+            -0.3,
+            1.2
+          ],
+          "arm_shoulder_correlation": -1.0,
+          "min_hip_ankle": 39.4,
+          "pelvis_height_range": [
+            47.9,
+            50.75
+          ],
+          "travel_units": -1.17,
+          "max_speed_units_per_frame": 0.403,
+          "max_joint_step": 11.694,
+          "expressions_eye_scale_range": [
+            1.1,
+            1.47
+          ]
+        },
+        {
+          "frames": [
+            63,
+            68
+          ],
+          "section": "investigate",
+          "actions": [
+            "surprise"
+          ],
+          "airborne_frames": 0,
+          "landings": {
+            "near": [],
+            "far": []
+          },
+          "near_shoulder_range": [
+            1.3,
+            1.35
+          ],
+          "far_shoulder_range": [
+            -1.35,
+            -1.3
+          ],
+          "elbow_range": [
+            0.55,
+            0.6
+          ],
+          "arm_shoulder_correlation": -1.0,
+          "min_hip_ankle": 42.4,
+          "pelvis_height_range": [
+            50.9,
+            50.93
+          ],
+          "travel_units": 0.0,
+          "max_speed_units_per_frame": 0.0,
+          "max_joint_step": 4.575,
+          "expressions_eye_scale_range": [
+            1.47,
+            1.47
+          ]
+        },
+        {
+          "frames": [
+            69,
+            78
+          ],
+          "section": "surprise",
+          "actions": [
+            "surprise"
+          ],
+          "airborne_frames": 0,
+          "landings": {
+            "near": [],
+            "far": []
+          },
+          "near_shoulder_range": [
+            1.35,
+            1.35
+          ],
+          "far_shoulder_range": [
+            -1.35,
+            -1.35
+          ],
+          "elbow_range": [
+            0.55,
+            0.55
+          ],
+          "arm_shoulder_correlation": 1.0,
+          "min_hip_ankle": 42.36,
+          "pelvis_height_range": [
+            50.86,
+            50.92
+          ],
+          "travel_units": 0.0,
+          "max_speed_units_per_frame": 0.0,
+          "max_joint_step": 0.098,
+          "expressions_eye_scale_range": [
+            1.47,
+            1.47
+          ]
+        },
+        {
+          "frames": [
+            79,
+            89
+          ],
+          "section": "recover",
+          "actions": [
+            "surprise"
+          ],
+          "airborne_frames": 0,
+          "landings": {
+            "near": [],
+            "far": []
+          },
+          "near_shoulder_range": [
+            1.35,
+            1.35
+          ],
+          "far_shoulder_range": [
+            -1.35,
+            -1.35
+          ],
+          "elbow_range": [
+            0.55,
+            0.55
+          ],
+          "arm_shoulder_correlation": 1.0,
+          "min_hip_ankle": 42.25,
+          "pelvis_height_range": [
+            50.75,
+            50.85
+          ],
+          "travel_units": 0.0,
+          "max_speed_units_per_frame": 0.0,
+          "max_joint_step": 0.097,
+          "expressions_eye_scale_range": [
+            1.47,
+            1.47
+          ]
+        }
+      ],
+      "boundaries": [
+        {
+          "frame": 40,
+          "section": "brake",
+          "max_joint_step_at_boundary": 5.459,
+          "median_step_nearby": 3.713,
+          "ratio": 1.47
+        },
+        {
+          "frame": 54,
+          "section": "notice",
+          "max_joint_step_at_boundary": 0.002,
+          "median_step_nearby": 4.465,
+          "ratio": 0.0
+        },
+        {
+          "frame": 63,
+          "section": "investigate",
+          "max_joint_step_at_boundary": 4.575,
+          "median_step_nearby": 3.757,
+          "ratio": 1.22
+        },
+        {
+          "frame": 69,
+          "section": "surprise",
+          "max_joint_step_at_boundary": 0.065,
+          "median_step_nearby": 0.089,
+          "ratio": 0.73
+        },
+        {
+          "frame": 79,
+          "section": "recover",
+          "max_joint_step_at_boundary": 0.097,
+          "median_step_nearby": 0.093,
+          "ratio": 1.04
+        }
+      ],
+      "slide_events": [],
+      "root_world_travel": 50.76666666666668,
+      "max_flat_step_in_rendered_world": 0.8117239583333173,
+      "boundary_position_and_speed": [
+        [
+          0.0,
+          7.105427357601002e-15
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "secondary_abs_max": {
+        "beanie": 0.053402668397413346,
+        "pom_x": 1.3942644398300326,
+        "pom_y": 0.8755366992688156,
+        "strings": 0.05565182095919316,
+        "hem_x": 0.2968819020974448,
+        "hem_y": 0.2483987385825236,
+        "head_drop": 0.3058502935935361,
+        "sleeve": 0.08904291353470904
+      },
+      "face_at_beats": {
+        "54": {
+          "eye_scale": 1.1,
+          "eye_open": 1.0,
+          "upper_lid": 0.0,
+          "lower_lid": 0.0,
+          "brow_raise": 1.0,
+          "brow_tilt": 0.0,
+          "brow_asym": 2.4,
+          "mouth_curve": 0.0,
+          "mouth_open": 0.22,
+          "mouth_width": 0.6,
+          "mouth_round": 1.0
+        },
+        "61": {
+          "eye_scale": 1.435546875,
+          "eye_open": 1.0,
+          "upper_lid": 0.0,
+          "lower_lid": 0.0,
+          "brow_raise": 3.6796875,
+          "brow_tilt": 0.0,
+          "brow_asym": 0.10312499999999991,
+          "mouth_curve": 0.0,
+          "mouth_open": 0.8229296875,
+          "mouth_width": 0.7435546875,
+          "mouth_round": 1.0
+        },
+        "68": {
+          "eye_scale": 1.47,
+          "eye_open": 1.0,
+          "upper_lid": 0.0,
+          "lower_lid": 0.0,
+          "brow_raise": 3.8,
+          "brow_tilt": 0.0,
+          "brow_asym": 0.0,
+          "mouth_curve": 0.0,
+          "mouth_open": 0.85,
+          "mouth_width": 0.75,
+          "mouth_round": 1.0
+        },
+        "73": {
+          "eye_scale": 1.47,
+          "eye_open": 1.0,
+          "upper_lid": 0.0,
+          "lower_lid": 0.0,
+          "brow_raise": 3.8,
+          "brow_tilt": 0.0,
+          "brow_asym": 0.0,
+          "mouth_curve": 0.0,
+          "mouth_open": 0.85,
+          "mouth_width": 0.75,
+          "mouth_round": 1.0
+        },
+        "85": {
+          "eye_scale": 1.47,
+          "eye_open": 1.0,
+          "upper_lid": 0.0,
+          "lower_lid": 0.0,
+          "brow_raise": 3.8,
+          "brow_tilt": 0.0,
+          "brow_asym": 0.0,
+          "mouth_curve": 0.0,
+          "mouth_open": 0.85,
+          "mouth_width": 0.75,
+          "mouth_round": 1.0
+        },
+        "89": {
+          "eye_scale": 1.47,
+          "eye_open": 1.0,
+          "upper_lid": 0.0,
+          "lower_lid": 0.0,
+          "brow_raise": 3.8,
+          "brow_tilt": 0.0,
+          "brow_asym": 0.0,
+          "mouth_curve": 0.0,
+          "mouth_open": 0.85,
+          "mouth_width": 0.75,
+          "mouth_round": 1.0
+        }
+      },
+      "blink_nonzero_frames": [
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "cache_after_sampling": 48,
+      "cache_capacity": 48
+    },
+    "refined_ridge": {
+      "units": "canonical V2 rig units; proof world scale = 0.4266667 logical px/unit",
+      "tolerances": {
+        "ground_contact": 0.15,
+        "slide": 0.05,
+        "penetration": 0.05
+      },
+      "summary": {
+        "frames": 90,
+        "all_joint_transforms_finite": true,
+        "max_planted_contact_slide_units": 0.0,
+        "planted_slide_events_over_tolerance": 0,
+        "max_ground_penetration_units": 0.0,
+        "max_leg_reach_error_units": 0.0,
+        "clamped_channel_frames": {},
+        "knee_flip_events": [],
+        "thigh_projected_length_range": [
+          22.0,
+          22.0,
+          22.0
+        ],
+        "shin_projected_length_range": [
+          21.0,
+          21.0,
+          21.0
+        ],
+        "neck_head_distance_range": [
+          14.79,
+          15.16,
+          15.0
+        ],
+        "airborne_frames_total": 0,
+        "max_joint_step_units": 17.278,
+        "blink_frames": 4
+      },
+      "sections": [
+        {
+          "frames": [
+            0,
+            39
+          ],
+          "section": "walk",
+          "actions": [
+            "locomotion"
+          ],
+          "airborne_frames": 0,
+          "landings": {
+            "near": [
+              13,
+              33
+            ],
+            "far": [
+              24
+            ]
+          },
+          "near_shoulder_range": [
+            -0.05,
+            0.85
+          ],
+          "far_shoulder_range": [
+            -0.85,
+            0.25
+          ],
+          "elbow_range": [
+            -0.43,
+            0.44
+          ],
+          "arm_shoulder_correlation": -0.739,
+          "min_hip_ankle": 34.83,
+          "pelvis_height_range": [
+            48.0,
+            50.8
+          ],
+          "travel_units": 91.48,
+          "max_speed_units_per_frame": 3.452,
+          "max_joint_step": 17.278,
+          "expressions_eye_scale_range": [
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "frames": [
+            40,
+            53
+          ],
+          "section": "brake",
+          "actions": [
+            "locomotion"
+          ],
+          "airborne_frames": 0,
+          "landings": {
+            "near": [
+              53
+            ],
+            "far": [
+              41
+            ]
+          },
+          "near_shoulder_range": [
+            -0.05,
+            0.32
+          ],
+          "far_shoulder_range": [
+            -0.47,
+            0.16
+          ],
+          "elbow_range": [
+            -0.44,
+            0.34
+          ],
+          "arm_shoulder_correlation": -0.673,
+          "min_hip_ankle": 36.71,
+          "pelvis_height_range": [
+            48.86,
+            50.7
+          ],
+          "travel_units": 23.94,
+          "max_speed_units_per_frame": 3.315,
+          "max_joint_step": 7.031,
+          "expressions_eye_scale_range": [
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "frames": [
+            54,
+            62
+          ],
+          "section": "notice",
+          "actions": [
+            "investigate_and_react"
+          ],
+          "airborne_frames": 0,
+          "landings": {
+            "near": [],
+            "far": []
+          },
+          "near_shoulder_range": [
+            0.3,
+            0.3
+          ],
+          "far_shoulder_range": [
+            -0.3,
+            -0.3
+          ],
+          "elbow_range": [
+            -0.3,
+            0.3
+          ],
+          "arm_shoulder_correlation": 1.0,
+          "min_hip_ankle": 42.02,
+          "pelvis_height_range": [
+            50.52,
+            50.68
+          ],
+          "travel_units": -3.55,
+          "max_speed_units_per_frame": 0.923,
+          "max_joint_step": 4.62,
+          "expressions_eye_scale_range": [
+            1.0,
+            1.1
+          ]
+        },
+        {
+          "frames": [
+            63,
+            68
+          ],
+          "section": "investigate",
+          "actions": [
+            "investigate_and_react"
+          ],
+          "airborne_frames": 0,
+          "landings": {
+            "near": [],
+            "far": []
+          },
+          "near_shoulder_range": [
+            -0.53,
+            0.3
+          ],
+          "far_shoulder_range": [
+            -0.3,
+            -0.16
+          ],
+          "elbow_range": [
+            -0.77,
+            -0.12
+          ],
+          "arm_shoulder_correlation": -1.0,
+          "min_hip_ankle": 40.63,
+          "pelvis_height_range": [
+            49.05,
+            50.67
+          ],
+          "travel_units": 1.25,
+          "max_speed_units_per_frame": 0.325,
+          "max_joint_step": 11.889,
+          "expressions_eye_scale_range": [
+            1.05,
+            1.1
+          ]
+        },
+        {
+          "frames": [
+            69,
+            78
+          ],
+          "section": "surprise",
+          "actions": [
+            "investigate_and_react"
+          ],
+          "airborne_frames": 0,
+          "landings": {
+            "near": [],
+            "far": []
+          },
+          "near_shoulder_range": [
+            -0.73,
+            -0.6
+          ],
+          "far_shoulder_range": [
+            -0.54,
+            -0.15
+          ],
+          "elbow_range": [
+            -1.1,
+            0.2
+          ],
+          "arm_shoulder_correlation": 1.0,
+          "min_hip_ankle": 39.81,
+          "pelvis_height_range": [
+            48.3,
+            48.9
+          ],
+          "travel_units": -2.85,
+          "max_speed_units_per_frame": 0.98,
+          "max_joint_step": 15.333,
+          "expressions_eye_scale_range": [
+            1.05,
+            1.27
+          ]
+        },
+        {
+          "frames": [
+            79,
+            89
+          ],
+          "section": "recover",
+          "actions": [
+            "investigate_and_react"
+          ],
+          "airborne_frames": 0,
+          "landings": {
+            "near": [],
+            "far": []
+          },
+          "near_shoulder_range": [
+            -0.78,
+            -0.14
+          ],
+          "far_shoulder_range": [
+            -0.67,
+            -0.3
+          ],
+          "elbow_range": [
+            -1.2,
+            0.34
+          ],
+          "arm_shoulder_correlation": 1.0,
+          "min_hip_ankle": 39.81,
+          "pelvis_height_range": [
+            48.3,
+            50.67
+          ],
+          "travel_units": 1.5,
+          "max_speed_units_per_frame": 0.444,
+          "max_joint_step": 12.822,
+          "expressions_eye_scale_range": [
+            1.0,
+            1.26
+          ]
+        }
+      ],
+      "boundaries": [
+        {
+          "frame": 40,
+          "section": "brake",
+          "max_joint_step_at_boundary": 7.031,
+          "median_step_nearby": 6.817,
+          "ratio": 1.03
+        },
+        {
+          "frame": 54,
+          "section": "notice",
+          "max_joint_step_at_boundary": 4.62,
+          "median_step_nearby": 1.504,
+          "ratio": 3.07
+        },
+        {
+          "frame": 63,
+          "section": "investigate",
+          "max_joint_step_at_boundary": 1.579,
+          "median_step_nearby": 3.231,
+          "ratio": 0.49
+        },
+        {
+          "frame": 69,
+          "section": "surprise",
+          "max_joint_step_at_boundary": 3.358,
+          "median_step_nearby": 3.846,
+          "ratio": 0.87
+        },
+        {
+          "frame": 79,
+          "section": "recover",
+          "max_joint_step_at_boundary": 8.24,
+          "median_step_nearby": 7.85,
+          "ratio": 1.05
+        }
+      ],
+      "slide_events": [],
+      "root_world_travel": 50.76666666666668,
+      "max_flat_step_in_rendered_world": 5.684341886080802e-14,
+      "boundary_position_and_speed": [
+        [
+          0.0,
+          7.105427357601002e-15
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "secondary_abs_max": {
+        "beanie": 0.1,
+        "pom_x": 2.3836238132604537,
+        "pom_y": 0.4066771230169003,
+        "strings": 0.13363616468144043,
+        "hem_x": 0.2669130995766591,
+        "hem_y": 0.23395490939732494,
+        "head_drop": 0.2080408240403217,
+        "sleeve": 0.2138178634903047
+      },
+      "face_at_beats": {
+        "54": {
+          "eye_scale": 1.0,
+          "eye_open": 1.0,
+          "upper_lid": 0.0,
+          "lower_lid": 0.0,
+          "brow_raise": 0.0,
+          "brow_tilt": 0.0,
+          "brow_asym": 0.0,
+          "mouth_curve": 0.2,
+          "mouth_open": 0.0,
+          "mouth_width": 1.0,
+          "mouth_round": 0.0
+        },
+        "61": {
+          "eye_scale": 1.1,
+          "eye_open": 1.0,
+          "upper_lid": 0.2,
+          "lower_lid": 0.0,
+          "brow_raise": 1.0,
+          "brow_tilt": 0.0,
+          "brow_asym": 3.0,
+          "mouth_curve": 0.4,
+          "mouth_open": 0.04999999999999999,
+          "mouth_width": 0.83,
+          "mouth_round": 1.0
+        },
+        "68": {
+          "eye_scale": 1.05,
+          "eye_open": 1.0,
+          "upper_lid": 0.27,
+          "lower_lid": 0.0,
+          "brow_raise": 0.8,
+          "brow_tilt": 0.54,
+          "brow_asym": 0.0,
+          "mouth_curve": -0.7200000000000001,
+          "mouth_open": 0.0,
+          "mouth_width": 0.85,
+          "mouth_round": 0.0
+        },
+        "73": {
+          "eye_scale": 1.27,
+          "eye_open": 1.0,
+          "upper_lid": 0.0,
+          "lower_lid": 0.0,
+          "brow_raise": 3.4499999999999993,
+          "brow_tilt": 0.0,
+          "brow_asym": 0.48,
+          "mouth_curve": 0.0,
+          "mouth_open": 0.85,
+          "mouth_width": 0.84,
+          "mouth_round": 1.0
+        },
+        "85": {
+          "eye_scale": 1.0,
+          "eye_open": 0.29289321881345254,
+          "upper_lid": 0.14,
+          "lower_lid": 0.0,
+          "brow_raise": 0.0,
+          "brow_tilt": 0.0,
+          "brow_asym": 0.68,
+          "mouth_curve": 0.49,
+          "mouth_open": 0.0,
+          "mouth_width": 1.0,
+          "mouth_round": 0.0
+        },
+        "89": {
+          "eye_scale": 1.0,
+          "eye_open": 1.0,
+          "upper_lid": 0.14,
+          "lower_lid": 0.0,
+          "brow_raise": 0.0,
+          "brow_tilt": 0.0,
+          "brow_asym": 0.68,
+          "mouth_curve": 0.49,
+          "mouth_open": 0.0,
+          "mouth_width": 1.0,
+          "mouth_round": 0.0
+        }
+      },
+      "blink_nonzero_frames": [
+        82,
+        83,
+        84,
+        85,
+        86
+      ],
+      "cache_after_sampling": 48,
+      "cache_capacity": 48
+    },
+    "refined_farm": {
+      "units": "canonical V2 rig units; proof world scale = 0.4266667 logical px/unit",
+      "tolerances": {
+        "ground_contact": 0.15,
+        "slide": 0.05,
+        "penetration": 0.05
+      },
+      "summary": {
+        "frames": 90,
+        "all_joint_transforms_finite": true,
+        "max_planted_contact_slide_units": 0.0,
+        "planted_slide_events_over_tolerance": 0,
+        "max_ground_penetration_units": 0.0,
+        "max_leg_reach_error_units": 0.0,
+        "clamped_channel_frames": {},
+        "knee_flip_events": [],
+        "thigh_projected_length_range": [
+          22.0,
+          22.0,
+          22.0
+        ],
+        "shin_projected_length_range": [
+          21.0,
+          21.0,
+          21.0
+        ],
+        "neck_head_distance_range": [
+          14.79,
+          15.16,
+          15.0
+        ],
+        "airborne_frames_total": 0,
+        "max_joint_step_units": 17.278,
+        "blink_frames": 4
+      },
+      "sections": [
+        {
+          "frames": [
+            0,
+            39
+          ],
+          "section": "walk",
+          "actions": [
+            "locomotion"
+          ],
+          "airborne_frames": 0,
+          "landings": {
+            "near": [
+              13,
+              33
+            ],
+            "far": [
+              24
+            ]
+          },
+          "near_shoulder_range": [
+            -0.05,
+            0.85
+          ],
+          "far_shoulder_range": [
+            -0.85,
+            0.25
+          ],
+          "elbow_range": [
+            -0.43,
+            0.44
+          ],
+          "arm_shoulder_correlation": -0.739,
+          "min_hip_ankle": 34.83,
+          "pelvis_height_range": [
+            48.0,
+            50.8
+          ],
+          "travel_units": 91.48,
+          "max_speed_units_per_frame": 3.452,
+          "max_joint_step": 17.278,
+          "expressions_eye_scale_range": [
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "frames": [
+            40,
+            53
+          ],
+          "section": "brake",
+          "actions": [
+            "locomotion"
+          ],
+          "airborne_frames": 0,
+          "landings": {
+            "near": [
+              53
+            ],
+            "far": [
+              41
+            ]
+          },
+          "near_shoulder_range": [
+            -0.05,
+            0.32
+          ],
+          "far_shoulder_range": [
+            -0.47,
+            0.16
+          ],
+          "elbow_range": [
+            -0.44,
+            0.34
+          ],
+          "arm_shoulder_correlation": -0.673,
+          "min_hip_ankle": 36.71,
+          "pelvis_height_range": [
+            48.86,
+            50.7
+          ],
+          "travel_units": 23.94,
+          "max_speed_units_per_frame": 3.315,
+          "max_joint_step": 7.031,
+          "expressions_eye_scale_range": [
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "frames": [
+            54,
+            62
+          ],
+          "section": "notice",
+          "actions": [
+            "investigate_and_react"
+          ],
+          "airborne_frames": 0,
+          "landings": {
+            "near": [],
+            "far": []
+          },
+          "near_shoulder_range": [
+            0.3,
+            0.3
+          ],
+          "far_shoulder_range": [
+            -0.3,
+            -0.3
+          ],
+          "elbow_range": [
+            -0.3,
+            0.3
+          ],
+          "arm_shoulder_correlation": 1.0,
+          "min_hip_ankle": 42.02,
+          "pelvis_height_range": [
+            50.52,
+            50.68
+          ],
+          "travel_units": -3.55,
+          "max_speed_units_per_frame": 0.923,
+          "max_joint_step": 4.62,
+          "expressions_eye_scale_range": [
+            1.0,
+            1.1
+          ]
+        },
+        {
+          "frames": [
+            63,
+            68
+          ],
+          "section": "investigate",
+          "actions": [
+            "investigate_and_react"
+          ],
+          "airborne_frames": 0,
+          "landings": {
+            "near": [],
+            "far": []
+          },
+          "near_shoulder_range": [
+            -0.53,
+            0.3
+          ],
+          "far_shoulder_range": [
+            -0.3,
+            -0.16
+          ],
+          "elbow_range": [
+            -0.77,
+            -0.12
+          ],
+          "arm_shoulder_correlation": -1.0,
+          "min_hip_ankle": 40.63,
+          "pelvis_height_range": [
+            49.05,
+            50.67
+          ],
+          "travel_units": 1.25,
+          "max_speed_units_per_frame": 0.325,
+          "max_joint_step": 11.889,
+          "expressions_eye_scale_range": [
+            1.05,
+            1.1
+          ]
+        },
+        {
+          "frames": [
+            69,
+            78
+          ],
+          "section": "surprise",
+          "actions": [
+            "investigate_and_react"
+          ],
+          "airborne_frames": 0,
+          "landings": {
+            "near": [],
+            "far": []
+          },
+          "near_shoulder_range": [
+            -0.73,
+            -0.6
+          ],
+          "far_shoulder_range": [
+            -0.54,
+            -0.15
+          ],
+          "elbow_range": [
+            -1.1,
+            0.2
+          ],
+          "arm_shoulder_correlation": 1.0,
+          "min_hip_ankle": 39.81,
+          "pelvis_height_range": [
+            48.3,
+            48.9
+          ],
+          "travel_units": -2.85,
+          "max_speed_units_per_frame": 0.98,
+          "max_joint_step": 15.333,
+          "expressions_eye_scale_range": [
+            1.05,
+            1.27
+          ]
+        },
+        {
+          "frames": [
+            79,
+            89
+          ],
+          "section": "recover",
+          "actions": [
+            "investigate_and_react"
+          ],
+          "airborne_frames": 0,
+          "landings": {
+            "near": [],
+            "far": []
+          },
+          "near_shoulder_range": [
+            -0.78,
+            -0.14
+          ],
+          "far_shoulder_range": [
+            -0.67,
+            -0.3
+          ],
+          "elbow_range": [
+            -1.2,
+            0.34
+          ],
+          "arm_shoulder_correlation": 1.0,
+          "min_hip_ankle": 39.81,
+          "pelvis_height_range": [
+            48.3,
+            50.67
+          ],
+          "travel_units": 1.5,
+          "max_speed_units_per_frame": 0.444,
+          "max_joint_step": 12.822,
+          "expressions_eye_scale_range": [
+            1.0,
+            1.26
+          ]
+        }
+      ],
+      "boundaries": [
+        {
+          "frame": 40,
+          "section": "brake",
+          "max_joint_step_at_boundary": 7.031,
+          "median_step_nearby": 6.817,
+          "ratio": 1.03
+        },
+        {
+          "frame": 54,
+          "section": "notice",
+          "max_joint_step_at_boundary": 4.62,
+          "median_step_nearby": 1.504,
+          "ratio": 3.07
+        },
+        {
+          "frame": 63,
+          "section": "investigate",
+          "max_joint_step_at_boundary": 1.579,
+          "median_step_nearby": 3.231,
+          "ratio": 0.49
+        },
+        {
+          "frame": 69,
+          "section": "surprise",
+          "max_joint_step_at_boundary": 3.358,
+          "median_step_nearby": 3.846,
+          "ratio": 0.87
+        },
+        {
+          "frame": 79,
+          "section": "recover",
+          "max_joint_step_at_boundary": 8.24,
+          "median_step_nearby": 7.85,
+          "ratio": 1.05
+        }
+      ],
+      "slide_events": [],
+      "root_world_travel": 50.76666666666668,
+      "max_flat_step_in_rendered_world": 5.684341886080802e-14,
+      "boundary_position_and_speed": [
+        [
+          0.0,
+          7.105427357601002e-15
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "secondary_abs_max": {
+        "beanie": 0.1,
+        "pom_x": 2.3836238132604537,
+        "pom_y": 0.4066771230169026,
+        "strings": 0.13363616468144043,
+        "hem_x": 0.2669130995766591,
+        "hem_y": 0.23395490939732494,
+        "head_drop": 0.2080408240403217,
+        "sleeve": 0.2138178634903047
+      },
+      "face_at_beats": {
+        "54": {
+          "eye_scale": 1.0,
+          "eye_open": 1.0,
+          "upper_lid": 0.0,
+          "lower_lid": 0.0,
+          "brow_raise": 0.0,
+          "brow_tilt": 0.0,
+          "brow_asym": 0.0,
+          "mouth_curve": 0.2,
+          "mouth_open": 0.0,
+          "mouth_width": 1.0,
+          "mouth_round": 0.0
+        },
+        "61": {
+          "eye_scale": 1.1,
+          "eye_open": 1.0,
+          "upper_lid": 0.2,
+          "lower_lid": 0.0,
+          "brow_raise": 1.0,
+          "brow_tilt": 0.0,
+          "brow_asym": 3.0,
+          "mouth_curve": 0.4,
+          "mouth_open": 0.04999999999999999,
+          "mouth_width": 0.83,
+          "mouth_round": 1.0
+        },
+        "68": {
+          "eye_scale": 1.05,
+          "eye_open": 1.0,
+          "upper_lid": 0.27,
+          "lower_lid": 0.0,
+          "brow_raise": 0.8,
+          "brow_tilt": 0.54,
+          "brow_asym": 0.0,
+          "mouth_curve": -0.7200000000000001,
+          "mouth_open": 0.0,
+          "mouth_width": 0.85,
+          "mouth_round": 0.0
+        },
+        "73": {
+          "eye_scale": 1.27,
+          "eye_open": 1.0,
+          "upper_lid": 0.0,
+          "lower_lid": 0.0,
+          "brow_raise": 3.4499999999999993,
+          "brow_tilt": 0.0,
+          "brow_asym": 0.48,
+          "mouth_curve": 0.0,
+          "mouth_open": 0.85,
+          "mouth_width": 0.84,
+          "mouth_round": 1.0
+        },
+        "85": {
+          "eye_scale": 1.0,
+          "eye_open": 0.29289321881345254,
+          "upper_lid": 0.14,
+          "lower_lid": 0.0,
+          "brow_raise": 0.0,
+          "brow_tilt": 0.0,
+          "brow_asym": 0.68,
+          "mouth_curve": 0.49,
+          "mouth_open": 0.0,
+          "mouth_width": 1.0,
+          "mouth_round": 0.0
+        },
+        "89": {
+          "eye_scale": 1.0,
+          "eye_open": 1.0,
+          "upper_lid": 0.14,
+          "lower_lid": 0.0,
+          "brow_raise": 0.0,
+          "brow_tilt": 0.0,
+          "brow_asym": 0.68,
+          "mouth_curve": 0.49,
+          "mouth_open": 0.0,
+          "mouth_width": 1.0,
+          "mouth_round": 0.0
+        }
+      },
+      "blink_nonzero_frames": [
+        82,
+        83,
+        84,
+        85,
+        86
+      ],
+      "cache_after_sampling": 48,
+      "cache_capacity": 48
+    }
+  }
+}

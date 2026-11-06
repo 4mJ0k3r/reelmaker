@@ -1,6 +1,7 @@
 """Publish JSON Schema from the same capability constants; topology is checked by the compiler."""
 
 from reelforge.characters.presets import EXPRESSIONS
+from reelforge.characters.registry import YELLOW_MELLOW_ID, character_info
 
 from .assets import ASSETS
 from .contract import CAMERAS, MAX_NODES
@@ -58,6 +59,14 @@ def scene_schema() -> dict:
                     "intensity": number(0.5, 1),
                 }
             )
+            if asset.id == YELLOW_MELLOW_ID:
+                props["character"] = obj(
+                    {
+                        "character": {"const": YELLOW_MELLOW_ID},
+                        "action": {"enum": ["idle", "look_around", "look", "react"]},
+                        "expression": {"enum": list(character_info(YELLOW_MELLOW_ID).expressions)},
+                    }
+                )
         nodes.append(obj(props))
     schema = obj(
         {

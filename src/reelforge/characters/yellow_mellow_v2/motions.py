@@ -1171,12 +1171,15 @@ class LocomotionClip(Clip):
                 return lerp(v0, v1, u), lerp(g0, g1, u)
         return keys[-1][1], keys[-1][2]
 
+    def _initial_phase(self):
+        return _duty(0.0, 0.0) - 0.03
+
     def _integrate(self):
         tr = _Track()
         dt = 0.25
         n = int(self.duration / dt) + 1
         d = 0.0
-        phi = _duty(0.0, 0.0) - 0.03  # foot A is about to lift
+        phi = self._initial_phase()  # foot A is about to lift
         for i in range(n):
             t = i * dt
             v, g = self._speed(t)

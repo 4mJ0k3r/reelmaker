@@ -6,6 +6,7 @@ from pathlib import Path
 from reelforge.blocking import contract as blocking
 from reelforge.characters import registry, rowan, rowan_performance
 from reelforge.characters.yellow_mellow_v2 import episode as mellow_episode
+from reelforge.characters.yellow_mellow_v2 import investigation
 from reelforge.direction import contract as direction
 from reelforge.environments import artwork, polish, snowy
 from reelforge.mvp import storylib
@@ -292,6 +293,19 @@ def registered_components(planner_assets):
                 details["integration_evidence"] = [
                     "docs/visual-evidence/stage2a/farm-medium.jpg",
                     "docs/visual-evidence/stage2a/cold_ridge-medium.jpg",
+                ]
+            else:
+                parameters["performance.name"] = {"choices": [investigation.NAME]}
+                parameters["performance.reaction"] = {"choices": [investigation.REACTION]}
+                sources.extend((blocking.compile_blocking, investigation.build_investigation))
+                restrictions.append(
+                    "Optional investigate_and_react uses blocking-0.2 or storyboard "
+                    "rowan.performance with a fixed-facing walk, stop and final idle."
+                )
+                details["preview_evidence"] = ["docs/visual-evidence/stage2b/acting.jpg"]
+                details["integration_evidence"] = [
+                    "docs/visual-evidence/stage2b/farm-medium.jpg",
+                    "docs/visual-evidence/stage2b/cold-ridge-medium.jpg",
                 ]
         else:
             name, family, artwork_sources = SCENE_LABELS[asset.id]

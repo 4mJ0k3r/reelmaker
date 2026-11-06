@@ -6,12 +6,15 @@ from pathlib import Path
 
 from reelforge.characters.registry import (
     DEFAULT_CHARACTER,
+    YELLOW_MELLOW_ID,
     asset_id_for,
     character_ids,
     character_info,
     is_registered,
 )
 from reelforge.characters.rowan_performance import NAME, REACTIONS
+from reelforge.characters.yellow_mellow_v2.investigation import NAME as MELLOW_NAME
+from reelforge.characters.yellow_mellow_v2.investigation import REACTION as MELLOW_REACTION
 from reelforge.contracts.project import load_project
 from reelforge.core.errors import InputError, Issue
 from reelforge.geometry.composition import compile_composition, validate_composition
@@ -66,6 +69,7 @@ class Plan:
     start_facing: str
     character: str = "rowan_01"
     performance_reaction: str | None = None
+    mellow_investigation: bool = False
 
 
 def compile_blocking(data) -> Plan:
@@ -99,16 +103,22 @@ def compile_blocking(data) -> Plan:
     if not isinstance(character, str) or not is_registered(character):
         fail("/character", f"Select a registered character: {sorted(character_ids())}")
     reaction = None
+    mellow = False
     if "performance" in data:
-        if version != "blocking-0.2" or character != DEFAULT_CHARACTER:
-            fail("/performance", "The performance requires blocking-0.2 with Rowan")
+        if version != "blocking-0.2":
+            fail("/performance", "The performance requires blocking-0.2")
         performance = data["performance"]
         fields(performance, {"name", "reaction"}, "/performance")
-        if performance["name"] != NAME:
-            fail("/performance/name", f"Select {NAME}")
-        reaction = performance["reaction"]
-        if reaction not in REACTIONS:
-            fail("/performance/reaction", "Select surprised or frightened")
+        if character == YELLOW_MELLOW_ID and performance["name"] == MELLOW_NAME:
+            if performance["reaction"] != MELLOW_REACTION:
+                fail("/performance/reaction", f"Select {MELLOW_REACTION}")
+            mellow = True
+        elif character == DEFAULT_CHARACTER and performance["name"] == NAME:
+            reaction = performance["reaction"]
+            if reaction not in REACTIONS:
+                fail("/performance/reaction", "Select surprised or frightened")
+        else:
+            fail("/performance/name", "Select a performance registered for this character")
     expressions = character_info(character).expressions
     if not isinstance(data["title"], str) or not data["title"].strip() or len(data["title"]) > 120:
         fail("/title", "Use nonblank title <=120 characters")
@@ -359,6 +369,13 @@ def compile_blocking(data) -> Plan:
                 "/performance",
                 "Use optional idle, walk, stop and one final idle starting at frame 48..60",
             )
+    if mellow and (
+        len(segments) < 3
+        or any(s.mode != "walk" for s in segments[:-2])
+        or (segments[-2].mode, segments[-1].mode) != ("stop", "idle")
+        or not 45 <= segments[-1].start <= 54
+    ):
+        fail("/performance", "Use walk, stop and one final idle starting at frame 45..54")
     bouts = []
     current = []
     for s in segments:
@@ -391,10 +408,13 @@ def compile_blocking(data) -> Plan:
         start["facing"],
         character,
         reaction,
+        mellow,
     )
-    from .sampling import validate_contacts
+    from .sampling import validate_contacts, validate_mellow_contacts
 
     validate_contacts(plan)
+    if mellow:
+        validate_mellow_contacts(plan)
     return plan
 
 
