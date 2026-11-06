@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 540" width="940" height="540" role="img" aria-labelledby="title desc">
+<title id="title">ReelMaker target palette and shape board</title>
+<desc id="desc">Four mood palettes and an original abstract study of layered landforms and silhouette hierarchy.</desc>
+<rect width="940" height="540" fill="#161E29"/>
+<g font-family="DejaVu Sans,sans-serif" fill="#F1EEE5">
+<text x="30" y="42" font-size="25" font-weight="bold">ReelMaker · Cut planes, soft air</text>
+<text x="30" y="67" font-size="13" fill="#CCD6DE">Future art target · palette roles and shape hierarchy</text>
+<text x="174" y="99" font-size="11">SKY HIGH</text>
+<text x="280" y="99" font-size="11">AIR</text>
+<text x="386" y="99" font-size="11">GROUND</text>
+<text x="492" y="99" font-size="11">KEY</text>
+<text x="598" y="99" font-size="11">FILL</text>
+<text x="704" y="99" font-size="11">CONTACT</text>
+<text x="810" y="99" font-size="11">ACCENT</text>
+<text x="30" y="132" font-size="14">Warm daylight</text>
+<rect x="174" y="110" width="96" height="30" rx="3" fill="#5E8290" stroke="#778493" stroke-width=".5"/>
+<text x="176" y="154" font-size="10">#5E8290</text>
+<rect x="280" y="110" width="96" height="30" rx="3" fill="#CBD0AD" stroke="#778493" stroke-width=".5"/>
+<text x="282" y="154" font-size="10">#CBD0AD</text>
+<rect x="386" y="110" width="96" height="30" rx="3" fill="#58644C" stroke="#778493" stroke-width=".5"/>
+<text x="388" y="154" font-size="10">#58644C</text>
+<rect x="492" y="110" width="96" height="30" rx="3" fill="#E4C995" stroke="#778493" stroke-width=".5"/>
+<text x="494" y="154" font-size="10">#E4C995</text>
+<rect x="598" y="110" width="96" height="30" rx="3" fill="#78909A" stroke="#778493" stroke-width=".5"/>
+<text x="600" y="154" font-size="10">#78909A</text>
+<rect x="704" y="110" width="96" height="30" rx="3" fill="#24343A" stroke="#778493" stroke-width=".5"/>
+<text x="706" y="154" font-size="10">#24343A</text>
+<rect x="810" y="110" width="96" height="30" rx="3" fill="#C96849" stroke="#778493" stroke-width=".5"/>
+<text x="812" y="154" font-size="10">#C96849</text>
+<text x="30" y="187" font-size="14">Golden dusk</text>
+<rect x="174" y="165" width="96" height="30" rx="3" fill="#505D7A" stroke="#778493" stroke-width=".5"/>
+<text x="176" y="209" font-size="10">#505D7A</text>
+<rect x="280" y="165" width="96" height="30" rx="3" fill="#DBA883" stroke="#778493" stroke-width=".5"/>
+<text x="282" y="209" font-size="10">#DBA883</text>
+<rect x="386" y="165" width="96" height="30" rx="3" fill="#526052" stroke="#778493" stroke-width=".5"/>
+<text x="388" y="209" font-size="10">#526052</text>
+<rect x="492" y="165" width="96" height="30" rx="3" fill="#F4C184" stroke="#778493" stroke-width=".5"/>
+<text x="494" y="209" font-size="10">#F4C184</text>
+<rect x="598" y="165" width="96" height="30" rx="3" fill="#727B92" stroke="#778493" stroke-width=".5"/>
+<text x="600" y="209" font-size="10">#727B92</text>
+<rect x="704" y="165" width="96" height="30" rx="3" fill="#2A313E" stroke="#778493" stroke-width=".5"/>
+<text x="706" y="209" font-size="10">#2A313E</text>
+<rect x="810" y="165" width="96" height="30" rx="3" fill="#E68156" stroke="#778493" stroke-width=".5"/>
+<text x="812" y="209" font-size="10">#E68156</text>
+<text x="30" y="242" font-size="14">Cold suspense</text>
+<rect x="174" y="220" width="96" height="30" rx="3" fill="#293B59" stroke="#778493" stroke-width=".5"/>
+<text x="176" y="264" font-size="10">#293B59</text>
+<rect x="280" y="220" width="96" height="30" rx="3" fill="#8FA8B6" stroke="#778493" stroke-width=".5"/>
+<text x="282" y="264" font-size="10">#8FA8B6</text>
+<rect x="386" y="220" width="96" height="30" rx="3" fill="#798F9D" stroke="#778493" stroke-width=".5"/>
+<text x="388" y="264" font-size="10">#798F9D</text>
+<rect x="492" y="220" width="96" height="30" rx="3" fill="#D4DFE0" stroke="#778493" stroke-width=".5"/>
+<text x="494" y="264" font-size="10">#D4DFE0</text>
+<rect x="598" y="220" width="96" height="30" rx="3" fill="#627D9D" stroke="#778493" stroke-width=".5"/>
+<text x="600" y="264" font-size="10">#627D9D</text>
+<rect x="704" y="220" width="96" height="30" rx="3" fill="#202B40" stroke="#778493" stroke-width=".5"/>
+<text x="706" y="264" font-size="10">#202B40</text>
+<rect x="810" y="220" width="96" height="30" rx="3" fill="#EDA65F" stroke="#778493" stroke-width=".5"/>
+<text x="812" y="264" font-size="10">#EDA65F</text>
+<text x="30" y="297" font-size="14">Storm danger</text>
+<rect x="174" y="275" width="96" height="30" rx="3" fill="#343D51" stroke="#778493" stroke-width=".5"/>
+<text x="176" y="319" font-size="10">#343D51</text>
+<rect x="280" y="275" width="96" height="30" rx="3" fill="#75838D" stroke="#778493" stroke-width=".5"/>
+<text x="282" y="319" font-size="10">#75838D</text>
+<rect x="386" y="275" width="96" height="30" rx="3" fill="#505F65" stroke="#778493" stroke-width=".5"/>
+<text x="388" y="319" font-size="10">#505F65</text>
+<rect x="492" y="275" width="96" height="30" rx="3" fill="#BDC6B9" stroke="#778493" stroke-width=".5"/>
+<text x="494" y="319" font-size="10">#BDC6B9</text>
+<rect x="598" y="275" width="96" height="30" rx="3" fill="#627686" stroke="#778493" stroke-width=".5"/>
+<text x="600" y="319" font-size="10">#627686</text>
+<rect x="704" y="275" width="96" height="30" rx="3" fill="#242C3A" stroke="#778493" stroke-width=".5"/>
+<text x="706" y="319" font-size="10">#242C3A</text>
+<rect x="810" y="275" width="96" height="30" rx="3" fill="#E47758" stroke="#778493" stroke-width=".5"/>
+<text x="812" y="319" font-size="10">#E47758</text>
+<text x="30" y="355" font-size="12" letter-spacing="1">GOLDEN DUSK · SHAPE STUDY</text>
+<defs><linearGradient id="sky" x2="0%" y2="100%"><stop stop-color="#505D7A"/><stop offset="1" stop-color="#DBA883"/></linearGradient><clipPath id="panel"><rect x="30" y="369" width="880" height="137" rx="5"/></clipPath></defs>
+<g clip-path="url(#panel)">
+<rect x="30" y="369" width="880" height="137" fill="url(#sky)"/>
+<path d="M30 455 Q133 429 232 449 L334 414 L381 441 L478 421 L588 453 L690 425 L910 451 V506 H30Z" fill="#727B92"/>
+<path d="M30 475 Q164 432 286 467 Q442 499 565 454 Q729 418 910 469 V506 H30Z" fill="#526052"/>
+<path d="M467 506 L581 477 L601 468 L592 485 L538 506Z" fill="#DBA883"/>
+<path d="M30 506 V480 L102 463 L122 438 L163 443 L182 469 L225 481 L271 506Z" fill="#2A313E"/>
+<path d="M581 470 L591 464 L604 466 L603 475 L586 477Z" fill="#E68156"/>
+<path d="M581 470 L591 464 L604 466 L593 470Z" fill="#F4C184"/>
+</g>
+<text x="30" y="525" font-size="11" fill="#CCD6DE">Near edge → playable midground → softer distant contour · one small story accent</text>
+</g>
+</svg>
