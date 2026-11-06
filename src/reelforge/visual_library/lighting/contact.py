@@ -15,8 +15,8 @@ def dusk_contact(variant):
     radius, height, length = PROFILES[variant]
     cast = path(
         ("M", -radius, 0),
-        ("C", radius * 0.4, -height, length * 0.55, 3, length, 13),
-        ("C", length * 0.9, 21, length * 0.39, 12, radius * 0.4, height),
+        ("C", radius * 0.4, -height, length * 0.55, 2, length, 10),
+        ("C", length * 0.9, 17, length * 0.39, 9, radius * 0.4, height),
         ("C", -radius * 0.4, height * 1.55, -radius, height, -radius, 0),
         ("Z",),
     )
@@ -26,9 +26,9 @@ def dusk_contact(variant):
             LinearGradient(
                 (0, 0),
                 (length, 14),
-                ((0, color("25303a", 0.32)), (1, color("25303a", 0.035))),
+                ((0, color("293734", 0.26)), (1, color("293734", 0))),
             ),
         ),
-        DrawPath(ellipse(0, 1, radius, height), color("262d33", 0.21)),
-        DrawPath(ellipse(0, 0, radius * 0.56, height * 0.55), color("292b2d", 0.27)),
+        DrawPath(ellipse(0, 1, radius, height), color("2b3432", 0.16)),
+        DrawPath(ellipse(0, 0, radius * 0.56, height * 0.55), color("292e2d", 0.23)),
     )

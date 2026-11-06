@@ -67,6 +67,13 @@ def sample(output):
             draw(scene_frame(compile_scene(farm_scene(view, legacy=legacy)), frame))
             surface.write_png(output / f"{name}.png")
 
+        draw(scene_frame(compile_scene(farm_scene(layout="left_bend")), 36))
+        surface.write_png(output / "farm-left-bend.png")
+        approach = compile_scene(farm_scene("approach"))
+        for frame in (0, 30, 60, 89):
+            draw(scene_frame(approach, frame))
+            surface.write_png(output / f"approach-{frame:02}.png")
+
         sky = art("cinematic_dusk_sky_01", "default", 0, 0)
         draw(sky + art("cinematic_dusk_hills_01", "rolling", *HORIZON))
         surface.write_png(output / "sky-hills.png")

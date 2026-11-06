@@ -34,7 +34,7 @@ def test_registered_recipes_are_deterministic_bounded_and_discoverable(asset_id)
             assert commands == recipe(asset, variant, warmth, atmosphere, 1, 3, None)
             paths, operations = cost(commands)
             assert 0 < paths <= asset.max_paths and 0 < operations <= asset.max_ops
-            shapes.append(tuple(command.path for command in commands))
+            shapes.append(tuple((command.path, command.transform) for command in commands))
         assert len(set(shapes)) == len(shapes)
 
 
@@ -88,3 +88,37 @@ def test_actor_cannot_leave_new_support_envelope():
     )
     with pytest.raises(InputError, match="outside the ground"):
         compile_scene(replace(scene, nodes=nodes))
+
+
+def test_left_bend_repositions_landmark_and_keeps_support():
+    original = {node.id: node for node in farm_scene().nodes}
+    alternate = compile_scene(farm_scene(layout="left_bend"))
+    nodes = {node.id: node for node in alternate.scene.nodes}
+    assert nodes["ground"].variant == "left_bend"
+    assert nodes["hills"].variant == "folded"
+    assert nodes["barn"].transform.x < original["barn"].transform.x
+    assert nodes["rowan"].transform.x > original["rowan"].transform.x
+    assert nodes["rowan_contact"].transform.x == nodes["rowan"].transform.x
+    assert scene_frame(alternate, 36)
+
+
+def test_grade_is_opt_in_and_retains_barn_geometry():
+    from reelforge.environments import artwork, polish
+
+    barn = asset_by_id("barn_01")
+    ungraded = recipe(barn, "default", 0.8, 0.52, 0.2, 0, None)
+    graded = recipe(barn, "dusk_graded", 0.8, 0.52, 0.2, 0, None)
+    assert ungraded == artwork.barn() + polish.barn_light(0.8)
+    assert tuple(command.path for command in ungraded) == tuple(command.path for command in graded)
+    assert ungraded != graded
+
+
+def test_approach_keeps_stationary_actor_and_contact_on_same_depth():
+    from reelforge.scenes.graph import camera_at
+
+    compiled = compile_scene(farm_scene("approach"))
+    nodes = {node.id: node for node in compiled.hierarchy}
+    assert nodes["rowan"].world.point(0, 0) == nodes["rowan_contact"].world.point(0, 0)
+    assert nodes["rowan"].depth == nodes["rowan_contact"].depth == nodes["ground"].depth
+    assert camera_at(compiled, 0).transform(1) != camera_at(compiled, 89).transform(1)
+    assert camera_at(compiled, 0).transform(0) == camera_at(compiled, 89).transform(0)

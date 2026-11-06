@@ -55,3 +55,22 @@ existing strict resource monitor. It emits PNGs and a JSON report to stdout.
 The [review images](visual-evidence/stage1a/README.md) are compact JPEG copies.
 The source catalog regenerates through `python -m reelforge.catalog generate`
 with `PYTHONPATH=src`.
+
+## Stage 1A.1 polish
+
+The original layout is preserved. The default farm assembly opts into the
+`barn_01` variant `dusk_graded`, which uses the same geometry and softens
+fine strokes under the shared dusk palette. The `default` barn is unchanged.
+
+The registered track also accepts `left_bend`. It mirrors the authored
+path, field and surface wear around the local anchor. The same support
+envelope applies. Place the doorway near local (−60, −84) for this
+variant. Re-stage subjects and keep contact decals on their own world
+anchors. Shadows continue to point away from the left-hand key.
+
+Use `farm_scene(layout="left_bend")` for the relocated landmark layout,
+or `farm_scene("approach")` for the existing 90-frame camera approach.
+The latter keeps Rowan stationary with his contact anchored on the same
+depth plane. For a moving character, omit the `foot` decal and use the
+character's existing motion-aware shadows. See the
+[Stage 1A.1 review evidence](visual-evidence/stage1a1/README.md).

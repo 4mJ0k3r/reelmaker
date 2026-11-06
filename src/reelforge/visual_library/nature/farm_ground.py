@@ -1,5 +1,7 @@
 """An authored, curved farm track on an existing scene support plane."""
 
+from dataclasses import replace
+
 from reelforge.environments.artwork import gradient, path, polygon
 from reelforge.rendering.diagnostic import color, ellipse
 from reelforge.rendering.model import DrawPath
@@ -23,7 +25,7 @@ TRACK = (
 )
 
 
-def farm_track(warmth):
+def farm_track(warmth, variant):
     field = path(
         ("M", -340, -113),
         ("C", -207, -113, -142, -126, -82, -116),
@@ -171,5 +173,10 @@ def farm_track(warmth):
                 ),
                 color("99a06a", 0.36),
             )
+        )
+    if variant == "left_bend":
+        # The field and its edge wear mirror together. Cast shadows are separate decals.
+        return tuple(
+            replace(command, transform=replace(command.transform, sx=-1)) for command in commands
         )
     return tuple(commands)

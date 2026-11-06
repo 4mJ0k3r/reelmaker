@@ -68,9 +68,20 @@
       "id": "barn_01",
       "name": "Barn exterior",
       "parameters": {
+        "art_direction.atmosphere": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        "art_direction.warmth": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
         "variant": {
           "choices": [
-            "default"
+            "default",
+            "dusk_graded"
           ]
         }
       },
@@ -81,16 +92,19 @@
         "scene"
       ],
       "restrictions": [
-        "Use the registered scene node kind and scene-0.1 validation."
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Opt-in dusk_graded quiets fine seams; default retains original artwork."
       ],
       "sources": [
         "src/reelforge/scenes/assets.py:recipe",
         "src/reelforge/environments/artwork.py:barn",
-        "src/reelforge/environments/polish.py:barn_light"
+        "src/reelforge/environments/polish.py:barn_light",
+        "src/reelforge/visual_library/lighting/dusk_grade.py:grade_architecture"
       ],
       "type": "scene_asset",
       "variants": [
-        "default"
+        "default",
+        "dusk_graded"
       ]
     },
     {
@@ -470,10 +484,10 @@
           "max_paths": 3
         },
         "integration_evidence": [
-          "docs/visual-evidence/stage1a/farm-establishing.jpg"
+          "docs/visual-evidence/stage1a1/farm-establishing.jpg"
         ],
         "preview_evidence": [
-          "docs/visual-evidence/stage1a/farm-establishing.jpg"
+          "docs/visual-evidence/stage1a1/farm-establishing.jpg"
         ],
         "scene_kind": "asset",
         "support_envelope": null,
@@ -532,10 +546,10 @@
           "max_paths": 4
         },
         "integration_evidence": [
-          "docs/visual-evidence/stage1a/farm-establishing.jpg"
+          "docs/visual-evidence/stage1a1/farm-establishing.jpg"
         ],
         "preview_evidence": [
-          "docs/visual-evidence/stage1a/sky-hills.jpg"
+          "docs/visual-evidence/stage1a1/sky-hills.jpg"
         ],
         "scene_kind": "background",
         "support_envelope": null,
@@ -597,10 +611,10 @@
           "max_paths": 8
         },
         "integration_evidence": [
-          "docs/visual-evidence/stage1a/farm-establishing.jpg"
+          "docs/visual-evidence/stage1a1/farm-establishing.jpg"
         ],
         "preview_evidence": [
-          "docs/visual-evidence/stage1a/sky-hills.jpg"
+          "docs/visual-evidence/stage1a1/sky-hills.jpg"
         ],
         "scene_kind": "background",
         "support_envelope": null,
@@ -665,10 +679,10 @@
           "max_paths": 36
         },
         "integration_evidence": [
-          "docs/visual-evidence/stage1a/farm-establishing.jpg"
+          "docs/visual-evidence/stage1a1/farm-establishing.jpg"
         ],
         "preview_evidence": [
-          "docs/visual-evidence/stage1a/ground-path.jpg"
+          "docs/visual-evidence/stage1a1/ground-path.jpg"
         ],
         "scene_kind": "environment",
         "support_envelope": [
@@ -696,7 +710,8 @@
         },
         "variant": {
           "choices": [
-            "default"
+            "default",
+            "left_bend"
           ]
         }
       },
@@ -716,7 +731,8 @@
       ],
       "type": "scene_asset",
       "variants": [
-        "default"
+        "default",
+        "left_bend"
       ]
     },
     {
@@ -733,10 +749,10 @@
           "max_paths": 20
         },
         "integration_evidence": [
-          "docs/visual-evidence/stage1a/farm-establishing.jpg"
+          "docs/visual-evidence/stage1a1/farm-establishing.jpg"
         ],
         "preview_evidence": [
-          "docs/visual-evidence/stage1a/tree-silhouettes.jpg"
+          "docs/visual-evidence/stage1a1/tree-silhouettes.jpg"
         ],
         "scene_kind": "asset",
         "support_envelope": null,

@@ -16,53 +16,84 @@ def tone(cool, warm, amount, alpha=1):
 
 
 def dusk_sky(warmth, atmosphere):
-    horizon = tone("a2a6b2", "edb188", warmth)
     ramp = LinearGradient(
-        (0, -16),
-        (0, 386),
+        (43, -30),
+        (96, 399),
         (
-            (0, tone("25384c", "394458", warmth)),
-            (0.38, tone("596f87", "797b92", warmth)),
-            (0.74, tone("8d98ad", "c89990", warmth)),
-            (1, horizon),
+            (0, tone("25384c", "29394e", warmth)),
+            (0.37, tone("4b647f", "596781", warmth)),
+            (0.68, tone("8190a2", "978aa0", warmth)),
+            (0.86, tone("9b9eae", "c6a2a1", warmth)),
+            (1, tone("b9b0a9", "edb991", warmth)),
         ),
     )
-    veil = LinearGradient(
-        (30, 172),
-        (286, 248),
-        ((0, color("f2c3aa", 0.43)), (0.65, color("d99f97", 0.17)), (1, color("a68aab", 0))),
+    air = LinearGradient(
+        (92, 218),
+        (92, 387),
+        (
+            (0, color("eab294", 0)),
+            (0.55, color("efb391", 0.08)),
+            (1, color("f7c58b", 0.42 * atmosphere)),
+        ),
     )
-    haze = LinearGradient(
-        (0, 236),
-        (0, 386),
-        ((0, color("efc39b", 0)), (1, color("f3c994", 0.34 * atmosphere))),
+    high_cloud = path(
+        ("M", -48, 132),
+        ("C", 9, 117, 23, 133, 62, 136),
+        ("C", 91, 138, 105, 124, 139, 134),
+        ("C", 173, 145, 198, 135, 232, 155),
+        ("C", 185, 149, 160, 166, 124, 155),
+        ("C", 96, 147, 64, 164, 25, 156),
+        ("C", -5, 154, -25, 150, -48, 155),
+        ("Z",),
+    )
+    low_cloud = path(
+        ("M", 68, 223),
+        ("C", 99, 215, 131, 207, 163, 213),
+        ("C", 193, 215, 207, 203, 238, 209),
+        ("C", 263, 212, 290, 217, 331, 211),
+        ("C", 304, 226, 273, 220, 244, 223),
+        ("C", 221, 225, 194, 232, 167, 225),
+        ("C", 129, 218, 111, 230, 68, 223),
+        ("Z",),
     )
     return (
         DrawPath(rectangle(-220, -200, 850, 1050), ramp),
-        DrawPath(rectangle(-150, 236, 650, 180), haze),
+        DrawPath(rectangle(-150, 218, 650, 216), air),
         DrawPath(
-            path(
-                ("M", -50, 123),
-                ("C", 21, 114, 67, 153, 138, 146),
-                ("C", 194, 139, 214, 164, 281, 171),
-                ("C", 192, 180, 146, 170, 98, 168),
-                ("C", 40, 165, 0, 143, -50, 151),
-                ("Z",),
+            high_cloud,
+            LinearGradient(
+                (-20, 119),
+                (211, 160),
+                (
+                    (0, color("33465d", 0.34)),
+                    (0.39, color("52617a", 0.25)),
+                    (0.66, color("d4a29e", 0.18)),
+                    (1, color("e0ae9b", 0)),
+                ),
             ),
-            veil,
         ),
         DrawPath(
-            path(
-                ("M", 91, 217),
-                ("C", 135, 202, 159, 209, 184, 213),
-                ("C", 220, 219, 242, 211, 306, 227),
-                ("C", 255, 229, 210, 224, 173, 226),
-                ("C", 149, 223, 112, 219, 91, 217),
-                ("Z",),
+            low_cloud,
+            LinearGradient(
+                (82, 213),
+                (313, 223),
+                (
+                    (0, color("edbd9b", 0.02)),
+                    (0.31, color("edbd9b", 0.35)),
+                    (0.64, color("cda2a6", 0.14)),
+                    (1, color("ae9caa", 0)),
+                ),
             ),
-            veil,
         ),
-        DrawPath(ellipse(92, 276, 12.5, 12.5), tone("e6dac8", "ffe4b5", warmth)),
+        DrawPath(
+            ellipse(92, 276, 22, 20),
+            LinearGradient(
+                (92, 256),
+                (92, 296),
+                ((0, color("ffe0a5", 0)), (0.5, color("ffe0a5", 0.13)), (1, color("ffe0a5", 0))),
+            ),
+        ),
+        DrawPath(ellipse(92, 276, 12.5, 12.5), tone("e6dac8", "ffe6b6", warmth)),
     )
 
 
@@ -107,16 +138,42 @@ def dusk_hills(variant, atmosphere):
         ("C", 246, 12, 287, 26, 340, 25),
     )
     colors = (
-        tone("7d8594", "bc9a96", atmosphere),
-        tone("596f80", "998c90", atmosphere),
-        tone("445b63", "777c78", atmosphere),
+        ("898598", "bc9b9c", "b9a5a3"),
+        ("59697a", "918b93", "a69992"),
+        ("3e545e", "666f70", "877d73"),
     )
-    return tuple(
-        DrawPath(
-            path(*profile, ("L", 340, 300), ("L", -330, 300), ("Z",)),
-            LinearGradient(
-                (0, -70), (0, 65), ((0, tint), (1, tone("9d8f89", "cfaa93", atmosphere, 0.89)))
-            ),
+    commands = []
+    for profile, (cool, warm, foot) in zip((far, middle, near), colors, strict=True):
+        plane = path(*profile, ("L", 340, 300), ("L", -330, 300), ("Z",))
+        commands.append(
+            DrawPath(
+                plane,
+                LinearGradient(
+                    (-122, -65),
+                    (117, 98),
+                    (
+                        (0, tone(cool, warm, atmosphere * 0.78)),
+                        (0.51, tone(cool, foot, 0.38 + 0.28 * atmosphere)),
+                        (1, tone(warm, foot, atmosphere)),
+                    ),
+                ),
+            )
         )
-        for profile, tint in zip((far, middle, near), colors, strict=True)
+    commands.append(
+        DrawPath(
+            path(
+                ("M", -170, 19),
+                ("C", -124, 4, -90, 8, -58, 19),
+                ("C", -11, 34, 36, 30, 69, 24),
+                ("C", 103, 17, 131, 4, 161, 8),
+                ("C", 119, 22, 87, 45, 37, 53),
+                ("C", -37, 61, -68, 28, -170, 30),
+                ("Z",),
+            ),
+            LinearGradient(
+                (-108, 16), (123, 63), ((0, color("bfa286", 0.19)), (1, color("bfa286", 0)))
+            ),
+            clip=commands[-1].path,
+        )
     )
+    return tuple(commands)

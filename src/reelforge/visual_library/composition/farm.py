@@ -13,7 +13,16 @@ TREES = (
     ("roadside_tree", 321, 478, 0.81, "leaning"),
     ("foreground_tree", -27, 622, 1.07, "leaning"),
 )
-VIEWS = {"establishing": Camera(0, 0, 1), "medium": Camera(8, 25, 1.30)}
+ALT_TREES = (
+    ("orchard_tree", 42, 500, 0.85, "leaning"),
+    ("roadside_tree", 332, 467, 0.85, "broad"),
+    ("foreground_tree", 371, 626, 0.94, "broad"),
+)
+VIEWS = {
+    "establishing": Camera(0, 0, 1),
+    "medium": Camera(8, 25, 1.30),
+    "approach": Camera(0, 0, 1),
+}
 LAYERS = (
     ("sky_plane", 0),
     ("distance", 0.18),
@@ -33,10 +42,16 @@ def transform(x=0, y=0, scale=1):
     return {"x": x, "y": y, "scale": scale, "rotation_degrees": 0}
 
 
-def farm_scene(view="establishing", *, legacy=False):
+def farm_scene(view="establishing", *, legacy=False, layout="original"):
     """Assemble an existing scene-0.1 contract. Legacy changes only the visual recipes."""
     if view not in VIEWS:
         raise ValueError(f"Unknown farm view: {view!r}")
+    if layout not in {"original", "left_bend"}:
+        raise ValueError(f"Unknown farm layout: {layout!r}")
+    alternate = layout == "left_bend"
+    if alternate and legacy:
+        raise ValueError("Legacy artwork is only staged in the original layout")
+    actor, barn, trees = ((228, 541), (142, 422), ALT_TREES) if alternate else (ROWAN, BARN, TREES)
     camera = VIEWS[view]
     nodes = []
 
@@ -81,8 +96,24 @@ def farm_scene(view="establishing", *, legacy=False):
         )
 
     place("sky", "background", "sky_plane", 0, "cinematic_dusk_sky_01", "default", 0, 0)
-    place("hills", "background", "distance", 0, "cinematic_dusk_hills_01", "rolling", *HORIZON)
-    place("ground", "environment", "terrain", 0, "cinematic_farm_track_01", "default", *GROUND)
+    place(
+        "hills",
+        "background",
+        "distance",
+        0,
+        "cinematic_dusk_hills_01",
+        "folded" if alternate else "rolling",
+        *HORIZON,
+    )
+    place(
+        "ground",
+        "environment",
+        "terrain",
+        0,
+        "cinematic_farm_track_01",
+        "left_bend" if alternate else "default",
+        *GROUND,
+    )
     if not legacy:
         place(
             "rowan_contact",
@@ -91,13 +122,22 @@ def farm_scene(view="establishing", *, legacy=False):
             1,
             "cinematic_dusk_contact_01",
             "foot",
-            *ROWAN,
+            *actor,
             0.68,
         )
         place(
-            "barn_contact", "asset", "terrain", 2, "cinematic_dusk_contact_01", "prop", *BARN, 1.25
+            "barn_contact", "asset", "terrain", 2, "cinematic_dusk_contact_01", "prop", *barn, 1.25
         )
-    place("barn", "asset", "midground", 0, "barn_01", "default", *BARN, 0.67)
+    place(
+        "barn",
+        "asset",
+        "midground",
+        0,
+        "barn_01",
+        "default" if legacy else "dusk_graded",
+        *barn,
+        0.67,
+    )
     place(
         "rowan",
         "character",
@@ -105,19 +145,19 @@ def farm_scene(view="establishing", *, legacy=False):
         8,
         "rowan_01",
         "default",
-        *ROWAN,
+        *actor,
         0.72,
         ground_id="ground",
         character=dict(
             character="rowan_01",
             action="look_around",
-            direction="right",
+            direction="left" if alternate else "right",
             speed=1.0,
             expression="concerned",
             intensity=0.6,
         ),
     )
-    for order, (identity, x, y, scale, variant) in enumerate(TREES):
+    for order, (identity, x, y, scale, variant) in enumerate(trees):
         layer = "foreground" if identity == "foreground_tree" else "midground"
         if not legacy and layer == "midground":
             place(
@@ -137,7 +177,7 @@ def farm_scene(view="establishing", *, legacy=False):
         dict(
             schema_version="scene-0.1",
             title="Last light at the farm",
-            camera="locked",
+            camera="approach" if view == "approach" else "locked",
             output=dict(
                 width=720, height=1280, fps=30, frames=90, codec="h264", pixel_format="yuv420p"
             ),

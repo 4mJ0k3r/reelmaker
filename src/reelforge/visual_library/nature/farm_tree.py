@@ -112,32 +112,117 @@ LEAN = (
     ),
 )
 
-DETAILS = {
+# Broken inward-facing edges and bough marks are tailored to the fork geometry.
+BOUGHS = {
     "broad": (
-        (-51, -104),
-        (-43, -109),
-        (-37, -121),
-        (-28, -123),
-        (-10, -131),
-        (0, -129),
-        (27, -116),
-        (32, -109),
-        (42, -108),
-        (44, -85),
-        (-30, -91),
+        (
+            ("M", -2, -40),
+            ("C", -1, -61, -14, -72, -36, -80),
+            ("C", -29, -77, -21, -75, -14, -70),
+            ("C", -6, -65, 1, -56, -2, -40),
+            ("Z",),
+        ),
+        (
+            ("M", -7, -62),
+            ("C", 2, -76, 19, -83, 25, -96),
+            ("C", 23, -86, 13, -75, 5, -71),
+            ("L", -7, -62),
+            ("Z",),
+        ),
     ),
     "leaning": (
-        (-18, -115),
-        (-12, -120),
-        (-2, -137),
-        (3, -140),
-        (19, -164),
-        (23, -169),
-        (37, -172),
-        (41, -170),
-        (49, -151),
-        (51, -143),
-        (32, -119),
+        (
+            ("M", 3, -51),
+            ("C", 7, -69, 5, -90, -12, -100),
+            ("C", 0, -98, 8, -84, 10, -74),
+            ("C", 8, -62, 4, -58, 3, -51),
+            ("Z",),
+        ),
+        (
+            ("M", 11, -91),
+            ("C", 22, -106, 35, -109, 43, -112),
+            ("C", 37, -104, 28, -104, 19, -95),
+            ("L", 11, -91),
+            ("Z",),
+        ),
+    ),
+}
+
+FOLIAGE_EDGES = {
+    "broad": (
+        (
+            ("M", -65, -99),
+            ("C", -57, -108, -43, -111, -32, -109),
+            ("C", -38, -104, -46, -105, -51, -99),
+            ("L", -57, -100),
+            ("L", -62, -95),
+            ("Z",),
+        ),
+        (
+            ("M", -23, -125),
+            ("C", -17, -136, 2, -138, 12, -130),
+            ("L", 3, -129),
+            ("L", -4, -133),
+            ("L", -10, -130),
+            ("L", -16, -131),
+            ("Z",),
+        ),
+        (
+            ("M", 15, -78),
+            ("C", 27, -85, 43, -84, 61, -91),
+            ("C", 53, -81, 40, -73, 26, -74),
+            ("L", 20, -70),
+            ("Z",),
+        ),
+    ),
+    "leaning": (
+        (
+            ("M", 12, -154),
+            ("C", 15, -168, 28, -179, 40, -177),
+            ("L", 33, -173),
+            ("L", 24, -173),
+            ("L", 20, -164),
+            ("L", 17, -166),
+            ("Z",),
+        ),
+        (
+            ("M", -26, -110),
+            ("C", -21, -119, -10, -124, -1, -124),
+            ("L", -6, -118),
+            ("L", -13, -118),
+            ("L", -17, -113),
+            ("L", -21, -114),
+            ("Z",),
+        ),
+        (
+            ("M", 16, -110),
+            ("C", 26, -111, 38, -116, 49, -125),
+            ("C", 44, -110, 37, -102, 26, -104),
+            ("Z",),
+        ),
+    ),
+}
+
+
+# Lower canopy shelves follow the direction of the underlying fork.
+LOWER_PLANES = {
+    "broad": (
+        ("M", -56, -87),
+        ("C", -43, -89, -35, -98, -23, -95),
+        ("C", -16, -93, -8, -99, 5, -104),
+        ("C", -1, -96, -5, -87, -13, -83),
+        ("C", -19, -78, -28, -82, -34, -79),
+        ("C", -42, -77, -45, -85, -56, -87),
+        ("Z",),
+    ),
+    "leaning": (
+        ("M", -24, -107),
+        ("C", -14, -108, -9, -117, 0, -121),
+        ("C", 11, -127, 13, -140, 22, -144),
+        ("C", 19, -133, 18, -122, 10, -115),
+        ("C", 4, -108, -4, -110, -12, -103),
+        ("C", -17, -102, -20, -104, -24, -107),
+        ("Z",),
     ),
 }
 
@@ -148,36 +233,50 @@ def farm_tree(variant, warmth):
     split = -66 if variant == "broad" else -87
     bend = -8 if variant == "broad" else 10
     crown = path(*silhouette)
+    wood = path(*trunk)
     commands = [
-        DrawPath(path(*trunk), gradient(color("76634d"), color("3a3e35"), top, 0)),
+        DrawPath(wood, gradient(color("806851"), color("41453b"), top, 0)),
         DrawPath(
             path(
-                ("M", -7, -1),
-                ("C", -3, -19, bend - 2, split + 21, bend, split),
-                ("C", bend + 4, split + 13, 1, -17, 0, 0),
+                ("M", -8, 1),
+                ("C", -5, -15, bend - 4, split + 22, bend - 1, split),
+                ("C", bend + 3, split + 12, 0, -18, -1, 1),
                 ("Z",),
             ),
-            color("ad8960", 0.65),
-            clip=path(*trunk),
+            gradient(tone("9a8568", "c49a6d", warmth), color("67634d"), split, 2),
+            clip=wood,
         ),
-        DrawPath(crown, gradient(color("536549"), color("2b473d"), top, -64)),
+        *(DrawPath(path(*bough), color("ac8866", 0.48), clip=wood) for bough in BOUGHS[variant]),
+        DrawPath(crown, gradient(color("536849"), color("263f3b"), top, -63)),
         DrawPath(
-            path(*lit), gradient(tone("82926b", "b0a06a", warmth), color("5a7556"), top, top + 66)
+            path(*lit),
+            gradient(
+                tone("829472", "b4a56d", warmth),
+                color("5e7454"),
+                top,
+                top + 66,
+            ),
+            clip=crown,
         ),
-        DrawPath(path(*turning), gradient(color("758963"), color("3e6251"), top + 19, -68)),
+        DrawPath(
+            path(*turning),
+            gradient(
+                color("7a9069"),
+                color("3e6152"),
+                top + 17,
+                -68,
+            ),
+            clip=crown,
+        ),
+        DrawPath(
+            path(*LOWER_PLANES[variant]),
+            gradient(color("879269", 0.39), color("9d945c", 0.08), split - 70, split),
+            clip=crown,
+        ),
+        *(
+            DrawPath(path(*edge), color("d8bd79", 0.27 if i < 2 else 0.11), clip=crown)
+            for i, edge in enumerate(FOLIAGE_EDGES[variant])
+        ),
+        polygon(((-12, 0), (-7, -4), (1, -3), (5, -5), (12, 0)), color("4a4a3e")),
     ]
-    for i, (x, y) in enumerate(DETAILS[variant]):
-        commands.append(
-            DrawPath(
-                path(
-                    ("M", x - 5, y + 1),
-                    ("C", x - 4, y - 2, x + 1, y - 3, x + 6, y - 2),
-                    ("C", x + 2, y + 2, x - 1, y + 3, x - 5, y + 1),
-                    ("Z",),
-                ),
-                color("dfc183", 0.29 if i % 3 else 0.48),
-                clip=crown,
-            )
-        )
-    commands.append(polygon(((-12, 0), (-6, -4), (4, -5), (13, 0)), color("42483b")))
     return tuple(commands)

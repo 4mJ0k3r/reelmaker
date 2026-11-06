@@ -10,6 +10,7 @@ from reelforge.environments import polish, snowy
 from reelforge.rendering.diagnostic import color, ellipse
 from reelforge.rendering.model import DrawPath
 from reelforge.visual_library.lighting.contact import dusk_contact
+from reelforge.visual_library.lighting.dusk_grade import grade_architecture
 from reelforge.visual_library.nature.dusk import dusk_hills, dusk_sky
 from reelforge.visual_library.nature.farm_ground import SUPPORT, farm_track
 from reelforge.visual_library.nature.farm_tree import farm_tree
@@ -35,7 +36,7 @@ ASSETS = (
     Asset(
         "cinematic_farm_track_01",
         "environment",
-        ("default",),
+        ("default", "left_bend"),
         36,
         420,
         True,
@@ -55,7 +56,7 @@ ASSETS = (
         (180, 500),
         (-250, -80, 250, 250),
     ),
-    Asset("barn_01", "asset", ("default",), 256, 4000),
+    Asset("barn_01", "asset", ("default", "dusk_graded"), 256, 4000),
     Asset("orchard_tree_01", "asset", ("broad", "lean", "compact", "windswept"), 64, 2000),
     Asset("fence_01", "asset", ("default",), 32, 300),
     Asset("foreground_boughs_01", "environment", ("default",), 320, 4000, False, (180, 640)),
@@ -131,7 +132,7 @@ def recipe(
     elif asset.id == "cinematic_dusk_hills_01":
         commands = dusk_hills(variant, atmosphere)
     elif asset.id == "cinematic_farm_track_01":
-        commands = farm_track(warmth)
+        commands = farm_track(warmth, variant)
     elif asset.id == "cinematic_farm_tree_01":
         commands = farm_tree(variant, warmth)
     elif asset.id == "cinematic_dusk_contact_01":
@@ -144,6 +145,8 @@ def recipe(
         commands = polish.ground(warmth)
     elif asset.id == "barn_01":
         commands = art.barn() + polish.barn_light(warmth)
+        if variant == "dusk_graded":
+            commands = grade_architecture(commands, warmth, atmosphere)
     elif asset.id == "orchard_tree_01":
         seed = {"broad": 43, "lean": -15, "compact": 98, "windswept": 407}[variant]
         commands = polish.tree(seed, warmth, breeze, seconds)

@@ -46,6 +46,7 @@ SCENE_LABELS = {
         (
             artwork.barn,
             polish.barn_light,
+            assets.grade_architecture,
         ),
     ),
     "orchard_tree_01": ("Orchard tree", "nature", (polish.tree,)),
@@ -231,8 +232,17 @@ def registered_components(planner_assets):
             parameters.update({f"art_direction.{key}": SCENE_ART[key] for key in controls})
             parameters["transform.scale"] = {"type": "number", "minimum": 0.25, "maximum": 2}
             restrictions.append(note)
-            details["preview_evidence"] = [f"docs/visual-evidence/stage1a/{preview}"]
-            details["integration_evidence"] = ["docs/visual-evidence/stage1a/farm-establishing.jpg"]
+            details["preview_evidence"] = [f"docs/visual-evidence/stage1a1/{preview}"]
+            details["integration_evidence"] = [
+                "docs/visual-evidence/stage1a1/farm-establishing.jpg"
+            ]
+        if asset.id == "barn_01":
+            parameters.update(
+                {f"art_direction.{key}": SCENE_ART[key] for key in ("warmth", "atmosphere")}
+            )
+            restrictions.append(
+                "Opt-in dusk_graded quiets fine seams; default retains original artwork."
+            )
         if asset.id == "beacon_01":
             details["interaction_sockets"] = {"activation_button_local": list(snowy.BEACON_SOCKET)}
         yield component(
