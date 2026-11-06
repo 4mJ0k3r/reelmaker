@@ -6,6 +6,7 @@ import shutil
 import subprocess
 import threading
 import time
+from collections.abc import Callable
 from pathlib import Path
 from types import TracebackType
 from typing import Self
@@ -250,7 +251,8 @@ class FFmpegEncoder:
             self.abort()
             raise
 
-    def finish(self) -> None:
+    def finish(self, *, verify_published: Callable[[], None] | None = None) -> None:
+        """Publish, optionally verify while staging is owned, then release it."""
         if self.proc is None or self._finished:
             raise VideoError("ENCODER_STATE", "Encoder is not active")
         try:
@@ -277,7 +279,12 @@ class FFmpegEncoder:
                 # Atomic no-clobber publication in the same filesystem; closes exists() race.
                 os.link(self._pending, self.output)
             self._finished = True
+            if verify_published is not None:
+                self.proc.stderr.close()
+                verify_published()
         except OSError as error:
+            if self._finished:
+                raise
             raise VideoError("OUTPUT_IO", "Cannot publish encoded output") from error
         finally:
             self.abort()
@@ -306,7 +313,7 @@ class FFmpegEncoder:
     def confirm_cleanup(self) -> None:
         """Verify absence without deleting/reacquiring a completed transaction's path."""
         if self._transaction is not None:
-            self._transaction.assert_absent()
+            self._transaction.confirm_cleanup()
 
     def __exit__(
         self, exc_type: type | None, exc: BaseException | None, traceback: TracebackType | None

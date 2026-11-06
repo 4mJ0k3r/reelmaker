@@ -25,16 +25,29 @@ class OwnedDirectory:
         return info.st_dev, info.st_ino
 
     def assert_absent(self) -> None:
-        if self.path.exists() or self.path.is_symlink():
+        try:
+            self.path.lstat()
+        except FileNotFoundError:
+            return
+        except OSError as error:
             raise OperationError(
-                "TRANSACTION_CLEANUP", f"Completed transaction path reappeared: {self.path}"
-            )
+                "TRANSACTION_CLEANUP", f"Cannot confirm transaction absence: {self.path}"
+            ) from error
+        raise OperationError(
+            "TRANSACTION_CLEANUP", f"Completed transaction path reappeared: {self.path}"
+        )
+
+    def confirm_cleanup(self) -> None:
+        """Confirm a completed removal without ever attempting deletion."""
+        if self._error is not None:
+            raise self._error
+        if not self._attempted:
+            raise OperationError("TRANSACTION_CLEANUP", "Private directory cleanup did not run")
+        self.assert_absent()
 
     def cleanup(self) -> None:
         if self._attempted:
-            if self._error is not None:
-                raise self._error
-            self.assert_absent()
+            self.confirm_cleanup()
             return
         self._attempted = True
         try:

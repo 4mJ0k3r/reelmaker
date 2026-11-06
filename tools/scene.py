@@ -78,7 +78,9 @@ def render_scene(
         )
     check_workspace(output)
     renderer = CairoRenderer()
-    timing = dict(geometry_seconds=0.0, raster_seconds=0.0, stream_seconds=0.0)
+    timing = dict(
+        geometry_seconds=0.0, raster_seconds=0.0, stream_seconds=0.0, verification_seconds=0.0
+    )
     frames = compiled.scene.frames
     own = time.process_time()
     child = resource.getrusage(resource.RUSAGE_CHILDREN)
@@ -87,6 +89,7 @@ def render_scene(
     maximum_paths = maximum_ops = 0
     cleanup_error = None
     verification = None
+    encode_seconds = 0.0
     with JobMonitor(workspace=output, cancelled=cancelled) as monitor:
         if stills_only:
             for frame in (0, frames // 2, frames - 1):
@@ -107,44 +110,58 @@ def render_scene(
                     )
                     surface.write_png(output / f"layer_{layer.id}.png")
         else:
-            with FFmpegEncoder(
-                video,
-                width=720,
-                height=1280,
-                frames=frames,
-                timeout=120,
-                cancelled=monitor.cancelled,
-                **({"staging_directory": encoder_staging} if encoder_staging else {}),
-            ) as encoder:
-                monitor.encoder_pid = encoder.proc.pid
-                with renderer.surface(720, 1280) as surface:
-                    for frame in range(frames):
-                        tick = time.perf_counter()
-                        commands = frame_evaluator(compiled, frame)
-                        timing["geometry_seconds"] += time.perf_counter() - tick
-                        paths, ops = cost(commands)
-                        maximum_paths = max(maximum_paths, paths)
-                        maximum_ops = max(maximum_ops, ops)
-                        tick = time.perf_counter()
-                        renderer.draw(
-                            surface, commands, background=color("243e49"), logical_size=(360, 640)
-                        )
-                        timing["raster_seconds"] += time.perf_counter() - tick
-                        hashes[str(frame)] = surface.pixel_sha256()
-                        tick = time.perf_counter()
-                        encoder.write_surface(surface)
-                        timing["stream_seconds"] += time.perf_counter() - tick
-            encode_seconds = time.perf_counter() - started
-            verification = verify_video(
-                video, width=720, height=1280, frames=frames, cancelled=monitor.cancelled
-            )
+
+            def verify_published():
+                nonlocal encode_seconds, verification
+                tick = time.perf_counter()
+                encode_seconds = tick - started
+                verification = verify_video(
+                    video, width=720, height=1280, frames=frames, cancelled=monitor.cancelled
+                )
+                timing["verification_seconds"] = time.perf_counter() - tick
+
             try:
-                encoder.confirm_cleanup()
+                with FFmpegEncoder(
+                    video,
+                    width=720,
+                    height=1280,
+                    frames=frames,
+                    timeout=120,
+                    cancelled=monitor.cancelled,
+                    **({"staging_directory": encoder_staging} if encoder_staging else {}),
+                ) as encoder:
+                    monitor.encoder_pid = encoder.proc.pid
+                    with renderer.surface(720, 1280) as surface:
+                        for frame in range(frames):
+                            tick = time.perf_counter()
+                            commands = frame_evaluator(compiled, frame)
+                            timing["geometry_seconds"] += time.perf_counter() - tick
+                            paths, ops = cost(commands)
+                            maximum_paths = max(maximum_paths, paths)
+                            maximum_ops = max(maximum_ops, ops)
+                            tick = time.perf_counter()
+                            renderer.draw(
+                                surface,
+                                commands,
+                                background=color("243e49"),
+                                logical_size=(360, 640),
+                            )
+                            timing["raster_seconds"] += time.perf_counter() - tick
+                            hashes[str(frame)] = surface.pixel_sha256()
+                            tick = time.perf_counter()
+                            encoder.write_surface(surface)
+                            timing["stream_seconds"] += time.perf_counter() - tick
+                    encoder.finish(verify_published=verify_published)
             except OperationError as error:
-                # Preserve the failure and valid media for independent review. Never report
-                # overall success or sweep a restored directory on this execution host.
+                if verification is None or not error.code.startswith("TRANSACTION_"):
+                    raise
                 cleanup_error = {"code": error.code, "message": str(error)}
         monitor.sample()
+    if not stills_only and cleanup_error is None:
+        try:
+            encoder.confirm_cleanup()
+        except OperationError as error:
+            cleanup_error = {"code": error.code, "message": str(error)}
     observability = memory_observability(monitor.initial, monitor.final)
     if (
         monitor.cancelled.is_set()

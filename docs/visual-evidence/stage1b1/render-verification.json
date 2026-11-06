@@ -1,0 +1,60 @@
+{
+  "cli_exit": 0,
+  "success": true,
+  "cleanup_error": null,
+  "owned_staging_remaining": false,
+  "no_clobber": "OUTPUT_EXISTS",
+  "mp4_sha256": "e6c876b180aed19b96220d45efa433ac6437d157cf89ad087fe6dd177e3eecfc",
+  "matches_stage1b": {
+    "source_frame_hashes": true,
+    "decoded_frame_hashes": true,
+    "file_bytes": true
+  },
+  "metadata": {
+    "programs": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 720,
+        "height": 1280,
+        "pix_fmt": "yuv420p",
+        "r_frame_rate": "30/1",
+        "nb_frames": "90"
+      }
+    ],
+    "format": {
+      "duration": "3.000000"
+    }
+  },
+  "decoded_frames": 90,
+  "unique_decoded_frames": 90,
+  "full_decode_passed": true,
+  "whole_blocking_wall_seconds": 4.97210228700078,
+  "render_wall_seconds": 4.957050371999685,
+  "timings": {
+    "geometry_seconds": 0.998533230999783,
+    "raster_seconds": 2.319588949005265,
+    "stream_seconds": 0.27834992300176964,
+    "verification_seconds": 1.0543341000002329
+  },
+  "cpu_seconds": {
+    "parent": 4.575325888,
+    "children_user": 2.431441,
+    "children_system": 0.17817
+  },
+  "peak_process_tree_rss_bytes": 102678528,
+  "resource_limit_reason": null,
+  "oom_event_delta": {
+    "low": 0,
+    "high": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_kill": 0,
+    "oom_group_kill": 0
+  },
+  "live_surfaces_after": 0,
+  "surface_bytes_after": 0,
+  "maximum_paths": 362,
+  "maximum_ops": 2111
+}
