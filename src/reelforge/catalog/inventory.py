@@ -335,6 +335,9 @@ def registered_components(planner_assets):
             )
         if asset.id == "beacon_01":
             details["interaction_sockets"] = {"activation_button_local": list(snowy.BEACON_SOCKET)}
+            restrictions.append("ridge_surge adds a single local-frame 44–56 pulse.")
+        if asset.id == "answer_light_01":
+            restrictions.append("ridge_reveal is dark through local frame 23, then rises and holds.")
         yield component(
             asset.id,
             name,

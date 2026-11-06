@@ -24,7 +24,8 @@
       "parameters": {
         "variant": {
           "choices": [
-            "default"
+            "default",
+            "ridge_reveal"
           ]
         }
       },
@@ -35,7 +36,8 @@
         "scene"
       ],
       "restrictions": [
-        "Use the registered scene node kind and scene-0.1 validation."
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "ridge_reveal is dark through local frame 23, then rises and holds."
       ],
       "sources": [
         "src/reelforge/scenes/assets.py:recipe",
@@ -43,7 +45,8 @@
       ],
       "type": "scene_asset",
       "variants": [
-        "default"
+        "default",
+        "ridge_reveal"
       ]
     },
     {
@@ -150,7 +153,8 @@
           "choices": [
             "buried",
             "active",
-            "local_signal"
+            "local_signal",
+            "ridge_surge"
           ]
         }
       },
@@ -162,7 +166,8 @@
       ],
       "restrictions": [
         "Use the registered scene node kind and scene-0.1 validation.",
-        "Local signal keeps the activation socket and amber light without the distant beam."
+        "Local signal keeps the activation socket and amber light without the distant beam.",
+        "ridge_surge adds a single local-frame 44–56 pulse."
       ],
       "sources": [
         "src/reelforge/scenes/assets.py:recipe",
@@ -172,7 +177,8 @@
       "variants": [
         "buried",
         "active",
-        "local_signal"
+        "local_signal",
+        "ridge_surge"
       ]
     },
     {

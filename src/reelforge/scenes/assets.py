@@ -90,8 +90,8 @@ ASSETS = (
     ),
     Asset("pine_snow_01", "asset", ("tall", "short", "cluster", "pinnacle", "windshear"), 64, 1200),
     Asset("frost_rocks_01", "asset", ("cliff", "drift"), 48, 900),
-    Asset("beacon_01", "asset", ("buried", "active", "local_signal"), 96, 1600),
-    Asset("answer_light_01", "asset", ("default",), 24, 400),
+    Asset("beacon_01", "asset", ("buried", "active", "local_signal", "ridge_surge"), 96, 1600),
+    Asset("answer_light_01", "asset", ("default", "ridge_reveal"), 24, 400),
     Asset(
         "frost_foreground_01",
         "environment",
@@ -209,7 +209,7 @@ def recipe(
     elif asset.id == "beacon_01":
         commands = snowy.beacon(variant, warmth, seconds)
     elif asset.id == "answer_light_01":
-        commands = snowy.answer_light(seconds)
+        commands = snowy.answer_light(seconds, variant)
     elif asset.id == "frost_foreground_01":
         commands = (
             ridge_wind(breeze, seconds)

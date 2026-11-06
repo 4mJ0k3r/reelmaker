@@ -13,9 +13,9 @@ def _insert(title, world, shot):
 
 
 def cinematic_story(story="the_other_light"):
-    """Return an admitted episode manifest for the fixed Yellow Mellow / Cold Ridge story."""
-    if story != "the_other_light":
-        raise ValueError("Select the_other_light")
+    """Return an admitted original or refined Yellow Mellow / Cold Ridge episode."""
+    if story not in ("the_other_light", "the_other_light_refined"):
+        raise ValueError("Select the_other_light or the_other_light_refined")
     approach = cinematic_character_staging(YELLOW_MELLOW_ID, "cold_ridge")
     blocking = approach["base"]
     opening = deepcopy(blocking["base"])
@@ -73,5 +73,27 @@ def cinematic_story(story="the_other_light"):
         ],
         audio=None,
     )
+    if story == "the_other_light_refined":
+        _refine(episode, blocking["base"])
     compile_episode(episode)
     return episode
+
+
+def _refine(episode, approach_world):
+    opening, approach, ending = (s["direction"] for s in episode["segments"])
+    # Same fixed actor node and ground as the first instant of the approved walk.
+    opening["base"] = deepcopy(approach_world)
+    beacon_target = {"kind": "node", "id": "beacon"}
+    opening["shots"] = [
+        _shot(
+            "traveler_and_beacon", 0, 28, "object_reveal", beacon_target, [1.62, 1.56], (267, 507)
+        ),
+        _shot(
+            "ridge_geography", 28, 90, "establishing", beacon_target, [1.14, 1.08], (247, 484)
+        ),
+    ]
+    beacon = next(n for n in approach["base"]["base"]["nodes"] if n["id"] == "beacon")
+    beacon["variant"] = "ridge_surge"
+    light = next(n for n in ending["base"]["nodes"] if n["id"] == "distant_light")
+    light["variant"] = "ridge_reveal"
+    ending["shots"][0].update(zoom=[1.48, 1.62], screen=[207, 262], hold_out_frames=30)

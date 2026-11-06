@@ -1,0 +1,345 @@
+{
+  "contract": "episode-0.3",
+  "frames": 270,
+  "duration_seconds": 9,
+  "audio_streams": 0,
+  "metadata": {
+    "programs": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "codec_tag_string": "avc1",
+        "width": 720,
+        "height": 1280,
+        "pix_fmt": "yuv420p",
+        "avg_frame_rate": "30/1",
+        "nb_read_frames": "270"
+      }
+    ],
+    "format": {
+      "duration": "9.000000",
+      "size": "1489817"
+    }
+  },
+  "exact_video_pts": true,
+  "unique_decoded_frames": 270,
+  "unique_source_frames": 268,
+  "black_frames": 0,
+  "min_90th_percentile_luma": 164.0,
+  "media_sha256": "59b073c528555daee9afc77029d2530580751415d5ef01dc8f6eec8354cab25b",
+  "manifest_digest": "7e2d4ff954eac140589d4a182459a2e3550afffe8e70284e08e131faea504f1d",
+  "source_pixel_repeat": {
+    "0": "78657353ee106dd737fd00fc5bcea68e4c0190eba73db11ac825b111386ec911",
+    "15": "3f4811cff1fa62b3ba954464f6ec56e2750720f3122a0472f7a642b55070c3eb",
+    "27": "3ce997cbc7ba8d9ec0d496d51493f961eb244b7a314ad051c55b4580b7c44c1a",
+    "28": "b9ff5f48fe3a8da9bb220e1a3b9ca22b2547cec85c1b566b69574bce2ee3681b",
+    "29": "1b1f90a9b4e071ebcabde0fd06f15c4d09c438e546e1fa4887679b79c08cc56a",
+    "52": "93ea4c9d6328eaceca22ea2cbd9e0fa0656608e0ba7f3946b06e2838d837ca62",
+    "60": "af16ab79813c72275e36187d830bcd286f960d32889b41f5989079c247bb0c54",
+    "89": "a54f9448ecc09f970827d42ce5ae49fc89ae479e62f15d9a968bae74deb850e5",
+    "90": "54fa1d54792d6b8c3ce5dc960e413c95211ef3502df81174602734d9876ccedc",
+    "111": "c0115eef0d2a1fe870f691c094b85d6e668f964c7e06b35af0293d31182ca4ae",
+    "112": "4d611456099959fc0a32e9a13519a9f2789ab7c3c4521e756dead8c84dfe867d",
+    "114": "450063fab60d6d0413dc5150ae53fc001096e434156ca0e30f781c24a052bf18",
+    "132": "8065365a2c64c47993cc006db5e31dfd29cf711eb7753b49d2cf3373bd8dbc74",
+    "136": "2d43dd40d12695786438fcaf8fa94927317f2a03a5be4ff139032af3d2ed043c",
+    "140": "0dccb883741c09f9fce78f1777500ea6062815e5e86bf356581e8834741f4f2f",
+    "146": "4b1226ddecd5e0953ca4f6d30beb965f4e53143f6a1f2d44f294d3fb34307d16",
+    "147": "b0879c547509e49b06db74ba383258ecbb1ad6c003494967495842be6d93ff0b",
+    "166": "379fe43906c8845328a85ca8a8ca7f189325406807974a833029ceaf634364bd",
+    "179": "e5d96b1cdda92a424574f07e0c831ec2b57d35482d5a183c804f591e55bc12b6",
+    "180": "5403a7295613fd117f21f4243d174427585d11ea3b561f0b52921370a9dc80f4",
+    "203": "2caa8bf181f716c583451a730f5b35a342be3494974191d6e4bdc72233d46308",
+    "209": "4a860a056d6432bf191f95bea61e99dac7615938dc89db24796006b877798bb7",
+    "218": "7e26835b8513c376bdb8ad768153fa534b222e0b8fd922a78e1b8c160cedfec9",
+    "269": "3d8f8ce8af2f277a2d76fcd5826fe6ad3651fad810842ffc89821a3258f8cd95"
+  },
+  "original_source_pixel_samples": 10,
+  "decoded_hashes_around_cuts": {
+    "27": "c8dc070afb6d224a739f58e79760917ac69efc096706af057e0485629a51546d",
+    "28": "fb580a9fd22597f367d28d542be55e747baa28ec0816f7b24f8a4b75d3de1df4",
+    "89": "ee93cebdb9d7948b71b88de7918ecbbca5f3152e1b71f390cc5ae9cd3bfcd2eb",
+    "90": "2e79b4a7094694eb04299a7e27afec33a100545879a5ef1ba165c589d7f2479b",
+    "111": "fb6fb9953df8f93f52a017db3171307dc2b97a29d6477280e21db8d944efb613",
+    "112": "a1398cbfc24e64b13d22e3f5b1c8ea7ab90cf7dff55f82453b520c49921359bf",
+    "146": "db7890b9885ba2810e15a2f73644efeb59f782c06c7ba406c1b321f641bb93cc",
+    "147": "41b772b78e7d8700eeff9290f8f6663504f85f6f5c9b8c4005bdfde6cf09e1c6",
+    "179": "bd6b999ce6927297a004b772f0e6c09de5d9031a86a5538b1f19678ab5965222",
+    "180": "bb39da6b64b3d3055eaf11e1b6027e5ec92fed141c1f996308b9b61cb360ea5e"
+  },
+  "boundaries": [
+    {
+      "frame": 27,
+      "local_frame": 27,
+      "segment": "beacon",
+      "shot": "traveler_and_beacon",
+      "camera": {
+        "x": 5.0400000000000205,
+        "y": 24.040000000000077,
+        "zoom": 1.56
+      },
+      "actor_world": [
+        110.0,
+        480.0
+      ],
+      "actor_bounds_logical": [
+        43.33040294766245,
+        403.01578964271977,
+        87.77359705233748,
+        505.01984
+      ]
+    },
+    {
+      "frame": 28,
+      "local_frame": 28,
+      "segment": "beacon",
+      "shot": "ridge_geography",
+      "camera": {
+        "x": 0.2599999999999909,
+        "y": 11.760000000000048,
+        "zoom": 1.14
+      },
+      "actor_world": [
+        110.0,
+        480.0
+      ],
+      "actor_bounds_logical": [
+        83.54914061559954,
+        408.0115385850644,
+        116.02685938440051,
+        482.5529599999999
+      ]
+    },
+    {
+      "frame": 89,
+      "local_frame": 89,
+      "segment": "beacon",
+      "shot": "ridge_geography",
+      "camera": {
+        "x": -3.280000000000001,
+        "y": 6.720000000000027,
+        "zoom": 1.08
+      },
+      "actor_world": [
+        110.0,
+        480.0
+      ],
+      "actor_bounds_logical": [
+        92.1518174253048,
+        412.01093129111376,
+        122.92018257469522,
+        482.62912000000006
+      ]
+    },
+    {
+      "frame": 90,
+      "local_frame": 0,
+      "segment": "approach",
+      "shot": "context",
+      "camera": {
+        "x": -3.280000000000001,
+        "y": 6.720000000000027,
+        "zoom": 1.08
+      },
+      "actor_world": [
+        110.0,
+        480
+      ],
+      "actor_bounds_logical": [
+        93.0780254253048,
+        412.01093129111376,
+        121.22213457469522,
+        482.62912000000006
+      ]
+    },
+    {
+      "frame": 111,
+      "local_frame": 21,
+      "segment": "approach",
+      "shot": "context",
+      "camera": {
+        "x": -3.280000000000001,
+        "y": 6.720000000000027,
+        "zoom": 1.08
+      },
+      "actor_world": [
+        124.086734375,
+        480
+      ],
+      "actor_bounds_logical": [
+        111.37367312500002,
+        412.31041269486735,
+        138.8915499188074,
+        482.62912000000006
+      ]
+    },
+    {
+      "frame": 112,
+      "local_frame": 22,
+      "segment": "approach",
+      "shot": "attention",
+      "camera": {
+        "x": -42.00466249999998,
+        "y": 10.0,
+        "zoom": 1.7
+      },
+      "actor_world": [
+        125.291375,
+        480
+      ],
+      "actor_bounds_logical": [
+        110.86666666666667,
+        420.24289918421687,
+        153.47285364916752,
+        530.6421333333333
+      ]
+    },
+    {
+      "frame": 146,
+      "local_frame": 56,
+      "segment": "approach",
+      "shot": "attention",
+      "camera": {
+        "x": 18.30333333333334,
+        "y": 10.0,
+        "zoom": 1.7
+      },
+      "actor_world": [
+        160.76666666666668,
+        480
+      ],
+      "actor_bounds_logical": [
+        107.66479879236299,
+        419.69892477046034,
+        156.62128378635902,
+        530.6421333333333
+      ]
+    },
+    {
+      "frame": 147,
+      "local_frame": 57,
+      "segment": "approach",
+      "shot": "reaction",
+      "camera": {
+        "x": -29.661666666666576,
+        "y": 1.0,
+        "zoom": 3.05
+      },
+      "actor_world": [
+        160.76666666666668,
+        480
+      ],
+      "actor_bounds_logical": [
+        112.67948482179018,
+        452.2698644801649,
+        200.55583267552643,
+        651.3285333333334
+      ]
+    },
+    {
+      "frame": 179,
+      "local_frame": 89,
+      "segment": "approach",
+      "shot": "reaction",
+      "camera": {
+        "x": -47.93333333333328,
+        "y": 59.89999999999998,
+        "zoom": 4.0
+      },
+      "actor_world": [
+        160.76666666666668,
+        480
+      ],
+      "actor_bounds_logical": [
+        101.79023491121364,
+        409.88504648114116,
+        192.50438222077543,
+        671.0226666666666
+      ]
+    },
+    {
+      "frame": 180,
+      "local_frame": 0,
+      "segment": "ridge",
+      "shot": "ridge_reveal",
+      "camera": {
+        "x": 200.40000000000003,
+        "y": 32.28615384615381,
+        "zoom": 1.48
+      },
+      "actor_world": null,
+      "actor_bounds_logical": null
+    }
+  ],
+  "decoded_mobile_rgb": {
+    "beacon_center": [
+      271,
+      460
+    ],
+    "beacon_peak": {
+      "original_140": [
+        253.8,
+        242.0,
+        222.1
+      ],
+      "refined_140": [
+        254.6,
+        246.9,
+        221.9
+      ]
+    },
+    "beacon_changed_pixels": 3427,
+    "ridge_light_center": [
+      207,
+      262
+    ],
+    "ridge_light": {
+      "180": [
+        123.6,
+        147.6,
+        169.7
+      ],
+      "203": [
+        123.6,
+        147.6,
+        169.7
+      ],
+      "209": [
+        184.7,
+        190.9,
+        191.6
+      ],
+      "218": [
+        253.8,
+        243.7,
+        223.5
+      ],
+      "269": [
+        254.0,
+        244.2,
+        223.8
+      ]
+    }
+  },
+  "render_encode_seconds": 9.248001955000007,
+  "stage_seconds": {
+    "silent_render": 12.14150035099999,
+    "verify": 3.5352664700000105
+  },
+  "cpu_seconds": {
+    "parent": 11.667499021000001,
+    "children_user": 11.108757,
+    "children_system": 0.618742
+  },
+  "workflow_seconds": 15.709583119000001,
+  "monitored_wall_seconds": 17.980443489000038,
+  "peak_process_tree_rss_bytes": 106295296,
+  "logical_staging_peak_bytes": 2979634,
+  "maximum_paths": 324,
+  "maximum_ops": 1801,
+  "max_surge_extra_paths": 3,
+  "max_surge_extra_ops": 18,
+  "job_success": true,
+  "encoder_cleanup_passed": true,
+  "no_clobber_passed": true
+}

@@ -12,7 +12,7 @@ from __future__ import annotations
 import math
 
 from reelforge.rendering.diagnostic import color, ellipse
-from reelforge.rendering.model import DrawPath, LinearGradient, PathOp, rectangle
+from reelforge.rendering.model import DrawPath, LinearGradient, PathOp, Stroke, rectangle
 
 from .artwork import gradient, line, polygon
 from .polish import variation
@@ -329,8 +329,9 @@ def beacon(variant: str, warmth: float, seconds: float) -> tuple[DrawPath, ...]:
     'buried' is half sunk in a drift with snow over its lower body and lamp cap but the panel and
     button clear; 'active' has the lamp lit, a signal beam and the button glowing.
     'local_signal' keeps the glowing lamp and button with a smaller halo and ground accent.
+    'ridge_surge' adds one brief white-gold surge over that artwork.
     """
-    active = variant in ("active", "local_signal")
+    active = variant in ("active", "local_signal", "ridge_surge")
     pulse = 0.65 + 0.35 * math.sin(seconds * 5.0)
     c: list[DrawPath] = []
     # Splayed stakes and cast shadow on the snow.
@@ -452,12 +453,44 @@ def beacon(variant: str, warmth: float, seconds: float) -> tuple[DrawPath, ...]:
             _bpoly(((-17, -50), (-3, -53), (4, -50), (-4, -47), (-17, -46)), color(SNOW_LIT, 0.95))
         )
         c.append(_bellipse(-6, -60, 7.5, 3.2, color(SNOW_LIT, 0.95)))
+    if variant == "ridge_surge":
+        # Scene-local frames 43–57, one rise and fall. Outside the cue this is local_signal.
+        frame = seconds * 30
+        if 43 < frame < 57:
+            level = math.sin(math.pi * (frame - 43) / 14) ** 2
+            x, y = _bt(0, -52)
+            radius = 16 + 12 * (frame - 43) / 14
+            c.extend(
+                (
+                    DrawPath(ellipse(x, y, 34, 26), color("ffd58a", 0.24 * level)),
+                    DrawPath(
+                        ellipse(x, y, radius, radius * 0.78),
+                        stroke=Stroke(color("fff1c7", 0.85 * level), 2.2),
+                    ),
+                    DrawPath(ellipse(x, y, 11, 8), color("fff8df", level)),
+                )
+            )
     return tuple(c)
 
 
 # ---------------------------------------------------------------- distant answering light
-def answer_light(seconds: float) -> tuple[DrawPath, ...]:
+def answer_light(seconds: float, variant: str = "default") -> tuple[DrawPath, ...]:
     """A distant response signal on a far ridge: a pulsing white-gold point and thin beam."""
+    if variant == "ridge_reveal":
+        # Clear air through local frame 23, then one rise, one bloom and a held core.
+        frame = seconds * 30
+        if frame <= 23:
+            return ()
+        u = min(1.0, (frame - 23) / 15)
+        rise = u * u * (3 - 2 * u)
+        bloom = 1 - 0.34 * min(1.0, max(0.0, (frame - 38) / 17))
+        return (
+            DrawPath(ellipse(0, 0, 28, 24), color("ffe4ac", 0.11 * rise * bloom)),
+            DrawPath(ellipse(0, 0, 17, 14), color("ffe8b7", 0.23 * rise * bloom)),
+            line(((-17, 0), (17, 0)), color("fff1d0", 0.62 * rise * bloom), 1.15),
+            line(((0, -14), (0, 14)), color("fff1d0", 0.55 * rise * bloom), 1.05),
+            DrawPath(ellipse(0, 0, 5.0, 4.5), color("fff6e2", rise)),
+        )
     pulse = 0.55 + 0.45 * math.sin(seconds * 4.0)
     c: list[DrawPath] = []
     for i in range(7, 0, -1):
