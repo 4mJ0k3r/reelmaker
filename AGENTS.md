@@ -122,6 +122,16 @@ Verified: <N> frames decoded, H.264/yuv420p, no audio, checks passed
 Adjustments/limits: <anything unsupported or changed, or "none">
 ```
 
+## Discovering existing visual capabilities
+
+Use `PYTHONPATH=src python -m reelforge.catalog list` and
+`PYTHONPATH=src python -m reelforge.catalog show <id>` with the configured Python environment,
+or consult `catalog/components.md`. Only assets exposed through the supported planner
+workflow can be used in ordinary prompt production. A preset-only asset is used indirectly
+by built-in shots. Registration or successful validation alone grants no artistic approval.
+The catalog does not change production safety rules. Catalog and asset development
+belongs to separately requested development work. See `docs/VISUAL_LIBRARY.md`.
+
 ## Where things are (read only when needed)
 
 | Need | File |

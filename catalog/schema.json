@@ -1,0 +1,438 @@
+{
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "visual-catalog-0.1"
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "family": {
+            "enum": [
+              "architecture",
+              "characters",
+              "composition",
+              "effects",
+              "lighting",
+              "materials",
+              "nature",
+              "props"
+            ]
+          },
+          "type": {
+            "enum": [
+              "scene_asset",
+              "character",
+              "procedural",
+              "system"
+            ]
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^src/reelforge/(?:[a-z_0-9]+/)*[a-z_0-9]+\\.py:[a-zA-Z_][a-zA-Z_0-9]*$"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "variants": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "parameters": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "additionalProperties": {
+              "type": "object",
+              "minProperties": 1,
+              "additionalProperties": false,
+              "properties": {
+                "type": {
+                  "enum": [
+                    "boolean",
+                    "integer",
+                    "number",
+                    "string"
+                  ]
+                },
+                "minimum": {
+                  "type": "number"
+                },
+                "maximum": {
+                  "type": "number"
+                },
+                "choices": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "minItems": 1,
+                  "uniqueItems": true
+                },
+                "default": {}
+              }
+            }
+          },
+          "registration": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "scene",
+                "character"
+              ]
+            },
+            "uniqueItems": true
+          },
+          "engine_capability": {
+            "type": "boolean"
+          },
+          "production_status": {
+            "enum": [
+              "candidate",
+              "production_ready"
+            ]
+          },
+          "planner_exposure": {
+            "enum": [
+              "unavailable",
+              "preset_only",
+              "selectable"
+            ]
+          },
+          "quality_review": {
+            "enum": [
+              "not_assessed",
+              "approved",
+              "rejected"
+            ]
+          },
+          "restrictions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "dependencies": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "details": {
+            "type": "object",
+            "properties": {
+              "scene_kind": {
+                "type": "string",
+                "minLength": 1
+              },
+              "anchor": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "upright": {
+                "type": "boolean"
+              },
+              "character_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+              },
+              "standing_height_units": {
+                "type": "number"
+              },
+              "support_envelope": {
+                "type": [
+                  "array",
+                  "null"
+                ],
+                "items": {
+                  "type": "number"
+                },
+                "minItems": 4,
+                "maxItems": 4
+              },
+              "budget": {
+                "type": "object",
+                "properties": {
+                  "max_paths": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "max_operations": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                },
+                "required": [
+                  "max_paths",
+                  "max_operations"
+                ],
+                "additionalProperties": false
+              },
+              "interaction_sockets": {
+                "type": "object"
+              },
+              "bounds": {
+                "type": [
+                  "array",
+                  "null"
+                ]
+              },
+              "scale_conventions": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "layer_depth": {
+                "type": [
+                  "object",
+                  "null"
+                ]
+              },
+              "interface_versions": {
+                "type": [
+                  "object",
+                  "null"
+                ]
+              },
+              "preview_evidence": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "integration_evidence": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "artistic_review_evidence": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "family",
+          "type",
+          "sources",
+          "variants",
+          "parameters",
+          "registration",
+          "engine_capability",
+          "production_status",
+          "planner_exposure",
+          "quality_review",
+          "restrictions",
+          "dependencies",
+          "details"
+        ],
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "scene_asset"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "registration": {
+                  "const": [
+                    "scene"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "character"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "registration": {
+                  "const": [
+                    "scene",
+                    "character"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "procedural"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "registration": {
+                  "const": []
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "system"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "registration": {
+                  "const": []
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "engine_capability": {
+                  "const": false
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "planner_exposure": {
+                  "const": "unavailable"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "engine_capability": {
+                  "const": false
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "registration": {
+                  "const": []
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "production_status": {
+                  "const": "production_ready"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "quality_review": {
+                  "const": "approved"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "production_status": {
+                  "const": "production_ready"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "engine_capability": {
+                  "const": true
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "production_status": {
+                  "const": "production_ready"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "details": {
+                  "required": [
+                    "integration_evidence",
+                    "artistic_review_evidence"
+                  ],
+                  "properties": {
+                    "integration_evidence": {
+                      "minItems": 1
+                    },
+                    "artistic_review_evidence": {
+                      "minItems": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "components"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReelForge visual catalog v0.1"
+}

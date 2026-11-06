@@ -1,0 +1,1869 @@
+{
+  "components": [
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "budget": {
+          "max_operations": 400,
+          "max_paths": 24
+        },
+        "scene_kind": "asset",
+        "support_envelope": null,
+        "upright": false
+      },
+      "engine_capability": true,
+      "family": "lighting",
+      "id": "answer_light_01",
+      "name": "Distant answering light",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "default"
+          ]
+        }
+      },
+      "planner_exposure": "preset_only",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/environments/snowy.py:answer_light"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "default"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "budget": {
+          "max_operations": 4000,
+          "max_paths": 256
+        },
+        "scene_kind": "asset",
+        "support_envelope": null,
+        "upright": false
+      },
+      "engine_capability": true,
+      "family": "architecture",
+      "id": "barn_01",
+      "name": "Barn exterior",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "default"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/environments/artwork.py:barn",
+        "src/reelforge/environments/polish.py:barn_light"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "default"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "budget": {
+          "max_operations": 1600,
+          "max_paths": 96
+        },
+        "interaction_sockets": {
+          "activation_button_local": [
+            2.4958354161707037,
+            -24.875104131950646
+          ]
+        },
+        "scene_kind": "asset",
+        "support_envelope": null,
+        "upright": false
+      },
+      "engine_capability": true,
+      "family": "props",
+      "id": "beacon_01",
+      "name": "Emergency beacon",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "buried",
+            "active"
+          ]
+        }
+      },
+      "planner_exposure": "preset_only",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/environments/snowy.py:beacon"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "buried",
+        "active"
+      ]
+    },
+    {
+      "dependencies": [
+        "direction-0.1",
+        "storyboard-0.1"
+      ],
+      "details": {},
+      "engine_capability": true,
+      "family": "composition",
+      "id": "camera.direction.close_up",
+      "name": "Close Up",
+      "parameters": {
+        "zoom": {
+          "maximum": 5.0,
+          "minimum": 0.9,
+          "type": "number"
+        }
+      },
+      "planner_exposure": "preset_only",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [],
+      "restrictions": [
+        "Storyboard framing also constrains screen position, lead and offsets."
+      ],
+      "sources": [
+        "src/reelforge/direction/contract.py:compile_direction",
+        "src/reelforge/direction/contract.py:zoom_range"
+      ],
+      "type": "system",
+      "variants": [
+        "close_up"
+      ]
+    },
+    {
+      "dependencies": [
+        "direction-0.1",
+        "storyboard-0.1"
+      ],
+      "details": {},
+      "engine_capability": true,
+      "family": "composition",
+      "id": "camera.direction.establishing",
+      "name": "Establishing",
+      "parameters": {
+        "zoom": {
+          "maximum": 1.7,
+          "minimum": 0.9,
+          "type": "number"
+        }
+      },
+      "planner_exposure": "preset_only",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [],
+      "restrictions": [
+        "Storyboard framing also constrains screen position, lead and offsets."
+      ],
+      "sources": [
+        "src/reelforge/direction/contract.py:compile_direction",
+        "src/reelforge/direction/contract.py:zoom_range"
+      ],
+      "type": "system",
+      "variants": [
+        "establishing"
+      ]
+    },
+    {
+      "dependencies": [
+        "direction-0.1",
+        "storyboard-0.1"
+      ],
+      "details": {},
+      "engine_capability": true,
+      "family": "composition",
+      "id": "camera.direction.follow",
+      "name": "Follow",
+      "parameters": {
+        "zoom": {
+          "maximum": 1.7,
+          "minimum": 0.9,
+          "type": "number"
+        }
+      },
+      "planner_exposure": "preset_only",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [],
+      "restrictions": [
+        "Storyboard framing also constrains screen position, lead and offsets."
+      ],
+      "sources": [
+        "src/reelforge/direction/contract.py:compile_direction",
+        "src/reelforge/direction/contract.py:zoom_range"
+      ],
+      "type": "system",
+      "variants": [
+        "follow"
+      ]
+    },
+    {
+      "dependencies": [
+        "direction-0.1",
+        "storyboard-0.1"
+      ],
+      "details": {},
+      "engine_capability": true,
+      "family": "composition",
+      "id": "camera.direction.object_reveal",
+      "name": "Object Reveal",
+      "parameters": {
+        "zoom": {
+          "maximum": 1.7,
+          "minimum": 0.9,
+          "type": "number"
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [],
+      "restrictions": [
+        "Storyboard framing also constrains screen position, lead and offsets."
+      ],
+      "sources": [
+        "src/reelforge/direction/contract.py:compile_direction",
+        "src/reelforge/direction/contract.py:zoom_range"
+      ],
+      "type": "system",
+      "variants": [
+        "object_reveal"
+      ]
+    },
+    {
+      "dependencies": [
+        "direction-0.1",
+        "storyboard-0.1"
+      ],
+      "details": {},
+      "engine_capability": true,
+      "family": "composition",
+      "id": "camera.direction.push_in",
+      "name": "Push In",
+      "parameters": {
+        "zoom": {
+          "maximum": 1.7,
+          "minimum": 0.9,
+          "type": "number"
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [],
+      "restrictions": [
+        "Storyboard framing also constrains screen position, lead and offsets."
+      ],
+      "sources": [
+        "src/reelforge/direction/contract.py:compile_direction",
+        "src/reelforge/direction/contract.py:zoom_range"
+      ],
+      "type": "system",
+      "variants": [
+        "push_in"
+      ]
+    },
+    {
+      "dependencies": [
+        "direction-0.1",
+        "storyboard-0.1"
+      ],
+      "details": {},
+      "engine_capability": true,
+      "family": "composition",
+      "id": "camera.direction.reaction",
+      "name": "Reaction",
+      "parameters": {
+        "zoom": {
+          "maximum": 1.7,
+          "minimum": 0.9,
+          "type": "number"
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [],
+      "restrictions": [
+        "Storyboard framing also constrains screen position, lead and offsets."
+      ],
+      "sources": [
+        "src/reelforge/direction/contract.py:compile_direction",
+        "src/reelforge/direction/contract.py:zoom_range"
+      ],
+      "type": "system",
+      "variants": [
+        "reaction"
+      ]
+    },
+    {
+      "dependencies": [
+        "direction-0.1",
+        "storyboard-0.1"
+      ],
+      "details": {},
+      "engine_capability": true,
+      "family": "composition",
+      "id": "camera.direction.suspense_hold",
+      "name": "Suspense Hold",
+      "parameters": {
+        "zoom": {
+          "maximum": 1.7,
+          "minimum": 0.9,
+          "type": "number"
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [],
+      "restrictions": [
+        "Storyboard framing also constrains screen position, lead and offsets."
+      ],
+      "sources": [
+        "src/reelforge/direction/contract.py:compile_direction",
+        "src/reelforge/direction/contract.py:zoom_range"
+      ],
+      "type": "system",
+      "variants": [
+        "suspense_hold"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {},
+      "engine_capability": true,
+      "family": "composition",
+      "id": "camera.scene.approach",
+      "name": "Approach",
+      "parameters": {},
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [],
+      "restrictions": [
+        "Scene-level camera preset; the planner uses storyboard direction overrides."
+      ],
+      "sources": [
+        "src/reelforge/scenes/contract.py:validate_scene",
+        "src/reelforge/scenes/graph.py:compile_scene"
+      ],
+      "type": "system",
+      "variants": [
+        "approach"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {},
+      "engine_capability": true,
+      "family": "composition",
+      "id": "camera.scene.gentle_drift",
+      "name": "Gentle Drift",
+      "parameters": {},
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [],
+      "restrictions": [
+        "Scene-level camera preset; the planner uses storyboard direction overrides."
+      ],
+      "sources": [
+        "src/reelforge/scenes/contract.py:validate_scene",
+        "src/reelforge/scenes/graph.py:compile_scene"
+      ],
+      "type": "system",
+      "variants": [
+        "gentle_drift"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {},
+      "engine_capability": true,
+      "family": "composition",
+      "id": "camera.scene.locked",
+      "name": "Locked",
+      "parameters": {},
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [],
+      "restrictions": [
+        "Scene-level camera preset; the planner uses storyboard direction overrides."
+      ],
+      "sources": [
+        "src/reelforge/scenes/contract.py:validate_scene",
+        "src/reelforge/scenes/graph.py:compile_scene"
+      ],
+      "type": "system",
+      "variants": [
+        "locked"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          180,
+          350
+        ],
+        "budget": {
+          "max_operations": 2000,
+          "max_paths": 128
+        },
+        "scene_kind": "background",
+        "support_envelope": null,
+        "upright": true
+      },
+      "engine_capability": true,
+      "family": "nature",
+      "id": "distant_hills_01",
+      "name": "Distant hills and haze",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "default"
+          ]
+        }
+      },
+      "planner_exposure": "preset_only",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/environments/artwork.py:hills",
+        "src/reelforge/environments/polish.py:haze"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "default"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "budget": {
+          "max_operations": 2000,
+          "max_paths": 96
+        },
+        "scene_kind": "background",
+        "support_envelope": null,
+        "upright": true
+      },
+      "engine_capability": true,
+      "family": "nature",
+      "id": "dusk_sky_01",
+      "name": "Dusk sky",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "default"
+          ]
+        }
+      },
+      "planner_exposure": "preset_only",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/environments/polish.py:sky"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "default"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "budget": {
+          "max_operations": 300,
+          "max_paths": 32
+        },
+        "scene_kind": "asset",
+        "support_envelope": null,
+        "upright": false
+      },
+      "engine_capability": true,
+      "family": "architecture",
+      "id": "fence_01",
+      "name": "Farm fence",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "default"
+          ]
+        }
+      },
+      "planner_exposure": "preset_only",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/environments/artwork.py:fence"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "default"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          180,
+          640
+        ],
+        "budget": {
+          "max_operations": 4000,
+          "max_paths": 320
+        },
+        "scene_kind": "environment",
+        "support_envelope": null,
+        "upright": false
+      },
+      "engine_capability": true,
+      "family": "nature",
+      "id": "foreground_boughs_01",
+      "name": "Foreground boughs",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "default"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/environments/artwork.py:foreground",
+        "src/reelforge/environments/polish.py:foreground_detail"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "default"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          180,
+          640
+        ],
+        "budget": {
+          "max_operations": 3000,
+          "max_paths": 160
+        },
+        "scene_kind": "environment",
+        "support_envelope": null,
+        "upright": false
+      },
+      "engine_capability": true,
+      "family": "effects",
+      "id": "frost_foreground_01",
+      "name": "Frost foreground and snowstorm",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "default",
+            "storm"
+          ]
+        }
+      },
+      "planner_exposure": "preset_only",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/environments/snowy.py:frost_foreground"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "default",
+        "storm"
+      ]
+    },
+    {
+      "dependencies": [
+        "storyboard-0.1"
+      ],
+      "details": {},
+      "engine_capability": true,
+      "family": "composition",
+      "id": "frost_peak",
+      "name": "Frost Peak (snowy mountain)",
+      "parameters": {
+        "environment": {
+          "choices": [
+            "frost_peak"
+          ]
+        }
+      },
+      "planner_exposure": "selectable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [],
+      "restrictions": [
+        "Keyword-selected environment assembled from fixed shot presets."
+      ],
+      "sources": [
+        "src/reelforge/mvp/storylib.py:build_shot"
+      ],
+      "type": "system",
+      "variants": []
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          180,
+          300
+        ],
+        "budget": {
+          "max_operations": 3000,
+          "max_paths": 160
+        },
+        "scene_kind": "background",
+        "support_envelope": null,
+        "upright": true
+      },
+      "engine_capability": true,
+      "family": "nature",
+      "id": "frost_peaks_01",
+      "name": "Snowy peaks",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "far",
+            "mid"
+          ]
+        }
+      },
+      "planner_exposure": "preset_only",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/environments/snowy.py:frost_peaks"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "far",
+        "mid"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "budget": {
+          "max_operations": 6000,
+          "max_paths": 320
+        },
+        "scene_kind": "environment",
+        "support_envelope": [
+          -250,
+          -90,
+          250,
+          220
+        ],
+        "upright": true
+      },
+      "engine_capability": true,
+      "family": "nature",
+      "id": "frost_ridge_01",
+      "name": "Snowy ridge",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "default"
+          ]
+        }
+      },
+      "planner_exposure": "preset_only",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/environments/snowy.py:frost_ridge"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "default"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "budget": {
+          "max_operations": 900,
+          "max_paths": 48
+        },
+        "scene_kind": "asset",
+        "support_envelope": null,
+        "upright": false
+      },
+      "engine_capability": true,
+      "family": "nature",
+      "id": "frost_rocks_01",
+      "name": "Frost Peak rocks",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "cliff",
+            "drift"
+          ]
+        }
+      },
+      "planner_exposure": "preset_only",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/environments/snowy.py:frost_rocks"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "cliff",
+        "drift"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "budget": {
+          "max_operations": 2400,
+          "max_paths": 128
+        },
+        "scene_kind": "background",
+        "support_envelope": null,
+        "upright": true
+      },
+      "engine_capability": true,
+      "family": "nature",
+      "id": "frost_sky_01",
+      "name": "Frost Peak sky",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "default"
+          ]
+        }
+      },
+      "planner_exposure": "preset_only",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/environments/snowy.py:frost_sky"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "default"
+      ]
+    },
+    {
+      "dependencies": [
+        "storyboard-0.1"
+      ],
+      "details": {},
+      "engine_capability": true,
+      "family": "composition",
+      "id": "orchard",
+      "name": "Last Light orchard",
+      "parameters": {
+        "environment": {
+          "choices": [
+            "orchard"
+          ]
+        }
+      },
+      "planner_exposure": "selectable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [],
+      "restrictions": [
+        "Keyword-selected environment assembled from fixed shot presets."
+      ],
+      "sources": [
+        "src/reelforge/mvp/storylib.py:build_shot"
+      ],
+      "type": "system",
+      "variants": []
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          180,
+          500
+        ],
+        "budget": {
+          "max_operations": 6000,
+          "max_paths": 384
+        },
+        "scene_kind": "environment",
+        "support_envelope": [
+          -250,
+          -80,
+          250,
+          250
+        ],
+        "upright": true
+      },
+      "engine_capability": true,
+      "family": "nature",
+      "id": "orchard_ground_01",
+      "name": "Orchard ground",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "default"
+          ]
+        }
+      },
+      "planner_exposure": "preset_only",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/environments/polish.py:ground"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "default"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "budget": {
+          "max_operations": 2000,
+          "max_paths": 64
+        },
+        "scene_kind": "asset",
+        "support_envelope": null,
+        "upright": false
+      },
+      "engine_capability": true,
+      "family": "nature",
+      "id": "orchard_tree_01",
+      "name": "Orchard tree",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "broad",
+            "lean",
+            "compact",
+            "windswept"
+          ]
+        }
+      },
+      "planner_exposure": "preset_only",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/environments/polish.py:tree"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "broad",
+        "lean",
+        "compact",
+        "windswept"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "budget": {
+          "max_operations": 1200,
+          "max_paths": 64
+        },
+        "scene_kind": "asset",
+        "support_envelope": null,
+        "upright": false
+      },
+      "engine_capability": true,
+      "family": "nature",
+      "id": "pine_snow_01",
+      "name": "Snow-covered pine",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "tall",
+            "short",
+            "cluster"
+          ]
+        }
+      },
+      "planner_exposure": "preset_only",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/environments/snowy.py:pine_snow"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "tall",
+        "short",
+        "cluster"
+      ]
+    },
+    {
+      "dependencies": [
+        "environment-0.1"
+      ],
+      "details": {
+        "budget": {
+          "max_operations": 1400,
+          "max_paths": 96
+        }
+      },
+      "engine_capability": true,
+      "family": "nature",
+      "id": "procedural.backdrop",
+      "name": "Procedural backdrop",
+      "parameters": null,
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [],
+      "restrictions": [
+        "Internal recipe selected by the environment family, not a scene asset ID."
+      ],
+      "sources": [
+        "src/reelforge/procedural/recipes.py:backdrop",
+        "src/reelforge/procedural/recipes.py:geometry",
+        "src/reelforge/procedural/planning.py:plan_environment"
+      ],
+      "type": "procedural",
+      "variants": []
+    },
+    {
+      "dependencies": [
+        "environment-0.1"
+      ],
+      "details": {
+        "budget": {
+          "max_operations": 1800,
+          "max_paths": 120
+        }
+      },
+      "engine_capability": true,
+      "family": "architecture",
+      "id": "procedural.building",
+      "name": "Procedural building",
+      "parameters": null,
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [],
+      "restrictions": [
+        "Internal recipe selected by the environment family, not a scene asset ID."
+      ],
+      "sources": [
+        "src/reelforge/procedural/recipes.py:building",
+        "src/reelforge/procedural/recipes.py:geometry",
+        "src/reelforge/procedural/planning.py:plan_environment"
+      ],
+      "type": "procedural",
+      "variants": []
+    },
+    {
+      "dependencies": [
+        "environment-0.1"
+      ],
+      "details": {
+        "budget": {
+          "max_operations": 3000,
+          "max_paths": 200
+        }
+      },
+      "engine_capability": true,
+      "family": "nature",
+      "id": "procedural.distance",
+      "name": "Procedural distance",
+      "parameters": null,
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [],
+      "restrictions": [
+        "Internal recipe selected by the environment family, not a scene asset ID."
+      ],
+      "sources": [
+        "src/reelforge/procedural/recipes.py:distance",
+        "src/reelforge/procedural/recipes.py:geometry",
+        "src/reelforge/procedural/planning.py:plan_environment"
+      ],
+      "type": "procedural",
+      "variants": []
+    },
+    {
+      "dependencies": [
+        "environment-0.1"
+      ],
+      "details": {
+        "budget": {
+          "max_operations": 1600,
+          "max_paths": 96
+        }
+      },
+      "engine_capability": true,
+      "family": "architecture",
+      "id": "procedural.entrance",
+      "name": "Procedural entrance",
+      "parameters": null,
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [],
+      "restrictions": [
+        "Internal recipe selected by the environment family, not a scene asset ID."
+      ],
+      "sources": [
+        "src/reelforge/procedural/recipes.py:entrance",
+        "src/reelforge/procedural/recipes.py:geometry",
+        "src/reelforge/procedural/planning.py:plan_environment"
+      ],
+      "type": "procedural",
+      "variants": []
+    },
+    {
+      "dependencies": [
+        "environment-0.1"
+      ],
+      "details": {
+        "budget": {
+          "max_operations": 5000,
+          "max_paths": 200
+        }
+      },
+      "engine_capability": true,
+      "family": "nature",
+      "id": "procedural.foreground",
+      "name": "Procedural foreground",
+      "parameters": null,
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [],
+      "restrictions": [
+        "Internal recipe selected by the environment family, not a scene asset ID."
+      ],
+      "sources": [
+        "src/reelforge/procedural/recipes.py:foreground",
+        "src/reelforge/procedural/recipes.py:geometry",
+        "src/reelforge/procedural/planning.py:plan_environment"
+      ],
+      "type": "procedural",
+      "variants": []
+    },
+    {
+      "dependencies": [
+        "environment-0.1"
+      ],
+      "details": {
+        "budget": {
+          "max_operations": 2600,
+          "max_paths": 220
+        }
+      },
+      "engine_capability": true,
+      "family": "nature",
+      "id": "procedural.ground",
+      "name": "Procedural ground",
+      "parameters": null,
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [],
+      "restrictions": [
+        "Internal recipe selected by the environment family, not a scene asset ID."
+      ],
+      "sources": [
+        "src/reelforge/procedural/recipes.py:ground",
+        "src/reelforge/procedural/recipes.py:geometry",
+        "src/reelforge/procedural/planning.py:plan_environment"
+      ],
+      "type": "procedural",
+      "variants": []
+    },
+    {
+      "dependencies": [
+        "environment-0.1"
+      ],
+      "details": {
+        "budget": {
+          "max_operations": 600,
+          "max_paths": 50
+        }
+      },
+      "engine_capability": true,
+      "family": "props",
+      "id": "procedural.prop",
+      "name": "Procedural crate and barrel",
+      "parameters": null,
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [],
+      "restrictions": [
+        "Internal recipe selected by the environment family, not a scene asset ID."
+      ],
+      "sources": [
+        "src/reelforge/procedural/recipes.py:prop",
+        "src/reelforge/procedural/recipes.py:geometry",
+        "src/reelforge/procedural/planning.py:plan_environment"
+      ],
+      "type": "procedural",
+      "variants": []
+    },
+    {
+      "dependencies": [
+        "environment-0.1"
+      ],
+      "details": {
+        "budget": {
+          "max_operations": 900,
+          "max_paths": 64
+        }
+      },
+      "engine_capability": true,
+      "family": "nature",
+      "id": "procedural.rock",
+      "name": "Procedural rock",
+      "parameters": null,
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [],
+      "restrictions": [
+        "Internal recipe selected by the environment family, not a scene asset ID."
+      ],
+      "sources": [
+        "src/reelforge/procedural/recipes.py:rock",
+        "src/reelforge/procedural/recipes.py:geometry",
+        "src/reelforge/procedural/planning.py:plan_environment"
+      ],
+      "type": "procedural",
+      "variants": []
+    },
+    {
+      "dependencies": [
+        "environment-0.1"
+      ],
+      "details": {
+        "budget": {
+          "max_operations": 800,
+          "max_paths": 40
+        }
+      },
+      "engine_capability": true,
+      "family": "nature",
+      "id": "procedural.sky",
+      "name": "Procedural sky",
+      "parameters": null,
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [],
+      "restrictions": [
+        "Internal recipe selected by the environment family, not a scene asset ID."
+      ],
+      "sources": [
+        "src/reelforge/procedural/recipes.py:sky",
+        "src/reelforge/procedural/recipes.py:geometry",
+        "src/reelforge/procedural/planning.py:plan_environment"
+      ],
+      "type": "procedural",
+      "variants": []
+    },
+    {
+      "dependencies": [
+        "environment-0.1"
+      ],
+      "details": {
+        "budget": {
+          "max_operations": 2000,
+          "max_paths": 80
+        }
+      },
+      "engine_capability": true,
+      "family": "nature",
+      "id": "procedural.tree",
+      "name": "Procedural tree",
+      "parameters": null,
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [],
+      "restrictions": [
+        "Internal recipe selected by the environment family, not a scene asset ID."
+      ],
+      "sources": [
+        "src/reelforge/procedural/recipes.py:tree",
+        "src/reelforge/procedural/recipes.py:geometry",
+        "src/reelforge/procedural/planning.py:plan_environment"
+      ],
+      "type": "procedural",
+      "variants": []
+    },
+    {
+      "dependencies": [
+        "environment-0.1"
+      ],
+      "details": {},
+      "engine_capability": true,
+      "family": "composition",
+      "id": "rocky_shelter",
+      "name": "Rocky Shelter",
+      "parameters": {
+        "art_direction.atmosphere": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        "art_direction.lighting": {
+          "choices": [
+            "dusk",
+            "overcast"
+          ]
+        },
+        "composition.density": {
+          "maximum": 3,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "composition.detail": {
+          "choices": [
+            "standard",
+            "rich"
+          ]
+        },
+        "composition.framing": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        "composition.path_alignment": {
+          "maximum": 1,
+          "minimum": -1,
+          "type": "number"
+        },
+        "composition.structure": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        "rowan.action": {
+          "choices": [
+            "idle",
+            "look_around",
+            "react"
+          ]
+        },
+        "rowan.enabled": {
+          "type": "boolean"
+        },
+        "rowan.side": {
+          "choices": [
+            "left",
+            "right"
+          ]
+        },
+        "seed": {
+          "maximum": 4294967295,
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [],
+      "restrictions": [
+        "Select through environment-0.1; generated scene IDs are local to the plan."
+      ],
+      "sources": [
+        "src/reelforge/procedural/contract.py:validate_environment",
+        "src/reelforge/procedural/compiler.py:compile_environment"
+      ],
+      "type": "procedural",
+      "variants": []
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "budget": {
+          "max_operations": 6000,
+          "max_paths": 256
+        },
+        "character_id": "rowan_01",
+        "scene_kind": "character",
+        "standing_height_units": 94.5,
+        "support_envelope": null,
+        "upright": true
+      },
+      "engine_capability": true,
+      "family": "characters",
+      "id": "rowan_01",
+      "name": "Rowan Vale",
+      "parameters": {
+        "expressions": {
+          "choices": [
+            "calm",
+            "concerned",
+            "focused",
+            "surprised",
+            "frightened",
+            "determined"
+          ],
+          "default": "concerned"
+        },
+        "registry_actions": {
+          "choices": [
+            "idle",
+            "walk",
+            "run",
+            "look_around",
+            "react"
+          ]
+        },
+        "scene_action": {
+          "choices": [
+            "idle",
+            "look_around",
+            "react"
+          ]
+        },
+        "variant": {
+          "choices": [
+            "default"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene",
+        "character"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Registry actions are broader than the stationary actions accepted by scene-0.1."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/characters/registry.py:character_info",
+        "src/reelforge/characters/registry.py:draw_commands_builder",
+        "src/reelforge/characters/rowan.py:draw_character"
+      ],
+      "type": "character",
+      "variants": [
+        "default"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {},
+      "engine_capability": true,
+      "family": "lighting",
+      "id": "scene.art_direction",
+      "name": "Scene lighting and atmosphere",
+      "parameters": {
+        "atmosphere": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        "breeze": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        "warmth": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "planner_exposure": "preset_only",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [],
+      "restrictions": [
+        "Warmth, atmosphere and breeze affect supported recipes only. The planner sets them through fixed moods."
+      ],
+      "sources": [
+        "src/reelforge/scenes/contract.py:validate_scene",
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/environments/polish.py:haze"
+      ],
+      "type": "system",
+      "variants": []
+    },
+    {
+      "dependencies": [
+        "environment-0.1"
+      ],
+      "details": {},
+      "engine_capability": true,
+      "family": "composition",
+      "id": "settlement_street",
+      "name": "Settlement Street",
+      "parameters": {
+        "art_direction.atmosphere": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        "art_direction.lighting": {
+          "choices": [
+            "dusk",
+            "overcast"
+          ]
+        },
+        "composition.density": {
+          "maximum": 3,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "composition.detail": {
+          "choices": [
+            "standard",
+            "rich"
+          ]
+        },
+        "composition.framing": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        "composition.path_alignment": {
+          "maximum": 1,
+          "minimum": -1,
+          "type": "number"
+        },
+        "composition.structure": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        "rowan.action": {
+          "choices": [
+            "idle",
+            "look_around",
+            "react"
+          ]
+        },
+        "rowan.enabled": {
+          "type": "boolean"
+        },
+        "rowan.side": {
+          "choices": [
+            "left",
+            "right"
+          ]
+        },
+        "seed": {
+          "maximum": 4294967295,
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [],
+      "restrictions": [
+        "Select through environment-0.1; generated scene IDs are local to the plan."
+      ],
+      "sources": [
+        "src/reelforge/procedural/contract.py:validate_environment",
+        "src/reelforge/procedural/compiler.py:compile_environment"
+      ],
+      "type": "procedural",
+      "variants": []
+    },
+    {
+      "dependencies": [
+        "environment-0.1"
+      ],
+      "details": {},
+      "engine_capability": true,
+      "family": "composition",
+      "id": "woodland_trail",
+      "name": "Woodland Trail",
+      "parameters": {
+        "art_direction.atmosphere": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        "art_direction.lighting": {
+          "choices": [
+            "dusk",
+            "overcast"
+          ]
+        },
+        "composition.density": {
+          "maximum": 3,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "composition.detail": {
+          "choices": [
+            "standard",
+            "rich"
+          ]
+        },
+        "composition.framing": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        "composition.path_alignment": {
+          "maximum": 1,
+          "minimum": -1,
+          "type": "number"
+        },
+        "composition.structure": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        "rowan.action": {
+          "choices": [
+            "idle",
+            "look_around",
+            "react"
+          ]
+        },
+        "rowan.enabled": {
+          "type": "boolean"
+        },
+        "rowan.side": {
+          "choices": [
+            "left",
+            "right"
+          ]
+        },
+        "seed": {
+          "maximum": 4294967295,
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [],
+      "restrictions": [
+        "Select through environment-0.1; generated scene IDs are local to the plan."
+      ],
+      "sources": [
+        "src/reelforge/procedural/contract.py:validate_environment",
+        "src/reelforge/procedural/compiler.py:compile_environment"
+      ],
+      "type": "procedural",
+      "variants": []
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "budget": {
+          "max_operations": 9000,
+          "max_paths": 384
+        },
+        "character_id": "yellow_mellow_v2",
+        "scene_kind": "character",
+        "standing_height_units": 142.5,
+        "support_envelope": null,
+        "upright": true
+      },
+      "engine_capability": true,
+      "family": "characters",
+      "id": "yellow_mellow_v2",
+      "name": "Yellow Mellow",
+      "parameters": {
+        "expressions": {
+          "choices": [
+            "concerned",
+            "curious",
+            "determined",
+            "excited",
+            "happy",
+            "neutral",
+            "surprised",
+            "tired"
+          ],
+          "default": "neutral"
+        },
+        "registry_actions": {
+          "choices": [
+            "activate",
+            "blink",
+            "confident",
+            "crouch",
+            "dance",
+            "hands_down",
+            "hands_up",
+            "head_tilt",
+            "idle",
+            "jump",
+            "jumping_jack",
+            "land",
+            "look",
+            "point",
+            "recover",
+            "squat",
+            "stretch",
+            "surprise",
+            "turn",
+            "wave",
+            "walk",
+            "run",
+            "start_walk",
+            "stop"
+          ]
+        },
+        "scene_action": {
+          "choices": [
+            "idle",
+            "look_around",
+            "look",
+            "react"
+          ]
+        },
+        "variant": {
+          "choices": [
+            "default"
+          ]
+        }
+      },
+      "planner_exposure": "preset_only",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene",
+        "character"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Registry actions are broader than the stationary actions accepted by scene-0.1."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/characters/registry.py:character_info",
+        "src/reelforge/characters/registry.py:draw_commands_builder",
+        "src/reelforge/characters/yellow_mellow_v2/episode.py:build_drawer"
+      ],
+      "type": "character",
+      "variants": [
+        "default"
+      ]
+    }
+  ],
+  "schema_version": "visual-catalog-0.1"
+}
