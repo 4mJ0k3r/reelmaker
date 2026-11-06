@@ -75,3 +75,17 @@ review and licensed/supplied recorded audio are needed for finished production w
 The known development-host reappearance of retired paths remains a blocker. Read
 PHASE7B1_REPORT.md; no sweep, fallback filesystem or speculative cleanup fix is introduced.
 A target-VM deployment gate remains mandatory and separate from this MVP and normal CI.
+
+## Silent and directed episodes
+
+`episode-0.2` also accepts `audio: null` for a zero-audio-stream MP4. Its segments still use
+`storyboard-0.1`.
+
+`episode-0.3` accepts an exclusive choice of `storyboard` or `direction` in each segment.
+Each is a complete embedded document and still contributes exactly 90 frames. A directed
+segment uses `direction-0.1` admission directly, including its camera safety checks.
+This version limits both sources to registered scenes or procedural environments, including
+the underlying world of a blocking plan. Custom geometry compositions remain available
+in their historical contracts. Audio uses the same optional registered AudioPlan as
+`episode-0.2`. Inspect output names the declared segment source. The global frame and audio
+clocks remain continuous across the local resets. See the [Stage 3A example](STAGE3A_CINEMATIC_STORY_ASSEMBLY.md).

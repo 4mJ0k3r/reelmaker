@@ -1,0 +1,232 @@
+{
+  "contract": "episode-0.3",
+  "frames": 270,
+  "duration_seconds": 9,
+  "audio_streams": 0,
+  "output_sha256": "8f686c32422fb3ee8d872d3b4ad6c6c2b678e2ca7cc5fb8ec8ae319f1cc28b10",
+  "manifest_digest": "8d276d403f48f9768a19bca2f902e7a26afaf4984933d906ff76a50bad4b0cbd",
+  "exact_video_pts": true,
+  "all_frames_unique": true,
+  "black_frames": 0,
+  "min_90th_percentile_luma": 164.0,
+  "source_pixel_repeat": {
+    "16": "4b2788725a63b2dbe81b3dfc279959db25363f4d2415a56ea090be1ae7af42e2",
+    "89": "e2a3c9f29aad0fe2b4d1a853839e2fd906413b207987143e33bbe0af1cfdf64e",
+    "90": "54fa1d54792d6b8c3ce5dc960e413c95211ef3502df81174602734d9876ccedc",
+    "111": "c0115eef0d2a1fe870f691c094b85d6e668f964c7e06b35af0293d31182ca4ae",
+    "112": "4d611456099959fc0a32e9a13519a9f2789ab7c3c4521e756dead8c84dfe867d",
+    "130": "8206eb9b73cf726ee1d94f25c7683a4ab71d0b48c5875ce6c0d6d99dfb9d989c",
+    "146": "8b35ed8cb4740b9e5481b96dae359988b6dc233f355724fa3582396da032c7c9",
+    "147": "b0879c547509e49b06db74ba383258ecbb1ad6c003494967495842be6d93ff0b",
+    "166": "379fe43906c8845328a85ca8a8ca7f189325406807974a833029ceaf634364bd",
+    "179": "e5d96b1cdda92a424574f07e0c831ec2b57d35482d5a183c804f591e55bc12b6",
+    "180": "4950d7c0eda7fb66cee8299a6bf61bb8f54b198958cd3463412d3614cd5271ab",
+    "211": "bc3f6654bc7c25c0ee32bcd49b17470dcde565c4698373ecb4bf237fc098800e",
+    "269": "6b38b7ce4ebfece4cd6fe5be7b0f6d12755569d0c40104baa1c58d23a6040d22"
+  },
+  "decoded_hashes_around_cuts": {
+    "89": "0b0ec5193fa6b90b0b8338966aeed728a703ddde53fbe0da22b40b8a6bc0d6d8",
+    "90": "f231796d2b44e6789455e4c70e4505e1f36deaa1e82ad11cc4fac45dc6cea2cb",
+    "111": "287af2994f5f15db8e321ded44b27e1385b3fe50e032bfb16cf07f7ef378221b",
+    "112": "f3ceafcba54676506e0876d6a351dd93a0c00332e5fa10cabfe087eead33d7f3",
+    "146": "349a6595576abc6f5ff5eb12f7b57ba7d12794828581afb47c5ea3638c14d921",
+    "147": "afa87ab274a16540f083862a38728398c21acec187689331adea380e8adb1f65",
+    "179": "bfe0d62d2807137c59807a5d6ee6daa2a527fbc7d6973c9c9bf87759b7d26481",
+    "180": "36639d4ff42592c1f53e26c27f13fb7ae34a9a6f5da552d5b0c73c51972a5e85"
+  },
+  "boundaries": [
+    {
+      "global_frame": 89,
+      "local_frame": 89,
+      "segment": "beacon",
+      "shot": "beacon_insert",
+      "camera": {
+        "x": 231.35000000000002,
+        "y": 139.70000000000005,
+        "zoom": 3.65
+      },
+      "actor_world": null,
+      "actor_bounds_logical": null
+    },
+    {
+      "global_frame": 90,
+      "local_frame": 0,
+      "segment": "approach",
+      "shot": "context",
+      "camera": {
+        "x": -3.280000000000001,
+        "y": 6.720000000000027,
+        "zoom": 1.08
+      },
+      "actor_world": [
+        110.0,
+        480
+      ],
+      "actor_bounds_logical": [
+        93.0780254253048,
+        412.01093129111376,
+        121.22213457469522,
+        482.62912000000006
+      ],
+      "motion": {
+        "facing": "right",
+        "mode": "walk"
+      }
+    },
+    {
+      "global_frame": 111,
+      "local_frame": 21,
+      "segment": "approach",
+      "shot": "context",
+      "camera": {
+        "x": -3.280000000000001,
+        "y": 6.720000000000027,
+        "zoom": 1.08
+      },
+      "actor_world": [
+        124.086734375,
+        480
+      ],
+      "actor_bounds_logical": [
+        111.37367312500002,
+        412.31041269486735,
+        138.8915499188074,
+        482.62912000000006
+      ],
+      "motion": {
+        "facing": "right",
+        "mode": "walk"
+      }
+    },
+    {
+      "global_frame": 112,
+      "local_frame": 22,
+      "segment": "approach",
+      "shot": "attention",
+      "camera": {
+        "x": -42.00466249999998,
+        "y": 10.0,
+        "zoom": 1.7
+      },
+      "actor_world": [
+        125.291375,
+        480
+      ],
+      "actor_bounds_logical": [
+        110.86666666666667,
+        420.24289918421687,
+        153.47285364916752,
+        530.6421333333333
+      ],
+      "motion": {
+        "facing": "right",
+        "mode": "walk"
+      }
+    },
+    {
+      "global_frame": 146,
+      "local_frame": 56,
+      "segment": "approach",
+      "shot": "attention",
+      "camera": {
+        "x": 18.30333333333334,
+        "y": 10.0,
+        "zoom": 1.7
+      },
+      "actor_world": [
+        160.76666666666668,
+        480
+      ],
+      "actor_bounds_logical": [
+        107.66479879236299,
+        419.69892477046034,
+        156.62128378635902,
+        530.6421333333333
+      ],
+      "motion": {
+        "facing": "right",
+        "mode": "idle"
+      }
+    },
+    {
+      "global_frame": 147,
+      "local_frame": 57,
+      "segment": "approach",
+      "shot": "reaction",
+      "camera": {
+        "x": -29.661666666666576,
+        "y": 1.0,
+        "zoom": 3.05
+      },
+      "actor_world": [
+        160.76666666666668,
+        480
+      ],
+      "actor_bounds_logical": [
+        112.67948482179018,
+        452.2698644801649,
+        200.55583267552643,
+        651.3285333333334
+      ],
+      "motion": {
+        "facing": "right",
+        "mode": "idle"
+      }
+    },
+    {
+      "global_frame": 179,
+      "local_frame": 89,
+      "segment": "approach",
+      "shot": "reaction",
+      "camera": {
+        "x": -47.93333333333328,
+        "y": 59.89999999999998,
+        "zoom": 4.0
+      },
+      "actor_world": [
+        160.76666666666668,
+        480
+      ],
+      "actor_bounds_logical": [
+        101.79023491121364,
+        409.88504648114116,
+        192.50438222077543,
+        671.0226666666666
+      ],
+      "motion": {
+        "facing": "right",
+        "mode": "idle"
+      }
+    },
+    {
+      "global_frame": 180,
+      "local_frame": 0,
+      "segment": "ridge",
+      "shot": "ridge_reveal",
+      "camera": {
+        "x": 187.64615384615377,
+        "y": 18.756923076923087,
+        "zoom": 1.56
+      },
+      "actor_world": null,
+      "actor_bounds_logical": null
+    }
+  ],
+  "stage_seconds": {
+    "silent_render": 10.222106842999892,
+    "verify": 3.3707613699998547
+  },
+  "cpu_seconds": {
+    "parent": 9.556852435000001,
+    "children_user": 10.855557,
+    "children_system": 0.528238
+  },
+  "sample_geometry_mean_ms": 16.195605230677756,
+  "sample_cairo_mean_ms": 12.784490692411055,
+  "peak_process_tree_rss_bytes": 107536384,
+  "logical_staging_peak_bytes": 3451698,
+  "maximum_paths": 324,
+  "maximum_ops": 1801,
+  "job_success": true,
+  "encoder_cleanup_passed": true
+}

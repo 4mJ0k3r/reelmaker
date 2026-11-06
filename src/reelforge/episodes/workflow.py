@@ -38,7 +38,7 @@ def render_episode_video(
             for frame in range(plan.frames):
                 cancelled_check(cancelled)
                 segment, local = frame_origin(plan, frame)
-                commands = direction_frame(segment.storyboard.direction, local)
+                commands = direction_frame(segment.direction, local)
                 paths, ops = cost(commands)
                 max_paths, max_ops = max(max_paths, paths), max(max_ops, ops)
                 renderer.draw(
@@ -67,7 +67,7 @@ def render_episode_video(
         "encoder_cleanup_deferred_to_job_owner": True,
         "editorial_cuts": [90 * i for i in range(1, len(plan.segments))],
         "encoding": (
-            "One continuous stream; absolute video PTS, local storyboard clocks at explicit cuts"
+            "One continuous stream; absolute video PTS, local visual clocks at explicit cuts"
         ),
     }
 
@@ -83,6 +83,6 @@ def render_episode(
         render_silent=render_episode_video,
         registry_root=registry_root,
         cancelled=cancelled,
-        contract_version="episode-0.2" if plan.silent else "episode-0.1",
+        contract_version=plan.report_contract,
         silent=plan.silent,
     )

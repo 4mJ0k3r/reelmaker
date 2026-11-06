@@ -18,7 +18,7 @@ AUDIO_ROOT = Path(__file__).resolve().parents[1] / "assets/audio"
 
 def capabilities():
     return {
-        "contract": ["episode-0.1", "episode-0.2"],
+        "contract": ["episode-0.1", "episode-0.2", "episode-0.3"],
         "experimental": True,
         "render_available": True,
         "production_render_ready": False,
@@ -33,7 +33,11 @@ def capabilities():
         "samples_per_frame": 1600,
         "effective_samples_per_channel": "segments*90*1600",
         "audio": "episode-0.1: accepted AudioPlan, registered IDs only, <=1 narration + 4 SFX",
-        "silent": "episode-0.2: audio=null renders one H.264 video stream and zero audio streams",
+        "silent": "episode-0.2/0.3: audio=null renders silent H.264 with zero audio streams",
+        "segment_sources": {
+            "episode-0.1/0.2": ["storyboard"],
+            "episode-0.3": ["storyboard", "direction"],
+        },
         "characters": ["rowan_01", "yellow_mellow_v2"],
         "character_selector": "storyboard rowan.character (optional; default rowan_01)",
         "budget_mib": 256,

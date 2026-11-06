@@ -1,16 +1,16 @@
 """Advisory production-0.1 schema; semantic validation lives in the compiler as elsewhere."""
 
-from reelforge.episodes.schema import episode_schema
 from reelforge.geometry.schema import array, obj
+from reelforge.reels.schema import reel_schema
 
 
 def production_schema() -> dict:
-    episode = episode_schema()
-    storyboard = episode["properties"]["segments"]["items"]["properties"]["storyboard"]
+    reel = reel_schema()
+    storyboard = reel["properties"]["storyboard"]
     return {
-        "$schema": episode["$schema"],
+        "$schema": reel["$schema"],
         "$id": "urn:reelforge:production-0.1",
-        "$defs": episode["$defs"],
+        "$defs": reel["$defs"],
         **obj(
             {
                 "schema_version": {"const": "production-0.1"},
