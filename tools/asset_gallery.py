@@ -220,8 +220,14 @@ def render_evidence(directory):
 
 
 def build(output, *, metadata_only=False):
+    output = output.resolve()
     output.mkdir(parents=True, exist_ok=True)
-    with tempfile.TemporaryDirectory(prefix=".gallery-", dir=output) as temporary:
+    # Keep staging outside the browsable gallery and on the same filesystem
+    # so publishing the preview directory can use a rename.
+    scratch = Path(tempfile.gettempdir())
+    if scratch.stat().st_dev != output.stat().st_dev:
+        scratch = output.parent
+    with tempfile.TemporaryDirectory(prefix=".gallery-", dir=scratch) as temporary:
         stage = Path(temporary)
         if metadata_only:
             write_metadata(stage)

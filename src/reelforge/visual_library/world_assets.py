@@ -241,7 +241,7 @@ WORLD_ASSETS = {
     "rock_group_01": WorldAsset("Rock group", "nature", rocks, ("rounded","angular"),(-50,-34,56,5),(12,90),True,"Three grounded stones with rounded highlights or broken planar facets."),
     "streetlamp_01": WorldAsset("Roadside streetlamp", "props", lamp, ("unlit","lit","weathered"),(-26,-143,27,5),(14,100),True,"Metal lamp with localized authored glow. It does not light other assets."),
     "bench_01": WorldAsset("Slatted bench", "props", bench, ("timber","painted","weathered"),(-55,-46,56,5),(14,85),True,"Grounded supports and visible seat plane. No sitting interaction."),
-    "crate_stack_01": WorldAsset("Crate stack", "props", crates, ("neat","uneven"),(-47,-58,55,5),(25,140),True,"Braced timber boxes with either a square or shifted upper crate."),
+    "crate_stack_01": WorldAsset("Crate stack", "props", crates, ("neat","uneven"),(-47,-58,58,5),(25,140),True,"Braced timber boxes with either a square or shifted upper crate."),
     "signpost_01": WorldAsset("Roadside signpost", "props", sign, ("blank","directional","weathered"),(-35,-80,39,5),(8,55),True,"Blank board or directional silhouette, with worn timber in the weathered option."),
     "ground_mist_01": WorldAsset("Ground mist", "effects", mist, ("thin","dense"),(-100,-23,92,5),(3,21),False,"Static low transparent bands. Set painter order explicitly and keep below faces."),
 }

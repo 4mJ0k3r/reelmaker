@@ -1,0 +1,288 @@
+{
+  "schema_version": "scene-0.1",
+  "title": "Woodland Crossing",
+  "frame": 45,
+  "hierarchy": [
+    {
+      "id": "root",
+      "parent": null,
+      "kind": "root",
+      "world": {
+        "x": 0.0,
+        "y": 0.0,
+        "scale": 1,
+        "angle": 0.0
+      },
+      "visible": true,
+      "layer": null,
+      "depth": null
+    },
+    {
+      "id": "sky_plane",
+      "parent": "root",
+      "kind": "layer",
+      "world": {
+        "x": 0.0,
+        "y": 0.0,
+        "scale": 1,
+        "angle": 0.0
+      },
+      "visible": true,
+      "layer": "sky_plane",
+      "depth": 0
+    },
+    {
+      "id": "sky",
+      "parent": "sky_plane",
+      "kind": "background",
+      "world": {
+        "x": 0.0,
+        "y": 0.0,
+        "scale": 1,
+        "angle": 0.0
+      },
+      "visible": true,
+      "layer": "sky_plane",
+      "depth": 0
+    },
+    {
+      "id": "distance",
+      "parent": "root",
+      "kind": "layer",
+      "world": {
+        "x": 0.0,
+        "y": 0.0,
+        "scale": 1.0,
+        "angle": 0.0
+      },
+      "visible": true,
+      "layer": "distance",
+      "depth": 0.18
+    },
+    {
+      "id": "hills",
+      "parent": "distance",
+      "kind": "background",
+      "world": {
+        "x": 180.0,
+        "y": 353.0,
+        "scale": 1.0,
+        "angle": 0.0
+      },
+      "visible": true,
+      "layer": "distance",
+      "depth": 0.18
+    },
+    {
+      "id": "terrain",
+      "parent": "root",
+      "kind": "layer",
+      "world": {
+        "x": 0.0,
+        "y": 0.0,
+        "scale": 1,
+        "angle": 0.0
+      },
+      "visible": true,
+      "layer": "terrain",
+      "depth": 1
+    },
+    {
+      "id": "ground",
+      "parent": "terrain",
+      "kind": "environment",
+      "world": {
+        "x": 180.0,
+        "y": 500.0,
+        "scale": 1,
+        "angle": 0.0
+      },
+      "visible": true,
+      "layer": "terrain",
+      "depth": 1
+    },
+    {
+      "id": "asset_0",
+      "parent": "terrain",
+      "kind": "asset",
+      "world": {
+        "x": 160.0,
+        "y": 655.0,
+        "scale": 1.38,
+        "angle": 0.0
+      },
+      "visible": true,
+      "layer": "terrain",
+      "depth": 1
+    },
+    {
+      "id": "midground",
+      "parent": "root",
+      "kind": "layer",
+      "world": {
+        "x": 0.0,
+        "y": 0.0,
+        "scale": 1,
+        "angle": 0.0
+      },
+      "visible": true,
+      "layer": "midground",
+      "depth": 1
+    },
+    {
+      "id": "asset_1",
+      "parent": "midground",
+      "kind": "asset",
+      "world": {
+        "x": 62.0,
+        "y": 515.0,
+        "scale": 1.25,
+        "angle": 0.0
+      },
+      "visible": true,
+      "layer": "midground",
+      "depth": 1
+    },
+    {
+      "id": "asset_2",
+      "parent": "midground",
+      "kind": "asset",
+      "world": {
+        "x": 269.0,
+        "y": 469.0,
+        "scale": 0.85,
+        "angle": 0.0
+      },
+      "visible": true,
+      "layer": "midground",
+      "depth": 1
+    },
+    {
+      "id": "asset_3",
+      "parent": "midground",
+      "kind": "asset",
+      "world": {
+        "x": 285.0,
+        "y": 509.0,
+        "scale": 1,
+        "angle": 0.0
+      },
+      "visible": true,
+      "layer": "midground",
+      "depth": 1
+    },
+    {
+      "id": "asset_4",
+      "parent": "midground",
+      "kind": "asset",
+      "world": {
+        "x": 81.0,
+        "y": 562.0,
+        "scale": 0.8,
+        "angle": 0.0
+      },
+      "visible": true,
+      "layer": "midground",
+      "depth": 1
+    },
+    {
+      "id": "asset_5",
+      "parent": "midground",
+      "kind": "asset",
+      "world": {
+        "x": 178.0,
+        "y": 558.0,
+        "scale": 1.08,
+        "angle": 0.0
+      },
+      "visible": true,
+      "layer": "midground",
+      "depth": 1
+    },
+    {
+      "id": "asset_6",
+      "parent": "midground",
+      "kind": "asset",
+      "world": {
+        "x": 294.0,
+        "y": 559.0,
+        "scale": 0.7,
+        "angle": 0.0
+      },
+      "visible": true,
+      "layer": "midground",
+      "depth": 1
+    },
+    {
+      "id": "foreground",
+      "parent": "root",
+      "kind": "layer",
+      "world": {
+        "x": 0.0,
+        "y": 0.0,
+        "scale": 1.0,
+        "angle": 0.0
+      },
+      "visible": true,
+      "layer": "foreground",
+      "depth": 1.4
+    },
+    {
+      "id": "asset_7",
+      "parent": "foreground",
+      "kind": "asset",
+      "world": {
+        "x": 158.0,
+        "y": 593.0,
+        "scale": 1.3,
+        "angle": 0.0
+      },
+      "visible": true,
+      "layer": "foreground",
+      "depth": 1.4
+    },
+    {
+      "id": "asset_8",
+      "parent": "foreground",
+      "kind": "asset",
+      "world": {
+        "x": 344.0,
+        "y": 621.0,
+        "scale": 1.15,
+        "angle": 0.0
+      },
+      "visible": true,
+      "layer": "foreground",
+      "depth": 1.4
+    }
+  ],
+  "painter_ids": [
+    "sky",
+    "hills",
+    "ground",
+    "asset_0",
+    "asset_1",
+    "asset_2",
+    "asset_3",
+    "asset_4",
+    "asset_5",
+    "asset_6",
+    "asset_7",
+    "asset_8"
+  ],
+  "path_allowance": 199,
+  "operation_allowance": 1509,
+  "character_ground_contacts": {},
+  "camera": {
+    "x": 0.10111933999934752,
+    "y": -1.0168532233332246,
+    "zoom": 1.0277106652916652
+  },
+  "layer_draw_paths": {
+    "sky_plane": 6,
+    "distance": 4,
+    "terrain": 46,
+    "midground": 87,
+    "foreground": 14
+  }
+}

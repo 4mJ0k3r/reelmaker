@@ -21,6 +21,8 @@ def test_registered_world_artwork(identity):
     assert asset.upright == definition.upright
     with pytest.raises(ValueError):
         draw_world_asset(identity, "unknown")
+    assert asset.anchor == (0, 0)
+    left, top, right, bottom = definition.bounds
     variants = []
     for variant in asset.variants:
         commands = recipe(asset, variant, .8, .5, 0, 0, None)
@@ -29,6 +31,8 @@ def test_registered_world_artwork(identity):
         for command in commands:
             for operation in command.path:
                 assert all(math.isfinite(coordinate) for coordinate in operation.points)
+                for x, y in zip(operation.points[::2], operation.points[1::2], strict=True):
+                    assert left <= x <= right and top <= y <= bottom
         variants.append(commands)
     assert len(set(variants)) == len(variants)
 
