@@ -27,7 +27,7 @@ def capabilities():
         "route": (
             "horizontal world-coordinate Hermite segments; no slopes, obstacles or depth navigation"
         ),
-        "support": "level_field on orchard_ground_01 or trusted generated_ground only",
+        "support": "level_field on orchard, generated, frost ridge or cinematic farm ground",
         "cameras": ["base", "locked", "exit_right"],
         "walk_end_speed": [10, 45],
         "run_end_speed": [40, 90],

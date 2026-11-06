@@ -143,8 +143,12 @@ def dusk_hills(variant, atmosphere):
         ("3e545e", "666f70", "877d73"),
     )
     commands = []
-    for profile, (cool, warm, foot) in zip((far, middle, near), colors, strict=True):
-        plane = path(*profile, ("L", 340, 300), ("L", -330, 300), ("Z",))
+    # The next opaque plane covers everything below y=40. Avoid shading those
+    # hidden pixels twice, while keeping the visible ridge paths and ramps intact.
+    for profile, (cool, warm, foot), floor in zip(
+        (far, middle, near), colors, (40, 40, 300), strict=True
+    ):
+        plane = path(*profile, ("L", 340, floor), ("L", -330, floor), ("Z",))
         commands.append(
             DrawPath(
                 plane,

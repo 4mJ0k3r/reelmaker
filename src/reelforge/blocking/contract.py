@@ -144,9 +144,13 @@ def compile_blocking(data) -> Plan:
     asset = asset_by_id(ground.asset_id) or next(
         (g.asset for g in compiled.generated if g.asset.id == ground.asset_id), None
     )
-    # Registered walkable ground assets. Additive: orchard and generated ground keep their exact
-    # behavior; frost_ridge_01 (Phase 9C) is a new trusted level support plane for snowy stories.
-    WALKABLE_GROUND = ("orchard_ground_01", "generated_ground", "frost_ridge_01")
+    # Motion uses only explicitly admitted, authored level support planes.
+    WALKABLE_GROUND = (
+        "orchard_ground_01",
+        "generated_ground",
+        "frost_ridge_01",
+        "cinematic_farm_track_01",
+    )
     if asset is None or asset.id not in WALKABLE_GROUND or asset.support_envelope is None:
         fail("/support_id", "Decorative/authored assets do not support motion", "BLOCKING_SUPPORT")
     a, g = world[actor_id], world[support_id]

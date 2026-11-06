@@ -43,7 +43,12 @@ def transform(x=0, y=0, scale=1):
 
 
 def farm_scene(view="establishing", *, legacy=False, layout="original"):
-    """Assemble an existing scene-0.1 contract. Legacy changes only the visual recipes."""
+    """Validate a farm assembly through the existing scene-0.1 contract."""
+    return validate_scene(farm_manifest(view, legacy=legacy, layout=layout))
+
+
+def farm_manifest(view="establishing", *, legacy=False, layout="original"):
+    """Build scene-0.1 data for scene, blocking or storyboard validation."""
     if view not in VIEWS:
         raise ValueError(f"Unknown farm view: {view!r}")
     if layout not in {"original", "left_bend"}:
@@ -173,15 +178,13 @@ def farm_scene(view="establishing", *, legacy=False, layout="original"):
             )
         place(identity, "asset", layer, 1 + order, "cinematic_farm_tree_01", variant, x, y, scale)
 
-    return validate_scene(
-        dict(
-            schema_version="scene-0.1",
-            title="Last light at the farm",
-            camera="approach" if view == "approach" else "locked",
-            output=dict(
-                width=720, height=1280, fps=30, frames=90, codec="h264", pixel_format="yuv420p"
-            ),
-            art_direction=dict(warmth=0.8, atmosphere=0.52, breeze=0.2),
-            nodes=nodes,
-        )
+    return dict(
+        schema_version="scene-0.1",
+        title="Last light at the farm",
+        camera="approach" if view == "approach" else "locked",
+        output=dict(
+            width=720, height=1280, fps=30, frames=90, codec="h264", pixel_format="yuv420p"
+        ),
+        art_direction=dict(warmth=0.8, atmosphere=0.52, breeze=0.2),
+        nodes=nodes,
     )

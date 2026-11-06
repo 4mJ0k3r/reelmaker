@@ -1,6 +1,7 @@
 """Trusted adapters over existing components, never code/paths supplied by scene JSON."""
 
 from dataclasses import dataclass
+from functools import lru_cache
 
 from reelforge.characters.presets import CharacterPreset, sample_pose
 from reelforge.characters.rowan import draw_character
@@ -118,6 +119,12 @@ def cost(commands: tuple[DrawPath, ...]) -> tuple[int, int]:
     return len(commands), sum(len(c.path) + len(c.clip or ()) for c in commands)
 
 
+@lru_cache(maxsize=8)
+def _graded_barn(warmth: float, atmosphere: float) -> tuple[DrawPath, ...]:
+    """Cache only immutable, trusted local barn art keyed by two validated scene controls."""
+    return grade_architecture(art.barn() + polish.barn_light(warmth), warmth, atmosphere)
+
+
 def recipe(
     asset: Asset,
     variant: str,
@@ -144,9 +151,11 @@ def recipe(
     elif asset.id == "orchard_ground_01":
         commands = polish.ground(warmth)
     elif asset.id == "barn_01":
-        commands = art.barn() + polish.barn_light(warmth)
-        if variant == "dusk_graded":
-            commands = grade_architecture(commands, warmth, atmosphere)
+        commands = (
+            _graded_barn(warmth, atmosphere)
+            if variant == "dusk_graded"
+            else art.barn() + polish.barn_light(warmth)
+        )
     elif asset.id == "orchard_tree_01":
         seed = {"broad": 43, "lean": -15, "compact": 98, "windswept": 407}[variant]
         commands = polish.tree(seed, warmth, breeze, seconds)
@@ -189,8 +198,9 @@ def recipe(
         commands = polish.grade_character(commands, warmth, atmosphere)
     else:
         raise ValueError("Unregistered trusted recipe or missing character preset")
-    offset = Placement(-asset.anchor[0], -asset.anchor[1])
-    commands = tuple(offset.command(c) for c in commands)
+    if asset.anchor != (0, 0):
+        offset = Placement(-asset.anchor[0], -asset.anchor[1])
+        commands = tuple(offset.command(c) for c in commands)
     paths, ops = cost(commands)
     if paths > asset.max_paths or ops > asset.max_ops:
         raise ValueError(f"Trusted recipe {asset.id} exceeds its declared complexity envelope")
