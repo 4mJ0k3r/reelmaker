@@ -13,6 +13,7 @@ from reelforge.mvp import storylib
 from reelforge.procedural import compiler, contract, planning, recipes
 from reelforge.scenes import assets, graph
 from reelforge.scenes import contract as scene
+from reelforge.visual_library.composition import character_staging
 
 ROOT = Path(__file__).resolve().parents[3]
 FAMILIES = (
@@ -410,16 +411,27 @@ def system_components(views):
         )
     for key in direction.BEHAVIORS:
         lo, hi = direction.zoom_range(key)
+        sources = [direction.compile_direction, direction.zoom_range]
+        parameters = {"zoom": {"type": "number", "minimum": lo, "maximum": hi}}
+        restrictions = ["Storyboard framing also constrains screen position, lead and offsets."]
+        if key == "close_up":
+            sources.append(character_staging.cinematic_character_staging)
+            parameters["staging.character"] = {"choices": list(registry.character_ids())}
+            parameters["staging.world"] = {"choices": list(character_staging.WORLDS)}
+            restrictions.append(
+                "Trusted cinematic_character_staging builder emits a validated direction-0.1 "
+                "manifest over existing Stage 2A/2B performances. No planner selector."
+            )
         yield component(
             f"camera.direction.{key}",
             key.replace("_", " ").title(),
             "composition",
             "system",
-            [direction.compile_direction, direction.zoom_range],
+            sources,
             variants=[key],
-            parameters={"zoom": {"type": "number", "minimum": lo, "maximum": hi}},
+            parameters=parameters,
             exposure="preset_only" if key in views else "unavailable",
-            restrictions=["Storyboard framing also constrains screen position, lead and offsets."],
+            restrictions=restrictions,
             dependencies=["direction-0.1", "storyboard-0.1"],
         )
     yield component(

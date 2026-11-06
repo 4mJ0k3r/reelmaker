@@ -186,6 +186,18 @@
       "id": "camera.direction.close_up",
       "name": "Close Up",
       "parameters": {
+        "staging.character": {
+          "choices": [
+            "rowan_01",
+            "yellow_mellow_v2"
+          ]
+        },
+        "staging.world": {
+          "choices": [
+            "farm",
+            "cold_ridge"
+          ]
+        },
         "zoom": {
           "maximum": 5.0,
           "minimum": 0.9,
@@ -197,11 +209,13 @@
       "quality_review": "not_assessed",
       "registration": [],
       "restrictions": [
-        "Storyboard framing also constrains screen position, lead and offsets."
+        "Storyboard framing also constrains screen position, lead and offsets.",
+        "Trusted cinematic_character_staging builder emits a validated direction-0.1 manifest over existing Stage 2A/2B performances. No planner selector."
       ],
       "sources": [
         "src/reelforge/direction/contract.py:compile_direction",
-        "src/reelforge/direction/contract.py:zoom_range"
+        "src/reelforge/direction/contract.py:zoom_range",
+        "src/reelforge/visual_library/composition/character_staging.py:cinematic_character_staging"
       ],
       "type": "system",
       "variants": [

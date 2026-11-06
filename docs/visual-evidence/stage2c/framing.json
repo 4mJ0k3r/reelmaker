@@ -1,0 +1,1632 @@
+{
+  "yellow-ridge": {
+    "baseline": [
+      {
+        "frame": 12,
+        "source_frame": 12,
+        "actor_world": [
+          115.052,
+          480
+        ],
+        "actor_bbox_pixels": [
+          119.59023224248806,
+          822.739586670278,
+          232.37459313638539,
+          989.4451200000001
+        ],
+        "actor_width_px": 112.78436089389733,
+        "projected_actor_height_px": 166.70553332972213,
+        "visible_actor_height_px": 166.70553332972213,
+        "visible_frame_height_percent": 13.02386979138454,
+        "actor_safe_margin_full": true,
+        "actor_safe_margin_for_declared_framing": true,
+        "actual_feet_crop": false,
+        "safe_margin_px": 16.0,
+        "object_id": "beacon",
+        "object_bbox_pixels": [
+          342.322,
+          794.5497427444648,
+          650.6836000000001,
+          1039.8308
+        ],
+        "object_safe_visible_fraction": 1.0,
+        "foreground_overlap_upper": 0.0,
+        "tracking_error_logical": 0.0,
+        "camera": {
+          "x": 10.0,
+          "y": 12.0,
+          "zoom": 1.29
+        },
+        "target_kind": "point",
+        "target_node": null,
+        "track": false,
+        "framing": "full",
+        "shot": "shot_00"
+      },
+      {
+        "frame": 50,
+        "source_frame": 50,
+        "actor_world": [
+          159.92857142857144,
+          480
+        ],
+        "actor_bbox_pixels": [
+          255.54231841605537,
+          821.0346090930467,
+          337.2711749465106,
+          989.4451200000001
+        ],
+        "actor_width_px": 81.72885653045523,
+        "projected_actor_height_px": 168.4105109069534,
+        "visible_actor_height_px": 168.4105109069534,
+        "visible_frame_height_percent": 13.157071164605732,
+        "actor_safe_margin_full": true,
+        "actor_safe_margin_for_declared_framing": true,
+        "actual_feet_crop": false,
+        "safe_margin_px": 16.0,
+        "object_id": "beacon",
+        "object_bbox_pixels": [
+          342.322,
+          794.5497427444648,
+          650.6836000000001,
+          1039.8308
+        ],
+        "object_safe_visible_fraction": 1.0,
+        "foreground_overlap_upper": 0.0,
+        "tracking_error_logical": 0.0,
+        "camera": {
+          "x": 10.0,
+          "y": 12.0,
+          "zoom": 1.29
+        },
+        "target_kind": "point",
+        "target_node": null,
+        "track": false,
+        "framing": "full",
+        "shot": "shot_00"
+      },
+      {
+        "frame": 76,
+        "source_frame": 76,
+        "actor_world": [
+          160.76666666666668,
+          480
+        ],
+        "actor_bbox_pixels": [
+          240.12108073763753,
+          825.8100140591627,
+          315.41028360767547,
+          989.4451200000001
+        ],
+        "actor_width_px": 75.28920287003794,
+        "projected_actor_height_px": 163.63510594083743,
+        "visible_actor_height_px": 163.63510594083743,
+        "visible_frame_height_percent": 12.783992651627923,
+        "actor_safe_margin_full": true,
+        "actor_safe_margin_for_declared_framing": true,
+        "actual_feet_crop": false,
+        "safe_margin_px": 16.0,
+        "object_id": "beacon",
+        "object_bbox_pixels": [
+          342.322,
+          794.5497427444648,
+          650.6836000000001,
+          1039.8308
+        ],
+        "object_safe_visible_fraction": 1.0,
+        "foreground_overlap_upper": 0.0,
+        "tracking_error_logical": 0.0,
+        "camera": {
+          "x": 10.0,
+          "y": 12.0,
+          "zoom": 1.29
+        },
+        "target_kind": "point",
+        "target_node": null,
+        "track": false,
+        "framing": "full",
+        "shot": "shot_00"
+      },
+      {
+        "frame": 89,
+        "source_frame": 89,
+        "actor_world": [
+          160.76666666666668,
+          480
+        ],
+        "actor_bbox_pixels": [
+          258.63770151773286,
+          821.0113549803361,
+          317.14832653240023,
+          989.4451200000001
+        ],
+        "actor_width_px": 58.51062501466737,
+        "projected_actor_height_px": 168.43376501966395,
+        "visible_actor_height_px": 168.43376501966395,
+        "visible_frame_height_percent": 13.158887892161248,
+        "actor_safe_margin_full": true,
+        "actor_safe_margin_for_declared_framing": true,
+        "actual_feet_crop": false,
+        "safe_margin_px": 16.0,
+        "object_id": "beacon",
+        "object_bbox_pixels": [
+          342.322,
+          794.5497427444648,
+          650.6836000000001,
+          1039.8308
+        ],
+        "object_safe_visible_fraction": 1.0,
+        "foreground_overlap_upper": 0.0,
+        "tracking_error_logical": 0.0,
+        "camera": {
+          "x": 10.0,
+          "y": 12.0,
+          "zoom": 1.29
+        },
+        "target_kind": "point",
+        "target_node": null,
+        "track": false,
+        "framing": "full",
+        "shot": "shot_00"
+      }
+    ],
+    "staged": [
+      {
+        "frame": 12,
+        "source_frame": 12,
+        "actor_world": [
+          115.052,
+          480
+        ],
+        "actor_bbox_pixels": [
+          182.03089210999,
+          825.6908167472095,
+          276.45500820720633,
+          965.2582400000001
+        ],
+        "actor_width_px": 94.42411609721634,
+        "projected_actor_height_px": 139.5674232527906,
+        "visible_actor_height_px": 139.5674232527906,
+        "visible_frame_height_percent": 10.903704941624266,
+        "actor_safe_margin_full": true,
+        "actor_safe_margin_for_declared_framing": true,
+        "actual_feet_crop": false,
+        "safe_margin_px": 16.0,
+        "object_id": "beacon",
+        "object_bbox_pixels": [
+          368.504,
+          802.0900171814123,
+          626.6672,
+          1007.4416
+        ],
+        "object_safe_visible_fraction": 1.0,
+        "foreground_overlap_upper": 0.0,
+        "tracking_error_logical": 0.0,
+        "camera": {
+          "x": -3.280000000000001,
+          "y": 6.720000000000027,
+          "zoom": 1.08
+        },
+        "target_kind": "node",
+        "target_node": "beacon",
+        "track": false,
+        "framing": "full",
+        "shot": "context"
+      },
+      {
+        "frame": 50,
+        "source_frame": 50,
+        "actor_world": [
+          159.92857142857144,
+          480
+        ],
+        "actor_bbox_pixels": [
+          214.9420364508371,
+          839.347934463705,
+          322.64673110337503,
+          1061.2842666666666
+        ],
+        "actor_width_px": 107.70469465253794,
+        "projected_actor_height_px": 221.93633220296158,
+        "visible_actor_height_px": 221.93633220296158,
+        "visible_frame_height_percent": 17.33877595335637,
+        "actor_safe_margin_full": true,
+        "actor_safe_margin_for_declared_framing": true,
+        "actual_feet_crop": false,
+        "safe_margin_px": 16.0,
+        "object_id": "beacon",
+        "object_bbox_pixels": [
+          329.3028571428572,
+          804.4453974151859,
+          735.6708571428571,
+          1127.684
+        ],
+        "object_safe_visible_fraction": 0.9220636045582892,
+        "foreground_overlap_upper": 0.0,
+        "tracking_error_logical": 0.0,
+        "camera": {
+          "x": 16.878571428571433,
+          "y": 10.0,
+          "zoom": 1.7
+        },
+        "target_kind": "actor",
+        "target_node": "rowan",
+        "track": true,
+        "framing": "full",
+        "shot": "attention"
+      },
+      {
+        "frame": 76,
+        "source_frame": 76,
+        "actor_world": [
+          160.76666666666668,
+          480
+        ],
+        "actor_bbox_pixels": [
+          159.52637914787553,
+          863.9351902157962,
+          372.96416048036025,
+          1327.8252651367186
+        ],
+        "actor_width_px": 213.43778133248472,
+        "projected_actor_height_px": 463.8900749209224,
+        "visible_actor_height_px": 416.0648097842038,
+        "visible_frame_height_percent": 32.50506326439092,
+        "actor_safe_margin_full": false,
+        "actor_safe_margin_for_declared_framing": true,
+        "actual_feet_crop": true,
+        "safe_margin_px": 16.0,
+        "object_id": "beacon",
+        "object_bbox_pixels": [
+          449.2563354492187,
+          775.3152726324226,
+          1323.4323559570312,
+          1470.6639105224608
+        ],
+        "object_safe_visible_fraction": 0.20480033417017285,
+        "foreground_overlap_upper": 0.0,
+        "tracking_error_logical": 1.1368683772161603e-13,
+        "camera": {
+          "x": -41.33684234619136,
+          "y": 38.6357482910156,
+          "zoom": 3.6570281982421875
+        },
+        "target_kind": "actor",
+        "target_node": "rowan",
+        "track": true,
+        "framing": "feet_crop",
+        "shot": "reaction"
+      },
+      {
+        "frame": 89,
+        "source_frame": 89,
+        "actor_world": [
+          160.76666666666668,
+          480
+        ],
+        "actor_bbox_pixels": [
+          203.5804698224273,
+          819.7700929622823,
+          385.00876444155085,
+          1342.0453333333332
+        ],
+        "actor_width_px": 181.42829461912356,
+        "projected_actor_height_px": 522.2752403710509,
+        "visible_actor_height_px": 460.2299070377177,
+        "visible_frame_height_percent": 35.95546148732169,
+        "actor_safe_margin_full": false,
+        "actor_safe_margin_for_declared_framing": true,
+        "actual_feet_crop": true,
+        "safe_margin_px": 16.0,
+        "object_id": "beacon",
+        "object_bbox_pixels": [
+          463.0666666666666,
+          737.7185821533787,
+          1419.2266666666665,
+          1498.2799999999997
+        ],
+        "object_safe_visible_fraction": 0.1743612858958431,
+        "foreground_overlap_upper": 0.0,
+        "tracking_error_logical": 1.1368683772161603e-13,
+        "camera": {
+          "x": -47.93333333333328,
+          "y": 59.89999999999998,
+          "zoom": 4.0
+        },
+        "target_kind": "actor",
+        "target_node": "rowan",
+        "track": true,
+        "framing": "feet_crop",
+        "shot": "reaction"
+      }
+    ],
+    "cuts": [
+      {
+        "frames": [
+          21,
+          22
+        ],
+        "continuity": "intentional_reframe",
+        "scale_ratio": 1.574074074074074,
+        "pan_logical": 38.863323143278734,
+        "actor_world_displacement": 1.2046406249999961
+      },
+      {
+        "frames": [
+          56,
+          57
+        ],
+        "continuity": "intentional_reframe",
+        "scale_ratio": 1.7941176470588234,
+        "pan_logical": 48.8020616880065,
+        "actor_world_displacement": 0.0
+      }
+    ],
+    "actor_frame_parity": true,
+    "original_wide": [
+      {
+        "frame": 12,
+        "source_frame": 12,
+        "actor_world": [
+          115.052,
+          480
+        ],
+        "actor_bbox_pixels": [
+          189.13971491665743,
+          836.2322377288976,
+          276.5694520437096,
+          965.4613333333333
+        ],
+        "actor_width_px": 87.42973712705216,
+        "projected_actor_height_px": 129.22909560443566,
+        "visible_actor_height_px": 129.22909560443566,
+        "visible_frame_height_percent": 10.096023094096536,
+        "actor_safe_margin_full": true,
+        "actor_safe_margin_for_declared_framing": true,
+        "actual_feet_crop": false,
+        "safe_margin_px": 16.0,
+        "object_id": "beacon",
+        "object_bbox_pixels": [
+          361.8,
+          814.3796455383447,
+          600.84,
+          1004.52
+        ],
+        "object_safe_visible_fraction": 1.0,
+        "foreground_overlap_upper": 0.0,
+        "tracking_error_logical": 0.0,
+        "camera": {
+          "x": 0.0,
+          "y": 0.0,
+          "zoom": 1.0
+        },
+        "target_kind": "point",
+        "target_node": null,
+        "track": false,
+        "framing": "full",
+        "shot": "shot_00"
+      },
+      {
+        "frame": 50,
+        "source_frame": 50,
+        "actor_world": [
+          159.92857142857144,
+          480
+        ],
+        "actor_bbox_pixels": [
+          294.52892900469413,
+          834.9105496845323,
+          357.8846317414811,
+          965.4613333333333
+        ],
+        "actor_width_px": 63.35570273678695,
+        "projected_actor_height_px": 130.55078364880103,
+        "visible_actor_height_px": 130.55078364880103,
+        "visible_frame_height_percent": 10.19927997256258,
+        "actor_safe_margin_full": true,
+        "actor_safe_margin_for_declared_framing": true,
+        "actual_feet_crop": false,
+        "safe_margin_px": 16.0,
+        "object_id": "beacon",
+        "object_bbox_pixels": [
+          361.8,
+          814.3796455383447,
+          600.84,
+          1004.52
+        ],
+        "object_safe_visible_fraction": 1.0,
+        "foreground_overlap_upper": 0.0,
+        "tracking_error_logical": 0.0,
+        "camera": {
+          "x": 0.0,
+          "y": 0.0,
+          "zoom": 1.0
+        },
+        "target_kind": "point",
+        "target_node": null,
+        "track": false,
+        "framing": "full",
+        "shot": "shot_00"
+      },
+      {
+        "frame": 76,
+        "source_frame": 76,
+        "actor_world": [
+          160.76666666666668,
+          480
+        ],
+        "actor_bbox_pixels": [
+          282.57448119196704,
+          838.6124139993509,
+          340.9382043470352,
+          965.4613333333333
+        ],
+        "actor_width_px": 58.36372315506816,
+        "projected_actor_height_px": 126.8489193339824,
+        "visible_actor_height_px": 126.8489193339824,
+        "visible_frame_height_percent": 9.910071822967375,
+        "actor_safe_margin_full": true,
+        "actor_safe_margin_for_declared_framing": true,
+        "actual_feet_crop": false,
+        "safe_margin_px": 16.0,
+        "object_id": "beacon",
+        "object_bbox_pixels": [
+          361.8,
+          814.3796455383447,
+          600.84,
+          1004.52
+        ],
+        "object_safe_visible_fraction": 1.0,
+        "foreground_overlap_upper": 0.0,
+        "tracking_error_logical": 0.0,
+        "camera": {
+          "x": 0.0,
+          "y": 0.0,
+          "zoom": 1.0
+        },
+        "target_kind": "point",
+        "target_node": null,
+        "track": false,
+        "framing": "full",
+        "shot": "shot_00"
+      },
+      {
+        "frame": 89,
+        "source_frame": 89,
+        "actor_world": [
+          160.76666666666668,
+          480
+        ],
+        "actor_bbox_pixels": [
+          296.9284507889402,
+          834.8925232405705,
+          342.2855244437211,
+          965.4613333333333
+        ],
+        "actor_width_px": 45.35707365478089,
+        "projected_actor_height_px": 130.56881009276276,
+        "visible_actor_height_px": 130.56881009276276,
+        "visible_frame_height_percent": 10.20068828849709,
+        "actor_safe_margin_full": true,
+        "actor_safe_margin_for_declared_framing": true,
+        "actual_feet_crop": false,
+        "safe_margin_px": 16.0,
+        "object_id": "beacon",
+        "object_bbox_pixels": [
+          361.8,
+          814.3796455383447,
+          600.84,
+          1004.52
+        ],
+        "object_safe_visible_fraction": 1.0,
+        "foreground_overlap_upper": 0.0,
+        "tracking_error_logical": 0.0,
+        "camera": {
+          "x": 0.0,
+          "y": 0.0,
+          "zoom": 1.0
+        },
+        "target_kind": "point",
+        "target_node": null,
+        "track": false,
+        "framing": "full",
+        "shot": "shot_00"
+      }
+    ]
+  },
+  "rowan-farm": {
+    "baseline": [
+      {
+        "frame": 12,
+        "source_frame": 12,
+        "actor_world": [
+          95.37803569536615,
+          524
+        ],
+        "actor_bbox_pixels": [
+          40.83501652748258,
+          608.3691410199663,
+          218.6562439801051,
+          1077.4544
+        ],
+        "actor_width_px": 177.8212274526225,
+        "projected_actor_height_px": 469.0852589800338,
+        "visible_actor_height_px": 469.0852589800338,
+        "visible_frame_height_percent": 36.64728585781514,
+        "actor_safe_margin_full": true,
+        "actor_safe_margin_for_declared_framing": true,
+        "actual_feet_crop": false,
+        "safe_margin_px": 16.0,
+        "object_id": "barn",
+        "object_bbox_pixels": [
+          403.904,
+          470.994,
+          783.6600000000001,
+          831.5880000000001
+        ],
+        "object_safe_visible_fraction": 0.7902337290260061,
+        "foreground_overlap_upper": 0.0,
+        "tracking_error_logical": 0.0,
+        "camera": {
+          "x": 8.0,
+          "y": 25.0,
+          "zoom": 1.3
+        },
+        "target_kind": "point",
+        "target_node": null,
+        "track": false,
+        "framing": "full",
+        "shot": "shot_00"
+      },
+      {
+        "frame": 50,
+        "source_frame": 50,
+        "actor_world": [
+          142.45,
+          524
+        ],
+        "actor_bbox_pixels": [
+          180.9176856802685,
+          607.3744530593141,
+          364.6199863314825,
+          1077.4544
+        ],
+        "actor_width_px": 183.702300651214,
+        "projected_actor_height_px": 470.079946940686,
+        "visible_actor_height_px": 470.079946940686,
+        "visible_frame_height_percent": 36.724995854741096,
+        "actor_safe_margin_full": true,
+        "actor_safe_margin_for_declared_framing": true,
+        "actual_feet_crop": false,
+        "safe_margin_px": 16.0,
+        "object_id": "barn",
+        "object_bbox_pixels": [
+          403.904,
+          470.994,
+          783.6600000000001,
+          831.5880000000001
+        ],
+        "object_safe_visible_fraction": 0.7902337290260061,
+        "foreground_overlap_upper": 0.0,
+        "tracking_error_logical": 0.0,
+        "camera": {
+          "x": 8.0,
+          "y": 25.0,
+          "zoom": 1.3
+        },
+        "target_kind": "point",
+        "target_node": null,
+        "track": false,
+        "framing": "full",
+        "shot": "shot_00"
+      },
+      {
+        "frame": 76,
+        "source_frame": 76,
+        "actor_world": [
+          147.4,
+          524
+        ],
+        "actor_bbox_pixels": [
+          142.46184808532837,
+          613.2386343051515,
+          368.4286972216881,
+          1077.4544
+        ],
+        "actor_width_px": 225.9668491363597,
+        "projected_actor_height_px": 464.2157656948485,
+        "visible_actor_height_px": 464.2157656948485,
+        "visible_frame_height_percent": 36.26685669491005,
+        "actor_safe_margin_full": true,
+        "actor_safe_margin_for_declared_framing": true,
+        "actual_feet_crop": false,
+        "safe_margin_px": 16.0,
+        "object_id": "barn",
+        "object_bbox_pixels": [
+          403.904,
+          470.994,
+          783.6600000000001,
+          831.5880000000001
+        ],
+        "object_safe_visible_fraction": 0.7902337290260061,
+        "foreground_overlap_upper": 0.0,
+        "tracking_error_logical": 0.0,
+        "camera": {
+          "x": 8.0,
+          "y": 25.0,
+          "zoom": 1.3
+        },
+        "target_kind": "point",
+        "target_node": null,
+        "track": false,
+        "framing": "full",
+        "shot": "shot_00"
+      },
+      {
+        "frame": 89,
+        "source_frame": 89,
+        "actor_world": [
+          147.4,
+          524
+        ],
+        "actor_bbox_pixels": [
+          202.39873131503603,
+          603.539684296834,
+          378.5822399022449,
+          1077.4544
+        ],
+        "actor_width_px": 176.18350858720888,
+        "projected_actor_height_px": 473.91471570316605,
+        "visible_actor_height_px": 473.91471570316605,
+        "visible_frame_height_percent": 37.02458716430985,
+        "actor_safe_margin_full": true,
+        "actor_safe_margin_for_declared_framing": true,
+        "actual_feet_crop": false,
+        "safe_margin_px": 16.0,
+        "object_id": "barn",
+        "object_bbox_pixels": [
+          403.904,
+          470.994,
+          783.6600000000001,
+          831.5880000000001
+        ],
+        "object_safe_visible_fraction": 0.7902337290260061,
+        "foreground_overlap_upper": 0.0,
+        "tracking_error_logical": 0.0,
+        "camera": {
+          "x": 8.0,
+          "y": 25.0,
+          "zoom": 1.3
+        },
+        "target_kind": "point",
+        "target_node": null,
+        "track": false,
+        "framing": "full",
+        "shot": "shot_00"
+      }
+    ],
+    "staged": [
+      {
+        "frame": 12,
+        "source_frame": 12,
+        "actor_world": [
+          95.37803569536615,
+          524
+        ],
+        "actor_bbox_pixels": [
+          97.01985988437012,
+          664.8174402319719,
+          244.74826422962582,
+          1054.5190400000001
+        ],
+        "actor_width_px": 147.72840434525568,
+        "projected_actor_height_px": 389.70159976802825,
+        "visible_actor_height_px": 389.70159976802825,
+        "visible_frame_height_percent": 30.445437481877207,
+        "actor_safe_margin_full": true,
+        "actor_safe_margin_for_declared_framing": true,
+        "actual_feet_crop": false,
+        "safe_margin_px": 16.0,
+        "object_id": "barn",
+        "object_bbox_pixels": [
+          398.64639999999997,
+          550.6904,
+          714.136,
+          850.2608
+        ],
+        "object_safe_visible_fraction": 0.967872158067968,
+        "foreground_overlap_upper": 0.0,
+        "tracking_error_logical": 0.0,
+        "camera": {
+          "x": 5.560000000000002,
+          "y": 8.759999999999991,
+          "zoom": 1.08
+        },
+        "target_kind": "node",
+        "target_node": "barn",
+        "track": false,
+        "framing": "full",
+        "shot": "context"
+      },
+      {
+        "frame": 50,
+        "source_frame": 50,
+        "actor_world": [
+          142.45,
+          524
+        ],
+        "actor_bbox_pixels": [
+          179.9607021572432,
+          497.5464632630282,
+          398.990368318306,
+          1058.0264
+        ],
+        "actor_width_px": 219.02966616106283,
+        "projected_actor_height_px": 560.4799367369717,
+        "visible_actor_height_px": 560.4799367369717,
+        "visible_frame_height_percent": 43.78749505757592,
+        "actor_safe_margin_full": true,
+        "actor_safe_margin_for_declared_framing": true,
+        "actual_feet_crop": false,
+        "safe_margin_px": 16.0,
+        "object_id": "barn",
+        "object_bbox_pixels": [
+          445.82899999999995,
+          334.93899999999985,
+          898.615,
+          764.8779999999999
+        ],
+        "object_safe_visible_fraction": 0.570183265383647,
+        "foreground_overlap_upper": 0.0,
+        "tracking_error_logical": 0.0,
+        "camera": {
+          "x": -7.202500000000029,
+          "y": 66.20000000000005,
+          "zoom": 1.55
+        },
+        "target_kind": "actor",
+        "target_node": "rowan",
+        "track": true,
+        "framing": "full",
+        "shot": "attention"
+      },
+      {
+        "frame": 76,
+        "source_frame": 76,
+        "actor_world": [
+          147.4,
+          524
+        ],
+        "actor_bbox_pixels": [
+          29.910113517288124,
+          353.5438940062576,
+          498.35637644709664,
+          1315.8980688065847
+        ],
+        "actor_width_px": 468.44626292980854,
+        "projected_actor_height_px": 962.3541748003271,
+        "visible_actor_height_px": 926.4561059937424,
+        "visible_frame_height_percent": 72.37938328076112,
+        "actor_safe_margin_full": false,
+        "actor_safe_margin_for_declared_framing": true,
+        "actual_feet_crop": true,
+        "safe_margin_px": 16.0,
+        "object_id": "barn",
+        "object_bbox_pixels": [
+          571.8993455875627,
+          58.66007535436711,
+          1359.162077732053,
+          806.1985411979886
+        ],
+        "object_safe_visible_fraction": 0.16779741885227736,
+        "foreground_overlap_upper": 0.0,
+        "tracking_error_logical": 0.0,
+        "camera": {
+          "x": -43.856925468678526,
+          "y": 81.46975765889329,
+          "zoom": 2.694997713763146
+        },
+        "target_kind": "actor",
+        "target_node": "rowan",
+        "track": true,
+        "framing": "feet_crop",
+        "shot": "reaction"
+      },
+      {
+        "frame": 89,
+        "source_frame": 89,
+        "actor_world": [
+          147.4,
+          524
+        ],
+        "actor_bbox_pixels": [
+          150.44713311984628,
+          305.8402479578449,
+          527.2087899448006,
+          1319.28864
+        ],
+        "actor_width_px": 376.76165682495434,
+        "projected_actor_height_px": 1013.4483920421551,
+        "visible_actor_height_px": 974.1597520421551,
+        "visible_frame_height_percent": 76.10623062829337,
+        "actor_safe_margin_full": false,
+        "actor_safe_margin_for_declared_framing": true,
+        "actual_feet_crop": true,
+        "safe_margin_px": 16.0,
+        "object_id": "barn",
+        "object_bbox_pixels": [
+          581.3583999999998,
+          22.396400000000085,
+          1393.4519999999998,
+          793.5128000000001
+        ],
+        "object_safe_visible_fraction": 0.15101904509529462,
+        "foreground_overlap_upper": 0.0,
+        "tracking_error_logical": 0.0,
+        "camera": {
+          "x": -46.627999999999986,
+          "y": 90.4799999999999,
+          "zoom": 2.78
+        },
+        "target_kind": "actor",
+        "target_node": "rowan",
+        "track": true,
+        "framing": "feet_crop",
+        "shot": "reaction"
+      }
+    ],
+    "cuts": [
+      {
+        "frames": [
+          21,
+          22
+        ],
+        "continuity": "intentional_reframe",
+        "scale_ratio": 1.4351851851851851,
+        "pan_logical": 91.79247597386959,
+        "actor_world_displacement": 1.086971737155224
+      },
+      {
+        "frames": [
+          61,
+          62
+        ],
+        "continuity": "intentional_reframe",
+        "scale_ratio": 1.6774193548387097,
+        "pan_logical": 41.556622817548615,
+        "actor_world_displacement": 0.0
+      }
+    ],
+    "actor_frame_parity": true
+  },
+  "yellow-farm": {
+    "baseline": [
+      {
+        "frame": 12,
+        "source_frame": 12,
+        "actor_world": [
+          96.052,
+          524
+        ],
+        "actor_bbox_pixels": [
+          72.48162939165464,
+          911.501909047567,
+          186.1402876568225,
+          1079.4997333333333
+        ],
+        "actor_width_px": 113.65865826516786,
+        "projected_actor_height_px": 167.99782428576634,
+        "visible_actor_height_px": 167.99782428576634,
+        "visible_frame_height_percent": 13.124830022325495,
+        "actor_safe_margin_full": true,
+        "actor_safe_margin_for_declared_framing": true,
+        "actual_feet_crop": false,
+        "safe_margin_px": 16.0,
+        "object_id": "barn",
+        "object_bbox_pixels": [
+          403.904,
+          470.994,
+          783.6600000000001,
+          831.5880000000001
+        ],
+        "object_safe_visible_fraction": 0.7902337290260061,
+        "foreground_overlap_upper": 0.0,
+        "tracking_error_logical": 0.0,
+        "camera": {
+          "x": 8.0,
+          "y": 25.0,
+          "zoom": 1.3
+        },
+        "target_kind": "point",
+        "target_node": null,
+        "track": false,
+        "framing": "full",
+        "shot": "shot_00"
+      },
+      {
+        "frame": 50,
+        "source_frame": 50,
+        "actor_world": [
+          140.92857142857144,
+          524
+        ],
+        "actor_bbox_pixels": [
+          209.4876077061024,
+          909.783714589892,
+          291.85002126392544,
+          1079.4997333333333
+        ],
+        "actor_width_px": 82.36241355782303,
+        "projected_actor_height_px": 169.71601874344128,
+        "visible_actor_height_px": 169.71601874344128,
+        "visible_frame_height_percent": 13.25906396433135,
+        "actor_safe_margin_full": true,
+        "actor_safe_margin_for_declared_framing": true,
+        "actual_feet_crop": false,
+        "safe_margin_px": 16.0,
+        "object_id": "barn",
+        "object_bbox_pixels": [
+          403.904,
+          470.994,
+          783.6600000000001,
+          831.5880000000001
+        ],
+        "object_safe_visible_fraction": 0.7902337290260061,
+        "foreground_overlap_upper": 0.0,
+        "tracking_error_logical": 0.0,
+        "camera": {
+          "x": 8.0,
+          "y": 25.0,
+          "zoom": 1.3
+        },
+        "target_kind": "point",
+        "target_node": null,
+        "track": false,
+        "framing": "full",
+        "shot": "shot_00"
+      },
+      {
+        "frame": 76,
+        "source_frame": 76,
+        "actor_world": [
+          141.76666666666668,
+          524
+        ],
+        "actor_bbox_pixels": [
+          193.94682554955722,
+          914.5961381991563,
+          269.8196656511458,
+          1079.4997333333333
+        ],
+        "actor_width_px": 75.87284010158857,
+        "projected_actor_height_px": 164.90359513417707,
+        "visible_actor_height_px": 164.90359513417707,
+        "visible_frame_height_percent": 12.883093369857585,
+        "actor_safe_margin_full": true,
+        "actor_safe_margin_for_declared_framing": true,
+        "actual_feet_crop": false,
+        "safe_margin_px": 16.0,
+        "object_id": "barn",
+        "object_bbox_pixels": [
+          403.904,
+          470.994,
+          783.6600000000001,
+          831.5880000000001
+        ],
+        "object_safe_visible_fraction": 0.7902337290260061,
+        "foreground_overlap_upper": 0.0,
+        "tracking_error_logical": 0.0,
+        "camera": {
+          "x": 8.0,
+          "y": 25.0,
+          "zoom": 1.3
+        },
+        "target_kind": "point",
+        "target_node": null,
+        "track": false,
+        "framing": "full",
+        "shot": "shot_00"
+      },
+      {
+        "frame": 89,
+        "source_frame": 89,
+        "actor_world": [
+          141.76666666666668,
+          524
+        ],
+        "actor_bbox_pixels": [
+          212.60698602562223,
+          909.7602802127419,
+          271.5711817768374,
+          1079.4997333333333
+        ],
+        "actor_width_px": 58.964195751215186,
+        "projected_actor_height_px": 169.7394531205914,
+        "visible_actor_height_px": 169.7394531205914,
+        "visible_frame_height_percent": 13.260894775046204,
+        "actor_safe_margin_full": true,
+        "actor_safe_margin_for_declared_framing": true,
+        "actual_feet_crop": false,
+        "safe_margin_px": 16.0,
+        "object_id": "barn",
+        "object_bbox_pixels": [
+          403.904,
+          470.994,
+          783.6600000000001,
+          831.5880000000001
+        ],
+        "object_safe_visible_fraction": 0.7902337290260061,
+        "foreground_overlap_upper": 0.0,
+        "tracking_error_logical": 0.0,
+        "camera": {
+          "x": 8.0,
+          "y": 25.0,
+          "zoom": 1.3
+        },
+        "target_kind": "point",
+        "target_node": null,
+        "track": false,
+        "framing": "full",
+        "shot": "shot_00"
+      }
+    ],
+    "staged": [
+      {
+        "frame": 12,
+        "source_frame": 12,
+        "actor_world": [
+          96.052,
+          524
+        ],
+        "actor_bbox_pixels": [
+          123.31089210999001,
+          916.6508167472095,
+          217.7350082072064,
+          1056.2182400000002
+        ],
+        "actor_width_px": 94.42411609721638,
+        "projected_actor_height_px": 139.5674232527906,
+        "visible_actor_height_px": 139.5674232527906,
+        "visible_frame_height_percent": 10.903704941624266,
+        "actor_safe_margin_full": true,
+        "actor_safe_margin_for_declared_framing": true,
+        "actual_feet_crop": false,
+        "safe_margin_px": 16.0,
+        "object_id": "barn",
+        "object_bbox_pixels": [
+          398.64639999999997,
+          550.6904,
+          714.136,
+          850.2608
+        ],
+        "object_safe_visible_fraction": 0.967872158067968,
+        "foreground_overlap_upper": 0.0,
+        "tracking_error_logical": 0.0,
+        "camera": {
+          "x": 5.560000000000002,
+          "y": 8.759999999999991,
+          "zoom": 1.08
+        },
+        "target_kind": "node",
+        "target_node": "barn",
+        "track": false,
+        "framing": "full",
+        "shot": "context"
+      },
+      {
+        "frame": 50,
+        "source_frame": 50,
+        "actor_world": [
+          140.92857142857144,
+          524
+        ],
+        "actor_bbox_pixels": [
+          214.9420364508371,
+          839.347934463705,
+          322.64673110337503,
+          1061.2842666666666
+        ],
+        "actor_width_px": 107.70469465253794,
+        "projected_actor_height_px": 221.93633220296158,
+        "visible_actor_height_px": 221.93633220296158,
+        "visible_frame_height_percent": 17.33877595335637,
+        "actor_safe_margin_full": true,
+        "actor_safe_margin_for_declared_framing": true,
+        "actual_feet_crop": false,
+        "safe_margin_px": 16.0,
+        "object_id": "barn",
+        "object_bbox_pixels": [
+          469.17885714285705,
+          265.54600000000005,
+          965.7828571428571,
+          737.0920000000001
+        ],
+        "object_safe_visible_fraction": 0.47285390946738837,
+        "foreground_overlap_upper": 0.0,
+        "tracking_error_logical": 0.0,
+        "camera": {
+          "x": -15.421428571428535,
+          "y": 84.79999999999995,
+          "zoom": 1.7
+        },
+        "target_kind": "actor",
+        "target_node": "rowan",
+        "track": true,
+        "framing": "full",
+        "shot": "attention"
+      },
+      {
+        "frame": 76,
+        "source_frame": 76,
+        "actor_world": [
+          141.76666666666668,
+          524
+        ],
+        "actor_bbox_pixels": [
+          159.52637914787553,
+          863.9351902157962,
+          372.96416048036025,
+          1327.8252651367186
+        ],
+        "actor_width_px": 213.43778133248472,
+        "projected_actor_height_px": 463.8900749209224,
+        "visible_actor_height_px": 416.0648097842038,
+        "visible_frame_height_percent": 32.50506326439092,
+        "actor_safe_margin_full": false,
+        "actor_safe_margin_for_declared_framing": true,
+        "actual_feet_crop": true,
+        "safe_margin_px": 16.0,
+        "object_id": "barn",
+        "object_bbox_pixels": [
+          750.1566156005858,
+          -383.9613699340823,
+          1818.4476928710938,
+          630.4251116943358
+        ],
+        "object_safe_visible_fraction": 0.0,
+        "foreground_overlap_upper": 0.0,
+        "tracking_error_logical": 1.1368683772161603e-13,
+        "camera": {
+          "x": -110.82037811279292,
+          "y": 199.54498901367185,
+          "zoom": 3.6570281982421875
+        },
+        "target_kind": "actor",
+        "target_node": "rowan",
+        "track": true,
+        "framing": "feet_crop",
+        "shot": "reaction"
+      },
+      {
+        "frame": 89,
+        "source_frame": 89,
+        "actor_world": [
+          141.76666666666668,
+          524
+        ],
+        "actor_bbox_pixels": [
+          203.5804698224273,
+          819.7700929622823,
+          385.00876444155085,
+          1342.0453333333332
+        ],
+        "actor_width_px": 181.42829461912356,
+        "projected_actor_height_px": 522.2752403710509,
+        "visible_actor_height_px": 460.2299070377177,
+        "visible_frame_height_percent": 35.95546148732169,
+        "actor_safe_margin_full": false,
+        "actor_safe_margin_for_declared_framing": true,
+        "actual_feet_crop": true,
+        "safe_margin_px": 16.0,
+        "object_id": "barn",
+        "object_bbox_pixels": [
+          792.1866666666665,
+          -530.2800000000002,
+          1960.6666666666665,
+          579.2399999999998
+        ],
+        "object_safe_visible_fraction": 0.0,
+        "foreground_overlap_upper": 0.0,
+        "tracking_error_logical": 1.1368683772161603e-13,
+        "camera": {
+          "x": -123.93333333333328,
+          "y": 235.89999999999998,
+          "zoom": 4.0
+        },
+        "target_kind": "actor",
+        "target_node": "rowan",
+        "track": true,
+        "framing": "feet_crop",
+        "shot": "reaction"
+      }
+    ],
+    "cuts": [
+      {
+        "frames": [
+          21,
+          22
+        ],
+        "continuity": "intentional_reframe",
+        "scale_ratio": 1.574074074074074,
+        "pan_logical": 110.27441188344149,
+        "actor_world_displacement": 1.2046406249999961
+      },
+      {
+        "frames": [
+          56,
+          57
+        ],
+        "continuity": "intentional_reframe",
+        "scale_ratio": 1.7941176470588234,
+        "pan_logical": 89.21506725323928,
+        "actor_world_displacement": 0.0
+      }
+    ],
+    "actor_frame_parity": true
+  },
+  "rowan-ridge": {
+    "baseline": [
+      {
+        "frame": 12,
+        "source_frame": 12,
+        "actor_world": [
+          114.37803569536615,
+          480
+        ],
+        "actor_bbox_pixels": [
+          88.1870548618866,
+          521.9386091659666,
+          264.6404267187197,
+          987.4155200000001
+        ],
+        "actor_width_px": 176.45337185683312,
+        "projected_actor_height_px": 465.47691083403356,
+        "visible_actor_height_px": 465.47691083403356,
+        "visible_frame_height_percent": 36.365383658908875,
+        "actor_safe_margin_full": true,
+        "actor_safe_margin_for_declared_framing": true,
+        "actual_feet_crop": false,
+        "safe_margin_px": 16.0,
+        "object_id": "beacon",
+        "object_bbox_pixels": [
+          342.322,
+          794.5497427444648,
+          650.6836000000001,
+          1039.8308
+        ],
+        "object_safe_visible_fraction": 1.0,
+        "foreground_overlap_upper": 0.0,
+        "tracking_error_logical": 0.0,
+        "camera": {
+          "x": 10.0,
+          "y": 12.0,
+          "zoom": 1.29
+        },
+        "target_kind": "point",
+        "target_node": null,
+        "track": false,
+        "framing": "full",
+        "shot": "shot_00"
+      },
+      {
+        "frame": 50,
+        "source_frame": 50,
+        "actor_world": [
+          161.45,
+          480
+        ],
+        "actor_bbox_pixels": [
+          227.19216502118945,
+          520.9515726511655,
+          409.4813710520095,
+          987.4155200000001
+        ],
+        "actor_width_px": 182.28920603082003,
+        "projected_actor_height_px": 466.4639473488346,
+        "visible_actor_height_px": 466.4639473488346,
+        "visible_frame_height_percent": 36.442495886627704,
+        "actor_safe_margin_full": true,
+        "actor_safe_margin_for_declared_framing": true,
+        "actual_feet_crop": false,
+        "safe_margin_px": 16.0,
+        "object_id": "beacon",
+        "object_bbox_pixels": [
+          342.322,
+          794.5497427444648,
+          650.6836000000001,
+          1039.8308
+        ],
+        "object_safe_visible_fraction": 1.0,
+        "foreground_overlap_upper": 0.0,
+        "tracking_error_logical": 0.0,
+        "camera": {
+          "x": 10.0,
+          "y": 12.0,
+          "zoom": 1.29
+        },
+        "target_kind": "point",
+        "target_node": null,
+        "track": false,
+        "framing": "full",
+        "shot": "shot_00"
+      },
+      {
+        "frame": 76,
+        "source_frame": 76,
+        "actor_world": [
+          166.4,
+          480
+        ],
+        "actor_bbox_pixels": [
+          189.03214156159507,
+          526.7706448104965,
+          413.26078416613666,
+          987.4155200000001
+        ],
+        "actor_width_px": 224.2286426045416,
+        "projected_actor_height_px": 460.64487518950364,
+        "visible_actor_height_px": 460.64487518950364,
+        "visible_frame_height_percent": 35.98788087417997,
+        "actor_safe_margin_full": true,
+        "actor_safe_margin_for_declared_framing": true,
+        "actual_feet_crop": false,
+        "safe_margin_px": 16.0,
+        "object_id": "beacon",
+        "object_bbox_pixels": [
+          342.322,
+          794.5497427444648,
+          650.6836000000001,
+          1039.8308
+        ],
+        "object_safe_visible_fraction": 1.0,
+        "foreground_overlap_upper": 0.0,
+        "tracking_error_logical": 0.0,
+        "camera": {
+          "x": 10.0,
+          "y": 12.0,
+          "zoom": 1.29
+        },
+        "target_kind": "point",
+        "target_node": null,
+        "track": false,
+        "framing": "full",
+        "shot": "shot_00"
+      },
+      {
+        "frame": 89,
+        "source_frame": 89,
+        "actor_world": [
+          166.4,
+          480
+        ],
+        "actor_bbox_pixels": [
+          248.50797184338197,
+          517.1463021099354,
+          423.3362226722277,
+          987.4155200000001
+        ],
+        "actor_width_px": 174.8282508288457,
+        "projected_actor_height_px": 470.26921789006474,
+        "visible_actor_height_px": 470.26921789006474,
+        "visible_frame_height_percent": 36.73978264766131,
+        "actor_safe_margin_full": true,
+        "actor_safe_margin_for_declared_framing": true,
+        "actual_feet_crop": false,
+        "safe_margin_px": 16.0,
+        "object_id": "beacon",
+        "object_bbox_pixels": [
+          342.322,
+          794.5497427444648,
+          650.6836000000001,
+          1039.8308
+        ],
+        "object_safe_visible_fraction": 1.0,
+        "foreground_overlap_upper": 0.0,
+        "tracking_error_logical": 0.0,
+        "camera": {
+          "x": 10.0,
+          "y": 12.0,
+          "zoom": 1.29
+        },
+        "target_kind": "point",
+        "target_node": null,
+        "track": false,
+        "framing": "full",
+        "shot": "shot_00"
+      }
+    ],
+    "staged": [
+      {
+        "frame": 12,
+        "source_frame": 12,
+        "actor_world": [
+          114.37803569536615,
+          480
+        ],
+        "actor_bbox_pixels": [
+          155.73985988437013,
+          573.8574402319719,
+          303.46826422962585,
+          963.5590400000001
+        ],
+        "actor_width_px": 147.7284043452557,
+        "projected_actor_height_px": 389.70159976802825,
+        "visible_actor_height_px": 389.70159976802825,
+        "visible_frame_height_percent": 30.445437481877207,
+        "actor_safe_margin_full": true,
+        "actor_safe_margin_for_declared_framing": true,
+        "actual_feet_crop": false,
+        "safe_margin_px": 16.0,
+        "object_id": "beacon",
+        "object_bbox_pixels": [
+          368.504,
+          802.0900171814123,
+          626.6672,
+          1007.4416
+        ],
+        "object_safe_visible_fraction": 1.0,
+        "foreground_overlap_upper": 0.0,
+        "tracking_error_logical": 0.0,
+        "camera": {
+          "x": -3.280000000000001,
+          "y": 6.720000000000027,
+          "zoom": 1.08
+        },
+        "target_kind": "node",
+        "target_node": "beacon",
+        "track": false,
+        "framing": "full",
+        "shot": "context"
+      },
+      {
+        "frame": 50,
+        "source_frame": 50,
+        "actor_world": [
+          161.45,
+          480
+        ],
+        "actor_bbox_pixels": [
+          179.9607021572432,
+          497.5464632630282,
+          398.990368318306,
+          1058.0264
+        ],
+        "actor_width_px": 219.02966616106283,
+        "projected_actor_height_px": 560.4799367369717,
+        "visible_actor_height_px": 560.4799367369717,
+        "visible_frame_height_percent": 43.78749505757592,
+        "actor_safe_margin_full": true,
+        "actor_safe_margin_for_declared_framing": true,
+        "actual_feet_crop": false,
+        "safe_margin_px": 16.0,
+        "object_id": "beacon",
+        "object_bbox_pixels": [
+          318.29499999999996,
+          826.2884505844344,
+          688.807,
+          1121.006
+        ],
+        "object_safe_visible_fraction": 1.0,
+        "foreground_overlap_upper": 0.0,
+        "tracking_error_logical": 0.0,
+        "camera": {
+          "x": 22.247500000000002,
+          "y": -2.0,
+          "zoom": 1.55
+        },
+        "target_kind": "actor",
+        "target_node": "rowan",
+        "track": true,
+        "framing": "full",
+        "shot": "attention"
+      },
+      {
+        "frame": 76,
+        "source_frame": 76,
+        "actor_world": [
+          166.4,
+          480
+        ],
+        "actor_bbox_pixels": [
+          29.910113517288124,
+          353.5438940062576,
+          498.35637644709664,
+          1315.8980688065847
+        ],
+        "actor_width_px": 468.44626292980854,
+        "projected_actor_height_px": 962.3541748003271,
+        "visible_actor_height_px": 926.4561059937424,
+        "visible_frame_height_percent": 72.37938328076112,
+        "actor_safe_margin_full": false,
+        "actor_safe_margin_for_declared_framing": true,
+        "actual_feet_crop": true,
+        "safe_margin_px": 16.0,
+        "object_id": "beacon",
+        "object_bbox_pixels": [
+          350.15493369913116,
+          912.9733953439336,
+          994.3671871970735,
+          1425.4012159122087
+        ],
+        "object_safe_visible_fraction": 0.3762629848405793,
+        "foreground_overlap_upper": 0.0,
+        "tracking_error_logical": 0.0,
+        "camera": {
+          "x": 7.348031092821259,
+          "y": -37.11014174668503,
+          "zoom": 2.694997713763146
+        },
+        "target_kind": "actor",
+        "target_node": "rowan",
+        "track": true,
+        "framing": "feet_crop",
+        "shot": "reaction"
+      },
+      {
+        "frame": 89,
+        "source_frame": 89,
+        "actor_world": [
+          166.4,
+          480
+        ],
+        "actor_bbox_pixels": [
+          150.44713311984628,
+          305.8402479578449,
+          527.2087899448006,
+          1319.28864
+        ],
+        "actor_width_px": 376.76165682495434,
+        "projected_actor_height_px": 1013.4483920421551,
+        "visible_actor_height_px": 974.1597520421551,
+        "visible_frame_height_percent": 76.10623062829337,
+        "actor_safe_margin_full": false,
+        "actor_safe_margin_for_declared_framing": true,
+        "actual_feet_crop": true,
+        "safe_margin_px": 16.0,
+        "object_id": "beacon",
+        "object_bbox_pixels": [
+          352.61999999999995,
+          903.6554145965986,
+          1017.1512,
+          1432.2456000000002
+        ],
+        "object_safe_visible_fraction": 0.3604628963732213,
+        "foreground_overlap_upper": 0.0,
+        "tracking_error_logical": 0.0,
+        "camera": {
+          "x": 6.192000000000007,
+          "y": -31.840000000000032,
+          "zoom": 2.78
+        },
+        "target_kind": "actor",
+        "target_node": "rowan",
+        "track": true,
+        "framing": "feet_crop",
+        "shot": "reaction"
+      }
+    ],
+    "cuts": [
+      {
+        "frames": [
+          21,
+          22
+        ],
+        "continuity": "intentional_reframe",
+        "scale_ratio": 1.4351851851851851,
+        "pan_logical": 34.432091628532284,
+        "actor_world_displacement": 1.086971737155224
+      },
+      {
+        "frames": [
+          61,
+          62
+        ],
+        "continuity": "intentional_reframe",
+        "scale_ratio": 1.6774193548387097,
+        "pan_logical": 46.193488718649505,
+        "actor_world_displacement": 0.0
+      }
+    ],
+    "actor_frame_parity": true
+  }
+}

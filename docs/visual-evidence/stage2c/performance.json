@@ -1,0 +1,170 @@
+{
+  "python": "3.12.14",
+  "renderer": {
+    "pycairo": "1.25.1",
+    "cairo": "1.18.0"
+  },
+  "resolution": [
+    720,
+    1280
+  ],
+  "frames": [
+    0,
+    12,
+    21,
+    22,
+    33,
+    50,
+    56,
+    57,
+    65,
+    72,
+    76,
+    83,
+    89
+  ],
+  "original_wide": {
+    "camera_seconds": 0.0005859949999376113,
+    "geometry_seconds": 0.19962175699993168,
+    "raster_seconds": 0.15613232499981677,
+    "wall_seconds": 0.38907827299999553,
+    "paths_operations": [
+      322,
+      1797
+    ],
+    "scene_allowance": [
+      1795,
+      36418
+    ],
+    "hashes": {
+      "0": "18b3793a2b6e64af09326b9ddc37d25a147d001ae25368dc0f54ca39ef72138f",
+      "12": "70fd2f320b50a174efb35d4857988bad85116612cb3009ad787bdcafb077a6ed",
+      "21": "060114389f9c9d26105661d468a369b5fa3630303c67946f07555e419f72c38e",
+      "22": "be2a78b855bec295df0f8a317fb1d77946316da8b8c61afd87cb55d50f6c1062",
+      "33": "4187e08485d42b30c8db88c0fc3476017edb22af39f189a8a0850df186054bf3",
+      "50": "833ca8531b07e8ab27a2bc67f37a911a01a3bbcd0b00dd0f7e4ed09583a6b21b",
+      "56": "37a985740f52d0390d3f8ca42f59d70ca6ff8da2ad660442a05f406f6f9272f2",
+      "57": "dd11390a5a471787d16e032e682ae1487b2cc6beb6bf144ed2f2408c0a9500c1",
+      "65": "12f81fcd08322d5e14ecf72838d522278ffd875b95725a7c34e4b285290de922",
+      "72": "e7e7e55cebb68a6a11d31fcb36c8b8e486bf15748c5aca4cdf36937b0b198a8c",
+      "76": "bbde6f2bbc80d3abfcb725a344b6d30fc30b995f9cab3779633b341f280ee925",
+      "83": "6882212cad9e45faf3b00b0e6f206facad535cef1e20dc6d6d07d91d831fa49a",
+      "89": "593c3e41824022cff1151f2f29d83ce41506da8914ba843d01aa3088b5eff883"
+    },
+    "host": {
+      "architecture": "x86_64",
+      "logical_cpus": 9,
+      "affinity_cpus": 9,
+      "effective_cpu_upper_bound": 8.0,
+      "cpu_max": "800000 100000",
+      "model": "AMD EPYC 9V74 80-Core Processor"
+    },
+    "peak_tree_rss_bytes": 85127168,
+    "cancelled": false,
+    "memory_policy": "strict",
+    "oom_event_delta": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    }
+  },
+  "approved_clip_medium": {
+    "camera_seconds": 0.00034595300007822516,
+    "geometry_seconds": 0.19104381599981934,
+    "raster_seconds": 0.12867118300005131,
+    "wall_seconds": 0.35004937400003655,
+    "paths_operations": [
+      322,
+      1797
+    ],
+    "scene_allowance": [
+      1795,
+      36418
+    ],
+    "hashes": {
+      "0": "a5dacb0c3493ed8131fe41d9c503b80764b060969d70a728219e11ac154e6d37",
+      "12": "f44fc31a5b7fd60c86a2ca97a99adaaa208ee8bdb226fe655cd052bad300bea9",
+      "21": "2d3ae2dbbe4935d1fd2910a8266299abd537a24e41b82f580cc0630179cdddee",
+      "22": "9f5fb72d0a73174f871b430cf0e42bf2484fd56d26f600572cf059b5edefba57",
+      "33": "0da3b2537642f4dc5a7192484c33efb4e3f23fa5939cbbab84c71dcb56e4f10a",
+      "50": "131149550ed529d2150fba09976be8d23be6459f523f6389f39a0e00c83eca31",
+      "56": "4639b71a7cdb7442300e75bad764d9fc4ce829470d1e65deb859172d8709f7cc",
+      "57": "757faad1f5ee8d3369895c69a2556ee06b520e60512b0883e7d39b05a1247b5b",
+      "65": "f16b96dae09f484e13cfb70a76e83c98d10780eec765544cdaeb918f464fbe28",
+      "72": "f4e90fa64da1a4c6bde7a0f39f337b21cebd96d05955562d50009d0690c8e0d7",
+      "76": "9d9f94e93ad4d354a3ea85781e4971455526e730ee4dbd97f1d70b137e0cb309",
+      "83": "712668ce211b56b69ee61e010f7909cc5d5abaf360fb971410ed1fe2ce08c6dc",
+      "89": "ef6169d918d66ebe5b9a3cd40cec4adbe113f46068d15b91f6f2df4b9d147514"
+    },
+    "host": {
+      "architecture": "x86_64",
+      "logical_cpus": 9,
+      "affinity_cpus": 9,
+      "effective_cpu_upper_bound": 8.0,
+      "cpu_max": "800000 100000",
+      "model": "AMD EPYC 9V74 80-Core Processor"
+    },
+    "peak_tree_rss_bytes": 85213184,
+    "cancelled": false,
+    "memory_policy": "strict",
+    "oom_event_delta": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    }
+  },
+  "staged": {
+    "camera_seconds": 0.01152879200026291,
+    "geometry_seconds": 0.176799218999804,
+    "raster_seconds": 0.13995705700040162,
+    "wall_seconds": 0.3573579039998549,
+    "paths_operations": [
+      322,
+      1797
+    ],
+    "scene_allowance": [
+      1795,
+      36418
+    ],
+    "hashes": {
+      "0": "54fa1d54792d6b8c3ce5dc960e413c95211ef3502df81174602734d9876ccedc",
+      "12": "a23f079a49784b2faca5536b26dae702ea13d65c42c771d954c53d545d8b8fef",
+      "21": "c0115eef0d2a1fe870f691c094b85d6e668f964c7e06b35af0293d31182ca4ae",
+      "22": "4d611456099959fc0a32e9a13519a9f2789ab7c3c4521e756dead8c84dfe867d",
+      "33": "c92f18362c1225f594b4a59969af8ba3cfdd6d79917f9b754fbc22e636c4a0a6",
+      "50": "7bc058ad3cb6bb6f146e4dc1adc78c339af8eff26932e279945b2fde473010af",
+      "56": "8b35ed8cb4740b9e5481b96dae359988b6dc233f355724fa3582396da032c7c9",
+      "57": "b0879c547509e49b06db74ba383258ecbb1ad6c003494967495842be6d93ff0b",
+      "65": "9e7840680816e27feda28710b1081306fb777e70f731ecf625eb76c4e02ab14f",
+      "72": "cb2d56960af674dd4a440364c6e6e534058e6439ca21f57db56f57cd327564aa",
+      "76": "379fe43906c8845328a85ca8a8ca7f189325406807974a833029ceaf634364bd",
+      "83": "b7dc8a61bdd44a2b23b034ec8b386c2cac99393f4b0a7944f4c62251d9409b21",
+      "89": "e5d96b1cdda92a424574f07e0c831ec2b57d35482d5a183c804f591e55bc12b6"
+    },
+    "host": {
+      "architecture": "x86_64",
+      "logical_cpus": 9,
+      "affinity_cpus": 9,
+      "effective_cpu_upper_bound": 8.0,
+      "cpu_max": "800000 100000",
+      "model": "AMD EPYC 9V74 80-Core Processor"
+    },
+    "peak_tree_rss_bytes": 85229568,
+    "cancelled": false,
+    "memory_policy": "strict",
+    "oom_event_delta": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    }
+  }
+}
