@@ -91,7 +91,7 @@ def sit_sample(actor, t):
         expression = "focused" if seated < .98 else "calm"
     else:
         profile = living.PROFILES[actor]
-        crouch = (profile.upper + profile.lower - 25) * seated
+        crouch = (profile.upper + profile.lower - 17.5) * seated
         pose = living.sample_pose(actor, "idle", 0, crouch=crouch)
         expression = "neutral" if seated < .98 else "happy"
     return Sample(pose, (-5, 0), seated >= 1, expression)
@@ -102,7 +102,8 @@ def manipulation_sample(plan, t):
     if plan.identity == "pickup_carry_place":
         pickup, lift, lower, release = (ramp(t, *span) for span in
                                         ((.4,1.25),(1.25,2.25),(3.75,4.75),(4.75,5.6)))
-        crouch = 32 * (pickup * (1-lift) + lower * (1-release))
+        crouch = 39.5 * (pickup * (1-lift) + lower * (1-release))
+        crouch += 7.5 * lift * (1-lower)
         travel_time = 1.45 * ramp(t, 2.25, 3.75)
         gait = ramp(t,2.25,2.55) * (1-ramp(t,3.45,3.75))
         pose = living.sample_pose(actor, "walk", travel_time, crouch=crouch, gait_weight=gait)
@@ -117,7 +118,7 @@ def manipulation_sample(plan, t):
         grasp = ramp(t,.35,1.15) * (1-ramp(t,3.85,4.65))
         travel_time = 2.15 * ramp(t, 1.15, 3.85)
         gait = ramp(t,1.15,1.45) * (1-ramp(t,3.55,3.85))
-        crouch = 4 * grasp
+        crouch = (13.5 if actor == "scout_01" else 11.5) * grasp
         pose = living.sample_pose(actor, "walk", travel_time, crouch=crouch, gait_weight=gait)
         hand_x, hand_y = pose.root.x + 24, -41
         prop_x, prop_y = hand_x + 51, 0

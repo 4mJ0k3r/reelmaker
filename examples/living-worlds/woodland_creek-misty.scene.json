@@ -1,0 +1,298 @@
+{
+  "schema_version": "scene-0.1",
+  "title": "Woodland Creek \u2014 misty",
+  "camera": "gentle_drift",
+  "output": {
+    "width": 720,
+    "height": 1280,
+    "fps": 30,
+    "frames": 90,
+    "codec": "h264",
+    "pixel_format": "yuv420p"
+  },
+  "art_direction": {
+    "warmth": 0.72,
+    "atmosphere": 0.72,
+    "breeze": 0.2
+  },
+  "nodes": [
+    {
+      "id": "root",
+      "kind": "root",
+      "parent": null,
+      "order": 0,
+      "visible": true,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "id": "sky_plane",
+      "kind": "layer",
+      "parent": "root",
+      "order": 0,
+      "visible": true,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation_degrees": 0
+      },
+      "depth": 0
+    },
+    {
+      "id": "distance",
+      "kind": "layer",
+      "parent": "root",
+      "order": 1,
+      "visible": true,
+      "transform": {
+        "x": 0.0,
+        "y": 0.0,
+        "scale": 1.0,
+        "rotation_degrees": 0
+      },
+      "depth": 0.18
+    },
+    {
+      "id": "terrain",
+      "kind": "layer",
+      "parent": "root",
+      "order": 2,
+      "visible": true,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation_degrees": 0
+      },
+      "depth": 1
+    },
+    {
+      "id": "midground",
+      "kind": "layer",
+      "parent": "root",
+      "order": 3,
+      "visible": true,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation_degrees": 0
+      },
+      "depth": 1
+    },
+    {
+      "id": "foreground",
+      "kind": "layer",
+      "parent": "root",
+      "order": 4,
+      "visible": true,
+      "transform": {
+        "x": 0.0,
+        "y": 0.0,
+        "scale": 1.0,
+        "rotation_degrees": 0
+      },
+      "depth": 1.4
+    },
+    {
+      "id": "sky",
+      "kind": "background",
+      "parent": "sky_plane",
+      "order": 0,
+      "visible": true,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation_degrees": 0
+      },
+      "asset_id": "cinematic_dusk_sky_01",
+      "variant": "default"
+    },
+    {
+      "id": "hills",
+      "kind": "background",
+      "parent": "distance",
+      "order": 0,
+      "visible": true,
+      "transform": {
+        "x": 180,
+        "y": 353,
+        "scale": 1,
+        "rotation_degrees": 0
+      },
+      "asset_id": "cinematic_dusk_hills_01",
+      "variant": "rolling"
+    },
+    {
+      "id": "ground",
+      "kind": "environment",
+      "parent": "terrain",
+      "order": 0,
+      "visible": true,
+      "transform": {
+        "x": 180,
+        "y": 500,
+        "scale": 1,
+        "rotation_degrees": 0
+      },
+      "asset_id": "cinematic_farm_track_01",
+      "variant": "default"
+    },
+    {
+      "id": "approach",
+      "kind": "asset",
+      "parent": "terrain",
+      "order": 2,
+      "visible": true,
+      "transform": {
+        "x": 173,
+        "y": 662,
+        "scale": 1.27,
+        "rotation_degrees": 0
+      },
+      "asset_id": "road_surface_01",
+      "variant": "packed_dirt"
+    },
+    {
+      "id": "channel",
+      "kind": "asset",
+      "parent": "terrain",
+      "order": 3,
+      "visible": true,
+      "transform": {
+        "x": 180,
+        "y": 513,
+        "scale": 1,
+        "rotation_degrees": 0
+      },
+      "asset_id": "creek_channel_01",
+      "variant": "stone_banks"
+    },
+    {
+      "id": "left_tree",
+      "kind": "asset",
+      "parent": "midground",
+      "order": 0,
+      "visible": true,
+      "transform": {
+        "x": 36,
+        "y": 518,
+        "scale": 1.12,
+        "rotation_degrees": 0
+      },
+      "asset_id": "deciduous_tree_01",
+      "variant": "leaning"
+    },
+    {
+      "id": "right_tree",
+      "kind": "asset",
+      "parent": "midground",
+      "order": 1,
+      "visible": true,
+      "transform": {
+        "x": 296,
+        "y": 480,
+        "scale": 0.92,
+        "rotation_degrees": 0
+      },
+      "asset_id": "deciduous_tree_01",
+      "variant": "autumn"
+    },
+    {
+      "id": "bank_shrubs",
+      "kind": "asset",
+      "parent": "midground",
+      "order": 2,
+      "visible": true,
+      "transform": {
+        "x": 288,
+        "y": 499,
+        "scale": 0.83,
+        "rotation_degrees": 0
+      },
+      "asset_id": "shrub_cluster_01",
+      "variant": "lush"
+    },
+    {
+      "id": "span",
+      "kind": "asset",
+      "parent": "midground",
+      "order": 3,
+      "visible": true,
+      "transform": {
+        "x": 174,
+        "y": 556,
+        "scale": 1.05,
+        "rotation_degrees": 0
+      },
+      "asset_id": "small_bridge_01",
+      "variant": "weathered"
+    },
+    {
+      "id": "bank_rocks",
+      "kind": "asset",
+      "parent": "midground",
+      "order": 4,
+      "visible": true,
+      "transform": {
+        "x": 71,
+        "y": 541,
+        "scale": 0.8,
+        "rotation_degrees": 0
+      },
+      "asset_id": "rock_group_01",
+      "variant": "angular"
+    },
+    {
+      "id": "sign",
+      "kind": "asset",
+      "parent": "midground",
+      "order": 5,
+      "visible": true,
+      "transform": {
+        "x": 283,
+        "y": 559,
+        "scale": 0.68,
+        "rotation_degrees": 0
+      },
+      "asset_id": "signpost_01",
+      "variant": "weathered"
+    },
+    {
+      "id": "front_shrubs",
+      "kind": "asset",
+      "parent": "foreground",
+      "order": 2,
+      "visible": true,
+      "transform": {
+        "x": 342,
+        "y": 620,
+        "scale": 1.2,
+        "rotation_degrees": 0
+      },
+      "asset_id": "shrub_cluster_01",
+      "variant": "sparse"
+    },
+    {
+      "id": "mist",
+      "kind": "asset",
+      "parent": "foreground",
+      "order": 1,
+      "visible": true,
+      "transform": {
+        "x": 157,
+        "y": 611,
+        "scale": 1.5,
+        "rotation_degrees": 0
+      },
+      "asset_id": "ground_mist_01",
+      "variant": "thin"
+    }
+  ]
+}

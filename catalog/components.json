@@ -966,6 +966,61 @@
           0
         ],
         "bounds": [
+          -221,
+          -29,
+          221,
+          35
+        ],
+        "budget": {
+          "max_operations": 85,
+          "max_paths": 6
+        },
+        "description": "Authored channel under a decorative span.",
+        "scene_kind": "asset",
+        "support_envelope": null,
+        "upright": false
+      },
+      "engine_capability": true,
+      "family": "nature",
+      "id": "creek_channel_01",
+      "name": "Creek channel",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "stone_banks"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Authored channel under a decorative span.",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/visual_library/living_assets.py:creek"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "stone_banks"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "bounds": [
           -70,
           -151,
           100,
@@ -1590,6 +1645,63 @@
           0
         ],
         "bounds": [
+          -54,
+          -44,
+          42,
+          4
+        ],
+        "budget": {
+          "max_operations": 100,
+          "max_paths": 19
+        },
+        "description": "Grounded wheels and handle at (-51, -41).",
+        "scene_kind": "asset",
+        "support_envelope": null,
+        "upright": true
+      },
+      "engine_capability": true,
+      "family": "props",
+      "id": "handcart_01",
+      "name": "Handcart",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "empty",
+            "loaded"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Grounded wheels and handle at (-51, -41).",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/visual_library/living_assets.py:cart"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "empty",
+        "loaded"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "bounds": [
           -87,
           -179,
           116,
@@ -1652,6 +1764,149 @@
         "daylight",
         "dusk",
         "weathered"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "bounds": [
+          -100,
+          -100,
+          460,
+          750
+        ],
+        "budget": {
+          "max_operations": 24,
+          "max_paths": 4
+        },
+        "description": "Authored sky grade for the Village Lane kit.",
+        "scene_kind": "asset",
+        "support_envelope": null,
+        "upright": false
+      },
+      "engine_capability": true,
+      "family": "nature",
+      "id": "living_sky_01",
+      "name": "Village sky grade",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "daylight",
+            "rainy_night"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Authored sky grade for the Village Lane kit.",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/visual_library/living_assets.py:sky"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "daylight",
+        "rainy_night"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "budget": {
+          "max_operations": 440,
+          "max_paths": 56
+        },
+        "character_id": "mechanic_01",
+        "preview_evidence": [
+          "docs/visual-evidence/sprint-b/mechanic_01-neutral.png",
+          "docs/visual-evidence/sprint-b/mechanic_01-expressions.png",
+          "docs/visual-evidence/sprint-b/mechanic_01-actions.png"
+        ],
+        "scene_kind": "character",
+        "standing_height_units": 121,
+        "support_envelope": null,
+        "upright": true
+      },
+      "engine_capability": true,
+      "family": "characters",
+      "id": "mechanic_01",
+      "name": "Bram Mechanic",
+      "parameters": {
+        "expressions": {
+          "choices": [
+            "neutral",
+            "happy",
+            "concerned",
+            "surprised",
+            "frightened",
+            "determined"
+          ],
+          "default": "neutral"
+        },
+        "registry_actions": {
+          "choices": [
+            "idle",
+            "walk",
+            "run",
+            "notice",
+            "react"
+          ]
+        },
+        "scene_action": {
+          "choices": [
+            "idle",
+            "walk",
+            "run",
+            "notice",
+            "react"
+          ]
+        },
+        "variant": {
+          "choices": [
+            "default"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene",
+        "character"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Scene renderer only; blocking and storyboards retain their historical actor scope."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/characters/registry.py:character_info",
+        "src/reelforge/characters/registry.py:draw_commands_builder",
+        "src/reelforge/characters/living.py:draw_actor"
+      ],
+      "type": "character",
+      "variants": [
+        "default"
       ]
     },
     {
@@ -1784,6 +2039,63 @@
         "lean",
         "compact",
         "windswept"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "bounds": [
+          -12,
+          -19,
+          18,
+          4
+        ],
+        "budget": {
+          "max_operations": 65,
+          "max_paths": 10
+        },
+        "description": "Centered base, top grasp at (0, -16).",
+        "scene_kind": "asset",
+        "support_envelope": null,
+        "upright": true
+      },
+      "engine_capability": true,
+      "family": "props",
+      "id": "parcel_01",
+      "name": "Travel parcel",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "wrapped",
+            "utility"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Centered base, top grasp at (0, -16).",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/visual_library/living_assets.py:parcel"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "wrapped",
+        "utility"
       ]
     },
     {
@@ -2152,6 +2464,65 @@
       ],
       "type": "procedural",
       "variants": []
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "bounds": [
+          -20,
+          -20,
+          380,
+          650
+        ],
+        "budget": {
+          "max_operations": 124,
+          "max_paths": 62
+        },
+        "description": "Animated in logical viewport units.",
+        "scene_kind": "asset",
+        "support_envelope": null,
+        "upright": false
+      },
+      "engine_capability": true,
+      "family": "effects",
+      "id": "rain_field_01",
+      "name": "Depth-layered rain",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "light",
+            "steady",
+            "heavy"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Animated in logical viewport units.",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/visual_library/living_assets.py:rain"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "light",
+        "steady",
+        "heavy"
+      ]
     },
     {
       "dependencies": [
@@ -2552,6 +2923,92 @@
     },
     {
       "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "budget": {
+          "max_operations": 440,
+          "max_paths": 56
+        },
+        "character_id": "scout_01",
+        "preview_evidence": [
+          "docs/visual-evidence/sprint-b/scout_01-neutral.png",
+          "docs/visual-evidence/sprint-b/scout_01-expressions.png",
+          "docs/visual-evidence/sprint-b/scout_01-actions.png"
+        ],
+        "scene_kind": "character",
+        "standing_height_units": 117,
+        "support_envelope": null,
+        "upright": true
+      },
+      "engine_capability": true,
+      "family": "characters",
+      "id": "scout_01",
+      "name": "Mira Scout",
+      "parameters": {
+        "expressions": {
+          "choices": [
+            "neutral",
+            "happy",
+            "concerned",
+            "surprised",
+            "frightened",
+            "determined"
+          ],
+          "default": "neutral"
+        },
+        "registry_actions": {
+          "choices": [
+            "idle",
+            "walk",
+            "run",
+            "notice",
+            "react"
+          ]
+        },
+        "scene_action": {
+          "choices": [
+            "idle",
+            "walk",
+            "run",
+            "notice",
+            "react"
+          ]
+        },
+        "variant": {
+          "choices": [
+            "default"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene",
+        "character"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Scene renderer only; blocking and storyboards retain their historical actor scope."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/characters/registry.py:character_info",
+        "src/reelforge/characters/registry.py:draw_commands_builder",
+        "src/reelforge/characters/living.py:draw_actor"
+      ],
+      "type": "character",
+      "variants": [
+        "default"
+      ]
+    },
+    {
+      "dependencies": [
         "environment-0.1"
       ],
       "details": {},
@@ -2949,6 +3406,65 @@
           0
         ],
         "bounds": [
+          -20,
+          -78,
+          57,
+          10
+        ],
+        "budget": {
+          "max_operations": 36,
+          "max_paths": 6
+        },
+        "description": "Local emitter at the node origin.",
+        "scene_kind": "asset",
+        "support_envelope": null,
+        "upright": false
+      },
+      "engine_capability": true,
+      "family": "effects",
+      "id": "smoke_wisp_01",
+      "name": "Smoke wisps",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "thin",
+            "rising",
+            "windblown"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Local emitter at the node origin.",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/visual_library/living_assets.py:smoke"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "thin",
+        "rising",
+        "windblown"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "bounds": [
           -26,
           -143,
           27,
@@ -2996,6 +3512,65 @@
         "unlit",
         "lit",
         "weathered"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "bounds": [
+          -27,
+          320,
+          391,
+          594
+        ],
+        "budget": {
+          "max_operations": 75,
+          "max_paths": 15
+        },
+        "description": "Deterministic foliage drift over the midground.",
+        "scene_kind": "asset",
+        "support_envelope": null,
+        "upright": false
+      },
+      "engine_capability": true,
+      "family": "effects",
+      "id": "wind_leaves_01",
+      "name": "Wind-blown leaves",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "gentle",
+            "gust",
+            "autumn"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Deterministic foliage drift over the midground.",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/visual_library/living_assets.py:leaves"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "gentle",
+        "gust",
+        "autumn"
       ]
     },
     {

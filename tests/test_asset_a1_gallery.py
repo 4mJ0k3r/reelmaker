@@ -25,6 +25,11 @@ from tools import asset_gallery
 GALLERY = ROOT / "docs/asset-gallery"
 from reelforge.visual_library.world_assets import WORLD_ASSETS
 
+from reelforge.characters.living import PROFILES
+from reelforge.visual_library.living_assets import EFFECTS, PROPS
+
+ADDITIONS = WORLD_ASSETS | PROFILES | PROPS | EFFECTS
+
 BASELINE_CATALOG = "df3c9ab5a6e4ee50c54a0f03c8d897512ef49623a67649fbb9ae82bf7288e6a7"
 VARIANTS = {
     "house_01": ("daylight", "dusk", "weathered"),
@@ -92,7 +97,7 @@ def test_validated_scene_placement(identity, variants):
 
 
 def test_historical_catalog_entries_preserved_with_barn_evidence_link():
-    previous = [e for e in inventory()["components"] if e["id"] not in BUILDINGS and e["id"] not in WORLD_ASSETS]
+    previous = [e for e in inventory()["components"] if e["id"] not in BUILDINGS and e["id"] not in ADDITIONS]
     assert len(previous) == 48
     barn = next(e for e in previous if e["id"] == "barn_01")
     assert barn["details"].pop("integration_evidence") == [
@@ -114,7 +119,7 @@ def test_gallery_matches_inventory_and_local_evidence():
     catalog = inventory()["components"]
     entries = data["components"]
     assert [e["id"] for e in entries] == [e["id"] for e in catalog]
-    assert len({e["id"] for e in entries}) == len(entries) == 50 + len(WORLD_ASSETS)
+    assert len({e["id"] for e in entries}) == len(entries) == 50 + len(ADDITIONS)
     references = set()
     for entry, registered in zip(entries, catalog, strict=True):
         assert entry["name"] == registered["name"]

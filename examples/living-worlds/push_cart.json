@@ -1,0 +1,7 @@
+{
+  "schema_version": "interaction-0.1",
+  "interaction": "push_cart",
+  "actor": "mechanic_01",
+  "prop": "handcart_01",
+  "variant": "empty"
+}

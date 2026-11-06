@@ -293,6 +293,10 @@ def registered_components(planner_assets):
             )
             if actor.character_id in PROFILES:
                 restrictions.append("Scene renderer only; blocking and storyboards retain their historical actor scope.")
+                details["preview_evidence"] = [
+                    f"docs/visual-evidence/sprint-b/{actor.character_id}-{kind}.png"
+                    for kind in ("neutral", "expressions", "actions")
+                ]
             else:
                 restrictions.append(
                     "Registry actions are broader than the stationary actions accepted by scene-0.1."
@@ -454,7 +458,7 @@ def system_components(views):
         restrictions = ["Storyboard framing also constrains screen position, lead and offsets."]
         if key == "close_up":
             sources.append(character_staging.cinematic_character_staging)
-            parameters["staging.character"] = {"choices": list(registry.character_ids())}
+            parameters["staging.character"] = {"choices": list(registry.blocking_character_ids())}
             parameters["staging.world"] = {"choices": list(character_staging.WORLDS)}
             restrictions.append(
                 "Trusted cinematic_character_staging builder emits a validated direction-0.1 "

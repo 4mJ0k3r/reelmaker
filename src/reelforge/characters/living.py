@@ -31,7 +31,7 @@ class Profile:
 
     @property
     def height(self):
-        return self.upper + self.lower + self.torso + 2 * self.head + 1
+        return self.upper + self.lower + self.torso + 2 * self.head + 8
 
 
 PROFILES = {
@@ -84,22 +84,28 @@ def sample_pose(identity, action, seconds, *, crouch=0., hand=None, gait_weight=
     lean *= gait_weight if walking else 1
     lean += .13 * notice - (.25 if identity == "scout_01" else .17) * react
     x = cycle * stride if walking else 0
-    y = -(profile.upper + profile.lower - 5) + crouch
+    y = -(profile.upper + profile.lower + 2.5) + crouch
     if walking:
         y += (3 if fast else 2) * math.sin(2 * math.pi * cycle) ** 2
     else:
         y += .55 * (1 + math.sin(seconds * 4))
     angles = {"torso": lean, "head": .18 * notice - .16 * react - lean * .4}
+    legs = []
     for side, sign, offset in (("far", -1, .5), ("near", 1, 0)):
         foot = step_target(cycle, stride, 16 if fast else 8, offset) if walking else (sign * 10, -5)
         if walking:
             foot = (x + sign * 10 + gait_weight * (foot[0] - x - sign * 10),
                     -5 + gait_weight * (foot[1] + 5))
         hip = x + sign * 5
-        a, b = two_bone(foot[0] - hip, foot[1] - y, profile.upper, profile.lower)
-        angles.update({f"{side}_hip": a, f"{side}_knee": b, f"{side}_foot": -a-b})
+        dx = foot[0] - hip
+        legs.append((side, dx, foot[1]))
+        limit = profile.upper + profile.lower - .25
+        y = max(y, foot[1] - math.sqrt(limit ** 2 - dx ** 2))
         angles[f"{side}_shoulder"] = sign * (.76 if fast else .48) * math.sin(2 * math.pi * cycle) * gait_weight - .8 * react
         angles[f"{side}_elbow"] = -.23 - .63 * react - (.52 if fast else .08)
+    for side, dx, ankle_y in legs:
+        a, b = two_bone(dx, ankle_y - y, profile.upper, profile.lower)
+        angles.update({f"{side}_hip": a, f"{side}_knee": b, f"{side}_foot": -a-b})
     if hand is not None:
         base = RIGS[identity].evaluate(Pose(Rigid(x, y), tuple(angles.items())))
         shoulder = base["near_shoulder"]
@@ -169,10 +175,10 @@ def draw_pose(identity, pose, expression):
     for x in (3, 10):
         part("head", oval("f4dcc2", x,eye_y,3 if wide else 2.7,3.5 if wide else 1.9),
              oval("332c31", x+1,eye_y,1.2,1.8 if wide else 1.2))
-        tilt = 2 if expression == "determined" else -2 if expression == "concerned" else 0
+        tilt = {"determined": 2, "concerned": -2, "frightened": -3}.get(expression, 0)
         part("head", stroke("4a3839", 1.3,(x-2,eye_y-4-tilt),(x+2,eye_y-4)))
     if wide:
-        part("head", oval("603e3c",8,-5,2.6,2.8))
+        part("head", oval("603e3c",8,-5,3.2 if expression == "frightened" else 2.6,2.8))
     else:
         smile = 2 if expression == "happy" else -1.5 if expression == "concerned" else 0
         part("head", stroke("603e3c",1.2,(5,-5),(8,-5+smile),(11,-5)))

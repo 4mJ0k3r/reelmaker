@@ -1,5 +1,6 @@
 """Publish JSON Schema from the same capability constants; topology is checked by the compiler."""
 
+from reelforge.characters.living import PROFILES
 from reelforge.characters.presets import EXPRESSIONS
 from reelforge.characters.registry import YELLOW_MELLOW_ID, character_info
 
@@ -67,6 +68,13 @@ def scene_schema() -> dict:
                         "expression": {"enum": list(character_info(YELLOW_MELLOW_ID).expressions)},
                     }
                 )
+            elif asset.id in PROFILES:
+                actor = character_info(asset.id)
+                props["character"] = obj({
+                    "character": {"const": asset.id},
+                    "action": {"enum": list(actor.scene_actions)},
+                    "expression": {"enum": list(actor.expressions)},
+                })
         nodes.append(obj(props))
     schema = obj(
         {

@@ -680,6 +680,36 @@
       "preview_status": "rendered"
     },
     {
+      "id": "creek_channel_01",
+      "name": "Creek channel",
+      "family": "nature",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Authored channel under a decorative span.",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Authored channel under a decorative span.",
+      "variants": [
+        {
+          "id": "stone_banks",
+          "description": "",
+          "preview": "previews/creek_channel_01-stone_banks.png"
+        }
+      ],
+      "evidence": [],
+      "preview_status": "rendered"
+    },
+    {
       "id": "deciduous_tree_01",
       "name": "Deciduous tree",
       "family": "nature",
@@ -1092,6 +1122,41 @@
       "preview_status": "rendered"
     },
     {
+      "id": "handcart_01",
+      "name": "Handcart",
+      "family": "props",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Grounded wheels and handle at (-51, -41).",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Grounded wheels and handle at (-51, -41).",
+      "variants": [
+        {
+          "id": "empty",
+          "description": "",
+          "preview": "previews/handcart_01-empty.png"
+        },
+        {
+          "id": "loaded",
+          "description": "",
+          "preview": "previews/handcart_01-loaded.png"
+        }
+      ],
+      "evidence": [],
+      "preview_status": "rendered"
+    },
+    {
       "id": "house_01",
       "name": "Gable cottage",
       "family": "architecture",
@@ -1144,6 +1209,84 @@
         }
       ],
       "preview_status": "rendered"
+    },
+    {
+      "id": "living_sky_01",
+      "name": "Village sky grade",
+      "family": "nature",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Authored sky grade for the Village Lane kit.",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Authored sky grade for the Village Lane kit.",
+      "variants": [
+        {
+          "id": "daylight",
+          "description": "",
+          "preview": "previews/living_sky_01-daylight.png"
+        },
+        {
+          "id": "rainy_night",
+          "description": "",
+          "preview": "previews/living_sky_01-rainy_night.png"
+        }
+      ],
+      "evidence": [],
+      "preview_status": "rendered"
+    },
+    {
+      "id": "mechanic_01",
+      "name": "Bram Mechanic",
+      "family": "characters",
+      "type": "character",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Scene renderer only; blocking and storyboards retain their historical actor scope."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene",
+        "character"
+      ],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Use the registered scene node kind and scene-0.1 validation.",
+      "variants": [
+        {
+          "id": "default",
+          "description": "",
+          "preview": null
+        }
+      ],
+      "evidence": [
+        {
+          "path": "previews/history/sprint-b/mechanic_01-neutral.png",
+          "label": "Catalog reference (may show other components)"
+        },
+        {
+          "path": "previews/history/sprint-b/mechanic_01-expressions.png",
+          "label": "Catalog reference (may show other components)"
+        },
+        {
+          "path": "previews/history/sprint-b/mechanic_01-actions.png",
+          "label": "Catalog reference (may show other components)"
+        }
+      ],
+      "preview_status": "context_only"
     },
     {
       "id": "orchard",
@@ -1235,6 +1378,41 @@
       ],
       "evidence": [],
       "preview_status": "unavailable"
+    },
+    {
+      "id": "parcel_01",
+      "name": "Travel parcel",
+      "family": "props",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Centered base, top grasp at (0, -16).",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Centered base, top grasp at (0, -16).",
+      "variants": [
+        {
+          "id": "wrapped",
+          "description": "",
+          "preview": "previews/parcel_01-wrapped.png"
+        },
+        {
+          "id": "utility",
+          "description": "",
+          "preview": "previews/parcel_01-utility.png"
+        }
+      ],
+      "evidence": [],
+      "preview_status": "rendered"
     },
     {
       "id": "pine_snow_01",
@@ -1495,6 +1673,46 @@
       "preview_status": "unavailable"
     },
     {
+      "id": "rain_field_01",
+      "name": "Depth-layered rain",
+      "family": "effects",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Animated in logical viewport units.",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Animated in logical viewport units.",
+      "variants": [
+        {
+          "id": "light",
+          "description": "",
+          "preview": "previews/rain_field_01-light.png"
+        },
+        {
+          "id": "steady",
+          "description": "",
+          "preview": "previews/rain_field_01-steady.png"
+        },
+        {
+          "id": "heavy",
+          "description": "",
+          "preview": "previews/rain_field_01-heavy.png"
+        }
+      ],
+      "evidence": [],
+      "preview_status": "rendered"
+    },
+    {
       "id": "road_junction_01",
       "name": "Road junction",
       "family": "infrastructure",
@@ -1687,6 +1905,49 @@
       "variants": [],
       "evidence": [],
       "preview_status": "unavailable"
+    },
+    {
+      "id": "scout_01",
+      "name": "Mira Scout",
+      "family": "characters",
+      "type": "character",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Scene renderer only; blocking and storyboards retain their historical actor scope."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene",
+        "character"
+      ],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Use the registered scene node kind and scene-0.1 validation.",
+      "variants": [
+        {
+          "id": "default",
+          "description": "",
+          "preview": null
+        }
+      ],
+      "evidence": [
+        {
+          "path": "previews/history/sprint-b/scout_01-neutral.png",
+          "label": "Catalog reference (may show other components)"
+        },
+        {
+          "path": "previews/history/sprint-b/scout_01-expressions.png",
+          "label": "Catalog reference (may show other components)"
+        },
+        {
+          "path": "previews/history/sprint-b/scout_01-actions.png",
+          "label": "Catalog reference (may show other components)"
+        }
+      ],
+      "preview_status": "context_only"
     },
     {
       "id": "settlement_street",
@@ -1913,6 +2174,46 @@
       "preview_status": "rendered"
     },
     {
+      "id": "smoke_wisp_01",
+      "name": "Smoke wisps",
+      "family": "effects",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Local emitter at the node origin.",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Local emitter at the node origin.",
+      "variants": [
+        {
+          "id": "thin",
+          "description": "",
+          "preview": "previews/smoke_wisp_01-thin.png"
+        },
+        {
+          "id": "rising",
+          "description": "",
+          "preview": "previews/smoke_wisp_01-rising.png"
+        },
+        {
+          "id": "windblown",
+          "description": "",
+          "preview": "previews/smoke_wisp_01-windblown.png"
+        }
+      ],
+      "evidence": [],
+      "preview_status": "rendered"
+    },
+    {
       "id": "streetlamp_01",
       "name": "Roadside streetlamp",
       "family": "props",
@@ -1947,6 +2248,46 @@
           "id": "weathered",
           "description": "",
           "preview": "previews/streetlamp_01-weathered.png"
+        }
+      ],
+      "evidence": [],
+      "preview_status": "rendered"
+    },
+    {
+      "id": "wind_leaves_01",
+      "name": "Wind-blown leaves",
+      "family": "effects",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Deterministic foliage drift over the midground.",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Deterministic foliage drift over the midground.",
+      "variants": [
+        {
+          "id": "gentle",
+          "description": "",
+          "preview": "previews/wind_leaves_01-gentle.png"
+        },
+        {
+          "id": "gust",
+          "description": "",
+          "preview": "previews/wind_leaves_01-gust.png"
+        },
+        {
+          "id": "autumn",
+          "description": "",
+          "preview": "previews/wind_leaves_01-autumn.png"
         }
       ],
       "evidence": [],
@@ -2016,5 +2357,100 @@
       ],
       "preview_status": "context_only"
     }
-  ]
+  ],
+  "living_worlds": {
+    "motion": {
+      "scout_01": "../visual-evidence/sprint-b/motion/scout_01.webp",
+      "mechanic_01": "../visual-evidence/sprint-b/motion/mechanic_01.webp",
+      "village_lane": "../visual-evidence/sprint-b/motion/village_lane.webp",
+      "woodland_creek": "../visual-evidence/sprint-b/motion/woodland_creek.webp",
+      "pickup_carry_place": "../visual-evidence/sprint-b/motion/pickup_carry_place.webp",
+      "sit_stand": "../visual-evidence/sprint-b/motion/sit_stand.webp",
+      "push_cart": "../visual-evidence/sprint-b/motion/push_cart.webp"
+    },
+    "world_previews": {
+      "village_lane-daylight": [
+        "../visual-evidence/sprint-b/village_lane-daylight-720.png",
+        "../visual-evidence/sprint-b/village_lane-daylight-360.png"
+      ],
+      "village_lane-evening": [
+        "../visual-evidence/sprint-b/village_lane-evening-720.png",
+        "../visual-evidence/sprint-b/village_lane-evening-360.png"
+      ],
+      "village_lane-rainy_night": [
+        "../visual-evidence/sprint-b/village_lane-rainy_night-720.png",
+        "../visual-evidence/sprint-b/village_lane-rainy_night-360.png"
+      ],
+      "woodland_creek-clear": [
+        "../visual-evidence/sprint-b/woodland_creek-clear-720.png",
+        "../visual-evidence/sprint-b/woodland_creek-clear-360.png"
+      ],
+      "woodland_creek-misty": [
+        "../visual-evidence/sprint-b/woodland_creek-misty-720.png",
+        "../visual-evidence/sprint-b/woodland_creek-misty-360.png"
+      ],
+      "woodland_creek-windy": [
+        "../visual-evidence/sprint-b/woodland_creek-windy-720.png",
+        "../visual-evidence/sprint-b/woodland_creek-windy-360.png"
+      ]
+    },
+    "worlds": {
+      "village_lane": [
+        "daylight",
+        "evening",
+        "rainy_night"
+      ],
+      "woodland_creek": [
+        "clear",
+        "misty",
+        "windy"
+      ]
+    },
+    "interactions": {
+      "pickup_carry_place": {
+        "actors": [
+          "scout_01",
+          "mechanic_01"
+        ],
+        "prop": "parcel_01",
+        "variants": [
+          "wrapped",
+          "utility"
+        ],
+        "frames": 180,
+        "kit": "village_lane",
+        "mood": "evening"
+      },
+      "sit_stand": {
+        "actors": [
+          "rowan_01",
+          "scout_01",
+          "mechanic_01"
+        ],
+        "prop": "bench_01",
+        "variants": [
+          "timber",
+          "painted",
+          "weathered"
+        ],
+        "frames": 150,
+        "kit": "village_lane",
+        "mood": "daylight"
+      },
+      "push_cart": {
+        "actors": [
+          "mechanic_01",
+          "scout_01"
+        ],
+        "prop": "handcart_01",
+        "variants": [
+          "empty",
+          "loaded"
+        ],
+        "frames": 150,
+        "kit": "woodland_creek",
+        "mood": "windy"
+      }
+    }
+  }
 }

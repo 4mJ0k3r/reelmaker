@@ -168,6 +168,14 @@ def compile_scene(scene: Scene, *, generated: tuple[GeneratedGeometry, ...] = ()
         left, top, right, bottom = support.support_envelope
         if not left <= x <= right or not top <= y <= bottom:
             fail(p, "Character origin lies outside the ground's local support envelope")
+        from reelforge.characters.living import PROFILES, sample_pose
+
+        if n.asset_id in PROFILES and n.character.action in ("walk", "run"):
+            distance = sample_pose(n.asset_id, n.character.action, (scene.frames - 1) / 30).root.x
+            clearance = 28 * actor.world.scale / floor.world.scale
+            finish = x + distance * actor.world.scale / floor.world.scale
+            if x - clearance < left or finish + clearance > right:
+                fail(p, "Locomotion and foot clearance must stay on the registered ground")
     instances = [n for n in scene.nodes if n.asset_id]
     if len(instances) > MAX_INSTANCES:
         fail("/nodes", f"At most {MAX_INSTANCES} visual instances", "SCENE_BUDGET")

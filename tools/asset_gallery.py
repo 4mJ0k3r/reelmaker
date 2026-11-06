@@ -18,6 +18,10 @@ from reelforge.visual_library.architecture.buildings import BUILDINGS
 from reelforge.visual_library.composition.building_showcase import building_showcase
 
 from reelforge.visual_library.world_assets import WORLD_ASSETS
+from reelforge.visual_library.living_assets import EFFECTS, PROPS
+from reelforge.characters.living import PROFILES
+from reelforge.visual_library.composition.interactions import INTERACTIONS
+from reelforge.visual_library.composition.living_worlds import WORLD_KITS
 
 TEMPLATE = Path(__file__).with_name("asset_gallery.html")
 SIZE = (720, 1280)
@@ -53,7 +57,24 @@ def metadata(previews=None):
                 "context_only" if evidence.get("context") else "unavailable"
             ),
         })
-    return {"components": entries}
+    evidence = ROOT / "docs/visual-evidence/sprint-b"
+    return {"components": entries, "living_worlds": {
+        "motion": {
+            key: f"../visual-evidence/sprint-b/motion/{key}.webp"
+            for key in (*PROFILES, *WORLD_KITS, *INTERACTIONS)
+            if (evidence / "motion" / f"{key}.webp").is_file()
+        },
+        "world_previews": {
+            f"{kit}-{mood}": [
+                f"../visual-evidence/sprint-b/{kit}-{mood}-{width}.png"
+                for width in (720, 360)
+                if (evidence / f"{kit}-{mood}-{width}.png").is_file()
+            ]
+            for kit, moods in WORLD_KITS.items() for mood in moods
+        },
+        "worlds": WORLD_KITS,
+        "interactions": {identity: vars(spec) for identity, spec in INTERACTIONS.items()},
+    }}
 
 
 def write_metadata(output, previews=None):
@@ -128,15 +149,23 @@ def render_evidence(directory):
                 timing["pixel_sha256"] = surface.pixel_sha256()
             return f"previews/{name}", timing
 
-        for identity, item in WORLD_ASSETS.items():
+        for identity, item in (WORLD_ASSETS | PROPS | EFFECTS).items():
             left, top, right, bottom = item.bounds
             scale = min(1.65, 300 / (right - left), 270 / (bottom - top))
             placement = Placement(180 - scale * (left + right) / 2,
                                   320 - scale * (top + bottom) / 2, scale)
             variants, results = {}, {}
             for variant in item.variants:
-                commands = artwork(identity, variant, placement)
-                variants[variant], timing = still(f"{identity}-{variant}.png", commands)
+                if identity in EFFECTS:
+                    asset = asset_by_id(identity)
+                    commands = recipe(asset, variant, .7, .4, 0, .7, None)
+                    if identity == "smoke_wisp_01":
+                        commands = tuple(Placement(175, 465, 2).command(c) for c in commands)
+                    variants[variant], timing = still(f"{identity}-{variant}.png", commands,
+                                                      background=color("33414d"))
+                else:
+                    commands = artwork(identity, variant, placement)
+                    variants[variant], timing = still(f"{identity}-{variant}.png", commands)
                 paths, operations = cost(commands)
                 results[variant] = {**timing, "paths": paths, "operations": operations}
             previews[identity] = {"variants": variants}
