@@ -328,8 +328,9 @@ def beacon(variant: str, warmth: float, seconds: float) -> tuple[DrawPath, ...]:
     recessed control panel carrying one large red activation button (``BEACON_SOCKET``).
     'buried' is half sunk in a drift with snow over its lower body and lamp cap but the panel and
     button clear; 'active' has the lamp lit, a signal beam and the button glowing.
+    'local_signal' keeps the glowing lamp and button with a smaller halo and ground accent.
     """
-    active = variant == "active"
+    active = variant in ("active", "local_signal")
     pulse = 0.65 + 0.35 * math.sin(seconds * 5.0)
     c: list[DrawPath] = []
     # Splayed stakes and cast shadow on the snow.
@@ -385,7 +386,7 @@ def beacon(variant: str, warmth: float, seconds: float) -> tuple[DrawPath, ...]:
     )
     if active:
         lamp = _bt(0, -52)
-        for i in range(8, 0, -1):
+        for i in range(8 if variant == "active" else 3, 0, -1):
             c.append(
                 DrawPath(
                     ellipse(lamp[0], lamp[1], 8 + i * 6, 8 + i * 6),
@@ -393,18 +394,28 @@ def beacon(variant: str, warmth: float, seconds: float) -> tuple[DrawPath, ...]:
                 )
             )
         c.append(DrawPath(ellipse(lamp[0], lamp[1], 6, 5), color("fff4df")))
-        c.append(
-            polygon(
-                (
-                    (lamp[0] - 5, lamp[1] - 4),
-                    (lamp[0] + 5, lamp[1] - 4),
-                    (lamp[0] + 22, -190),
-                    (lamp[0] - 22, -190),
-                ),
-                gradient(color(BEACON_CORE, 0.42 * pulse), color(BEACON_CORE, 0.0), -190, lamp[1]),
+        if variant == "active":
+            c.append(
+                polygon(
+                    (
+                        (lamp[0] - 5, lamp[1] - 4),
+                        (lamp[0] + 5, lamp[1] - 4),
+                        (lamp[0] + 22, -190),
+                        (lamp[0] - 22, -190),
+                    ),
+                    gradient(
+                        color(BEACON_CORE, 0.42 * pulse), color(BEACON_CORE, 0.0), -190, lamp[1]
+                    ),
+                )
             )
-        )
-        c.append(DrawPath(ellipse(0, 4, 52, 13), color(BEACON_WARM, 0.20 * pulse)))
+            c.append(DrawPath(ellipse(0, 4, 52, 13), color(BEACON_WARM, 0.20 * pulse)))
+        else:
+            c.append(
+                DrawPath(
+                    ellipse(0, 4, 32, 6),
+                    gradient(color(BEACON_WARM, 0.20 * pulse), color(BEACON_WARM, 0), -2, 10),
+                )
+            )
     else:
         c.append(_bellipse(0, -52, 2.6, 2.6, color(BEACON_RED, 0.35 + 0.25 * pulse)))
     # Drift: snow over the lower body and a cap on the dome, panel and button left clear.

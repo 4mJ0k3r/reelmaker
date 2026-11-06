@@ -120,12 +120,18 @@
           "max_operations": 1600,
           "max_paths": 96
         },
+        "integration_evidence": [
+          "docs/visual-evidence/stage1c/cold-establishing.jpg"
+        ],
         "interaction_sockets": {
           "activation_button_local": [
             2.4958354161707037,
             -24.875104131950646
           ]
         },
+        "preview_evidence": [
+          "docs/visual-evidence/stage1c/cold-establishing.jpg"
+        ],
         "scene_kind": "asset",
         "support_envelope": null,
         "upright": false
@@ -135,10 +141,16 @@
       "id": "beacon_01",
       "name": "Emergency beacon",
       "parameters": {
+        "art_direction.warmth": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
         "variant": {
           "choices": [
             "buried",
-            "active"
+            "active",
+            "local_signal"
           ]
         }
       },
@@ -149,7 +161,8 @@
         "scene"
       ],
       "restrictions": [
-        "Use the registered scene node kind and scene-0.1 validation."
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Local signal keeps the activation socket and amber light without the distant beam."
       ],
       "sources": [
         "src/reelforge/scenes/assets.py:recipe",
@@ -158,7 +171,8 @@
       "type": "scene_asset",
       "variants": [
         "buried",
-        "active"
+        "active",
+        "local_signal"
       ]
     },
     {
@@ -999,6 +1013,12 @@
           "max_operations": 3000,
           "max_paths": 160
         },
+        "integration_evidence": [
+          "docs/visual-evidence/stage1c/cold-establishing.jpg"
+        ],
+        "preview_evidence": [
+          "docs/visual-evidence/stage1c/clear-storm.jpg"
+        ],
         "scene_kind": "environment",
         "support_envelope": null,
         "upright": false
@@ -1008,10 +1028,16 @@
       "id": "frost_foreground_01",
       "name": "Frost foreground and snowstorm",
       "parameters": {
+        "art_direction.breeze": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
         "variant": {
           "choices": [
             "default",
-            "storm"
+            "storm",
+            "ridge_wind"
           ]
         }
       },
@@ -1022,16 +1048,19 @@
         "scene"
       ],
       "restrictions": [
-        "Use the registered scene node kind and scene-0.1 validation."
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Ridge wind adds restrained streaks outside the action band of the Cold Ridge composition."
       ],
       "sources": [
         "src/reelforge/scenes/assets.py:recipe",
-        "src/reelforge/environments/snowy.py:frost_foreground"
+        "src/reelforge/environments/snowy.py:frost_foreground",
+        "src/reelforge/visual_library/nature/cold_ridge.py:ridge_wind"
       ],
       "type": "scene_asset",
       "variants": [
         "default",
-        "storm"
+        "storm",
+        "ridge_wind"
       ]
     },
     {
@@ -1076,6 +1105,12 @@
           "max_operations": 3000,
           "max_paths": 160
         },
+        "integration_evidence": [
+          "docs/visual-evidence/stage1c/cold-establishing.jpg"
+        ],
+        "preview_evidence": [
+          "docs/visual-evidence/stage1c/mountains.jpg"
+        ],
         "scene_kind": "background",
         "support_envelope": null,
         "upright": true
@@ -1085,10 +1120,17 @@
       "id": "frost_peaks_01",
       "name": "Snowy peaks",
       "parameters": {
+        "art_direction.atmosphere": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
         "variant": {
           "choices": [
             "far",
-            "mid"
+            "mid",
+            "cinematic_far",
+            "cinematic_massif"
           ]
         }
       },
@@ -1099,16 +1141,20 @@
         "scene"
       ],
       "restrictions": [
-        "Use the registered scene node kind and scene-0.1 validation."
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Cinematic variants are trusted scene opt-ins; the planner retains far and mid."
       ],
       "sources": [
         "src/reelforge/scenes/assets.py:recipe",
-        "src/reelforge/environments/snowy.py:frost_peaks"
+        "src/reelforge/environments/snowy.py:frost_peaks",
+        "src/reelforge/visual_library/nature/cold_ridge.py:cold_peaks"
       ],
       "type": "scene_asset",
       "variants": [
         "far",
-        "mid"
+        "mid",
+        "cinematic_far",
+        "cinematic_massif"
       ]
     },
     {
@@ -1124,6 +1170,12 @@
           "max_operations": 6000,
           "max_paths": 320
         },
+        "integration_evidence": [
+          "docs/visual-evidence/stage1c/cold-establishing.jpg"
+        ],
+        "preview_evidence": [
+          "docs/visual-evidence/stage1c/terrain-rock.jpg"
+        ],
         "scene_kind": "environment",
         "support_envelope": [
           -250,
@@ -1138,9 +1190,20 @@
       "id": "frost_ridge_01",
       "name": "Snowy ridge",
       "parameters": {
+        "art_direction.atmosphere": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        "art_direction.warmth": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
         "variant": {
           "choices": [
-            "default"
+            "default",
+            "sculpted"
           ]
         }
       },
@@ -1151,15 +1214,18 @@
         "scene"
       ],
       "restrictions": [
-        "Use the registered scene node kind and scene-0.1 validation."
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Sculpted uses atmosphere and the original level support; no slope navigation."
       ],
       "sources": [
         "src/reelforge/scenes/assets.py:recipe",
-        "src/reelforge/environments/snowy.py:frost_ridge"
+        "src/reelforge/environments/snowy.py:frost_ridge",
+        "src/reelforge/visual_library/nature/cold_ridge.py:cold_ground"
       ],
       "type": "scene_asset",
       "variants": [
-        "default"
+        "default",
+        "sculpted"
       ]
     },
     {
@@ -1401,6 +1467,12 @@
           "max_operations": 1200,
           "max_paths": 64
         },
+        "integration_evidence": [
+          "docs/visual-evidence/stage1c/cold-establishing.jpg"
+        ],
+        "preview_evidence": [
+          "docs/visual-evidence/stage1c/conifers.jpg"
+        ],
         "scene_kind": "asset",
         "support_envelope": null,
         "upright": false
@@ -1410,11 +1482,18 @@
       "id": "pine_snow_01",
       "name": "Snow-covered pine",
       "parameters": {
+        "art_direction.breeze": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
         "variant": {
           "choices": [
             "tall",
             "short",
-            "cluster"
+            "cluster",
+            "pinnacle",
+            "windshear"
           ]
         }
       },
@@ -1425,17 +1504,21 @@
         "scene"
       ],
       "restrictions": [
-        "Use the registered scene node kind and scene-0.1 validation."
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Pinnacle and windshear are static; breeze applies only to legacy variants."
       ],
       "sources": [
         "src/reelforge/scenes/assets.py:recipe",
-        "src/reelforge/environments/snowy.py:pine_snow"
+        "src/reelforge/environments/snowy.py:pine_snow",
+        "src/reelforge/visual_library/nature/cold_ridge.py:cold_pine"
       ],
       "type": "scene_asset",
       "variants": [
         "tall",
         "short",
-        "cluster"
+        "cluster",
+        "pinnacle",
+        "windshear"
       ]
     },
     {

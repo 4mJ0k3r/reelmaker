@@ -12,6 +12,12 @@ from reelforge.rendering.diagnostic import color, ellipse
 from reelforge.rendering.model import DrawPath
 from reelforge.visual_library.lighting.contact import dusk_contact
 from reelforge.visual_library.lighting.dusk_grade import grade_architecture
+from reelforge.visual_library.nature.cold_ridge import (
+    cold_ground,
+    cold_peaks,
+    cold_pine,
+    ridge_wind,
+)
 from reelforge.visual_library.nature.dusk import dusk_hills, dusk_sky
 from reelforge.visual_library.nature.farm_ground import SUPPORT, farm_track
 from reelforge.visual_library.nature.farm_tree import farm_tree
@@ -61,25 +67,40 @@ ASSETS = (
     Asset("orchard_tree_01", "asset", ("broad", "lean", "compact", "windswept"), 64, 2000),
     Asset("fence_01", "asset", ("default",), 32, 300),
     Asset("foreground_boughs_01", "environment", ("default",), 320, 4000, False, (180, 640)),
-    # Frost Peak snowy-mountain environment (Phase 9C). Code-authored vector recipes in
-    # reelforge.environments.snowy; additive, no existing asset or recipe changed.
+    # Frost Peak uses historical snowy recipes and opt-in Cold Ridge artwork.
     Asset("frost_sky_01", "background", ("default",), 128, 2400, True),
-    Asset("frost_peaks_01", "background", ("far", "mid"), 160, 3000, True, (180, 300)),
+    Asset(
+        "frost_peaks_01",
+        "background",
+        ("far", "mid", "cinematic_far", "cinematic_massif"),
+        160,
+        3000,
+        True,
+        (180, 300),
+    ),
     Asset(
         "frost_ridge_01",
         "environment",
-        ("default",),
+        ("default", "sculpted"),
         320,
         6000,
         True,
         (0, 0),
         (-250, -90, 250, 220),
     ),
-    Asset("pine_snow_01", "asset", ("tall", "short", "cluster"), 64, 1200),
+    Asset("pine_snow_01", "asset", ("tall", "short", "cluster", "pinnacle", "windshear"), 64, 1200),
     Asset("frost_rocks_01", "asset", ("cliff", "drift"), 48, 900),
-    Asset("beacon_01", "asset", ("buried", "active"), 96, 1600),
+    Asset("beacon_01", "asset", ("buried", "active", "local_signal"), 96, 1600),
     Asset("answer_light_01", "asset", ("default",), 24, 400),
-    Asset("frost_foreground_01", "environment", ("default", "storm"), 160, 3000, False, (180, 640)),
+    Asset(
+        "frost_foreground_01",
+        "environment",
+        ("default", "storm", "ridge_wind"),
+        160,
+        3000,
+        False,
+        (180, 640),
+    ),
     Asset("rowan_01", "character", ("default",), 256, 6000, True),
     # Yellow Mellow V2 character asset. Its per-frame artwork is supplied by a trusted override
     # (blocking/direction), never by the static scene recipe; the envelope reserves enough
@@ -166,11 +187,23 @@ def recipe(
     elif asset.id == "frost_sky_01":
         commands = snowy.frost_sky(warmth, atmosphere)
     elif asset.id == "frost_peaks_01":
-        commands = snowy.frost_peaks(variant, atmosphere)
+        commands = (
+            cold_peaks(variant, atmosphere)
+            if variant in ("cinematic_far", "cinematic_massif")
+            else snowy.frost_peaks(variant, atmosphere)
+        )
     elif asset.id == "frost_ridge_01":
-        commands = snowy.frost_ridge(warmth, atmosphere, seconds)
+        commands = (
+            cold_ground(atmosphere)
+            if variant == "sculpted"
+            else snowy.frost_ridge(warmth, atmosphere, seconds)
+        )
     elif asset.id == "pine_snow_01":
-        commands = snowy.pine_snow(variant, breeze, seconds)
+        commands = (
+            cold_pine(variant)
+            if variant in ("pinnacle", "windshear")
+            else snowy.pine_snow(variant, breeze, seconds)
+        )
     elif asset.id == "frost_rocks_01":
         commands = snowy.frost_rocks(variant)
     elif asset.id == "beacon_01":
@@ -178,7 +211,11 @@ def recipe(
     elif asset.id == "answer_light_01":
         commands = snowy.answer_light(seconds)
     elif asset.id == "frost_foreground_01":
-        commands = snowy.frost_foreground(variant, breeze, seconds)
+        commands = (
+            ridge_wind(breeze, seconds)
+            if variant == "ridge_wind"
+            else snowy.frost_foreground(variant, breeze, seconds)
+        )
     elif asset.id == "rowan_01" and character is not None:
         commands = (
             DrawPath(ellipse(0, 1, 19, 3), color("122c2d", 0.13)),

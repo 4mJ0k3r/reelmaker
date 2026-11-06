@@ -1,0 +1,157 @@
+{
+  "python": "3.12.14",
+  "renderer": {
+    "pycairo": "1.25.1",
+    "cairo": "1.18.0"
+  },
+  "host": {
+    "architecture": "x86_64",
+    "logical_cpus": 9,
+    "affinity_cpus": 9,
+    "effective_cpu_upper_bound": 8.0,
+    "cpu_max": "800000 100000",
+    "model": "AMD EPYC 9V74 80-Core Processor"
+  },
+  "resolution": [
+    720,
+    1280
+  ],
+  "frames": [
+    0,
+    12,
+    24,
+    36,
+    48,
+    60,
+    72,
+    89
+  ],
+  "benchmarks": [
+    {
+      "options": {},
+      "wall_seconds": 0.1658503840000094,
+      "cpu_seconds": 0.17581837300000003,
+      "wall_ms_per_frame": 20.731298000001175,
+      "hashes": {
+        "0": "4fc6784fd1cd02355874091fd30dd1ee5086753f98f57fc7ac54c73000e90d8b",
+        "12": "cb68a1893d47d702b93a1478fa102e2d5a8dcae8eb6878f986855f998ee0c5f3",
+        "24": "814ec6646ae15bc16312559fdc3ab4ae2b3f0a577bd0cdb1fc68828ef2793efb",
+        "36": "3c419ec9b40cdadfc553eb9b82915fe10e0f9edcc55979f8638a271513fd643a",
+        "48": "147b9a4370ec7dd9e934a1767606f335bcfaa401838b6a4480215932292fdfb5",
+        "60": "51080e0bbf91454120b15af7b59d5cfb217983e102d4f24129394b9789c04778",
+        "72": "7235255e4698f2900196ce094015116930e18b5fb12cfa8579f14b78779ccbff",
+        "89": "27b21d8c204c018c26ea39bca42bdb3fd52fb8635885de79c7d667aafe5a4c1a"
+      },
+      "sample_paths_and_ops": [
+        258,
+        1587
+      ],
+      "scene_allowance": [
+        1411,
+        27418
+      ],
+      "peak_tree_rss_bytes": 32116736,
+      "cancelled": false,
+      "memory_policy": "strict",
+      "oom_event_delta": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "options": {
+        "view": "medium",
+        "weather": "storm"
+      },
+      "wall_seconds": 0.1733520209999142,
+      "cpu_seconds": 0.18181805500000003,
+      "wall_ms_per_frame": 21.669002624989275,
+      "hashes": {
+        "0": "bcfa15c6717f467f1c00954c96188067dadfc3a4e29f4e0922e55c4cc21e2fd7",
+        "12": "5b24a52ef4ef30ee18aa889b7ca3b0acd97f21700bd90ee74542f3d90dee328f",
+        "24": "9635cf5b2a52f4e03af4220cc1fd3e51f43867d33b7015604b096d5d7525f710",
+        "36": "94be92307437564a159c6cbf8313eb6b8f6ae15fa56e6e188915bf79ef67a88b",
+        "48": "6ce6e36d62c49406365a8f7b294e5c34f4f9a2f78e95d6440e583e96d433e7ec",
+        "60": "6963b75dd73987c3f5e54bc06b3a912e69f552a8855d3a52f9aedfffdc613855",
+        "72": "ac156b2e88e8ddbd01a6a2f565805b1ead900d60bde47e09cc7e2adc9c20e6ca",
+        "89": "7fa0ea910ee1157353ad9eefac76df48b72e0279edd0181acc8306e0dd55f1f2"
+      },
+      "sample_paths_and_ops": [
+        282,
+        1635
+      ],
+      "scene_allowance": [
+        1571,
+        30418
+      ],
+      "peak_tree_rss_bytes": 32174080,
+      "cancelled": false,
+      "memory_policy": "strict",
+      "oom_event_delta": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "options": {
+        "view": "medium",
+        "weather": "storm",
+        "legacy": true
+      },
+      "wall_seconds": 0.21129846099995575,
+      "cpu_seconds": 0.22026582100000003,
+      "wall_ms_per_frame": 26.41230762499447,
+      "hashes": {
+        "0": "2b9adba1c1fd2ad9550a4759e9fe650bc570df215f762350c29a9967f2c1419d",
+        "12": "51907355a9cf9f54e3b367c541a68562a6666e3c397aceef511aa39b50671115",
+        "24": "12be8d23bc51111083469b0d711d8b5354321f9d25f731e4944d04ad377ca78f",
+        "36": "657cc4a721f007da0d092bd7c1a1b9aabbe1111b8d773c0689ebe33cc2833773",
+        "48": "4e67a685756083d53001cb3242727e4a93acde25b166f7836d593738af0e39e8",
+        "60": "00add6b54972d56f71f152d620b8ffbf156dc11be3f9e7a96c03f6e623ded0d6",
+        "72": "400ce0b0162e41926151b0a388b09559364ce65f65bf13ed1c3f372cbc393b2c",
+        "89": "b1f99dedd743c22e1f0c03357afc205e49be00d7e05767224859104fa05840f7"
+      },
+      "sample_paths_and_ops": [
+        455,
+        1848
+      ],
+      "scene_allowance": [
+        1571,
+        30418
+      ],
+      "peak_tree_rss_bytes": 32677888,
+      "cancelled": false,
+      "memory_policy": "strict",
+      "oom_event_delta": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    }
+  ],
+  "still_monitor": {
+    "peak_tree_rss_bytes": 33087488,
+    "cancelled": false,
+    "memory_policy": "strict",
+    "oom_event_delta": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    }
+  },
+  "walk_max_contact_error": 2.842170943040401e-14
+}

@@ -60,13 +60,41 @@ SCENE_LABELS = {
         ),
     ),
     "frost_sky_01": ("Frost Peak sky", "nature", (snowy.frost_sky,)),
-    "frost_peaks_01": ("Snowy peaks", "nature", (snowy.frost_peaks,)),
-    "frost_ridge_01": ("Snowy ridge", "nature", (snowy.frost_ridge,)),
-    "pine_snow_01": ("Snow-covered pine", "nature", (snowy.pine_snow,)),
+    "frost_peaks_01": (
+        "Snowy peaks",
+        "nature",
+        (
+            snowy.frost_peaks,
+            assets.cold_peaks,
+        ),
+    ),
+    "frost_ridge_01": (
+        "Snowy ridge",
+        "nature",
+        (
+            snowy.frost_ridge,
+            assets.cold_ground,
+        ),
+    ),
+    "pine_snow_01": (
+        "Snow-covered pine",
+        "nature",
+        (
+            snowy.pine_snow,
+            assets.cold_pine,
+        ),
+    ),
     "frost_rocks_01": ("Frost Peak rocks", "nature", (snowy.frost_rocks,)),
     "beacon_01": ("Emergency beacon", "props", (snowy.beacon,)),
     "answer_light_01": ("Distant answering light", "lighting", (snowy.answer_light,)),
-    "frost_foreground_01": ("Frost foreground and snowstorm", "effects", (snowy.frost_foreground,)),
+    "frost_foreground_01": (
+        "Frost foreground and snowstorm",
+        "effects",
+        (
+            snowy.frost_foreground,
+            assets.ridge_wind,
+        ),
+    ),
 }
 CINEMATIC_METADATA = {
     "cinematic_dusk_sky_01": (
@@ -99,6 +127,33 @@ RECIPE_FAMILIES = {
     "building": "architecture",
     "entrance": "architecture",
     "prop": "props",
+}
+COLD_METADATA = {
+    "frost_peaks_01": (
+        ("atmosphere",),
+        "mountains.jpg",
+        "Cinematic variants are trusted scene opt-ins; the planner retains far and mid.",
+    ),
+    "frost_ridge_01": (
+        ("warmth", "atmosphere"),
+        "terrain-rock.jpg",
+        "Sculpted uses atmosphere and the original level support; no slope navigation.",
+    ),
+    "pine_snow_01": (
+        ("breeze",),
+        "conifers.jpg",
+        "Pinnacle and windshear are static; breeze applies only to legacy variants.",
+    ),
+    "frost_foreground_01": (
+        ("breeze",),
+        "clear-storm.jpg",
+        "Ridge wind adds restrained streaks outside the action band of the Cold Ridge composition.",
+    ),
+    "beacon_01": (
+        ("warmth",),
+        "cold-establishing.jpg",
+        "Local signal keeps the activation socket and amber light without the distant beam.",
+    ),
 }
 SCENE_ART = {
     key: {"type": "number", "minimum": 0, "maximum": 1}
@@ -236,6 +291,12 @@ def registered_components(planner_assets):
             details["integration_evidence"] = [
                 "docs/visual-evidence/stage1a1/farm-establishing.jpg"
             ]
+        if asset.id in COLD_METADATA:
+            controls, preview, note = COLD_METADATA[asset.id]
+            parameters.update({f"art_direction.{key}": SCENE_ART[key] for key in controls})
+            restrictions.append(note)
+            details["preview_evidence"] = [f"docs/visual-evidence/stage1c/{preview}"]
+            details["integration_evidence"] = ["docs/visual-evidence/stage1c/cold-establishing.jpg"]
         if asset.id == "barn_01":
             parameters.update(
                 {f"art_direction.{key}": SCENE_ART[key] for key in ("warmth", "atmosphere")}
