@@ -1,7 +1,7 @@
 """Trusted character registry: the single place episode-side code resolves a character id.
 
-This decouples the blocking/scene/storyboard contracts from the hardwired Rowan drawer. Only
-two characters are registered: the legacy ``rowan_01`` and ``yellow_mellow_v2``. Each entry
+This decouples the blocking/scene/storyboard contracts from the hardwired Rowan drawer. The
+historical blocking characters and scene-only actors share this registry. Each entry
 advertises its accepted scene-asset id, drawing conventions (ground origin, +X facing, uniform
 scale), its supported scene-node actions, its expression vocabulary and the character-unit
 standing height used to match physical size across rigs. No executable data, paths or code are
@@ -68,18 +68,34 @@ _BUILDERS: dict[str, Callable[[], CharacterInfo]] = {
 }
 
 
-def is_registered(character_id: str) -> bool:
-    return character_id in _BUILDERS
-
-
-def character_ids() -> tuple[str, ...]:
+def blocking_character_ids() -> tuple[str, ...]:
     return tuple(_BUILDERS)
 
 
+def scene_actor_info(character_id):
+    from reelforge.characters.living import ACTIONS, EXPRESSIONS, PROFILES
+
+    profile = PROFILES[character_id]
+    return CharacterInfo(character_id, character_id, profile.name, profile.height,
+                         ACTIONS, EXPRESSIONS, "neutral")
+
+
+def is_registered(character_id: str) -> bool:
+    return character_id in character_ids()
+
+
+def character_ids() -> tuple[str, ...]:
+    from reelforge.characters.living import PROFILES
+
+    return (*_BUILDERS, *PROFILES)
+
+
 def character_info(character_id: str) -> CharacterInfo:
-    if character_id not in _BUILDERS:
+    if character_id in _BUILDERS:
+        return _BUILDERS[character_id]()
+    if not is_registered(character_id):
         raise RenderError(f"Unknown character {character_id!r}; registered: {sorted(_BUILDERS)}")
-    return _BUILDERS[character_id]()
+    return scene_actor_info(character_id)
 
 
 def asset_id_for(character_id: str) -> str:

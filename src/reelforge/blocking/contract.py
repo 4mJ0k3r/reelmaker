@@ -8,9 +8,8 @@ from reelforge.characters.registry import (
     DEFAULT_CHARACTER,
     YELLOW_MELLOW_ID,
     asset_id_for,
-    character_ids,
+    blocking_character_ids,
     character_info,
-    is_registered,
 )
 from reelforge.characters.rowan_performance import NAME, REACTIONS
 from reelforge.characters.yellow_mellow_v2.investigation import NAME as MELLOW_NAME
@@ -100,8 +99,8 @@ def compile_blocking(data) -> Plan:
     if "character" in data and version == "blocking-0.1":
         fail("/character", "The character field requires blocking-0.2")
     character = data.get("character", DEFAULT_CHARACTER)
-    if not isinstance(character, str) or not is_registered(character):
-        fail("/character", f"Select a registered character: {sorted(character_ids())}")
+    if not isinstance(character, str) or character not in blocking_character_ids():
+        fail("/character", f"Select a registered character: {sorted(blocking_character_ids())}")
     reaction = None
     mellow = False
     if "performance" in data:

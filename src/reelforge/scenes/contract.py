@@ -97,8 +97,11 @@ def _non_rowan_character(data, asset_id: str, path: str) -> CharacterRef:
         fail(path, "Supply exactly character, action, expression")
     if data["character"] != asset_id:
         fail(path + "/character", f"Character must equal the node asset id {asset_id!r}")
-    if data["action"] not in ("idle", "look_around", "look", "react"):
-        fail(path + "/action", "Scene nodes are stationary: idle/look_around/look/react")
+    from reelforge.characters.living import PROFILES
+
+    admitted = info.scene_actions if asset_id in PROFILES else ("idle", "look_around", "look", "react")
+    if data["action"] not in admitted:
+        fail(path + "/action", f"Choose a scene action: {admitted}")
     if data["expression"] not in info.expressions:
         fail(path + "/expression", f"Select a registered expression for {asset_id}")
     return CharacterRef(asset_id, data["action"], data["expression"])

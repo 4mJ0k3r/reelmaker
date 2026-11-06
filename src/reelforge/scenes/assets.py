@@ -3,6 +3,7 @@
 from dataclasses import dataclass
 from functools import lru_cache
 
+from reelforge.characters.living import PROFILES, draw_actor
 from reelforge.characters.presets import CharacterPreset, sample_pose
 from reelforge.characters.rowan import draw_character
 from reelforge.characters.secondary import preset_secondary
@@ -109,6 +110,8 @@ ASSETS = (
     # (blocking/direction), never by the static scene recipe; the envelope reserves enough
     # path/op budget for the V2 vector character plus its contact shadows.
     Asset("yellow_mellow_v2", "character", ("default",), 384, 9000, True),
+    *(Asset(identity, "character", ("default",), 56, 440, upright=True)
+      for identity in PROFILES),
     *(Asset(identity, "asset", definition.variants, *definition.budget, upright=definition.upright)
       for identity, definition in WORLD_ASSETS.items()),
     *(
@@ -232,6 +235,9 @@ def recipe(
             if variant == "ridge_wind"
             else snowy.frost_foreground(variant, breeze, seconds)
         )
+    elif asset.id in PROFILES and character is not None:
+        commands = draw_actor(asset.id, character.action, character.expression, seconds)
+        commands = polish.grade_character(commands, warmth, atmosphere)
     elif asset.id == "rowan_01" and character is not None:
         commands = (
             DrawPath(ellipse(0, 1, 19, 3), color("122c2d", 0.13)),

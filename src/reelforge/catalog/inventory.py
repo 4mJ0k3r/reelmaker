@@ -16,6 +16,7 @@ from reelforge.scenes import contract as scene
 from reelforge.visual_library.architecture.buildings import BUILDINGS
 from reelforge.visual_library.composition import character_staging
 
+from reelforge.characters.living import PROFILES, draw_actor
 from reelforge.visual_library.world_assets import WORLD_ASSETS
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -271,6 +272,7 @@ def registered_components(planner_assets):
                 scene_action={
                     "choices": ["idle", "look_around", "react"]
                     if actor.character_id == registry.ROWAN_ID
+                    else list(actor.scene_actions) if actor.character_id in PROFILES
                     else ["idle", "look_around", "look", "react"]
                 },
                 expressions={
@@ -284,12 +286,16 @@ def registered_components(planner_assets):
                     registry.draw_commands_builder,
                     rowan.draw_character
                     if actor.character_id == registry.ROWAN_ID
+                    else draw_actor if actor.character_id in PROFILES
                     else mellow_episode.build_drawer,
                 ]
             )
-            restrictions.append(
-                "Registry actions are broader than the stationary actions accepted by scene-0.1."
-            )
+            if actor.character_id in PROFILES:
+                restrictions.append("Scene renderer only; blocking and storyboards retain their historical actor scope.")
+            else:
+                restrictions.append(
+                    "Registry actions are broader than the stationary actions accepted by scene-0.1."
+                )
             if actor.character_id == registry.ROWAN_ID:
                 parameters["performance.name"] = {"choices": [rowan_performance.NAME]}
                 parameters["performance.reaction"] = {"choices": list(rowan_performance.REACTIONS)}
@@ -303,7 +309,7 @@ def registered_components(planner_assets):
                     "docs/visual-evidence/stage2a/farm-medium.jpg",
                     "docs/visual-evidence/stage2a/cold_ridge-medium.jpg",
                 ]
-            else:
+            elif actor.character_id == registry.YELLOW_MELLOW_ID:
                 parameters["performance.name"] = {"choices": [investigation.NAME]}
                 parameters["performance.reaction"] = {"choices": [investigation.REACTION]}
                 sources.extend((blocking.compile_blocking, investigation.build_investigation))

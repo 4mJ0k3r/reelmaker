@@ -7,9 +7,8 @@ from pathlib import Path
 
 from reelforge.characters.registry import (
     DEFAULT_CHARACTER,
-    character_ids,
+    blocking_character_ids,
     character_info,
-    is_registered,
 )
 from reelforge.contracts.project import load_project, project_digest
 from reelforge.core.errors import InputError, Issue
@@ -194,8 +193,8 @@ def compile_storyboard(data: object) -> Storyboard:
         rowan, {"actor_id", "support_id", "start"}, "/rowan", optional=("character", "performance")
     )
     character = rowan.get("character", DEFAULT_CHARACTER)
-    if not isinstance(character, str) or not is_registered(character):
-        fail("/rowan/character", "Select a registered character: " + ", ".join(character_ids()))
+    if not isinstance(character, str) or character not in blocking_character_ids():
+        fail("/rowan/character", "Select a registered character: " + ", ".join(blocking_character_ids()))
     expressions = character_info(character).expressions
     name(rowan["actor_id"], "/rowan/actor_id")
     name(rowan["support_id"], "/rowan/support_id")
