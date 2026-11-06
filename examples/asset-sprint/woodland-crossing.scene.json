@@ -1,0 +1,283 @@
+{
+  "schema_version": "scene-0.1",
+  "title": "Woodland Crossing",
+  "camera": "gentle_drift",
+  "output": {
+    "width": 720,
+    "height": 1280,
+    "fps": 30,
+    "frames": 90,
+    "codec": "h264",
+    "pixel_format": "yuv420p"
+  },
+  "art_direction": {
+    "warmth": 0.8,
+    "atmosphere": 0.52,
+    "breeze": 0.2
+  },
+  "nodes": [
+    {
+      "id": "root",
+      "kind": "root",
+      "parent": null,
+      "order": 0,
+      "visible": true,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "id": "sky_plane",
+      "kind": "layer",
+      "parent": "root",
+      "order": 0,
+      "visible": true,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation_degrees": 0
+      },
+      "depth": 0
+    },
+    {
+      "id": "distance",
+      "kind": "layer",
+      "parent": "root",
+      "order": 1,
+      "visible": true,
+      "transform": {
+        "x": 0.0,
+        "y": 0.0,
+        "scale": 1.0,
+        "rotation_degrees": 0
+      },
+      "depth": 0.18
+    },
+    {
+      "id": "terrain",
+      "kind": "layer",
+      "parent": "root",
+      "order": 2,
+      "visible": true,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation_degrees": 0
+      },
+      "depth": 1
+    },
+    {
+      "id": "midground",
+      "kind": "layer",
+      "parent": "root",
+      "order": 3,
+      "visible": true,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation_degrees": 0
+      },
+      "depth": 1
+    },
+    {
+      "id": "foreground",
+      "kind": "layer",
+      "parent": "root",
+      "order": 4,
+      "visible": true,
+      "transform": {
+        "x": 0.0,
+        "y": 0.0,
+        "scale": 1.0,
+        "rotation_degrees": 0
+      },
+      "depth": 1.4
+    },
+    {
+      "id": "sky",
+      "kind": "background",
+      "parent": "sky_plane",
+      "order": 0,
+      "visible": true,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation_degrees": 0
+      },
+      "asset_id": "cinematic_dusk_sky_01",
+      "variant": "default"
+    },
+    {
+      "id": "hills",
+      "kind": "background",
+      "parent": "distance",
+      "order": 0,
+      "visible": true,
+      "transform": {
+        "x": 180,
+        "y": 353,
+        "scale": 1,
+        "rotation_degrees": 0
+      },
+      "asset_id": "cinematic_dusk_hills_01",
+      "variant": "rolling"
+    },
+    {
+      "id": "ground",
+      "kind": "environment",
+      "parent": "terrain",
+      "order": 0,
+      "visible": true,
+      "transform": {
+        "x": 180,
+        "y": 500,
+        "scale": 1,
+        "rotation_degrees": 0
+      },
+      "asset_id": "cinematic_farm_track_01",
+      "variant": "default"
+    },
+    {
+      "id": "asset_0",
+      "kind": "asset",
+      "parent": "terrain",
+      "order": 3,
+      "visible": true,
+      "transform": {
+        "x": 160,
+        "y": 655,
+        "scale": 1.38,
+        "rotation_degrees": 0
+      },
+      "asset_id": "road_surface_01",
+      "variant": "packed_dirt"
+    },
+    {
+      "id": "asset_1",
+      "kind": "asset",
+      "parent": "midground",
+      "order": 0,
+      "visible": true,
+      "transform": {
+        "x": 62,
+        "y": 515,
+        "scale": 1.25,
+        "rotation_degrees": 0
+      },
+      "asset_id": "deciduous_tree_01",
+      "variant": "leaning"
+    },
+    {
+      "id": "asset_2",
+      "kind": "asset",
+      "parent": "midground",
+      "order": 1,
+      "visible": true,
+      "transform": {
+        "x": 269,
+        "y": 469,
+        "scale": 0.85,
+        "rotation_degrees": 0
+      },
+      "asset_id": "deciduous_tree_01",
+      "variant": "autumn"
+    },
+    {
+      "id": "asset_3",
+      "kind": "asset",
+      "parent": "midground",
+      "order": 2,
+      "visible": true,
+      "transform": {
+        "x": 285,
+        "y": 509,
+        "scale": 1,
+        "rotation_degrees": 0
+      },
+      "asset_id": "shrub_cluster_01",
+      "variant": "lush"
+    },
+    {
+      "id": "asset_4",
+      "kind": "asset",
+      "parent": "midground",
+      "order": 3,
+      "visible": true,
+      "transform": {
+        "x": 81,
+        "y": 562,
+        "scale": 0.8,
+        "rotation_degrees": 0
+      },
+      "asset_id": "rock_group_01",
+      "variant": "rounded"
+    },
+    {
+      "id": "asset_5",
+      "kind": "asset",
+      "parent": "midground",
+      "order": 4,
+      "visible": true,
+      "transform": {
+        "x": 178,
+        "y": 558,
+        "scale": 1.08,
+        "rotation_degrees": 0
+      },
+      "asset_id": "small_bridge_01",
+      "variant": "weathered"
+    },
+    {
+      "id": "asset_6",
+      "kind": "asset",
+      "parent": "midground",
+      "order": 5,
+      "visible": true,
+      "transform": {
+        "x": 294,
+        "y": 559,
+        "scale": 0.7,
+        "rotation_degrees": 0
+      },
+      "asset_id": "signpost_01",
+      "variant": "weathered"
+    },
+    {
+      "id": "asset_7",
+      "kind": "asset",
+      "parent": "foreground",
+      "order": 1,
+      "visible": true,
+      "transform": {
+        "x": 158,
+        "y": 593,
+        "scale": 1.3,
+        "rotation_degrees": 0
+      },
+      "asset_id": "ground_mist_01",
+      "variant": "thin"
+    },
+    {
+      "id": "asset_8",
+      "kind": "asset",
+      "parent": "foreground",
+      "order": 2,
+      "visible": true,
+      "transform": {
+        "x": 344,
+        "y": 621,
+        "scale": 1.15,
+        "rotation_degrees": 0
+      },
+      "asset_id": "shrub_cluster_01",
+      "variant": "sparse"
+    }
+  ]
+}

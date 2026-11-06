@@ -189,6 +189,65 @@
     },
     {
       "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "bounds": [
+          -55,
+          -46,
+          56,
+          5
+        ],
+        "budget": {
+          "max_operations": 85,
+          "max_paths": 14
+        },
+        "description": "Grounded supports and visible seat plane. No sitting interaction.",
+        "scene_kind": "asset",
+        "support_envelope": null,
+        "upright": true
+      },
+      "engine_capability": true,
+      "family": "props",
+      "id": "bench_01",
+      "name": "Slatted bench",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "timber",
+            "painted",
+            "weathered"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Grounded supports and visible seat plane. No sitting interaction.",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/visual_library/world_assets.py:bench"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "timber",
+        "painted",
+        "weathered"
+      ]
+    },
+    {
+      "dependencies": [
         "direction-0.1",
         "storyboard-0.1"
       ],
@@ -846,6 +905,122 @@
       ],
       "details": {
         "anchor": [
+          0,
+          0
+        ],
+        "bounds": [
+          -47,
+          -58,
+          55,
+          5
+        ],
+        "budget": {
+          "max_operations": 140,
+          "max_paths": 25
+        },
+        "description": "Braced timber boxes with either a square or shifted upper crate.",
+        "scene_kind": "asset",
+        "support_envelope": null,
+        "upright": true
+      },
+      "engine_capability": true,
+      "family": "props",
+      "id": "crate_stack_01",
+      "name": "Crate stack",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "neat",
+            "uneven"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Braced timber boxes with either a square or shifted upper crate.",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/visual_library/world_assets.py:crates"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "neat",
+        "uneven"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "bounds": [
+          -70,
+          -151,
+          100,
+          5
+        ],
+        "budget": {
+          "max_operations": 120,
+          "max_paths": 18
+        },
+        "description": "Layered canopy with an offset trunk and branch structure. Autumn uses ochre foliage.",
+        "scene_kind": "asset",
+        "support_envelope": null,
+        "upright": true
+      },
+      "engine_capability": true,
+      "family": "nature",
+      "id": "deciduous_tree_01",
+      "name": "Deciduous tree",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "broad",
+            "leaning",
+            "autumn"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Layered canopy with an offset trunk and branch structure. Autumn uses ochre foliage.",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/visual_library/world_assets.py:tree"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "broad",
+        "leaning",
+        "autumn"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
           180,
           350
         ],
@@ -1346,6 +1521,63 @@
       "type": "scene_asset",
       "variants": [
         "default"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "bounds": [
+          -100,
+          -23,
+          92,
+          5
+        ],
+        "budget": {
+          "max_operations": 21,
+          "max_paths": 3
+        },
+        "description": "Static low transparent bands. Set painter order explicitly and keep below faces.",
+        "scene_kind": "asset",
+        "support_envelope": null,
+        "upright": false
+      },
+      "engine_capability": true,
+      "family": "effects",
+      "id": "ground_mist_01",
+      "name": "Ground mist",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "thin",
+            "dense"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Static low transparent bands. Set painter order explicitly and keep below faces.",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/visual_library/world_assets.py:mist"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "thin",
+        "dense"
       ]
     },
     {
@@ -1923,6 +2155,179 @@
     },
     {
       "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "bounds": [
+          -114,
+          -114,
+          114,
+          29
+        ],
+        "budget": {
+          "max_operations": 55,
+          "max_paths": 8
+        },
+        "description": "Decorative intersecting carriageways. The crossroads opens a second stem toward the camera.",
+        "scene_kind": "asset",
+        "support_envelope": null,
+        "upright": false
+      },
+      "engine_capability": true,
+      "family": "infrastructure",
+      "id": "road_junction_01",
+      "name": "Road junction",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "t_junction",
+            "crossroads"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Decorative intersecting carriageways. The crossroads opens a second stem toward the camera.",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/visual_library/world_assets.py:junction"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "t_junction",
+        "crossroads"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "bounds": [
+          -112,
+          -118,
+          112,
+          3
+        ],
+        "budget": {
+          "max_operations": 190,
+          "max_paths": 32
+        },
+        "description": "Near edge at origin, receding toward y=-117. Dirt tracks, worn lane paint or paving joints.",
+        "scene_kind": "asset",
+        "support_envelope": null,
+        "upright": false
+      },
+      "engine_capability": true,
+      "family": "infrastructure",
+      "id": "road_surface_01",
+      "name": "Tapered road",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "packed_dirt",
+            "worn_asphalt",
+            "cobblestone"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Near edge at origin, receding toward y=-117. Dirt tracks, worn lane paint or paving joints.",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/visual_library/world_assets.py:road"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "packed_dirt",
+        "worn_asphalt",
+        "cobblestone"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "bounds": [
+          -50,
+          -34,
+          56,
+          5
+        ],
+        "budget": {
+          "max_operations": 90,
+          "max_paths": 12
+        },
+        "description": "Three grounded stones with rounded highlights or broken planar facets.",
+        "scene_kind": "asset",
+        "support_envelope": null,
+        "upright": true
+      },
+      "engine_capability": true,
+      "family": "nature",
+      "id": "rock_group_01",
+      "name": "Rock group",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "rounded",
+            "angular"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Three grounded stones with rounded highlights or broken planar facets.",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/visual_library/world_assets.py:rocks"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "rounded",
+        "angular"
+      ]
+    },
+    {
+      "dependencies": [
         "environment-0.1"
       ],
       "details": {},
@@ -2299,6 +2704,297 @@
       "variants": [
         "open",
         "closed",
+        "weathered"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "bounds": [
+          -60,
+          -40,
+          65,
+          5
+        ],
+        "budget": {
+          "max_operations": 100,
+          "max_paths": 15
+        },
+        "description": "Overlapping foliage masses with an open, twigged silhouette in sparse form.",
+        "scene_kind": "asset",
+        "support_envelope": null,
+        "upright": true
+      },
+      "engine_capability": true,
+      "family": "nature",
+      "id": "shrub_cluster_01",
+      "name": "Shrub cluster",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "lush",
+            "sparse"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Overlapping foliage masses with an open, twigged silhouette in sparse form.",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/visual_library/world_assets.py:shrubs"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "lush",
+        "sparse"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "bounds": [
+          -105,
+          -29,
+          109,
+          1
+        ],
+        "budget": {
+          "max_operations": 75,
+          "max_paths": 14
+        },
+        "description": "Near curb at y=0, with flagstones, concrete slabs or a split slab.",
+        "scene_kind": "asset",
+        "support_envelope": null,
+        "upright": false
+      },
+      "engine_capability": true,
+      "family": "infrastructure",
+      "id": "sidewalk_01",
+      "name": "Raised sidewalk",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "stone",
+            "concrete",
+            "cracked"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Near curb at y=0, with flagstones, concrete slabs or a split slab.",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/visual_library/world_assets.py:sidewalk"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "stone",
+        "concrete",
+        "cracked"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "bounds": [
+          -35,
+          -80,
+          39,
+          5
+        ],
+        "budget": {
+          "max_operations": 55,
+          "max_paths": 8
+        },
+        "description": "Blank board or directional silhouette, with worn timber in the weathered option.",
+        "scene_kind": "asset",
+        "support_envelope": null,
+        "upright": true
+      },
+      "engine_capability": true,
+      "family": "props",
+      "id": "signpost_01",
+      "name": "Roadside signpost",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "blank",
+            "directional",
+            "weathered"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Blank board or directional silhouette, with worn timber in the weathered option.",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/visual_library/world_assets.py:sign"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "blank",
+        "directional",
+        "weathered"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "bounds": [
+          -85,
+          -81,
+          98,
+          5
+        ],
+        "budget": {
+          "max_operations": 165,
+          "max_paths": 30
+        },
+        "description": "Low timber span with deck, posts and two rails. Decorative only.",
+        "scene_kind": "asset",
+        "support_envelope": null,
+        "upright": true
+      },
+      "engine_capability": true,
+      "family": "infrastructure",
+      "id": "small_bridge_01",
+      "name": "Small footbridge",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "timber",
+            "weathered"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Low timber span with deck, posts and two rails. Decorative only.",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/visual_library/world_assets.py:bridge"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "timber",
+        "weathered"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "bounds": [
+          -26,
+          -143,
+          27,
+          5
+        ],
+        "budget": {
+          "max_operations": 100,
+          "max_paths": 14
+        },
+        "description": "Metal lamp with localized authored glow. It does not light other assets.",
+        "scene_kind": "asset",
+        "support_envelope": null,
+        "upright": true
+      },
+      "engine_capability": true,
+      "family": "props",
+      "id": "streetlamp_01",
+      "name": "Roadside streetlamp",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "unlit",
+            "lit",
+            "weathered"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Metal lamp with localized authored glow. It does not light other assets.",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/visual_library/world_assets.py:lamp"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "unlit",
+        "lit",
         "weathered"
       ]
     },

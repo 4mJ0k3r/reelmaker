@@ -16,12 +16,15 @@ from reelforge.scenes import contract as scene
 from reelforge.visual_library.architecture.buildings import BUILDINGS
 from reelforge.visual_library.composition import character_staging
 
+from reelforge.visual_library.world_assets import WORLD_ASSETS
+
 ROOT = Path(__file__).resolve().parents[3]
 FAMILIES = (
     "architecture",
     "characters",
     "composition",
     "effects",
+    "infrastructure",
     "lighting",
     "materials",
     "nature",
@@ -29,6 +32,8 @@ FAMILIES = (
 )
 # Curated labels and source pointers. Registration, variants and limits come from ASSETS.
 SCENE_LABELS = {
+    **{identity: (item.name, item.family, (item.draw,))
+       for identity, item in WORLD_ASSETS.items()},
     **{identity: (building.name, "architecture", (building.draw,))
        for identity, building in BUILDINGS.items()},
     "cinematic_dusk_sky_01": ("Cinematic dusk sky", "nature", (assets.dusk_sky,)),
@@ -329,6 +334,10 @@ def registered_components(planner_assets):
             restrictions.append(note)
             details["preview_evidence"] = [f"docs/visual-evidence/stage1c/{preview}"]
             details["integration_evidence"] = ["docs/visual-evidence/stage1c/cold-establishing.jpg"]
+        if asset.id in WORLD_ASSETS:
+            item = WORLD_ASSETS[asset.id]
+            details.update(description=item.description, bounds=list(item.bounds))
+            restrictions.extend((item.description, "Decorative artwork with no collision or navigation surface."))
         if asset.id in BUILDINGS:
             building = BUILDINGS[asset.id]
             details.update(

@@ -17,6 +17,8 @@ from reelforge.scenes.transforms import Placement
 from reelforge.visual_library.architecture.buildings import BUILDINGS
 from reelforge.visual_library.composition.building_showcase import building_showcase
 
+from reelforge.visual_library.world_assets import WORLD_ASSETS
+
 TEMPLATE = Path(__file__).with_name("asset_gallery.html")
 SIZE = (720, 1280)
 MOBILE = (360, 640)
@@ -125,6 +127,20 @@ def render_evidence(directory):
                 surface.write_png(directory / name)
                 timing["pixel_sha256"] = surface.pixel_sha256()
             return f"previews/{name}", timing
+
+        for identity, item in WORLD_ASSETS.items():
+            left, top, right, bottom = item.bounds
+            scale = min(1.65, 300 / (right - left), 270 / (bottom - top))
+            placement = Placement(180 - scale * (left + right) / 2,
+                                  320 - scale * (top + bottom) / 2, scale)
+            variants, results = {}, {}
+            for variant in item.variants:
+                commands = artwork(identity, variant, placement)
+                variants[variant], timing = still(f"{identity}-{variant}.png", commands)
+                paths, operations = cost(commands)
+                results[variant] = {**timing, "paths": paths, "operations": operations}
+            previews[identity] = {"variants": variants}
+            measurements[identity] = {"standalone": results}
 
         for identity, building in BUILDINGS.items():
             asset = asset_by_id(identity)

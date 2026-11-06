@@ -23,6 +23,8 @@ from reelforge.visual_library.nature.dusk import dusk_hills, dusk_sky
 from reelforge.visual_library.nature.farm_ground import SUPPORT, farm_track
 from reelforge.visual_library.nature.farm_tree import farm_tree
 
+from reelforge.visual_library.world_assets import WORLD_ASSETS, draw_world_asset
+
 from .transforms import Placement
 
 
@@ -107,6 +109,8 @@ ASSETS = (
     # (blocking/direction), never by the static scene recipe; the envelope reserves enough
     # path/op budget for the V2 vector character plus its contact shadows.
     Asset("yellow_mellow_v2", "character", ("default",), 384, 9000, True),
+    *(Asset(identity, "asset", definition.variants, *definition.budget, upright=definition.upright)
+      for identity, definition in WORLD_ASSETS.items()),
     *(
         Asset(identity, "asset", tuple(key for key, _ in building.variants),
               *building.budget, upright=True)
@@ -185,6 +189,8 @@ def recipe(
         )
         if variant == "doorway_shadow":
             commands += polish.barn_doorway_shadow(seconds)
+    elif asset.id in WORLD_ASSETS:
+        commands = draw_world_asset(asset.id, variant)
     elif asset.id in BUILDINGS:
         commands = draw_building(asset.id, variant)
     elif asset.id == "orchard_tree_01":

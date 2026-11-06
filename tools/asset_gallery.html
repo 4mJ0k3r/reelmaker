@@ -51,7 +51,8 @@ dialog form {display:flex; justify-content:flex-end}
 <header>
   <p class="kicker">ReelMaker / Visual library</p>
   <h1>Asset gallery</h1>
-  <p class="sub">Browse registered components, inspect engine-rendered evidence and copy exact IDs.</p>
+  <p class="sub">Browse registered components and copy exact asset selections. A selection belongs inside a complete scene manifest.</p>
+  <p><a href="../../examples/asset-sprint/village-roadside.scene.json">Village Roadside scene</a> · <a href="../../examples/asset-sprint/woodland-crossing.scene.json">Woodland Crossing scene</a> · <a href="../ASSET_GALLERY_MULTI_FAMILY.md">Placement guide</a></p>
 </header>
 <div class="controls">
   <label>Search by name or ID <input id="search" type="search" placeholder="e.g. house_01 or cottage"></label>
@@ -121,7 +122,12 @@ function card(entry) {
   const copy = element("button", "Copy ID");
   copy.setAttribute("aria-label", "Copy ID " + entry.id);
   copy.addEventListener("click", () => copyId(entry.id));
+  const copySelection = element("button", "Copy selection");
+  copySelection.addEventListener("click", () => copyId(JSON.stringify({
+    asset_id: entry.id, variant: selector.value
+  })));
   identity.append(element("code", entry.id), copy);
+  if (entry.variants.length && entry.type === "scene_asset") identity.append(copySelection);
   const variantNote = element("p", "", "variant-note");
   const selector = element("select");
 

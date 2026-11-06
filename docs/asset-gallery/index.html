@@ -51,7 +51,8 @@ dialog form {display:flex; justify-content:flex-end}
 <header>
   <p class="kicker">ReelMaker / Visual library</p>
   <h1>Asset gallery</h1>
-  <p class="sub">Browse registered components, inspect engine-rendered evidence and copy exact IDs.</p>
+  <p class="sub">Browse registered components and copy exact asset selections. A selection belongs inside a complete scene manifest.</p>
+  <p><a href="../../examples/asset-sprint/village-roadside.scene.json">Village Roadside scene</a> · <a href="../../examples/asset-sprint/woodland-crossing.scene.json">Woodland Crossing scene</a> · <a href="../ASSET_GALLERY_MULTI_FAMILY.md">Placement guide</a></p>
 </header>
 <div class="controls">
   <label>Search by name or ID <input id="search" type="search" placeholder="e.g. house_01 or cottage"></label>
@@ -197,6 +198,46 @@ dialog form {display:flex; justify-content:flex-end}
         }
       ],
       "preview_status": "context_only"
+    },
+    {
+      "id": "bench_01",
+      "name": "Slatted bench",
+      "family": "props",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Grounded supports and visible seat plane. No sitting interaction.",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Grounded supports and visible seat plane. No sitting interaction.",
+      "variants": [
+        {
+          "id": "timber",
+          "description": "",
+          "preview": "previews/bench_01-timber.png"
+        },
+        {
+          "id": "painted",
+          "description": "",
+          "preview": "previews/bench_01-painted.png"
+        },
+        {
+          "id": "weathered",
+          "description": "",
+          "preview": "previews/bench_01-weathered.png"
+        }
+      ],
+      "evidence": [],
+      "preview_status": "rendered"
     },
     {
       "id": "camera.direction.close_up",
@@ -674,6 +715,81 @@ dialog form {display:flex; justify-content:flex-end}
       "preview_status": "context_only"
     },
     {
+      "id": "crate_stack_01",
+      "name": "Crate stack",
+      "family": "props",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Braced timber boxes with either a square or shifted upper crate.",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Braced timber boxes with either a square or shifted upper crate.",
+      "variants": [
+        {
+          "id": "neat",
+          "description": "",
+          "preview": "previews/crate_stack_01-neat.png"
+        },
+        {
+          "id": "uneven",
+          "description": "",
+          "preview": "previews/crate_stack_01-uneven.png"
+        }
+      ],
+      "evidence": [],
+      "preview_status": "rendered"
+    },
+    {
+      "id": "deciduous_tree_01",
+      "name": "Deciduous tree",
+      "family": "nature",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Layered canopy with an offset trunk and branch structure. Autumn uses ochre foliage.",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Layered canopy with an offset trunk and branch structure. Autumn uses ochre foliage.",
+      "variants": [
+        {
+          "id": "broad",
+          "description": "",
+          "preview": "previews/deciduous_tree_01-broad.png"
+        },
+        {
+          "id": "leaning",
+          "description": "",
+          "preview": "previews/deciduous_tree_01-leaning.png"
+        },
+        {
+          "id": "autumn",
+          "description": "",
+          "preview": "previews/deciduous_tree_01-autumn.png"
+        }
+      ],
+      "evidence": [],
+      "preview_status": "rendered"
+    },
+    {
       "id": "distant_hills_01",
       "name": "Distant hills and haze",
       "family": "nature",
@@ -1009,6 +1125,41 @@ dialog form {display:flex; justify-content:flex-end}
       ],
       "evidence": [],
       "preview_status": "unavailable"
+    },
+    {
+      "id": "ground_mist_01",
+      "name": "Ground mist",
+      "family": "effects",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Static low transparent bands. Set painter order explicitly and keep below faces.",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Static low transparent bands. Set painter order explicitly and keep below faces.",
+      "variants": [
+        {
+          "id": "thin",
+          "description": "",
+          "preview": "previews/ground_mist_01-thin.png"
+        },
+        {
+          "id": "dense",
+          "description": "",
+          "preview": "previews/ground_mist_01-dense.png"
+        }
+      ],
+      "evidence": [],
+      "preview_status": "rendered"
     },
     {
       "id": "house_01",
@@ -1414,6 +1565,116 @@ dialog form {display:flex; justify-content:flex-end}
       "preview_status": "unavailable"
     },
     {
+      "id": "road_junction_01",
+      "name": "Road junction",
+      "family": "infrastructure",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Decorative intersecting carriageways. The crossroads opens a second stem toward the camera.",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Decorative intersecting carriageways. The crossroads opens a second stem toward the camera.",
+      "variants": [
+        {
+          "id": "t_junction",
+          "description": "",
+          "preview": "previews/road_junction_01-t_junction.png"
+        },
+        {
+          "id": "crossroads",
+          "description": "",
+          "preview": "previews/road_junction_01-crossroads.png"
+        }
+      ],
+      "evidence": [],
+      "preview_status": "rendered"
+    },
+    {
+      "id": "road_surface_01",
+      "name": "Tapered road",
+      "family": "infrastructure",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Near edge at origin, receding toward y=-117. Dirt tracks, worn lane paint or paving joints.",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Near edge at origin, receding toward y=-117. Dirt tracks, worn lane paint or paving joints.",
+      "variants": [
+        {
+          "id": "packed_dirt",
+          "description": "",
+          "preview": "previews/road_surface_01-packed_dirt.png"
+        },
+        {
+          "id": "worn_asphalt",
+          "description": "",
+          "preview": "previews/road_surface_01-worn_asphalt.png"
+        },
+        {
+          "id": "cobblestone",
+          "description": "",
+          "preview": "previews/road_surface_01-cobblestone.png"
+        }
+      ],
+      "evidence": [],
+      "preview_status": "rendered"
+    },
+    {
+      "id": "rock_group_01",
+      "name": "Rock group",
+      "family": "nature",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Three grounded stones with rounded highlights or broken planar facets.",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Three grounded stones with rounded highlights or broken planar facets.",
+      "variants": [
+        {
+          "id": "rounded",
+          "description": "",
+          "preview": "previews/rock_group_01-rounded.png"
+        },
+        {
+          "id": "angular",
+          "description": "",
+          "preview": "previews/rock_group_01-angular.png"
+        }
+      ],
+      "evidence": [],
+      "preview_status": "rendered"
+    },
+    {
       "id": "rocky_shelter",
       "name": "Rocky Shelter",
       "family": "composition",
@@ -1572,6 +1833,196 @@ dialog form {display:flex; justify-content:flex-end}
       "preview_status": "rendered"
     },
     {
+      "id": "shrub_cluster_01",
+      "name": "Shrub cluster",
+      "family": "nature",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Overlapping foliage masses with an open, twigged silhouette in sparse form.",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Overlapping foliage masses with an open, twigged silhouette in sparse form.",
+      "variants": [
+        {
+          "id": "lush",
+          "description": "",
+          "preview": "previews/shrub_cluster_01-lush.png"
+        },
+        {
+          "id": "sparse",
+          "description": "",
+          "preview": "previews/shrub_cluster_01-sparse.png"
+        }
+      ],
+      "evidence": [],
+      "preview_status": "rendered"
+    },
+    {
+      "id": "sidewalk_01",
+      "name": "Raised sidewalk",
+      "family": "infrastructure",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Near curb at y=0, with flagstones, concrete slabs or a split slab.",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Near curb at y=0, with flagstones, concrete slabs or a split slab.",
+      "variants": [
+        {
+          "id": "stone",
+          "description": "",
+          "preview": "previews/sidewalk_01-stone.png"
+        },
+        {
+          "id": "concrete",
+          "description": "",
+          "preview": "previews/sidewalk_01-concrete.png"
+        },
+        {
+          "id": "cracked",
+          "description": "",
+          "preview": "previews/sidewalk_01-cracked.png"
+        }
+      ],
+      "evidence": [],
+      "preview_status": "rendered"
+    },
+    {
+      "id": "signpost_01",
+      "name": "Roadside signpost",
+      "family": "props",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Blank board or directional silhouette, with worn timber in the weathered option.",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Blank board or directional silhouette, with worn timber in the weathered option.",
+      "variants": [
+        {
+          "id": "blank",
+          "description": "",
+          "preview": "previews/signpost_01-blank.png"
+        },
+        {
+          "id": "directional",
+          "description": "",
+          "preview": "previews/signpost_01-directional.png"
+        },
+        {
+          "id": "weathered",
+          "description": "",
+          "preview": "previews/signpost_01-weathered.png"
+        }
+      ],
+      "evidence": [],
+      "preview_status": "rendered"
+    },
+    {
+      "id": "small_bridge_01",
+      "name": "Small footbridge",
+      "family": "infrastructure",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Low timber span with deck, posts and two rails. Decorative only.",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Low timber span with deck, posts and two rails. Decorative only.",
+      "variants": [
+        {
+          "id": "timber",
+          "description": "",
+          "preview": "previews/small_bridge_01-timber.png"
+        },
+        {
+          "id": "weathered",
+          "description": "",
+          "preview": "previews/small_bridge_01-weathered.png"
+        }
+      ],
+      "evidence": [],
+      "preview_status": "rendered"
+    },
+    {
+      "id": "streetlamp_01",
+      "name": "Roadside streetlamp",
+      "family": "props",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Metal lamp with localized authored glow. It does not light other assets.",
+        "Decorative artwork with no collision or navigation surface."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Metal lamp with localized authored glow. It does not light other assets.",
+      "variants": [
+        {
+          "id": "unlit",
+          "description": "",
+          "preview": "previews/streetlamp_01-unlit.png"
+        },
+        {
+          "id": "lit",
+          "description": "",
+          "preview": "previews/streetlamp_01-lit.png"
+        },
+        {
+          "id": "weathered",
+          "description": "",
+          "preview": "previews/streetlamp_01-weathered.png"
+        }
+      ],
+      "evidence": [],
+      "preview_status": "rendered"
+    },
+    {
       "id": "woodland_trail",
       "name": "Woodland Trail",
       "family": "composition",
@@ -1691,7 +2142,12 @@ function card(entry) {
   const copy = element("button", "Copy ID");
   copy.setAttribute("aria-label", "Copy ID " + entry.id);
   copy.addEventListener("click", () => copyId(entry.id));
+  const copySelection = element("button", "Copy selection");
+  copySelection.addEventListener("click", () => copyId(JSON.stringify({
+    asset_id: entry.id, variant: selector.value
+  })));
   identity.append(element("code", entry.id), copy);
+  if (entry.variants.length && entry.type === "scene_asset") identity.append(copySelection);
   const variantNote = element("p", "", "variant-note");
   const selector = element("select");
 

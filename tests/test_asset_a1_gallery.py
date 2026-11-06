@@ -23,6 +23,8 @@ from reelforge.visual_library.composition.building_showcase import building_show
 from tools import asset_gallery
 
 GALLERY = ROOT / "docs/asset-gallery"
+from reelforge.visual_library.world_assets import WORLD_ASSETS
+
 BASELINE_CATALOG = "df3c9ab5a6e4ee50c54a0f03c8d897512ef49623a67649fbb9ae82bf7288e6a7"
 VARIANTS = {
     "house_01": ("daylight", "dusk", "weathered"),
@@ -90,7 +92,7 @@ def test_validated_scene_placement(identity, variants):
 
 
 def test_historical_catalog_entries_preserved_with_barn_evidence_link():
-    previous = [e for e in inventory()["components"] if e["id"] not in BUILDINGS]
+    previous = [e for e in inventory()["components"] if e["id"] not in BUILDINGS and e["id"] not in WORLD_ASSETS]
     assert len(previous) == 48
     barn = next(e for e in previous if e["id"] == "barn_01")
     assert barn["details"].pop("integration_evidence") == [
@@ -112,7 +114,7 @@ def test_gallery_matches_inventory_and_local_evidence():
     catalog = inventory()["components"]
     entries = data["components"]
     assert [e["id"] for e in entries] == [e["id"] for e in catalog]
-    assert len({e["id"] for e in entries}) == len(entries) == 50
+    assert len({e["id"] for e in entries}) == len(entries) == 50 + len(WORLD_ASSETS)
     references = set()
     for entry, registered in zip(entries, catalog, strict=True):
         assert entry["name"] == registered["name"]
@@ -189,6 +191,11 @@ def test_native_rebuild_is_deterministic_and_removes_stale_previews(tmp_path):
     assert files(tmp_path) == original
     for identity, data in first["measurements"].items():
         repeated = second["measurements"][identity]
+        if identity not in BUILDINGS:
+            assert repeated["standalone"].keys() == data["standalone"].keys()
+            assert all(repeated["standalone"][v]["pixel_sha256"] == item["pixel_sha256"]
+                       for v, item in data["standalone"].items())
+            continue
         assert repeated["integrated_sha256"] == data["integrated_sha256"]
         assert repeated["mobile_sha256"] == data["mobile_sha256"]
         assert {v["pixel_sha256"] for v in repeated["standalone"].values()} == {
