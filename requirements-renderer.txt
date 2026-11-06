@@ -1,0 +1,4 @@
+# CPU Cairo binding (locked version). Easiest route on Ubuntu 24.04 is the system package:
+#   sudo apt-get install -y python3-cairo
+# Building from PyPI instead needs: libcairo2-dev pkg-config python3-dev build-essential
+pycairo==1.29.2
