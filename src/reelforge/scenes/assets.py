@@ -9,6 +9,10 @@ from reelforge.environments import artwork as art
 from reelforge.environments import polish, snowy
 from reelforge.rendering.diagnostic import color, ellipse
 from reelforge.rendering.model import DrawPath
+from reelforge.visual_library.lighting.contact import dusk_contact
+from reelforge.visual_library.nature.dusk import dusk_hills, dusk_sky
+from reelforge.visual_library.nature.farm_ground import SUPPORT, farm_track
+from reelforge.visual_library.nature.farm_tree import farm_tree
 
 from .transforms import Placement
 
@@ -26,6 +30,19 @@ class Asset:
 
 
 ASSETS = (
+    Asset("cinematic_dusk_sky_01", "background", ("default",), 8, 80, True),
+    Asset("cinematic_dusk_hills_01", "background", ("rolling", "folded"), 4, 48, True),
+    Asset(
+        "cinematic_farm_track_01",
+        "environment",
+        ("default",),
+        36,
+        420,
+        True,
+        support_envelope=SUPPORT,
+    ),
+    Asset("cinematic_farm_tree_01", "asset", ("broad", "leaning"), 20, 280, True),
+    Asset("cinematic_dusk_contact_01", "asset", ("foot", "trunk", "prop"), 3, 18),
     Asset("dusk_sky_01", "background", ("default",), 96, 2000, True),
     Asset("distant_hills_01", "background", ("default",), 128, 2000, True, (180, 350)),
     Asset(
@@ -109,7 +126,17 @@ def recipe(
     seconds: float,
     character: CharacterPreset | None,
 ) -> tuple[DrawPath, ...]:
-    if asset.id == "dusk_sky_01":
+    if asset.id == "cinematic_dusk_sky_01":
+        commands = dusk_sky(warmth, atmosphere)
+    elif asset.id == "cinematic_dusk_hills_01":
+        commands = dusk_hills(variant, atmosphere)
+    elif asset.id == "cinematic_farm_track_01":
+        commands = farm_track(warmth)
+    elif asset.id == "cinematic_farm_tree_01":
+        commands = farm_tree(variant, warmth)
+    elif asset.id == "cinematic_dusk_contact_01":
+        commands = dusk_contact(variant)
+    elif asset.id == "dusk_sky_01":
         commands = polish.sky(warmth)
     elif asset.id == "distant_hills_01":
         commands = art.hills(atmosphere) + polish.haze(atmosphere)

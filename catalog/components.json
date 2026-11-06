@@ -462,6 +462,334 @@
       ],
       "details": {
         "anchor": [
+          0,
+          0
+        ],
+        "budget": {
+          "max_operations": 18,
+          "max_paths": 3
+        },
+        "integration_evidence": [
+          "docs/visual-evidence/stage1a/farm-establishing.jpg"
+        ],
+        "preview_evidence": [
+          "docs/visual-evidence/stage1a/farm-establishing.jpg"
+        ],
+        "scene_kind": "asset",
+        "support_envelope": null,
+        "upright": false
+      },
+      "engine_capability": true,
+      "family": "lighting",
+      "id": "cinematic_dusk_contact_01",
+      "name": "Dusk ground contact",
+      "parameters": {
+        "transform.scale": {
+          "maximum": 2,
+          "minimum": 0.25,
+          "type": "number"
+        },
+        "variant": {
+          "choices": [
+            "foot",
+            "trunk",
+            "prop"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Static ground decal. Place under its subject on the same plane."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/visual_library/lighting/contact.py:dusk_contact"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "foot",
+        "trunk",
+        "prop"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "budget": {
+          "max_operations": 48,
+          "max_paths": 4
+        },
+        "integration_evidence": [
+          "docs/visual-evidence/stage1a/farm-establishing.jpg"
+        ],
+        "preview_evidence": [
+          "docs/visual-evidence/stage1a/sky-hills.jpg"
+        ],
+        "scene_kind": "background",
+        "support_envelope": null,
+        "upright": true
+      },
+      "engine_capability": true,
+      "family": "nature",
+      "id": "cinematic_dusk_hills_01",
+      "name": "Cinematic dusk hills",
+      "parameters": {
+        "art_direction.atmosphere": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        "transform.scale": {
+          "maximum": 2,
+          "minimum": 0.25,
+          "type": "number"
+        },
+        "variant": {
+          "choices": [
+            "rolling",
+            "folded"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Place the origin at the horizon reference. Static profiles."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/visual_library/nature/dusk.py:dusk_hills"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "rolling",
+        "folded"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "budget": {
+          "max_operations": 80,
+          "max_paths": 8
+        },
+        "integration_evidence": [
+          "docs/visual-evidence/stage1a/farm-establishing.jpg"
+        ],
+        "preview_evidence": [
+          "docs/visual-evidence/stage1a/sky-hills.jpg"
+        ],
+        "scene_kind": "background",
+        "support_envelope": null,
+        "upright": true
+      },
+      "engine_capability": true,
+      "family": "nature",
+      "id": "cinematic_dusk_sky_01",
+      "name": "Cinematic dusk sky",
+      "parameters": {
+        "art_direction.atmosphere": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        "art_direction.warmth": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        "transform.scale": {
+          "maximum": 2,
+          "minimum": 0.25,
+          "type": "number"
+        },
+        "variant": {
+          "choices": [
+            "default"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Canvas origin at top left. Dusk sun is on the left."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/visual_library/nature/dusk.py:dusk_sky"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "default"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "budget": {
+          "max_operations": 420,
+          "max_paths": 36
+        },
+        "integration_evidence": [
+          "docs/visual-evidence/stage1a/farm-establishing.jpg"
+        ],
+        "preview_evidence": [
+          "docs/visual-evidence/stage1a/ground-path.jpg"
+        ],
+        "scene_kind": "environment",
+        "support_envelope": [
+          -200,
+          -76,
+          200,
+          220
+        ],
+        "upright": true
+      },
+      "engine_capability": true,
+      "family": "nature",
+      "id": "cinematic_farm_track_01",
+      "name": "Cinematic farm track",
+      "parameters": {
+        "art_direction.warmth": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        "transform.scale": {
+          "maximum": 2,
+          "minimum": 0.25,
+          "type": "number"
+        },
+        "variant": {
+          "choices": [
+            "default"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Supports ground-plane staging. The track is authored geometry."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/visual_library/nature/farm_ground.py:farm_track"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "default"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "budget": {
+          "max_operations": 280,
+          "max_paths": 20
+        },
+        "integration_evidence": [
+          "docs/visual-evidence/stage1a/farm-establishing.jpg"
+        ],
+        "preview_evidence": [
+          "docs/visual-evidence/stage1a/tree-silhouettes.jpg"
+        ],
+        "scene_kind": "asset",
+        "support_envelope": null,
+        "upright": true
+      },
+      "engine_capability": true,
+      "family": "nature",
+      "id": "cinematic_farm_tree_01",
+      "name": "Cinematic farm tree",
+      "parameters": {
+        "art_direction.warmth": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        "transform.scale": {
+          "maximum": 2,
+          "minimum": 0.25,
+          "type": "number"
+        },
+        "variant": {
+          "choices": [
+            "broad",
+            "leaning"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Place the trunk foot at the origin. Static authored silhouettes."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/visual_library/nature/farm_tree.py:farm_tree"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "broad",
+        "leaning"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
           180,
           350
         ],

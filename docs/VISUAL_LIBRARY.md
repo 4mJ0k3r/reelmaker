@@ -64,3 +64,6 @@ Record review and integration evidence before marking an asset production ready.
 
 `PACKAGE_MANIFEST_SHA256.txt` records the original package snapshot at `fd395f7`.
 Its hashes are provenance for that import. Use Git to identify later tree contents.
+
+See the [Stage 1A farm world kit](STAGE1A_FARM_WORLD_KIT.md) for the first
+reusable cinematic scene components and matched review stills.

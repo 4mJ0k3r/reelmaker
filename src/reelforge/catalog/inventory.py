@@ -25,6 +25,11 @@ FAMILIES = (
 )
 # Curated labels and source pointers. Registration, variants and limits come from ASSETS.
 SCENE_LABELS = {
+    "cinematic_dusk_sky_01": ("Cinematic dusk sky", "nature", (assets.dusk_sky,)),
+    "cinematic_dusk_hills_01": ("Cinematic dusk hills", "nature", (assets.dusk_hills,)),
+    "cinematic_farm_track_01": ("Cinematic farm track", "nature", (assets.farm_track,)),
+    "cinematic_farm_tree_01": ("Cinematic farm tree", "nature", (assets.farm_tree,)),
+    "cinematic_dusk_contact_01": ("Dusk ground contact", "lighting", (assets.dusk_contact,)),
     "dusk_sky_01": ("Dusk sky", "nature", (polish.sky,)),
     "distant_hills_01": (
         "Distant hills and haze",
@@ -61,6 +66,33 @@ SCENE_LABELS = {
     "beacon_01": ("Emergency beacon", "props", (snowy.beacon,)),
     "answer_light_01": ("Distant answering light", "lighting", (snowy.answer_light,)),
     "frost_foreground_01": ("Frost foreground and snowstorm", "effects", (snowy.frost_foreground,)),
+}
+CINEMATIC_METADATA = {
+    "cinematic_dusk_sky_01": (
+        ("warmth", "atmosphere"),
+        "sky-hills.jpg",
+        "Canvas origin at top left. Dusk sun is on the left.",
+    ),
+    "cinematic_dusk_hills_01": (
+        ("atmosphere",),
+        "sky-hills.jpg",
+        "Place the origin at the horizon reference. Static profiles.",
+    ),
+    "cinematic_farm_track_01": (
+        ("warmth",),
+        "ground-path.jpg",
+        "Supports ground-plane staging. The track is authored geometry.",
+    ),
+    "cinematic_farm_tree_01": (
+        ("warmth",),
+        "tree-silhouettes.jpg",
+        "Place the trunk foot at the origin. Static authored silhouettes.",
+    ),
+    "cinematic_dusk_contact_01": (
+        (),
+        "farm-establishing.jpg",
+        "Static ground decal. Place under its subject on the same plane.",
+    ),
 }
 RECIPE_FAMILIES = {
     "building": "architecture",
@@ -194,6 +226,13 @@ def registered_components(planner_assets):
         else:
             name, family, artwork_sources = SCENE_LABELS[asset.id]
             sources.extend(artwork_sources)
+        if asset.id in CINEMATIC_METADATA:
+            controls, preview, note = CINEMATIC_METADATA[asset.id]
+            parameters.update({f"art_direction.{key}": SCENE_ART[key] for key in controls})
+            parameters["transform.scale"] = {"type": "number", "minimum": 0.25, "maximum": 2}
+            restrictions.append(note)
+            details["preview_evidence"] = [f"docs/visual-evidence/stage1a/{preview}"]
+            details["integration_evidence"] = ["docs/visual-evidence/stage1a/farm-establishing.jpg"]
         if asset.id == "beacon_01":
             details["interaction_sockets"] = {"activation_button_local": list(snowy.BEACON_SOCKET)}
         yield component(
