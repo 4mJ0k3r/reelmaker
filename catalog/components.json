@@ -62,6 +62,9 @@
           "max_operations": 4000,
           "max_paths": 256
         },
+        "integration_evidence": [
+          "docs/visual-evidence/stage0c/rowan-barn.jpg"
+        ],
         "scene_kind": "asset",
         "support_envelope": null,
         "upright": false
@@ -1347,6 +1350,80 @@
     },
     {
       "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "bounds": [
+          -87,
+          -179,
+          116,
+          14
+        ],
+        "budget": {
+          "max_operations": 480,
+          "max_paths": 80
+        },
+        "description": "A timber cottage with a slate roof, chimney and recessed entry.",
+        "doorway_reference_local": [
+          3,
+          0
+        ],
+        "scene_kind": "asset",
+        "support_envelope": null,
+        "upright": true,
+        "variant_descriptions": {
+          "daylight": "Clear glass and warm siding",
+          "dusk": "Lit windows and cool slate fill",
+          "weathered": "Boarded windows, moss and worn siding"
+        }
+      },
+      "engine_capability": true,
+      "family": "architecture",
+      "id": "house_01",
+      "name": "Gable cottage",
+      "parameters": {
+        "transform.scale": {
+          "maximum": 2,
+          "minimum": 0.25,
+          "type": "number"
+        },
+        "variant": {
+          "choices": [
+            "daylight",
+            "dusk",
+            "weathered"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Upright fixed three-quarter exterior. Ground origin is at the front foundation.",
+        "Dusk Farm staging is demonstrated. Other placements need scene-specific review.",
+        "Doorway reference is for staging. Openings and lighting are static."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/visual_library/architecture/buildings.py:house"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "daylight",
+        "dusk",
+        "weathered"
+      ]
+    },
+    {
+      "dependencies": [
         "storyboard-0.1"
       ],
       "details": {},
@@ -2150,6 +2227,80 @@
       ],
       "type": "procedural",
       "variants": []
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "bounds": [
+          -92,
+          -132,
+          128,
+          14
+        ],
+        "budget": {
+          "max_operations": 480,
+          "max_paths": 80
+        },
+        "description": "A low roadside shop with a striped awning and a display bay.",
+        "doorway_reference_local": [
+          37,
+          0
+        ],
+        "scene_kind": "asset",
+        "support_envelope": null,
+        "upright": true,
+        "variant_descriptions": {
+          "closed": "Metal roller shutter and closed door",
+          "open": "Lit display bay and recessed open-looking entry",
+          "weathered": "Boarded shutters, worn awning and moss"
+        }
+      },
+      "engine_capability": true,
+      "family": "architecture",
+      "id": "shop_01",
+      "name": "Wayside storefront",
+      "parameters": {
+        "transform.scale": {
+          "maximum": 2,
+          "minimum": 0.25,
+          "type": "number"
+        },
+        "variant": {
+          "choices": [
+            "open",
+            "closed",
+            "weathered"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Upright fixed three-quarter exterior. Ground origin is at the front foundation.",
+        "Dusk Farm staging is demonstrated. Other placements need scene-specific review.",
+        "Doorway reference is for staging. Openings and lighting are static."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/visual_library/architecture/buildings.py:storefront"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "open",
+        "closed",
+        "weathered"
+      ]
     },
     {
       "dependencies": [

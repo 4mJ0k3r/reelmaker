@@ -196,6 +196,17 @@
               "interaction_sockets": {
                 "type": "object"
               },
+              "description": {"type": "string", "minLength": 1},
+              "variant_descriptions": {
+                "type": "object",
+                "additionalProperties": {"type": "string", "minLength": 1}
+              },
+              "doorway_reference_local": {
+                "type": "array",
+                "items": {"type": "number"},
+                "minItems": 2,
+                "maxItems": 2
+              },
               "bounds": {
                 "type": [
                   "array",

@@ -1,0 +1,277 @@
+{
+  "schema_version": "scene-0.1",
+  "title": "Wayside storefront at Dusk Farm",
+  "camera": "locked",
+  "output": {
+    "width": 720,
+    "height": 1280,
+    "fps": 30,
+    "frames": 90,
+    "codec": "h264",
+    "pixel_format": "yuv420p"
+  },
+  "art_direction": {
+    "warmth": 0.8,
+    "atmosphere": 0.52,
+    "breeze": 0.2
+  },
+  "nodes": [
+    {
+      "id": "root",
+      "kind": "root",
+      "parent": null,
+      "order": 0,
+      "visible": true,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "id": "sky_plane",
+      "kind": "layer",
+      "parent": "root",
+      "order": 0,
+      "visible": true,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation_degrees": 0
+      },
+      "depth": 0
+    },
+    {
+      "id": "distance",
+      "kind": "layer",
+      "parent": "root",
+      "order": 1,
+      "visible": true,
+      "transform": {
+        "x": 0.0,
+        "y": 0.0,
+        "scale": 1.0,
+        "rotation_degrees": 0
+      },
+      "depth": 0.18
+    },
+    {
+      "id": "terrain",
+      "kind": "layer",
+      "parent": "root",
+      "order": 2,
+      "visible": true,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation_degrees": 0
+      },
+      "depth": 1
+    },
+    {
+      "id": "midground",
+      "kind": "layer",
+      "parent": "root",
+      "order": 3,
+      "visible": true,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation_degrees": 0
+      },
+      "depth": 1
+    },
+    {
+      "id": "foreground",
+      "kind": "layer",
+      "parent": "root",
+      "order": 4,
+      "visible": true,
+      "transform": {
+        "x": 0.0,
+        "y": 0.0,
+        "scale": 1.0,
+        "rotation_degrees": 0
+      },
+      "depth": 1.4
+    },
+    {
+      "id": "sky",
+      "kind": "background",
+      "parent": "sky_plane",
+      "order": 0,
+      "visible": true,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation_degrees": 0
+      },
+      "asset_id": "cinematic_dusk_sky_01",
+      "variant": "default"
+    },
+    {
+      "id": "hills",
+      "kind": "background",
+      "parent": "distance",
+      "order": 0,
+      "visible": true,
+      "transform": {
+        "x": 180,
+        "y": 353,
+        "scale": 1,
+        "rotation_degrees": 0
+      },
+      "asset_id": "cinematic_dusk_hills_01",
+      "variant": "rolling"
+    },
+    {
+      "id": "ground",
+      "kind": "environment",
+      "parent": "terrain",
+      "order": 0,
+      "visible": true,
+      "transform": {
+        "x": 180,
+        "y": 500,
+        "scale": 1,
+        "rotation_degrees": 0
+      },
+      "asset_id": "cinematic_farm_track_01",
+      "variant": "default"
+    },
+    {
+      "id": "rowan_contact",
+      "kind": "asset",
+      "parent": "terrain",
+      "order": 1,
+      "visible": true,
+      "transform": {
+        "x": 114,
+        "y": 486,
+        "scale": 0.25,
+        "rotation_degrees": 0
+      },
+      "asset_id": "cinematic_dusk_contact_01",
+      "variant": "foot"
+    },
+    {
+      "id": "building",
+      "kind": "asset",
+      "parent": "midground",
+      "order": 0,
+      "visible": true,
+      "transform": {
+        "x": 220,
+        "y": 473,
+        "scale": 0.96,
+        "rotation_degrees": 0
+      },
+      "asset_id": "shop_01",
+      "variant": "open"
+    },
+    {
+      "id": "rowan",
+      "kind": "character",
+      "parent": "midground",
+      "order": 8,
+      "visible": true,
+      "transform": {
+        "x": 114,
+        "y": 486,
+        "scale": 0.25,
+        "rotation_degrees": 0
+      },
+      "asset_id": "rowan_01",
+      "variant": "default",
+      "ground_id": "ground",
+      "character": {
+        "character": "rowan_01",
+        "action": "look_around",
+        "direction": "right",
+        "speed": 1.0,
+        "expression": "concerned",
+        "intensity": 0.6
+      }
+    },
+    {
+      "id": "orchard_tree_contact",
+      "kind": "asset",
+      "parent": "terrain",
+      "order": 3,
+      "visible": true,
+      "transform": {
+        "x": 36,
+        "y": 475,
+        "scale": 0.95,
+        "rotation_degrees": 0
+      },
+      "asset_id": "cinematic_dusk_contact_01",
+      "variant": "trunk"
+    },
+    {
+      "id": "orchard_tree",
+      "kind": "asset",
+      "parent": "midground",
+      "order": 1,
+      "visible": true,
+      "transform": {
+        "x": 36,
+        "y": 475,
+        "scale": 0.95,
+        "rotation_degrees": 0
+      },
+      "asset_id": "cinematic_farm_tree_01",
+      "variant": "broad"
+    },
+    {
+      "id": "roadside_tree_contact",
+      "kind": "asset",
+      "parent": "terrain",
+      "order": 4,
+      "visible": true,
+      "transform": {
+        "x": 340,
+        "y": 439,
+        "scale": 0.66,
+        "rotation_degrees": 0
+      },
+      "asset_id": "cinematic_dusk_contact_01",
+      "variant": "trunk"
+    },
+    {
+      "id": "roadside_tree",
+      "kind": "asset",
+      "parent": "midground",
+      "order": 2,
+      "visible": true,
+      "transform": {
+        "x": 340,
+        "y": 439,
+        "scale": 0.66,
+        "rotation_degrees": 0
+      },
+      "asset_id": "cinematic_farm_tree_01",
+      "variant": "leaning"
+    },
+    {
+      "id": "foreground_tree",
+      "kind": "asset",
+      "parent": "foreground",
+      "order": 3,
+      "visible": true,
+      "transform": {
+        "x": -27,
+        "y": 622,
+        "scale": 1.07,
+        "rotation_degrees": 0
+      },
+      "asset_id": "cinematic_farm_tree_01",
+      "variant": "leaning"
+    }
+  ]
+}

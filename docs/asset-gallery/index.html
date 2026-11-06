@@ -1,0 +1,1778 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ReelMaker Visual Asset Gallery</title>
+<style>
+:root {color-scheme:dark; font: 16px/1.55 system-ui,sans-serif; color:#f3efea; background:#171a20}
+* {box-sizing:border-box}
+body {margin:0}
+main {max-width:1280px; margin:auto; padding:clamp(16px,4vw,50px)}
+header {padding:12px 0 30px; border-bottom:1px solid #42434c; margin-bottom:26px}
+h1,h2,p {margin:0}
+h1 {font-size:clamp(2rem,6vw,3.8rem); letter-spacing:-.055em; line-height:1.12; margin:8px 0 12px}
+h2 {font-size:1.2rem}
+.kicker,.tag {text-transform:uppercase; color:#edb785; letter-spacing:.12em; font-size:.72rem; font-weight:700}
+.sub,.info,.variant-note {color:#c5c3ca}
+.controls {display:flex; flex-wrap:wrap; gap:12px; align-items:end}
+.controls label {display:grid; gap:4px}
+.controls label:first-child {flex:1 1 210px}
+input,select,button {font:inherit; background:#292c34; border:1px solid #575965; color:inherit; border-radius:7px; padding:7px 10px; max-width:100%}
+button {cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible {outline:2px solid #edb785; outline-offset:2px}
+#count {margin:12px 0 18px; font-size:.9rem}
+.grid {display:grid; grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr)); gap:18px}
+article {min-width:0; border:1px solid #42434c; background:#20232a; border-radius:13px; overflow:hidden}
+.preview {width:100%; aspect-ratio:1.2; display:grid; place-items:center; position:relative; border:0; border-radius:0; padding:0; overflow:hidden; background:#d8d4c7; color:#252932; font-weight:650}
+.preview img {position:absolute; inset:0; width:100%; height:100%; object-fit:cover; min-height:0}
+.preview.context img {object-fit:contain; background:#30333a}
+.preview.empty {background:#2a303b; color:#ded9d2; padding:16px; text-align:center; cursor:default}
+.card-body {padding:16px; display:grid; gap:9px}
+.identity {display:flex; flex-wrap:wrap; align-items:center; gap:8px}
+code {overflow-wrap:anywhere; color:#f0bf91}
+.identity button,.evidence button {font-size:.82rem}
+.info,.variant-note,details {font-size:.88rem}
+.variant-note:empty {display:none}
+summary {cursor:pointer; color:#ebd2b7}
+ul {margin:.4em 0; padding-left:20px}
+.evidence {display:grid; gap:6px}
+.evidence button {text-align:left}
+dialog {width:min(900px,94vw); max-height:96vh; padding:12px; color:inherit; background:#272b33; border:1px solid #595b64; border-radius:10px}
+dialog::backdrop {background:#0a0d14d9}
+dialog img {display:block; width:100%; height:min(74vh,780px); object-fit:contain; background:#d8d4c7; margin:8px 0}
+dialog form {display:flex; justify-content:flex-end}
+#copy-status {position:fixed; bottom:18px; right:18px; max-width:calc(100vw - 36px); padding:8px 12px; background:#303641; border-radius:7px; z-index:1}
+#copy-status:empty {display:none}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="kicker">ReelMaker / Visual library</p>
+  <h1>Asset gallery</h1>
+  <p class="sub">Browse registered components, inspect engine-rendered evidence and copy exact IDs.</p>
+</header>
+<div class="controls">
+  <label>Search by name or ID <input id="search" type="search" placeholder="e.g. house_01 or cottage"></label>
+  <label>Category <select id="category"><option value="">All categories</option></select></label>
+</div>
+<p id="count" class="sub" aria-live="polite"></p>
+<noscript>Enable JavaScript for the gallery or open the adjacent assets.json file for the catalog.</noscript>
+<div id="gallery" class="grid"></div>
+<p id="copy-status" role="status"></p>
+</main>
+<dialog id="viewer" aria-labelledby="caption">
+  <form method="dialog"><button>Close</button></form>
+  <img id="large-image" alt="">
+  <p id="caption"></p>
+</dialog>
+<script type="application/json" id="asset-data">{
+  "components": [
+    {
+      "id": "answer_light_01",
+      "name": "Distant answering light",
+      "family": "lighting",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "ridge_reveal is dark through local frame 23, then rises and holds."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "preset_only",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Use the registered scene node kind and scene-0.1 validation.",
+      "variants": [
+        {
+          "id": "default",
+          "description": "",
+          "preview": null
+        },
+        {
+          "id": "ridge_reveal",
+          "description": "",
+          "preview": null
+        }
+      ],
+      "evidence": [],
+      "preview_status": "unavailable"
+    },
+    {
+      "id": "barn_01",
+      "name": "Barn exterior",
+      "family": "architecture",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Opt-in dusk_graded quiets fine seams; default retains original artwork.",
+        "doorway_shadow adds one clipped local-time occlusion."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Use the registered scene node kind and scene-0.1 validation.",
+      "variants": [
+        {
+          "id": "default",
+          "description": "",
+          "preview": null
+        },
+        {
+          "id": "dusk_graded",
+          "description": "",
+          "preview": null
+        },
+        {
+          "id": "doorway_shadow",
+          "description": "",
+          "preview": null
+        }
+      ],
+      "evidence": [
+        {
+          "path": "previews/history/stage0c/rowan-barn.jpg",
+          "label": "Historical scene context"
+        }
+      ],
+      "preview_status": "context_only"
+    },
+    {
+      "id": "beacon_01",
+      "name": "Emergency beacon",
+      "family": "props",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Local signal keeps the activation socket and amber light without the distant beam.",
+        "ridge_surge adds a single local-frame 44–56 pulse."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "preset_only",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Use the registered scene node kind and scene-0.1 validation.",
+      "variants": [
+        {
+          "id": "buried",
+          "description": "",
+          "preview": null
+        },
+        {
+          "id": "active",
+          "description": "",
+          "preview": null
+        },
+        {
+          "id": "local_signal",
+          "description": "",
+          "preview": null
+        },
+        {
+          "id": "ridge_surge",
+          "description": "",
+          "preview": null
+        }
+      ],
+      "evidence": [
+        {
+          "path": "previews/history/stage1c/cold-establishing.jpg",
+          "label": "Catalog reference (may show other components)"
+        }
+      ],
+      "preview_status": "context_only"
+    },
+    {
+      "id": "camera.direction.close_up",
+      "name": "Close Up",
+      "family": "composition",
+      "type": "system",
+      "restrictions": [
+        "Storyboard framing also constrains screen position, lead and offsets.",
+        "Trusted cinematic_character_staging builder emits a validated direction-0.1 manifest over existing Stage 2A/2B performances. No planner selector."
+      ],
+      "dependencies": [
+        "direction-0.1",
+        "storyboard-0.1"
+      ],
+      "registration": [],
+      "planner_exposure": "preset_only",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Storyboard framing also constrains screen position, lead and offsets.",
+      "variants": [
+        {
+          "id": "close_up",
+          "description": "",
+          "preview": null
+        }
+      ],
+      "evidence": [],
+      "preview_status": "unavailable"
+    },
+    {
+      "id": "camera.direction.establishing",
+      "name": "Establishing",
+      "family": "composition",
+      "type": "system",
+      "restrictions": [
+        "Storyboard framing also constrains screen position, lead and offsets."
+      ],
+      "dependencies": [
+        "direction-0.1",
+        "storyboard-0.1"
+      ],
+      "registration": [],
+      "planner_exposure": "preset_only",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Storyboard framing also constrains screen position, lead and offsets.",
+      "variants": [
+        {
+          "id": "establishing",
+          "description": "",
+          "preview": null
+        }
+      ],
+      "evidence": [],
+      "preview_status": "unavailable"
+    },
+    {
+      "id": "camera.direction.follow",
+      "name": "Follow",
+      "family": "composition",
+      "type": "system",
+      "restrictions": [
+        "Storyboard framing also constrains screen position, lead and offsets."
+      ],
+      "dependencies": [
+        "direction-0.1",
+        "storyboard-0.1"
+      ],
+      "registration": [],
+      "planner_exposure": "preset_only",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Storyboard framing also constrains screen position, lead and offsets.",
+      "variants": [
+        {
+          "id": "follow",
+          "description": "",
+          "preview": null
+        }
+      ],
+      "evidence": [],
+      "preview_status": "unavailable"
+    },
+    {
+      "id": "camera.direction.object_reveal",
+      "name": "Object Reveal",
+      "family": "composition",
+      "type": "system",
+      "restrictions": [
+        "Storyboard framing also constrains screen position, lead and offsets."
+      ],
+      "dependencies": [
+        "direction-0.1",
+        "storyboard-0.1"
+      ],
+      "registration": [],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Storyboard framing also constrains screen position, lead and offsets.",
+      "variants": [
+        {
+          "id": "object_reveal",
+          "description": "",
+          "preview": null
+        }
+      ],
+      "evidence": [],
+      "preview_status": "unavailable"
+    },
+    {
+      "id": "camera.direction.push_in",
+      "name": "Push In",
+      "family": "composition",
+      "type": "system",
+      "restrictions": [
+        "Storyboard framing also constrains screen position, lead and offsets."
+      ],
+      "dependencies": [
+        "direction-0.1",
+        "storyboard-0.1"
+      ],
+      "registration": [],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Storyboard framing also constrains screen position, lead and offsets.",
+      "variants": [
+        {
+          "id": "push_in",
+          "description": "",
+          "preview": null
+        }
+      ],
+      "evidence": [],
+      "preview_status": "unavailable"
+    },
+    {
+      "id": "camera.direction.reaction",
+      "name": "Reaction",
+      "family": "composition",
+      "type": "system",
+      "restrictions": [
+        "Storyboard framing also constrains screen position, lead and offsets."
+      ],
+      "dependencies": [
+        "direction-0.1",
+        "storyboard-0.1"
+      ],
+      "registration": [],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Storyboard framing also constrains screen position, lead and offsets.",
+      "variants": [
+        {
+          "id": "reaction",
+          "description": "",
+          "preview": null
+        }
+      ],
+      "evidence": [],
+      "preview_status": "unavailable"
+    },
+    {
+      "id": "camera.direction.suspense_hold",
+      "name": "Suspense Hold",
+      "family": "composition",
+      "type": "system",
+      "restrictions": [
+        "Storyboard framing also constrains screen position, lead and offsets."
+      ],
+      "dependencies": [
+        "direction-0.1",
+        "storyboard-0.1"
+      ],
+      "registration": [],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Storyboard framing also constrains screen position, lead and offsets.",
+      "variants": [
+        {
+          "id": "suspense_hold",
+          "description": "",
+          "preview": null
+        }
+      ],
+      "evidence": [],
+      "preview_status": "unavailable"
+    },
+    {
+      "id": "camera.scene.approach",
+      "name": "Approach",
+      "family": "composition",
+      "type": "system",
+      "restrictions": [
+        "Scene-level camera preset; the planner uses storyboard direction overrides."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Scene-level camera preset; the planner uses storyboard direction overrides.",
+      "variants": [
+        {
+          "id": "approach",
+          "description": "",
+          "preview": null
+        }
+      ],
+      "evidence": [],
+      "preview_status": "unavailable"
+    },
+    {
+      "id": "camera.scene.gentle_drift",
+      "name": "Gentle Drift",
+      "family": "composition",
+      "type": "system",
+      "restrictions": [
+        "Scene-level camera preset; the planner uses storyboard direction overrides."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Scene-level camera preset; the planner uses storyboard direction overrides.",
+      "variants": [
+        {
+          "id": "gentle_drift",
+          "description": "",
+          "preview": null
+        }
+      ],
+      "evidence": [],
+      "preview_status": "unavailable"
+    },
+    {
+      "id": "camera.scene.locked",
+      "name": "Locked",
+      "family": "composition",
+      "type": "system",
+      "restrictions": [
+        "Scene-level camera preset; the planner uses storyboard direction overrides."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Scene-level camera preset; the planner uses storyboard direction overrides.",
+      "variants": [
+        {
+          "id": "locked",
+          "description": "",
+          "preview": null
+        }
+      ],
+      "evidence": [],
+      "preview_status": "unavailable"
+    },
+    {
+      "id": "cinematic_dusk_contact_01",
+      "name": "Dusk ground contact",
+      "family": "lighting",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Static ground decal. Place under its subject on the same plane."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Use the registered scene node kind and scene-0.1 validation.",
+      "variants": [
+        {
+          "id": "foot",
+          "description": "",
+          "preview": null
+        },
+        {
+          "id": "trunk",
+          "description": "",
+          "preview": null
+        },
+        {
+          "id": "prop",
+          "description": "",
+          "preview": null
+        }
+      ],
+      "evidence": [
+        {
+          "path": "previews/history/stage1a1/farm-establishing.jpg",
+          "label": "Catalog reference (may show other components)"
+        }
+      ],
+      "preview_status": "context_only"
+    },
+    {
+      "id": "cinematic_dusk_hills_01",
+      "name": "Cinematic dusk hills",
+      "family": "nature",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Place the origin at the horizon reference. Static profiles."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Use the registered scene node kind and scene-0.1 validation.",
+      "variants": [
+        {
+          "id": "rolling",
+          "description": "",
+          "preview": null
+        },
+        {
+          "id": "folded",
+          "description": "",
+          "preview": null
+        }
+      ],
+      "evidence": [
+        {
+          "path": "previews/history/stage1a1/sky-hills.jpg",
+          "label": "Catalog reference (may show other components)"
+        },
+        {
+          "path": "previews/history/stage1a1/farm-establishing.jpg",
+          "label": "Historical scene context"
+        }
+      ],
+      "preview_status": "context_only"
+    },
+    {
+      "id": "cinematic_dusk_sky_01",
+      "name": "Cinematic dusk sky",
+      "family": "nature",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Canvas origin at top left. Dusk sun is on the left."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Use the registered scene node kind and scene-0.1 validation.",
+      "variants": [
+        {
+          "id": "default",
+          "description": "",
+          "preview": null
+        }
+      ],
+      "evidence": [
+        {
+          "path": "previews/history/stage1a1/sky-hills.jpg",
+          "label": "Catalog reference (may show other components)"
+        },
+        {
+          "path": "previews/history/stage1a1/farm-establishing.jpg",
+          "label": "Historical scene context"
+        }
+      ],
+      "preview_status": "context_only"
+    },
+    {
+      "id": "cinematic_farm_track_01",
+      "name": "Cinematic farm track",
+      "family": "nature",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Supports ground-plane staging. The track is authored geometry."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Use the registered scene node kind and scene-0.1 validation.",
+      "variants": [
+        {
+          "id": "default",
+          "description": "",
+          "preview": null
+        },
+        {
+          "id": "left_bend",
+          "description": "",
+          "preview": null
+        }
+      ],
+      "evidence": [
+        {
+          "path": "previews/history/stage1a1/farm-establishing.jpg",
+          "label": "Historical scene context"
+        }
+      ],
+      "preview_status": "context_only"
+    },
+    {
+      "id": "cinematic_farm_tree_01",
+      "name": "Cinematic farm tree",
+      "family": "nature",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Place the trunk foot at the origin. Static authored silhouettes."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Use the registered scene node kind and scene-0.1 validation.",
+      "variants": [
+        {
+          "id": "broad",
+          "description": "",
+          "preview": null
+        },
+        {
+          "id": "leaning",
+          "description": "",
+          "preview": null
+        }
+      ],
+      "evidence": [
+        {
+          "path": "previews/history/stage1a1/tree-silhouettes.jpg",
+          "label": "Catalog reference (may show other components)"
+        },
+        {
+          "path": "previews/history/stage1a1/farm-establishing.jpg",
+          "label": "Historical scene context"
+        }
+      ],
+      "preview_status": "context_only"
+    },
+    {
+      "id": "distant_hills_01",
+      "name": "Distant hills and haze",
+      "family": "nature",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "preset_only",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Use the registered scene node kind and scene-0.1 validation.",
+      "variants": [
+        {
+          "id": "default",
+          "description": "",
+          "preview": null
+        }
+      ],
+      "evidence": [],
+      "preview_status": "unavailable"
+    },
+    {
+      "id": "dusk_sky_01",
+      "name": "Dusk sky",
+      "family": "nature",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "preset_only",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Use the registered scene node kind and scene-0.1 validation.",
+      "variants": [
+        {
+          "id": "default",
+          "description": "",
+          "preview": null
+        }
+      ],
+      "evidence": [],
+      "preview_status": "unavailable"
+    },
+    {
+      "id": "fence_01",
+      "name": "Farm fence",
+      "family": "architecture",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "preset_only",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Use the registered scene node kind and scene-0.1 validation.",
+      "variants": [
+        {
+          "id": "default",
+          "description": "",
+          "preview": null
+        }
+      ],
+      "evidence": [],
+      "preview_status": "unavailable"
+    },
+    {
+      "id": "foreground_boughs_01",
+      "name": "Foreground boughs",
+      "family": "nature",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Use the registered scene node kind and scene-0.1 validation.",
+      "variants": [
+        {
+          "id": "default",
+          "description": "",
+          "preview": null
+        }
+      ],
+      "evidence": [],
+      "preview_status": "unavailable"
+    },
+    {
+      "id": "frost_foreground_01",
+      "name": "Frost foreground and snowstorm",
+      "family": "effects",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Ridge wind adds restrained streaks outside the action band of the Cold Ridge composition."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "preset_only",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Use the registered scene node kind and scene-0.1 validation.",
+      "variants": [
+        {
+          "id": "default",
+          "description": "",
+          "preview": null
+        },
+        {
+          "id": "storm",
+          "description": "",
+          "preview": null
+        },
+        {
+          "id": "ridge_wind",
+          "description": "",
+          "preview": null
+        }
+      ],
+      "evidence": [
+        {
+          "path": "previews/history/stage1c/clear-storm.jpg",
+          "label": "Catalog reference (may show other components)"
+        },
+        {
+          "path": "previews/history/stage1c/cold-establishing.jpg",
+          "label": "Historical scene context"
+        }
+      ],
+      "preview_status": "context_only"
+    },
+    {
+      "id": "frost_peak",
+      "name": "Frost Peak (snowy mountain)",
+      "family": "composition",
+      "type": "system",
+      "restrictions": [
+        "Keyword-selected environment assembled from fixed shot presets."
+      ],
+      "dependencies": [
+        "storyboard-0.1"
+      ],
+      "registration": [],
+      "planner_exposure": "selectable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Keyword-selected environment assembled from fixed shot presets.",
+      "variants": [],
+      "evidence": [],
+      "preview_status": "unavailable"
+    },
+    {
+      "id": "frost_peaks_01",
+      "name": "Snowy peaks",
+      "family": "nature",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Cinematic variants are trusted scene opt-ins; the planner retains far and mid."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "preset_only",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Use the registered scene node kind and scene-0.1 validation.",
+      "variants": [
+        {
+          "id": "far",
+          "description": "",
+          "preview": null
+        },
+        {
+          "id": "mid",
+          "description": "",
+          "preview": null
+        },
+        {
+          "id": "cinematic_far",
+          "description": "",
+          "preview": null
+        },
+        {
+          "id": "cinematic_massif",
+          "description": "",
+          "preview": null
+        }
+      ],
+      "evidence": [
+        {
+          "path": "previews/history/stage1c/mountains.jpg",
+          "label": "Catalog reference (may show other components)"
+        },
+        {
+          "path": "previews/history/stage1c/cold-establishing.jpg",
+          "label": "Historical scene context"
+        }
+      ],
+      "preview_status": "context_only"
+    },
+    {
+      "id": "frost_ridge_01",
+      "name": "Snowy ridge",
+      "family": "nature",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Sculpted uses atmosphere and the original level support; no slope navigation."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "preset_only",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Use the registered scene node kind and scene-0.1 validation.",
+      "variants": [
+        {
+          "id": "default",
+          "description": "",
+          "preview": null
+        },
+        {
+          "id": "sculpted",
+          "description": "",
+          "preview": null
+        }
+      ],
+      "evidence": [
+        {
+          "path": "previews/history/stage1c/terrain-rock.jpg",
+          "label": "Catalog reference (may show other components)"
+        },
+        {
+          "path": "previews/history/stage1c/cold-establishing.jpg",
+          "label": "Historical scene context"
+        }
+      ],
+      "preview_status": "context_only"
+    },
+    {
+      "id": "frost_rocks_01",
+      "name": "Frost Peak rocks",
+      "family": "nature",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "preset_only",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Use the registered scene node kind and scene-0.1 validation.",
+      "variants": [
+        {
+          "id": "cliff",
+          "description": "",
+          "preview": null
+        },
+        {
+          "id": "drift",
+          "description": "",
+          "preview": null
+        }
+      ],
+      "evidence": [],
+      "preview_status": "unavailable"
+    },
+    {
+      "id": "frost_sky_01",
+      "name": "Frost Peak sky",
+      "family": "nature",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "preset_only",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Use the registered scene node kind and scene-0.1 validation.",
+      "variants": [
+        {
+          "id": "default",
+          "description": "",
+          "preview": null
+        }
+      ],
+      "evidence": [],
+      "preview_status": "unavailable"
+    },
+    {
+      "id": "house_01",
+      "name": "Gable cottage",
+      "family": "architecture",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Upright fixed three-quarter exterior. Ground origin is at the front foundation.",
+        "Dusk Farm staging is demonstrated. Other placements need scene-specific review.",
+        "Doorway reference is for staging. Openings and lighting are static."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "A timber cottage with a slate roof, chimney and recessed entry.",
+      "variants": [
+        {
+          "id": "daylight",
+          "description": "Clear glass and warm siding",
+          "preview": "previews/house_01-daylight.png"
+        },
+        {
+          "id": "dusk",
+          "description": "Lit windows and cool slate fill",
+          "preview": "previews/house_01-dusk.png"
+        },
+        {
+          "id": "weathered",
+          "description": "Boarded windows, moss and worn siding",
+          "preview": "previews/house_01-weathered.png"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "previews/house_01-variants.png",
+          "label": "Variant sheet in selector order"
+        },
+        {
+          "path": "previews/house_01-farm.png",
+          "label": "Dusk Farm · dusk · 720 × 1280"
+        },
+        {
+          "path": "previews/house_01-farm-mobile.png",
+          "label": "Dusk Farm · dusk · 360 × 640"
+        }
+      ],
+      "preview_status": "rendered"
+    },
+    {
+      "id": "orchard",
+      "name": "Last Light orchard",
+      "family": "composition",
+      "type": "system",
+      "restrictions": [
+        "Keyword-selected environment assembled from fixed shot presets."
+      ],
+      "dependencies": [
+        "storyboard-0.1"
+      ],
+      "registration": [],
+      "planner_exposure": "selectable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Keyword-selected environment assembled from fixed shot presets.",
+      "variants": [],
+      "evidence": [],
+      "preview_status": "unavailable"
+    },
+    {
+      "id": "orchard_ground_01",
+      "name": "Orchard ground",
+      "family": "nature",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "preset_only",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Use the registered scene node kind and scene-0.1 validation.",
+      "variants": [
+        {
+          "id": "default",
+          "description": "",
+          "preview": null
+        }
+      ],
+      "evidence": [],
+      "preview_status": "unavailable"
+    },
+    {
+      "id": "orchard_tree_01",
+      "name": "Orchard tree",
+      "family": "nature",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "preset_only",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Use the registered scene node kind and scene-0.1 validation.",
+      "variants": [
+        {
+          "id": "broad",
+          "description": "",
+          "preview": null
+        },
+        {
+          "id": "lean",
+          "description": "",
+          "preview": null
+        },
+        {
+          "id": "compact",
+          "description": "",
+          "preview": null
+        },
+        {
+          "id": "windswept",
+          "description": "",
+          "preview": null
+        }
+      ],
+      "evidence": [],
+      "preview_status": "unavailable"
+    },
+    {
+      "id": "pine_snow_01",
+      "name": "Snow-covered pine",
+      "family": "nature",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Pinnacle and windshear are static; breeze applies only to legacy variants."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "preset_only",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Use the registered scene node kind and scene-0.1 validation.",
+      "variants": [
+        {
+          "id": "tall",
+          "description": "",
+          "preview": null
+        },
+        {
+          "id": "short",
+          "description": "",
+          "preview": null
+        },
+        {
+          "id": "cluster",
+          "description": "",
+          "preview": null
+        },
+        {
+          "id": "pinnacle",
+          "description": "",
+          "preview": null
+        },
+        {
+          "id": "windshear",
+          "description": "",
+          "preview": null
+        }
+      ],
+      "evidence": [
+        {
+          "path": "previews/history/stage1c/conifers.jpg",
+          "label": "Catalog reference (may show other components)"
+        },
+        {
+          "path": "previews/history/stage1c/cold-establishing.jpg",
+          "label": "Historical scene context"
+        }
+      ],
+      "preview_status": "context_only"
+    },
+    {
+      "id": "procedural.backdrop",
+      "name": "Procedural backdrop",
+      "family": "nature",
+      "type": "procedural",
+      "restrictions": [
+        "Internal recipe selected by the environment family, not a scene asset ID."
+      ],
+      "dependencies": [
+        "environment-0.1"
+      ],
+      "registration": [],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Internal recipe selected by the environment family, not a scene asset ID.",
+      "variants": [],
+      "evidence": [],
+      "preview_status": "unavailable"
+    },
+    {
+      "id": "procedural.building",
+      "name": "Procedural building",
+      "family": "architecture",
+      "type": "procedural",
+      "restrictions": [
+        "Internal recipe selected by the environment family, not a scene asset ID."
+      ],
+      "dependencies": [
+        "environment-0.1"
+      ],
+      "registration": [],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Internal recipe selected by the environment family, not a scene asset ID.",
+      "variants": [],
+      "evidence": [],
+      "preview_status": "unavailable"
+    },
+    {
+      "id": "procedural.distance",
+      "name": "Procedural distance",
+      "family": "nature",
+      "type": "procedural",
+      "restrictions": [
+        "Internal recipe selected by the environment family, not a scene asset ID."
+      ],
+      "dependencies": [
+        "environment-0.1"
+      ],
+      "registration": [],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Internal recipe selected by the environment family, not a scene asset ID.",
+      "variants": [],
+      "evidence": [],
+      "preview_status": "unavailable"
+    },
+    {
+      "id": "procedural.entrance",
+      "name": "Procedural entrance",
+      "family": "architecture",
+      "type": "procedural",
+      "restrictions": [
+        "Internal recipe selected by the environment family, not a scene asset ID."
+      ],
+      "dependencies": [
+        "environment-0.1"
+      ],
+      "registration": [],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Internal recipe selected by the environment family, not a scene asset ID.",
+      "variants": [],
+      "evidence": [],
+      "preview_status": "unavailable"
+    },
+    {
+      "id": "procedural.foreground",
+      "name": "Procedural foreground",
+      "family": "nature",
+      "type": "procedural",
+      "restrictions": [
+        "Internal recipe selected by the environment family, not a scene asset ID."
+      ],
+      "dependencies": [
+        "environment-0.1"
+      ],
+      "registration": [],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Internal recipe selected by the environment family, not a scene asset ID.",
+      "variants": [],
+      "evidence": [],
+      "preview_status": "unavailable"
+    },
+    {
+      "id": "procedural.ground",
+      "name": "Procedural ground",
+      "family": "nature",
+      "type": "procedural",
+      "restrictions": [
+        "Internal recipe selected by the environment family, not a scene asset ID."
+      ],
+      "dependencies": [
+        "environment-0.1"
+      ],
+      "registration": [],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Internal recipe selected by the environment family, not a scene asset ID.",
+      "variants": [],
+      "evidence": [],
+      "preview_status": "unavailable"
+    },
+    {
+      "id": "procedural.prop",
+      "name": "Procedural crate and barrel",
+      "family": "props",
+      "type": "procedural",
+      "restrictions": [
+        "Internal recipe selected by the environment family, not a scene asset ID."
+      ],
+      "dependencies": [
+        "environment-0.1"
+      ],
+      "registration": [],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Internal recipe selected by the environment family, not a scene asset ID.",
+      "variants": [],
+      "evidence": [],
+      "preview_status": "unavailable"
+    },
+    {
+      "id": "procedural.rock",
+      "name": "Procedural rock",
+      "family": "nature",
+      "type": "procedural",
+      "restrictions": [
+        "Internal recipe selected by the environment family, not a scene asset ID."
+      ],
+      "dependencies": [
+        "environment-0.1"
+      ],
+      "registration": [],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Internal recipe selected by the environment family, not a scene asset ID.",
+      "variants": [],
+      "evidence": [],
+      "preview_status": "unavailable"
+    },
+    {
+      "id": "procedural.sky",
+      "name": "Procedural sky",
+      "family": "nature",
+      "type": "procedural",
+      "restrictions": [
+        "Internal recipe selected by the environment family, not a scene asset ID."
+      ],
+      "dependencies": [
+        "environment-0.1"
+      ],
+      "registration": [],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Internal recipe selected by the environment family, not a scene asset ID.",
+      "variants": [],
+      "evidence": [],
+      "preview_status": "unavailable"
+    },
+    {
+      "id": "procedural.tree",
+      "name": "Procedural tree",
+      "family": "nature",
+      "type": "procedural",
+      "restrictions": [
+        "Internal recipe selected by the environment family, not a scene asset ID."
+      ],
+      "dependencies": [
+        "environment-0.1"
+      ],
+      "registration": [],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Internal recipe selected by the environment family, not a scene asset ID.",
+      "variants": [],
+      "evidence": [],
+      "preview_status": "unavailable"
+    },
+    {
+      "id": "rocky_shelter",
+      "name": "Rocky Shelter",
+      "family": "composition",
+      "type": "procedural",
+      "restrictions": [
+        "Select through environment-0.1; generated scene IDs are local to the plan."
+      ],
+      "dependencies": [
+        "environment-0.1"
+      ],
+      "registration": [],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Select through environment-0.1; generated scene IDs are local to the plan.",
+      "variants": [],
+      "evidence": [],
+      "preview_status": "unavailable"
+    },
+    {
+      "id": "rowan_01",
+      "name": "Rowan Vale",
+      "family": "characters",
+      "type": "character",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Registry actions are broader than the stationary actions accepted by scene-0.1.",
+        "Optional notice_and_react uses blocking-0.2 or storyboard rowan.performance with a validated walk, stop and final idle. Planner exposure is unchanged."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene",
+        "character"
+      ],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Use the registered scene node kind and scene-0.1 validation.",
+      "variants": [
+        {
+          "id": "default",
+          "description": "",
+          "preview": null
+        }
+      ],
+      "evidence": [
+        {
+          "path": "previews/history/stage2a/acting.jpg",
+          "label": "Catalog reference (may show other components)"
+        },
+        {
+          "path": "previews/history/stage2a/farm-medium.jpg",
+          "label": "Historical scene context"
+        },
+        {
+          "path": "previews/history/stage2a/cold_ridge-medium.jpg",
+          "label": "Historical scene context"
+        }
+      ],
+      "preview_status": "context_only"
+    },
+    {
+      "id": "scene.art_direction",
+      "name": "Scene lighting and atmosphere",
+      "family": "lighting",
+      "type": "system",
+      "restrictions": [
+        "Warmth, atmosphere and breeze affect supported recipes only. The planner sets them through fixed moods."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [],
+      "planner_exposure": "preset_only",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Warmth, atmosphere and breeze affect supported recipes only. The planner sets them through fixed moods.",
+      "variants": [],
+      "evidence": [],
+      "preview_status": "unavailable"
+    },
+    {
+      "id": "settlement_street",
+      "name": "Settlement Street",
+      "family": "composition",
+      "type": "procedural",
+      "restrictions": [
+        "Select through environment-0.1; generated scene IDs are local to the plan."
+      ],
+      "dependencies": [
+        "environment-0.1"
+      ],
+      "registration": [],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Select through environment-0.1; generated scene IDs are local to the plan.",
+      "variants": [],
+      "evidence": [],
+      "preview_status": "unavailable"
+    },
+    {
+      "id": "shop_01",
+      "name": "Wayside storefront",
+      "family": "architecture",
+      "type": "scene_asset",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Upright fixed three-quarter exterior. Ground origin is at the front foundation.",
+        "Dusk Farm staging is demonstrated. Other placements need scene-specific review.",
+        "Doorway reference is for staging. Openings and lighting are static."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene"
+      ],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "A low roadside shop with a striped awning and a display bay.",
+      "variants": [
+        {
+          "id": "open",
+          "description": "Lit display bay and recessed open-looking entry",
+          "preview": "previews/shop_01-open.png"
+        },
+        {
+          "id": "closed",
+          "description": "Metal roller shutter and closed door",
+          "preview": "previews/shop_01-closed.png"
+        },
+        {
+          "id": "weathered",
+          "description": "Boarded shutters, worn awning and moss",
+          "preview": "previews/shop_01-weathered.png"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "previews/shop_01-variants.png",
+          "label": "Variant sheet in selector order"
+        },
+        {
+          "path": "previews/shop_01-farm.png",
+          "label": "Dusk Farm · open · 720 × 1280"
+        },
+        {
+          "path": "previews/shop_01-farm-mobile.png",
+          "label": "Dusk Farm · open · 360 × 640"
+        }
+      ],
+      "preview_status": "rendered"
+    },
+    {
+      "id": "woodland_trail",
+      "name": "Woodland Trail",
+      "family": "composition",
+      "type": "procedural",
+      "restrictions": [
+        "Select through environment-0.1; generated scene IDs are local to the plan."
+      ],
+      "dependencies": [
+        "environment-0.1"
+      ],
+      "registration": [],
+      "planner_exposure": "unavailable",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Select through environment-0.1; generated scene IDs are local to the plan.",
+      "variants": [],
+      "evidence": [],
+      "preview_status": "unavailable"
+    },
+    {
+      "id": "yellow_mellow_v2",
+      "name": "Yellow Mellow",
+      "family": "characters",
+      "type": "character",
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation.",
+        "Registry actions are broader than the stationary actions accepted by scene-0.1.",
+        "Optional investigate_and_react uses blocking-0.2 or storyboard rowan.performance with a fixed-facing walk, stop and final idle."
+      ],
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "registration": [
+        "scene",
+        "character"
+      ],
+      "planner_exposure": "preset_only",
+      "quality_review": "not_assessed",
+      "production_status": "candidate",
+      "description": "Use the registered scene node kind and scene-0.1 validation.",
+      "variants": [
+        {
+          "id": "default",
+          "description": "",
+          "preview": null
+        }
+      ],
+      "evidence": [
+        {
+          "path": "previews/history/stage2b/acting.jpg",
+          "label": "Catalog reference (may show other components)"
+        },
+        {
+          "path": "previews/history/stage2b/farm-medium.jpg",
+          "label": "Historical scene context"
+        },
+        {
+          "path": "previews/history/stage2b/cold-ridge-medium.jpg",
+          "label": "Historical scene context"
+        }
+      ],
+      "preview_status": "context_only"
+    }
+  ]
+}
+</script>
+<script>
+"use strict";
+const entries = JSON.parse(document.querySelector("#asset-data").textContent).components;
+const search = document.querySelector("#search");
+const category = document.querySelector("#category");
+const gallery = document.querySelector("#gallery");
+const count = document.querySelector("#count");
+const viewer = document.querySelector("#viewer");
+const large = document.querySelector("#large-image");
+const caption = document.querySelector("#caption");
+const copyStatus = document.querySelector("#copy-status");
+let copyTimer;
+
+function element(tag, value, className) {
+  const node = document.createElement(tag);
+  if (value) node.textContent = value;
+  if (className) node.className = className;
+  return node;
+}
+
+async function copyId(id) {
+  try {
+    await navigator.clipboard.writeText(id);
+    copyStatus.textContent = "Copied " + id;
+  } catch {
+    const field = element("input");
+    field.value = id;
+    field.readOnly = true;
+    copyStatus.replaceChildren(element("span", "Copy this ID "), field);
+    field.select();
+  }
+  clearTimeout(copyTimer);
+  if (!copyStatus.querySelector("input")) {
+    copyTimer = setTimeout(() => { copyStatus.textContent = ""; }, 2400);
+  }
+}
+
+function enlarge(path, label) {
+  large.src = path;
+  large.alt = label;
+  caption.textContent = label;
+  viewer.showModal();
+}
+
+function card(entry) {
+  const tile = element("article");
+  const preview = element("button", "", "preview");
+  const body = element("div", "", "card-body");
+  const name = element("h2", entry.name);
+  const identity = element("div", "", "identity");
+  const copy = element("button", "Copy ID");
+  copy.setAttribute("aria-label", "Copy ID " + entry.id);
+  copy.addEventListener("click", () => copyId(entry.id));
+  identity.append(element("code", entry.id), copy);
+  const variantNote = element("p", "", "variant-note");
+  const selector = element("select");
+
+  function update() {
+    const variant = entry.variants.find((item) => item.id === selector.value);
+    const context = entry.evidence[0];
+    const path = variant?.preview || context?.path;
+    const label = entry.name + " · " + (variant?.preview ? variant.id : context?.label);
+    preview.className = "preview" + (variant?.preview ? "" : path ? " context" : " empty");
+    preview.disabled = !path;
+    preview.replaceChildren();
+    if (path) {
+      const img = element("img");
+      img.src = path;
+      img.alt = label;
+      img.loading = "lazy";
+      preview.append(img);
+      preview.onclick = () => enlarge(path, label);
+    } else {
+      preview.textContent = "Preview unavailable";
+      preview.onclick = null;
+    }
+    const status = variant?.preview ? "" : path ?
+      "Context image only. Dedicated preview unavailable." :
+      "Dedicated preview unavailable.";
+    variantNote.textContent = [variant?.description, status].filter(Boolean).join(" ");
+  }
+
+  body.append(element("p", entry.family + " / " + entry.type.replaceAll("_", " "), "tag"),
+              name, identity, element("p", entry.description));
+  if (entry.variants.length) {
+    selector.setAttribute("aria-label", "Variant for " + entry.name);
+    for (const variant of entry.variants) selector.add(new Option(variant.id, variant.id));
+    selector.addEventListener("change", update);
+    body.append(selector);
+  } else {
+    body.append(element("p", "No registered variants", "info"));
+  }
+  body.append(variantNote, element("p",
+    "Review " + entry.quality_review.replaceAll("_", " ") +
+    " · " + entry.production_status.replaceAll("_", " ") +
+    " · Planner " + entry.planner_exposure.replaceAll("_", " "), "info"));
+  const details = element("details");
+  details.append(element("summary", "Usage and limitations"));
+  const notes = element("ul");
+  for (const note of entry.restrictions) notes.append(element("li", note));
+  details.append(notes, element("p", "Contracts " + entry.dependencies.join(", "), "info"));
+  body.append(details);
+  if (entry.evidence.length) {
+    const evidence = element("details");
+    evidence.append(element("summary", "Scene evidence and sheets"));
+    const links = element("div", "", "evidence");
+    for (const item of entry.evidence) {
+      const button = element("button", item.label);
+      button.addEventListener("click", () => enlarge(item.path, entry.name + " · " + item.label));
+      links.append(button);
+    }
+    evidence.append(links);
+    body.append(evidence);
+  }
+  tile.append(preview, body);
+  update();
+  return tile;
+}
+
+for (const family of [...new Set(entries.map((entry) => entry.family))].sort()) {
+  category.add(new Option(family[0].toUpperCase() + family.slice(1), family));
+}
+function refresh() {
+  const query = search.value.trim().toLowerCase();
+  const priority = {rendered: 0, context_only: 1, unavailable: 2};
+  const matching = entries.filter((entry) =>
+    (!category.value || entry.family === category.value) &&
+    (entry.id.includes(query) || entry.name.toLowerCase().includes(query)))
+    .sort((a, b) => priority[a.preview_status] - priority[b.preview_status]);
+  count.textContent = matching.length + " of " + entries.length + " components";
+  gallery.replaceChildren(...matching.map(card));
+}
+search.addEventListener("input", refresh);
+category.addEventListener("change", refresh);
+refresh();
+</script>
+</body>
+</html>

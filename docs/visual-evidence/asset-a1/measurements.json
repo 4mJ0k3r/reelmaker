@@ -1,0 +1,125 @@
+{
+  "python": "3.12.3",
+  "machine": "x86_64",
+  "renderer": {
+    "pycairo": "1.25.1",
+    "cairo": "1.18.0"
+  },
+  "measurements": {
+    "house_01": {
+      "standalone": {
+        "daylight": {
+          "draw_ms": 2.8754710001521744,
+          "cpu_ms": 2.874233000000004,
+          "pixel_sha256": "3f7a182ddda248f790c3b36a5d020bc6f4040747e57b6b8892bc793455d8306c",
+          "paths": 59,
+          "operations": 248
+        },
+        "dusk": {
+          "draw_ms": 2.846157000021776,
+          "cpu_ms": 3.5976129999999995,
+          "pixel_sha256": "4cf5560eb083a623d92e3fe7560519ba070749d445d9aaf1b8d7681e2b0f3306",
+          "paths": 59,
+          "operations": 248
+        },
+        "weathered": {
+          "draw_ms": 2.229646000159846,
+          "cpu_ms": 3.0635079999999926,
+          "pixel_sha256": "69b47e33bd1fcdf6e3ed2641fe8c6e026b2cf4d8526252044bb25b6df3436f37",
+          "paths": 64,
+          "operations": 274
+        }
+      },
+      "integrated": {
+        "sample_frames": [
+          0,
+          8,
+          16,
+          24,
+          32,
+          40,
+          48,
+          56,
+          64,
+          72,
+          80,
+          89
+        ],
+        "wall_ms_per_frame": 27.595508916647304,
+        "cpu_ms_per_frame": 29.68960975,
+        "paths": 231,
+        "operations": 1733,
+        "path_allowance": 453,
+        "operation_allowance": 7922
+      },
+      "integrated_sha256": "bf08c6b23b4130cebf4fd1e970678c4439c686dabea7909e103dac25abfa1309",
+      "mobile_sha256": "962fcd46da40d6bfc4c6ad009d10de97b2ee59e9453d5b676bf1fcf169d981dd",
+      "tree_peak_so_far_bytes": 34426880
+    },
+    "shop_01": {
+      "standalone": {
+        "open": {
+          "draw_ms": 1.0696210001697182,
+          "cpu_ms": 1.0688020000000353,
+          "pixel_sha256": "74844df8eb1ae1e5645f3347bc83b77d6bba1c806fa936b2b49ecf8e5bf4316c",
+          "paths": 43,
+          "operations": 216
+        },
+        "closed": {
+          "draw_ms": 1.1095310001110192,
+          "cpu_ms": 1.2219890000000344,
+          "pixel_sha256": "5276dfef512e4ea2a27b3dfb4289fc4d8d91da4fcad01315eb609c971bf3f8bc",
+          "paths": 41,
+          "operations": 207
+        },
+        "weathered": {
+          "draw_ms": 0.9361439997519483,
+          "cpu_ms": 0.9345030000000865,
+          "pixel_sha256": "6bc34edf6e8fc5746aa52fc2b216e573ac586d6fd076f8542b3743ade40e0d06",
+          "paths": 43,
+          "operations": 218
+        }
+      },
+      "integrated": {
+        "sample_frames": [
+          0,
+          8,
+          16,
+          24,
+          32,
+          40,
+          48,
+          56,
+          64,
+          72,
+          80,
+          89
+        ],
+        "wall_ms_per_frame": 24.551981999972366,
+        "cpu_ms_per_frame": 26.640371416666657,
+        "paths": 215,
+        "operations": 1701,
+        "path_allowance": 453,
+        "operation_allowance": 7922
+      },
+      "integrated_sha256": "bb4317f81c57ebb6518e274d353881fc63567e4a9168d88ed3d93e4568dd5de3",
+      "mobile_sha256": "7f5175d6dd6a3ebd4d3b2e7b2a9e5c15d9daac2aa00988b98430638446992ed8",
+      "tree_peak_so_far_bytes": 34590720
+    }
+  },
+  "monitor": {
+    "memory_policy": "strict",
+    "observed_memory_sources": [
+      "guest_and_cgroup"
+    ],
+    "oom_telemetry_continuous": true,
+    "estimated_simultaneous_tree_peak_rss_bytes": 34603008,
+    "sampling_interval_seconds": 0.01,
+    "samples": 108,
+    "job_budget_bytes": 268435456,
+    "reserve_bytes": 67108864,
+    "limit_reason": null,
+    "minimum_effective_available_bytes": 6901981184,
+    "wall_seconds": 1.115578185999766
+  }
+}

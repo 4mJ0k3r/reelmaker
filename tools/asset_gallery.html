@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ReelMaker Visual Asset Gallery</title>
+<style>
+:root {color-scheme:dark; font: 16px/1.55 system-ui,sans-serif; color:#f3efea; background:#171a20}
+* {box-sizing:border-box}
+body {margin:0}
+main {max-width:1280px; margin:auto; padding:clamp(16px,4vw,50px)}
+header {padding:12px 0 30px; border-bottom:1px solid #42434c; margin-bottom:26px}
+h1,h2,p {margin:0}
+h1 {font-size:clamp(2rem,6vw,3.8rem); letter-spacing:-.055em; line-height:1.12; margin:8px 0 12px}
+h2 {font-size:1.2rem}
+.kicker,.tag {text-transform:uppercase; color:#edb785; letter-spacing:.12em; font-size:.72rem; font-weight:700}
+.sub,.info,.variant-note {color:#c5c3ca}
+.controls {display:flex; flex-wrap:wrap; gap:12px; align-items:end}
+.controls label {display:grid; gap:4px}
+.controls label:first-child {flex:1 1 210px}
+input,select,button {font:inherit; background:#292c34; border:1px solid #575965; color:inherit; border-radius:7px; padding:7px 10px; max-width:100%}
+button {cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible {outline:2px solid #edb785; outline-offset:2px}
+#count {margin:12px 0 18px; font-size:.9rem}
+.grid {display:grid; grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr)); gap:18px}
+article {min-width:0; border:1px solid #42434c; background:#20232a; border-radius:13px; overflow:hidden}
+.preview {width:100%; aspect-ratio:1.2; display:grid; place-items:center; position:relative; border:0; border-radius:0; padding:0; overflow:hidden; background:#d8d4c7; color:#252932; font-weight:650}
+.preview img {position:absolute; inset:0; width:100%; height:100%; object-fit:cover; min-height:0}
+.preview.context img {object-fit:contain; background:#30333a}
+.preview.empty {background:#2a303b; color:#ded9d2; padding:16px; text-align:center; cursor:default}
+.card-body {padding:16px; display:grid; gap:9px}
+.identity {display:flex; flex-wrap:wrap; align-items:center; gap:8px}
+code {overflow-wrap:anywhere; color:#f0bf91}
+.identity button,.evidence button {font-size:.82rem}
+.info,.variant-note,details {font-size:.88rem}
+.variant-note:empty {display:none}
+summary {cursor:pointer; color:#ebd2b7}
+ul {margin:.4em 0; padding-left:20px}
+.evidence {display:grid; gap:6px}
+.evidence button {text-align:left}
+dialog {width:min(900px,94vw); max-height:96vh; padding:12px; color:inherit; background:#272b33; border:1px solid #595b64; border-radius:10px}
+dialog::backdrop {background:#0a0d14d9}
+dialog img {display:block; width:100%; height:min(74vh,780px); object-fit:contain; background:#d8d4c7; margin:8px 0}
+dialog form {display:flex; justify-content:flex-end}
+#copy-status {position:fixed; bottom:18px; right:18px; max-width:calc(100vw - 36px); padding:8px 12px; background:#303641; border-radius:7px; z-index:1}
+#copy-status:empty {display:none}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="kicker">ReelMaker / Visual library</p>
+  <h1>Asset gallery</h1>
+  <p class="sub">Browse registered components, inspect engine-rendered evidence and copy exact IDs.</p>
+</header>
+<div class="controls">
+  <label>Search by name or ID <input id="search" type="search" placeholder="e.g. house_01 or cottage"></label>
+  <label>Category <select id="category"><option value="">All categories</option></select></label>
+</div>
+<p id="count" class="sub" aria-live="polite"></p>
+<noscript>Enable JavaScript for the gallery or open the adjacent assets.json file for the catalog.</noscript>
+<div id="gallery" class="grid"></div>
+<p id="copy-status" role="status"></p>
+</main>
+<dialog id="viewer" aria-labelledby="caption">
+  <form method="dialog"><button>Close</button></form>
+  <img id="large-image" alt="">
+  <p id="caption"></p>
+</dialog>
+<script type="application/json" id="asset-data"><!-- ASSET_DATA --></script>
+<script>
+"use strict";
+const entries = JSON.parse(document.querySelector("#asset-data").textContent).components;
+const search = document.querySelector("#search");
+const category = document.querySelector("#category");
+const gallery = document.querySelector("#gallery");
+const count = document.querySelector("#count");
+const viewer = document.querySelector("#viewer");
+const large = document.querySelector("#large-image");
+const caption = document.querySelector("#caption");
+const copyStatus = document.querySelector("#copy-status");
+let copyTimer;
+
+function element(tag, value, className) {
+  const node = document.createElement(tag);
+  if (value) node.textContent = value;
+  if (className) node.className = className;
+  return node;
+}
+
+async function copyId(id) {
+  try {
+    await navigator.clipboard.writeText(id);
+    copyStatus.textContent = "Copied " + id;
+  } catch {
+    const field = element("input");
+    field.value = id;
+    field.readOnly = true;
+    copyStatus.replaceChildren(element("span", "Copy this ID "), field);
+    field.select();
+  }
+  clearTimeout(copyTimer);
+  if (!copyStatus.querySelector("input")) {
+    copyTimer = setTimeout(() => { copyStatus.textContent = ""; }, 2400);
+  }
+}
+
+function enlarge(path, label) {
+  large.src = path;
+  large.alt = label;
+  caption.textContent = label;
+  viewer.showModal();
+}
+
+function card(entry) {
+  const tile = element("article");
+  const preview = element("button", "", "preview");
+  const body = element("div", "", "card-body");
+  const name = element("h2", entry.name);
+  const identity = element("div", "", "identity");
+  const copy = element("button", "Copy ID");
+  copy.setAttribute("aria-label", "Copy ID " + entry.id);
+  copy.addEventListener("click", () => copyId(entry.id));
+  identity.append(element("code", entry.id), copy);
+  const variantNote = element("p", "", "variant-note");
+  const selector = element("select");
+
+  function update() {
+    const variant = entry.variants.find((item) => item.id === selector.value);
+    const context = entry.evidence[0];
+    const path = variant?.preview || context?.path;
+    const label = entry.name + " · " + (variant?.preview ? variant.id : context?.label);
+    preview.className = "preview" + (variant?.preview ? "" : path ? " context" : " empty");
+    preview.disabled = !path;
+    preview.replaceChildren();
+    if (path) {
+      const img = element("img");
+      img.src = path;
+      img.alt = label;
+      img.loading = "lazy";
+      preview.append(img);
+      preview.onclick = () => enlarge(path, label);
+    } else {
+      preview.textContent = "Preview unavailable";
+      preview.onclick = null;
+    }
+    const status = variant?.preview ? "" : path ?
+      "Context image only. Dedicated preview unavailable." :
+      "Dedicated preview unavailable.";
+    variantNote.textContent = [variant?.description, status].filter(Boolean).join(" ");
+  }
+
+  body.append(element("p", entry.family + " / " + entry.type.replaceAll("_", " "), "tag"),
+              name, identity, element("p", entry.description));
+  if (entry.variants.length) {
+    selector.setAttribute("aria-label", "Variant for " + entry.name);
+    for (const variant of entry.variants) selector.add(new Option(variant.id, variant.id));
+    selector.addEventListener("change", update);
+    body.append(selector);
+  } else {
+    body.append(element("p", "No registered variants", "info"));
+  }
+  body.append(variantNote, element("p",
+    "Review " + entry.quality_review.replaceAll("_", " ") +
+    " · " + entry.production_status.replaceAll("_", " ") +
+    " · Planner " + entry.planner_exposure.replaceAll("_", " "), "info"));
+  const details = element("details");
+  details.append(element("summary", "Usage and limitations"));
+  const notes = element("ul");
+  for (const note of entry.restrictions) notes.append(element("li", note));
+  details.append(notes, element("p", "Contracts " + entry.dependencies.join(", "), "info"));
+  body.append(details);
+  if (entry.evidence.length) {
+    const evidence = element("details");
+    evidence.append(element("summary", "Scene evidence and sheets"));
+    const links = element("div", "", "evidence");
+    for (const item of entry.evidence) {
+      const button = element("button", item.label);
+      button.addEventListener("click", () => enlarge(item.path, entry.name + " · " + item.label));
+      links.append(button);
+    }
+    evidence.append(links);
+    body.append(evidence);
+  }
+  tile.append(preview, body);
+  update();
+  return tile;
+}
+
+for (const family of [...new Set(entries.map((entry) => entry.family))].sort()) {
+  category.add(new Option(family[0].toUpperCase() + family.slice(1), family));
+}
+function refresh() {
+  const query = search.value.trim().toLowerCase();
+  const priority = {rendered: 0, context_only: 1, unavailable: 2};
+  const matching = entries.filter((entry) =>
+    (!category.value || entry.family === category.value) &&
+    (entry.id.includes(query) || entry.name.toLowerCase().includes(query)))
+    .sort((a, b) => priority[a.preview_status] - priority[b.preview_status]);
+  count.textContent = matching.length + " of " + entries.length + " components";
+  gallery.replaceChildren(...matching.map(card));
+}
+search.addEventListener("input", refresh);
+category.addEventListener("change", refresh);
+refresh();
+</script>
+</body>
+</html>

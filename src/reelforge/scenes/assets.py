@@ -10,6 +10,7 @@ from reelforge.environments import artwork as art
 from reelforge.environments import polish, snowy
 from reelforge.rendering.diagnostic import color, ellipse
 from reelforge.rendering.model import DrawPath
+from reelforge.visual_library.architecture.buildings import BUILDINGS, draw_building
 from reelforge.visual_library.lighting.contact import dusk_contact
 from reelforge.visual_library.lighting.dusk_grade import grade_architecture
 from reelforge.visual_library.nature.cold_ridge import (
@@ -106,6 +107,11 @@ ASSETS = (
     # (blocking/direction), never by the static scene recipe; the envelope reserves enough
     # path/op budget for the V2 vector character plus its contact shadows.
     Asset("yellow_mellow_v2", "character", ("default",), 384, 9000, True),
+    *(
+        Asset(identity, "asset", tuple(key for key, _ in building.variants),
+              *building.budget, upright=True)
+        for identity, building in BUILDINGS.items()
+    ),
 )
 
 
@@ -179,6 +185,8 @@ def recipe(
         )
         if variant == "doorway_shadow":
             commands += polish.barn_doorway_shadow(seconds)
+    elif asset.id in BUILDINGS:
+        commands = draw_building(asset.id, variant)
     elif asset.id == "orchard_tree_01":
         seed = {"broad": 43, "lean": -15, "compact": 98, "windswept": 407}[variant]
         commands = polish.tree(seed, warmth, breeze, seconds)

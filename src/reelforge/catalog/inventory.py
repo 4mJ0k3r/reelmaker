@@ -13,6 +13,7 @@ from reelforge.mvp import storylib
 from reelforge.procedural import compiler, contract, planning, recipes
 from reelforge.scenes import assets, graph
 from reelforge.scenes import contract as scene
+from reelforge.visual_library.architecture.buildings import BUILDINGS
 from reelforge.visual_library.composition import character_staging
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -28,6 +29,8 @@ FAMILIES = (
 )
 # Curated labels and source pointers. Registration, variants and limits come from ASSETS.
 SCENE_LABELS = {
+    **{identity: (building.name, "architecture", (building.draw,))
+       for identity, building in BUILDINGS.items()},
     "cinematic_dusk_sky_01": ("Cinematic dusk sky", "nature", (assets.dusk_sky,)),
     "cinematic_dusk_hills_01": ("Cinematic dusk hills", "nature", (assets.dusk_hills,)),
     "cinematic_farm_track_01": ("Cinematic farm track", "nature", (assets.farm_track,)),
@@ -326,6 +329,20 @@ def registered_components(planner_assets):
             restrictions.append(note)
             details["preview_evidence"] = [f"docs/visual-evidence/stage1c/{preview}"]
             details["integration_evidence"] = ["docs/visual-evidence/stage1c/cold-establishing.jpg"]
+        if asset.id in BUILDINGS:
+            building = BUILDINGS[asset.id]
+            details.update(
+                description=building.description,
+                variant_descriptions=dict(building.variants),
+                bounds=list(building.bounds),
+                doorway_reference_local=list(building.doorway),
+            )
+            parameters["transform.scale"] = {"type": "number", "minimum": 0.25, "maximum": 2}
+            restrictions.extend((
+                "Upright fixed three-quarter exterior. Ground origin is at the front foundation.",
+                "Dusk Farm staging is demonstrated. Other placements need scene-specific review.",
+                "Doorway reference is for staging. Openings and lighting are static.",
+            ))
         if asset.id == "barn_01":
             parameters.update(
                 {f"art_direction.{key}": SCENE_ART[key] for key in ("warmth", "atmosphere")}
@@ -334,6 +351,7 @@ def registered_components(planner_assets):
                 "Opt-in dusk_graded quiets fine seams; default retains original artwork."
             )
             restrictions.append("doorway_shadow adds one clipped local-time occlusion.")
+            details["integration_evidence"] = ["docs/visual-evidence/stage0c/rowan-barn.jpg"]
         if asset.id == "beacon_01":
             details["interaction_sockets"] = {"activation_button_local": list(snowy.BEACON_SOCKET)}
             restrictions.append("ridge_surge adds a single local-frame 44–56 pulse.")
