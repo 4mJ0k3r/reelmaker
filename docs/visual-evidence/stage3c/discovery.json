@@ -1,0 +1,93 @@
+{
+  "request_contract": "cinematic-template-request-0.1",
+  "templates": [
+    {
+      "template_id": "other_light",
+      "title": "The Other Light",
+      "description": "A traveler investigates a beacon and sees a second light across the ridge.",
+      "genre": "mountain mystery",
+      "character": "yellow_mellow_v2",
+      "world": "cold_ridge",
+      "events": [
+        {
+          "asset_id": "beacon_01",
+          "variant": "ridge_surge"
+        },
+        {
+          "asset_id": "answer_light_01",
+          "variant": "ridge_reveal"
+        }
+      ],
+      "variants": [
+        {
+          "id": "approved",
+          "description": "Original refined edit."
+        },
+        {
+          "id": "ridge_watch",
+          "description": "One wide introduction and a wider two-light reveal."
+        }
+      ],
+      "default_variant": "approved",
+      "duration_frames": 270,
+      "seconds": 9.0,
+      "fps": 30,
+      "output": [
+        720,
+        1280
+      ],
+      "codec": "h264",
+      "pixel_format": "yuv420p",
+      "episode_contract": "episode-0.3",
+      "audio": "silent",
+      "status": "candidate",
+      "production_ready": false,
+      "limitations": [
+        "Fixed character, world, event timing and duration",
+        "Registered editorial options only"
+      ]
+    },
+    {
+      "template_id": "empty_doorway",
+      "title": "The Empty Doorway",
+      "description": "Rowan sees a shadow cross a barn entrance. When he looks again, it is empty.",
+      "genre": "rural suspense",
+      "character": "rowan_01",
+      "world": "farm",
+      "events": [
+        {
+          "asset_id": "barn_01",
+          "variant": "doorway_shadow"
+        }
+      ],
+      "variants": [
+        {
+          "id": "approved",
+          "description": "Original farm edit."
+        },
+        {
+          "id": "threshold_hold",
+          "description": "Earlier, tighter push into the empty doorway."
+        }
+      ],
+      "default_variant": "approved",
+      "duration_frames": 270,
+      "seconds": 9.0,
+      "fps": 30,
+      "output": [
+        720,
+        1280
+      ],
+      "codec": "h264",
+      "pixel_format": "yuv420p",
+      "episode_contract": "episode-0.3",
+      "audio": "silent",
+      "status": "candidate",
+      "production_ready": false,
+      "limitations": [
+        "Fixed character, world, event timing and duration",
+        "Registered editorial options only"
+      ]
+    }
+  ]
+}

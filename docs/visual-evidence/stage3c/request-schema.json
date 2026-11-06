@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "template_id",
+    "variant",
+    "character",
+    "world"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "cinematic-template-request-0.1"
+    },
+    "template_id": {
+      "type": "string"
+    },
+    "variant": {
+      "type": "string"
+    },
+    "character": {
+      "type": "string"
+    },
+    "world": {
+      "type": "string"
+    }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "template_id": {
+          "const": "other_light"
+        },
+        "character": {
+          "const": "yellow_mellow_v2"
+        },
+        "world": {
+          "const": "cold_ridge"
+        },
+        "variant": {
+          "enum": [
+            "approved",
+            "ridge_watch"
+          ]
+        }
+      }
+    },
+    {
+      "properties": {
+        "template_id": {
+          "const": "empty_doorway"
+        },
+        "character": {
+          "const": "rowan_01"
+        },
+        "world": {
+          "const": "farm"
+        },
+        "variant": {
+          "enum": [
+            "approved",
+            "threshold_hold"
+          ]
+        }
+      }
+    }
+  ]
+}

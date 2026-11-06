@@ -1,0 +1,53 @@
+{
+  "pycairo_available": false,
+  "command_seconds": {
+    "list": 0.249,
+    "schema": 0.25
+  },
+  "examples": [
+    {
+      "example": "empty_doorway_approved.json",
+      "compiled": true,
+      "deterministic_bytes": true,
+      "manifest_digest": "d3f67b2b8512c3d61390c427e26bebae18654580445e7554fc34e2fd8533687c",
+      "manifest_bytes": 30618,
+      "file_sha256": "67e0c7a422f47c116728c9d42333a1f445f0764d0b36d9297416f2e6c82f31a3",
+      "validate_seconds": 0.217,
+      "inspect_seconds": 4.818,
+      "generate_seconds": 4.076
+    },
+    {
+      "example": "empty_doorway_threshold_hold.json",
+      "compiled": true,
+      "deterministic_bytes": true,
+      "manifest_digest": "5cb15c4dac17ccdc3a3cd26396726c62bb3a1fa1d8562406565a60509a3b5a26",
+      "manifest_bytes": 30620,
+      "file_sha256": "b9aca5e9fdd205f4e26cef0d3c4c16833af187058073685cf1219460337a7f88",
+      "validate_seconds": 0.173,
+      "inspect_seconds": 3.9,
+      "generate_seconds": 4.262
+    },
+    {
+      "example": "other_light_approved.json",
+      "compiled": true,
+      "deterministic_bytes": true,
+      "manifest_digest": "7e2d4ff954eac140589d4a182459a2e3550afffe8e70284e08e131faea504f1d",
+      "manifest_bytes": 34314,
+      "file_sha256": "a3f8df17149e222985005440ac5edb95010dc2c2decab2daeb52ab4c6732ae1d",
+      "validate_seconds": 0.221,
+      "inspect_seconds": 6.305,
+      "generate_seconds": 6.377
+    },
+    {
+      "example": "other_light_ridge_watch.json",
+      "compiled": true,
+      "deterministic_bytes": true,
+      "manifest_digest": "49f4b780ae57cc877d8dbded062d099922be39b000ce3d10fbe607cc6c4737f0",
+      "manifest_bytes": 33462,
+      "file_sha256": "49101287462b21525bd38efc866366f0fa6597a0b0425e2908404c2b1de055cb",
+      "validate_seconds": 0.211,
+      "inspect_seconds": 6.672,
+      "generate_seconds": 6.414
+    }
+  ]
+}

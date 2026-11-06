@@ -1,0 +1,7 @@
+{
+  "schema_version": "cinematic-template-request-0.1",
+  "template_id": "empty_doorway",
+  "variant": "threshold_hold",
+  "character": "rowan_01",
+  "world": "farm"
+}

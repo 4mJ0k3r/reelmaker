@@ -1,0 +1,7 @@
+{
+  "schema_version": "cinematic-template-request-0.1",
+  "template_id": "empty_doorway",
+  "variant": "approved",
+  "character": "rowan_01",
+  "world": "farm"
+}

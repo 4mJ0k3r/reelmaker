@@ -1,0 +1,185 @@
+{
+  "other-light": {
+    "manifest_digest": "49f4b780ae57cc877d8dbded062d099922be39b000ce3d10fbe607cc6c4737f0",
+    "manifest_bytes": 33462,
+    "media_sha256": "1b15b755c657afbc5e419a9b565a18d282e2bfd5d60206e59eb7fe61987fcf5e",
+    "metadata": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "codec_tag_string": "avc1",
+          "width": 720,
+          "height": 1280,
+          "pix_fmt": "yuv420p",
+          "avg_frame_rate": "30/1",
+          "nb_read_frames": "270"
+        }
+      ],
+      "format": {
+        "duration": "9.000000",
+        "size": "1649220"
+      }
+    },
+    "audio_streams": 0,
+    "exact_video_pts": true,
+    "frames": 270,
+    "seconds": 9,
+    "black_frames": 0,
+    "unique_decoded_frames": 270,
+    "global_cut_frames": [
+      90,
+      112,
+      147,
+      180
+    ],
+    "event_nodes": [
+      {
+        "segment": "approach",
+        "node": "beacon",
+        "asset_id": "beacon_01",
+        "variant": "ridge_surge"
+      },
+      {
+        "segment": "ridge",
+        "node": "distant_light",
+        "asset_id": "answer_light_01",
+        "variant": "ridge_reveal"
+      }
+    ],
+    "repeat_source_hashes": {
+      "0": "eebe0c1f32832d2c2e087866d57c9f7dd626229d5206d12cf1fdadaea150073e",
+      "15": "e6aa82d1a4f4f8dc14375683dbc96c6d3eeab51e5633b408888ff5ddb790a355",
+      "42": "820242a3545056d22ff96197dc111185904ec3e75234c5707af781b3bad1236d",
+      "90": "54fa1d54792d6b8c3ce5dc960e413c95211ef3502df81174602734d9876ccedc",
+      "112": "4d611456099959fc0a32e9a13519a9f2789ab7c3c4521e756dead8c84dfe867d",
+      "140": "0dccb883741c09f9fce78f1777500ea6062815e5e86bf356581e8834741f4f2f",
+      "147": "b0879c547509e49b06db74ba383258ecbb1ad6c003494967495842be6d93ff0b",
+      "166": "379fe43906c8845328a85ca8a8ca7f189325406807974a833029ceaf634364bd",
+      "180": "a614d3d917f0f922812d51d0760900fea537687783bc6a215a85d60722457f33",
+      "218": "f330c0ea12a12a0afee5548660dc7daffc849e996a6ea94296f8d538d6558a8b",
+      "269": "b6b12ac67072f389ed4aced25425b8a8966b911be4330c83204ea167fef8e4bd"
+    },
+    "decoded_cut_hashes": {
+      "90": "6c9dfa11262e38c49aeff9c07eafe12c95bd3f53cf9c9f9ecf22498e23b34091",
+      "112": "22d283cb4c47034ab05cdab12beb95867af4aa87c6303015013f34e0d5e11fbc",
+      "147": "f8b05e065101e8fc09594333cff9d81163e19b9947dd579429df86eb8915260e",
+      "180": "ad7b437ef507f6fca9359b6e4c3efee56dfa0cfbf31030f21dc07e0e287d39c1"
+    },
+    "mobile_mean_channel_delta": {
+      "15": 23.63,
+      "180": 28.716,
+      "218": 26.632,
+      "269": 24.314
+    },
+    "sample_geometry_ms": 15.971652090932118,
+    "sample_raster_ms": 13.807073818125817,
+    "render_encode_seconds": 7.96052543299993,
+    "monitored_wall_seconds": 16.062611500000003,
+    "peak_process_tree_rss_bytes": 107458560,
+    "logical_staging_peak_bytes": 3298440,
+    "paths": 324,
+    "operations": 1801,
+    "render_cpu_seconds": {
+      "parent": 9.989111671,
+      "children_user": 10.4311,
+      "children_system": 0.53896
+    },
+    "cli_exit": 0,
+    "success": true,
+    "published": true,
+    "media_verified": true,
+    "transaction_clean": true,
+    "no_clobber": true
+  },
+  "empty-doorway": {
+    "manifest_digest": "5cb15c4dac17ccdc3a3cd26396726c62bb3a1fa1d8562406565a60509a3b5a26",
+    "manifest_bytes": 30620,
+    "media_sha256": "e8596d2b8c13ff645ff0fd8fcdc882ad129e31587bd22a095a900f59f9e1458b",
+    "metadata": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "codec_tag_string": "avc1",
+          "width": 720,
+          "height": 1280,
+          "pix_fmt": "yuv420p",
+          "avg_frame_rate": "30/1",
+          "nb_read_frames": "270"
+        }
+      ],
+      "format": {
+        "duration": "9.000000",
+        "size": "1821757"
+      }
+    },
+    "audio_streams": 0,
+    "exact_video_pts": true,
+    "frames": 270,
+    "seconds": 9,
+    "black_frames": 0,
+    "unique_decoded_frames": 260,
+    "global_cut_frames": [
+      90,
+      112,
+      121,
+      152,
+      180
+    ],
+    "event_nodes": [
+      {
+        "segment": "movement",
+        "node": "barn",
+        "asset_id": "barn_01",
+        "variant": "doorway_shadow"
+      }
+    ],
+    "repeat_source_hashes": {
+      "0": "db250b551177d4457120043a608efb5488584d70b331dedf90b67720be7f137f",
+      "90": "39d229e3e4805ea15c22ecf7e2e3728f49075684219a58b262985ef1d7da43a6",
+      "112": "f0f0c267e3470a320bc621c4fd8c6549f82bae12f4a5c8a5a65a0eed61eac475",
+      "121": "96237dba1dc0daec7fd5d93d42b02ef75ab62fc79b3a860921e588881e54c71f",
+      "123": "96237dba1dc0daec7fd5d93d42b02ef75ab62fc79b3a860921e588881e54c71f",
+      "135": "bec7d6cb738ef25f2635a7d23d3754077314db5c44459e1351bc187dacd4b434",
+      "145": "4daf190fc2a678ca82e3861bff3c4d4dd4b9c9839509c09b3c3531586e03c9b1",
+      "152": "4eced8b6df6944ee1492b8ebc6ea82d772c266c610557138c092c59b7a1609a1",
+      "165": "5368401eef529f801b343ab9774c92054f8e6a6e4b583098b88e4269b123efd7",
+      "180": "96237dba1dc0daec7fd5d93d42b02ef75ab62fc79b3a860921e588881e54c71f",
+      "222": "8c27a17e2040f81a649e957f7d848944ffb56d12e829bbac8e259af37680f23c",
+      "269": "5621a258138ab74ebcdf1a033843252c77cf36a211e3b6809cf2c4e1cf6d3eb4"
+    },
+    "decoded_cut_hashes": {
+      "90": "cda3a6ac5ac0ea755b81283cf990a7881599eb17d25835f96fb4c706f98400f5",
+      "112": "c199fef0b5acf4e77fea6ba37760d18c5485fd78035a1cf92afd9f6770597a49",
+      "121": "fbf8460a3263cf58e24d7b5cf3a26561a5395779ac06711898daae4cde0cec2d",
+      "152": "ae11c7aee99341612f2bd4427f357f6fa689fb3c41a2a4ad51d93eea434377ad",
+      "180": "0dfb209bf0c79b5249369b213b8bdda418a90c5993b04c6b0fa8421b0b9fa82a"
+    },
+    "mobile_mean_channel_delta": {
+      "135": 0.0,
+      "180": 0.0,
+      "222": 18.784,
+      "269": 22.124
+    },
+    "sample_geometry_ms": 10.71328199986965,
+    "sample_raster_ms": 32.9920085834298,
+    "render_encode_seconds": 10.432282504999876,
+    "monitored_wall_seconds": 19.07754951600009,
+    "peak_process_tree_rss_bytes": 104599552,
+    "logical_staging_peak_bytes": 3643514,
+    "paths": 365,
+    "operations": 2133,
+    "render_cpu_seconds": {
+      "parent": 13.459711642,
+      "children_user": 11.849242,
+      "children_system": 0.5818599999999999
+    },
+    "cli_exit": 0,
+    "success": true,
+    "published": true,
+    "media_verified": true,
+    "transaction_clean": true,
+    "no_clobber": true
+  }
+}
