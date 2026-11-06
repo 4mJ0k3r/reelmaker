@@ -1,6 +1,8 @@
 """Structural blocking schema. Continuous motion/support admission remains mandatory."""
 
 from reelforge.characters.presets import EXPRESSIONS
+from reelforge.characters.registry import ROWAN_ID, YELLOW_MELLOW_ID, character_info
+from reelforge.characters.rowan_performance import performance_schema
 from reelforge.geometry.schema import array, composition_schema, number, obj
 from reelforge.procedural.schema import environment_schema
 from reelforge.scenes.schema import scene_schema
@@ -31,13 +33,50 @@ def blocking_schema():
 
     composition = rewrite(composition)
     composition.pop("$id", None)
+    yellow_expressions = character_info(YELLOW_MELLOW_ID).expressions
     return {
+        "allOf": [
+            {
+                "if": {"properties": {"schema_version": {"const": "blocking-0.1"}}},
+                "then": {
+                    "not": {"anyOf": [{"required": ["performance"]}, {"required": ["character"]}]}
+                },
+            },
+            {
+                "if": {"required": ["performance"]},
+                "then": {"properties": {"character": {"const": ROWAN_ID}}},
+            },
+            {
+                "if": {
+                    "required": ["character"],
+                    "properties": {"character": {"const": YELLOW_MELLOW_ID}},
+                },
+                "then": {
+                    "properties": {
+                        "segments": {
+                            "items": {
+                                "properties": {"expression": {"enum": list(yellow_expressions)}}
+                            }
+                        }
+                    }
+                },
+                "else": {
+                    "properties": {
+                        "segments": {
+                            "items": {"properties": {"expression": {"enum": list(EXPRESSIONS)}}}
+                        }
+                    }
+                },
+            },
+        ],
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "$id": "urn:reelforge:blocking-0.1",
         "$defs": {"composition": composition},
         **obj(
             {
-                "schema_version": {"const": "blocking-0.1"},
+                "schema_version": {"enum": ["blocking-0.1", "blocking-0.2"]},
+                "character": {"enum": [ROWAN_ID, YELLOW_MELLOW_ID]},
+                "performance": performance_schema(),
                 "title": {"type": "string", "minLength": 1, "maxLength": 120},
                 "base": {
                     "oneOf": [scene_schema(), environment_schema(), {"$ref": "#/$defs/composition"}]
@@ -60,12 +99,13 @@ def blocking_schema():
                             "acting": {
                                 "enum": ["idle", "look_around", "react", "activate", "none"]
                             },
-                            "expression": {"enum": list(EXPRESSIONS)},
+                            "expression": {"type": "string"},
                         }
                     ),
                     1,
                     12,
                 ),
-            }
+            },
+            optional=("character", "performance"),
         ),
     }

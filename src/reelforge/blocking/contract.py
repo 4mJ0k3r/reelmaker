@@ -11,6 +11,7 @@ from reelforge.characters.registry import (
     character_info,
     is_registered,
 )
+from reelforge.characters.rowan_performance import NAME, REACTIONS
 from reelforge.contracts.project import load_project
 from reelforge.core.errors import InputError, Issue
 from reelforge.geometry.composition import compile_composition, validate_composition
@@ -64,6 +65,7 @@ class Plan:
     support: tuple
     start_facing: str
     character: str = "rowan_01"
+    performance_reaction: str | None = None
 
 
 def compile_blocking(data) -> Plan:
@@ -80,8 +82,14 @@ def compile_blocking(data) -> Plan:
     }
     # Backward compatible: "character" is optional. blocking-0.1 manifests omit it (Rowan);
     # blocking-0.2 manifests may select a registered character.
-    if not isinstance(data, dict) or not required <= set(data) <= required | {"character"}:
-        fail("", "Supply exactly " + ", ".join(sorted(required)) + "; optional: character")
+    if not isinstance(data, dict) or not required <= set(data) <= required | {
+        "character",
+        "performance",
+    }:
+        fail(
+            "",
+            "Supply exactly " + ", ".join(sorted(required)) + "; optional: character, performance",
+        )
     version = data["schema_version"]
     if version not in ("blocking-0.1", "blocking-0.2"):
         fail("/schema_version", "Use blocking-0.1 or blocking-0.2")
@@ -90,6 +98,17 @@ def compile_blocking(data) -> Plan:
     character = data.get("character", DEFAULT_CHARACTER)
     if not isinstance(character, str) or not is_registered(character):
         fail("/character", f"Select a registered character: {sorted(character_ids())}")
+    reaction = None
+    if "performance" in data:
+        if version != "blocking-0.2" or character != DEFAULT_CHARACTER:
+            fail("/performance", "The performance requires blocking-0.2 with Rowan")
+        performance = data["performance"]
+        fields(performance, {"name", "reaction"}, "/performance")
+        if performance["name"] != NAME:
+            fail("/performance/name", f"Select {NAME}")
+        reaction = performance["reaction"]
+        if reaction not in REACTIONS:
+            fail("/performance/reaction", "Select surprised or frightened")
     expressions = character_info(character).expressions
     if not isinstance(data["title"], str) or not data["title"].strip() or len(data["title"]) > 120:
         fail("/title", "Use nonblank title <=120 characters")
@@ -324,6 +343,22 @@ def compile_blocking(data) -> Plan:
         running = target_run
     if frame != FRAMES:
         fail("/segments", "Timeline must cover [0,90) exactly", "BLOCKING_TIMELINE")
+    if reaction is not None:
+        modes = tuple(s.mode for s in segments)
+        approach = modes[:-2]
+        if approach[:1] == ("idle",):
+            approach = approach[1:]
+        if (
+            modes[-2:] != ("stop", "idle")
+            or not approach
+            or any(mode != "walk" for mode in approach)
+            or not 48 <= segments[-1].start <= 60
+            or segments[-2].start < 7
+        ):
+            fail(
+                "/performance",
+                "Use optional idle, walk, stop and one final idle starting at frame 48..60",
+            )
     bouts = []
     current = []
     for s in segments:
@@ -355,6 +390,7 @@ def compile_blocking(data) -> Plan:
         support,
         start["facing"],
         character,
+        reaction,
     )
     from .sampling import validate_contacts
 

@@ -8,6 +8,7 @@ from reelforge.characters.contact import ease, plant_feet
 from reelforge.characters.presets import SKELETON, CharacterPreset, blend, sample_pose
 from reelforge.characters.rig import Pose, Rigid
 from reelforge.characters.rowan import contact_shadows, draw_character
+from reelforge.characters.rowan_performance import NAME, apply_performance, face_cue
 from reelforge.characters.secondary import SecondaryMotion, preset_secondary
 from reelforge.characters.transition import contact_targets, transition_pose, transition_secondary
 from reelforge.environments.polish import grade_character
@@ -40,7 +41,11 @@ def sample(plan, t):
     # its facial expression is never drawn (a non-Rowan character supplies its own face via the
     # per-frame override), so use a Rowan-valid expression for the proxy preset.
     proxy_expression = s.expression if plan.character == "rowan_01" else "concerned"
-    if s.mode in ("idle", "turn") and s.acting in ("look_around", "react"):
+    if (
+        plan.performance_reaction is None
+        and s.mode in ("idle", "turn")
+        and s.acting in ("look_around", "react")
+    ):
         weight = ease((t - s.start / 30) / 0.2)
         if s.end < 90:
             weight *= ease((s.end / 30 - t) / 0.2)
@@ -58,6 +63,17 @@ def sample(plan, t):
                 getattr(secondary, k) * (1 - weight) + getattr(target, k) * weight
                 for k in SecondaryMotion.__dataclass_fields__
             )
+        )
+    if plan.performance_reaction is not None:
+        pose, secondary = apply_performance(
+            pose,
+            feet,
+            distance,
+            secondary,
+            t * 30,
+            plan.segments[-2].start,
+            plan.segments[-1].start,
+            plan.performance_reaction,
         )
     x = s.position(t)
     previous = (
@@ -157,6 +173,8 @@ def commands(plan, t):
             local = other if fade >= 1 else opacity(local, 1 - fade) + opacity(other, fade)
         return x, grade_character(local, plan.compiled.scene.warmth, plan.compiled.scene.atmosphere)
 
+    cue = _performance_face(plan, t * 30)
+
     def draw(direction):
         sign = 1 if direction == "right" else -1
         shadows = tuple(
@@ -164,7 +182,12 @@ def commands(plan, t):
             for c in contact_shadows(pose, position=(0, 0), scale=1)
         )
         return shadows + draw_character(
-            pose, position=(0, 0), direction=direction, expression=s.expression, secondary=secondary
+            pose,
+            position=(0, 0),
+            direction=direction,
+            expression=s.expression,
+            secondary=secondary,
+            face_cue=cue,
         )
 
     local = draw(facing)
@@ -172,6 +195,14 @@ def commands(plan, t):
         other = draw(s.facing)
         local = other if fade >= 1 else opacity(local, 1 - fade) + opacity(other, fade)
     return x, grade_character(local, plan.compiled.scene.warmth, plan.compiled.scene.atmosphere)
+
+
+def _performance_face(plan, frame):
+    if plan.performance_reaction is None:
+        return None
+    return face_cue(
+        frame, plan.segments[-2].start, plan.segments[-1].start, plan.performance_reaction
+    )
 
 
 def blocking_layers(plan, frame):
@@ -230,7 +261,9 @@ def inspect_frame(plan, frame):
         new = [(x - sign * plan.scale * p[0], plan.y + plan.scale * p[1]) for p in sole]
         turn_set_error = max(min(math.dist(a, b) for b in new) for a in old)
         turn_label_exchange = max(math.dist(a, b) for a, b in zip(old, new, strict=True))
+    cue = _performance_face(plan, frame)
     return {
+        **({"performance": {"name": NAME, **asdict(cue)}} if cue else {}),
         "turn_contact_set_error_world": turn_set_error,
         "turn_side_label_exchange_world": turn_label_exchange,
         "frame": frame,

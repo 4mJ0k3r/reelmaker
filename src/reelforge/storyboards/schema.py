@@ -1,6 +1,7 @@
 """Native-free discoverable storyboard structure; semantic compiler admission remains required."""
 
 from reelforge.characters.presets import EXPRESSIONS
+from reelforge.characters.rowan_performance import performance_schema
 from reelforge.direction.contract import BEHAVIORS, CLOSE_UP_ZOOM_RANGE
 from reelforge.direction.schema import direction_schema
 from reelforge.geometry.schema import array, number, obj
@@ -46,7 +47,9 @@ def storyboard_schema() -> dict:
                         "actor_id": identity,
                         "support_id": identity,
                         "start": obj({"position": point, "facing": {"enum": ["left", "right"]}}),
-                    }
+                        "performance": performance_schema(),
+                    },
+                    optional=("performance",),
                 ),
                 "subjects": array(obj({"id": identity, "target": target}), 1, 16),
                 "views": array(

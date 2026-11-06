@@ -138,6 +138,8 @@ def remap_error(error, groups, views):
         mapping = {"destination": "end_x", "end_speed": "end_speed", "expression": "expression"}
         field = mapping.get(suffix, "")
         path = "/beats/" + parts[3] + "/action" + ("/" + field if field else "")
+    elif path.startswith("/base/performance"):
+        path = "/rowan" + path[len("/base") :]
     elif path.startswith("/base/start"):
         path = "/rowan/start" + path[len("/base/start") :]
     elif path.startswith("/base/"):
@@ -188,7 +190,9 @@ def compile_storyboard(data: object) -> Storyboard:
     rowan = d["rowan"]
     # Backward compatible: "character" is optional and defaults to rowan_01, so every existing
     # storyboard-0.1 manifest keeps selecting Rowan with identical behavior.
-    fields(rowan, {"actor_id", "support_id", "start"}, "/rowan", optional=("character",))
+    fields(
+        rowan, {"actor_id", "support_id", "start"}, "/rowan", optional=("character", "performance")
+    )
     character = rowan.get("character", DEFAULT_CHARACTER)
     if not isinstance(character, str) or not is_registered(character):
         fail("/rowan/character", "Select a registered character: " + ", ".join(character_ids()))
@@ -390,7 +394,11 @@ def compile_storyboard(data: object) -> Storyboard:
     if used_views != set(view_defs):
         fail("/views", "Every view must be allocated to at least one beat", "STORYBOARD_REFERENCE")
     blocking = dict(
-        schema_version="blocking-0.1" if character == DEFAULT_CHARACTER else "blocking-0.2",
+        schema_version=(
+            "blocking-0.2"
+            if character != DEFAULT_CHARACTER or "performance" in rowan
+            else "blocking-0.1"
+        ),
         title=title,
         base=d["world"],
         actor_id=rowan["actor_id"],
@@ -402,6 +410,8 @@ def compile_storyboard(data: object) -> Storyboard:
     )
     if character != DEFAULT_CHARACTER:
         blocking["character"] = character
+    if "performance" in rowan:
+        blocking["performance"] = rowan["performance"]
     shots = []
     for group in groups:
         start, end = beats[group[0]].start, beats[group[-1]].end

@@ -1,0 +1,42 @@
+{
+  "historical_farm": {
+    "ordered_90_frame_commands_sha256": "9788f28c14ddccc741894ef0ee124133bed4e06b5636dfce679052e29b9ca819",
+    "pixel_sha256": {
+      "6": "71c183c7847990561ab38a8a66bc705c2ebc355dc6aabb15ebf56d0bcd64446d",
+      "47": "1a4337bac9d1aa2c2e8da0a1ff43fc3804a2e8a352c014b006bc4a85d31fc6c4",
+      "59": "ed465666307f1c28380f879460d91d21b31fbb742dbe6bbe4fe4525bdfb0add7",
+      "76": "daf81e32b8652c6d54f60133ff2f295953f539fc0b632cacbde1eb3928791e5f",
+      "89": "a6fad7c29131866ca5fd8663dcbc83dcbfbebd19ced91af72b44b2d273dd9a71"
+    }
+  },
+  "historical_ridge": {
+    "ordered_90_frame_commands_sha256": "7d12cc85a2292720e0988225a9160acea9da9b96d948b8005a58de94e412ecc2",
+    "pixel_sha256": {
+      "6": "1a459e0cd55bf5e0b2ffcc5ec9e07246b6c642c86ccbc0859111321f28c80197",
+      "47": "4bb2e7abfdd71488bc6b8c2f0ad4f6b4213b567fe711d0c7280f68ff91ffd769",
+      "59": "5e267c8e04a50b794f493ba2f37d0615c18c25727e7ec9c645161d6f0fc4067d",
+      "76": "e2cdcb2686d9790a464cde24ef287c15c1d71040d6a7497dd1c90d3475984568",
+      "89": "ee44402b5c888802bd0c0dc0a54978740362fd11d574428900e311c373bd04ea"
+    }
+  },
+  "yellow_mellow_ridge": {
+    "ordered_90_frame_commands_sha256": "ecf7225d1b25636dc7b1e4025030fedead15d88a43c99eedd31d1ea551bd2725",
+    "pixel_sha256": {
+      "6": "3cb3ceea449e38031ddebc9c52493e1511a3b10281b33b0d583d4d97a4755504",
+      "47": "53831ee2e5e7267e335ec168607c09728a8d5e56c75728036d4ae9a4f7fba80d",
+      "59": "e959705e5fd49acec1d5311ac9c600784db7aa841bc1cd2af0001362d079aa6e",
+      "76": "8c4bdb6677c8f090c62d8649fe500f461bcc3beee644468eff29b96d43c19e21",
+      "89": "5ba98632eedf2620fd6a7ca0a97d79e9b1783c690641971a42f22bfc2c5a7b55"
+    }
+  },
+  "matched_legacy_farm": {
+    "ordered_90_frame_commands_sha256": "8f85baa678aee29a70e30e8aeba9a587ba8df7965a908146e8d9e8acbf81b536",
+    "pixel_sha256": {
+      "6": "1b081812e2baa4e68b9ad2e24dbe8a8ff9c23ca12363259e00f6661d2de5dd49",
+      "47": "166c2c1c5d1b34feec87abc0790c72fb13df6c5c1673aa56756b2312340c8b45",
+      "59": "c31b4604409582d2bfc2b8acbbbb2d5c2c40339bbc843595f4327a536ae0432a",
+      "76": "dfb4e936f358f29f855a9030cf072671ff7e480ab5c54a54d56a49cb5447bb16",
+      "89": "5ba00f6956f03530c23d4bc79eb5e5ab5958e38050c6e58602faff9531db30c8"
+    }
+  }
+}

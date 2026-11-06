@@ -536,6 +536,47 @@ def face(expression: str, blink: bool, gaze: float = 0):
     return eyes + brows + mouth
 
 
+# Eye height, near/far inner brow offset, outer offset, mouth width,
+# upper opening, lower opening and corner slope in original head coordinates.
+_FACE_PLANES = {
+    "calm": (2.1, 0, 0, 0, 4.0, 0.22, 0.68, -0.4),
+    "concerned": (2.05, -2.4, -0.9, 0.7, 4.6, 1.55, 0.38, 0.8),
+    "surprised": (3.9, -3.8, -3.3, -2.5, 2.7, 3.1, 4.0, -0.3),
+    "frightened": (3.0, -3.4, -1.7, 0.8, 5.6, 2.0, 1.95, 1.2),
+}
+
+
+def performance_face(cue, gaze):
+    a, b = _FACE_PLANES[cue.source], _FACE_PLANES[cue.target]
+    eye, near_brow, far_brow, outer, mouth, top, bottom, slope = (
+        x + (y - x) * cue.amount for x, y in zip(a, b, strict=True)
+    )
+    dx = 1.28 * gaze
+    opening = 1 - cue.closure
+    left, right, mid = 7 - mouth, 7 + mouth, mouth * 0.64
+    commands = []
+    for x, width in ((0, 2.5), (14, 2.8)):
+        commands.extend(
+            (
+                DrawPath(ellipse(x + dx * 0.30, -34, width, 0.46 + eye * opening), color("efe0c7")),
+                DrawPath(ellipse(x + dx, -34, width * 0.63, 0.52 + eye * 0.74 * opening), INK),
+            )
+        )
+    return tuple(commands) + (
+        line(path(("M", -4.7, -41 + outer), ("L", 3.3, -41 + near_brow)), width=1.3),
+        line(path(("M", 10, -41 + far_brow), ("L", 18.5, -41 + outer)), width=1.3),
+        DrawPath(
+            path(
+                ("M", left, -16),
+                ("C", 7 - mid, -16 - top, 7 + mid, -16 - top, right, -16 + slope),
+                ("C", 7 + mid, -16 + bottom, 7 - mid, -16 + bottom, left, -16),
+                ("Z",),
+            ),
+            color("624136"),
+        ),
+    )
+
+
 REST_SECONDARY = SecondaryMotion()
 
 
@@ -550,13 +591,19 @@ def draw_character(
     skeleton: Skeleton = SKELETON,
     artwork: tuple[Part, ...] = PARTS,
     secondary: SecondaryMotion = REST_SECONDARY,
+    face_cue=None,
 ) -> tuple[DrawPath, ...]:
     finite(*position, scale)
     if not 0.1 <= scale <= 4 or direction not in ("left", "right"):
         raise RenderError("Character scale .1..4; direction left/right")
     worlds = skeleton.evaluate(pose)
     sign = 1 if direction == "right" else -1
-    parts = (*artwork, Part("head", 75, face(expression, blink, secondary.gaze)))
+    features = (
+        face(expression, blink, secondary.gaze)
+        if face_cue is None
+        else performance_face(face_cue, secondary.gaze)
+    )
+    parts = (*artwork, Part("head", 75, features))
     commands = []
     for part in sorted(parts, key=lambda p: p.order):
         if part.joint not in worlds:

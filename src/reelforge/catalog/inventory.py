@@ -3,7 +3,8 @@
 import inspect
 from pathlib import Path
 
-from reelforge.characters import registry, rowan
+from reelforge.blocking import contract as blocking
+from reelforge.characters import registry, rowan, rowan_performance
 from reelforge.characters.yellow_mellow_v2 import episode as mellow_episode
 from reelforge.direction import contract as direction
 from reelforge.environments import artwork, polish, snowy
@@ -279,6 +280,19 @@ def registered_components(planner_assets):
             restrictions.append(
                 "Registry actions are broader than the stationary actions accepted by scene-0.1."
             )
+            if actor.character_id == registry.ROWAN_ID:
+                parameters["performance.name"] = {"choices": [rowan_performance.NAME]}
+                parameters["performance.reaction"] = {"choices": list(rowan_performance.REACTIONS)}
+                sources.extend((blocking.compile_blocking, rowan_performance.apply_performance))
+                restrictions.append(
+                    "Optional notice_and_react uses blocking-0.2 or storyboard rowan.performance "
+                    "with a validated walk, stop and final idle. Planner exposure is unchanged."
+                )
+                details["preview_evidence"] = ["docs/visual-evidence/stage2a/acting.jpg"]
+                details["integration_evidence"] = [
+                    "docs/visual-evidence/stage2a/farm-medium.jpg",
+                    "docs/visual-evidence/stage2a/cold_ridge-medium.jpg",
+                ]
         else:
             name, family, artwork_sources = SCENE_LABELS[asset.id]
             sources.extend(artwork_sources)

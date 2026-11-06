@@ -1918,6 +1918,13 @@
           "max_paths": 256
         },
         "character_id": "rowan_01",
+        "integration_evidence": [
+          "docs/visual-evidence/stage2a/farm-medium.jpg",
+          "docs/visual-evidence/stage2a/cold_ridge-medium.jpg"
+        ],
+        "preview_evidence": [
+          "docs/visual-evidence/stage2a/acting.jpg"
+        ],
         "scene_kind": "character",
         "standing_height_units": 94.5,
         "support_envelope": null,
@@ -1938,6 +1945,17 @@
             "determined"
           ],
           "default": "concerned"
+        },
+        "performance.name": {
+          "choices": [
+            "notice_and_react"
+          ]
+        },
+        "performance.reaction": {
+          "choices": [
+            "surprised",
+            "frightened"
+          ]
         },
         "registry_actions": {
           "choices": [
@@ -1970,13 +1988,16 @@
       ],
       "restrictions": [
         "Use the registered scene node kind and scene-0.1 validation.",
-        "Registry actions are broader than the stationary actions accepted by scene-0.1."
+        "Registry actions are broader than the stationary actions accepted by scene-0.1.",
+        "Optional notice_and_react uses blocking-0.2 or storyboard rowan.performance with a validated walk, stop and final idle. Planner exposure is unchanged."
       ],
       "sources": [
         "src/reelforge/scenes/assets.py:recipe",
         "src/reelforge/characters/registry.py:character_info",
         "src/reelforge/characters/registry.py:draw_commands_builder",
-        "src/reelforge/characters/rowan.py:draw_character"
+        "src/reelforge/characters/rowan.py:draw_character",
+        "src/reelforge/blocking/contract.py:compile_blocking",
+        "src/reelforge/characters/rowan_performance.py:apply_performance"
       ],
       "type": "character",
       "variants": [

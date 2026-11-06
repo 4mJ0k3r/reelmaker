@@ -1,0 +1,196 @@
+{
+  "python": "3.12.14",
+  "renderer": {
+    "pycairo": "1.25.1",
+    "cairo": "1.18.0"
+  },
+  "resolution": [
+    720,
+    1280
+  ],
+  "frames": [
+    3,
+    20,
+    34,
+    46,
+    47,
+    58,
+    59,
+    64,
+    65,
+    70,
+    76,
+    83,
+    89
+  ],
+  "legacy": {
+    "geometry_seconds": 0.14003718000014942,
+    "raster_seconds": 0.4823073639998938,
+    "wall_seconds": 0.6718083119999392,
+    "hashes": {
+      "3": "f26912816f0730f50292951960170261b09740dc98ce87b0e9f4f3ef9b51697d",
+      "20": "ff25952525b92986cdd0539f2dd86be0c7d6fa187927bff5d890a189865f96e2",
+      "34": "152035412df5d54b98df59f45b595ef6654e1176fa0be6c3839ab4735547b027",
+      "46": "d2b88fe25ca6f7711a55b0107a6d52264dbe1727f6c4a5f59ed0bbcdf578042f",
+      "47": "166c2c1c5d1b34feec87abc0790c72fb13df6c5c1673aa56756b2312340c8b45",
+      "58": "a8d4d22af2337b6948b4a75e72453cd8c8e550fa7593c030560ab4a011728fff",
+      "59": "c31b4604409582d2bfc2b8acbbbb2d5c2c40339bbc843595f4327a536ae0432a",
+      "64": "051149233a54b30c13233c5b48f103f0e113847262bff1e1dd192e92c504695d",
+      "65": "5d0ee8c58087a36c330d443758a4aef97c38a117e7b711cb5d14ccd3eb5dcc31",
+      "70": "4d87b76327322fc83772d7dd2801277d49c7bb4332543d01acef012c96852861",
+      "76": "dfb4e936f358f29f855a9030cf072671ff7e480ab5c54a54d56a49cb5447bb16",
+      "83": "193a6b5ad1f5c268256c4ce94eda1eafe01ca8ae3d84aca452534d21bd021f7f",
+      "89": "5ba00f6956f03530c23d4bc79eb5e5ab5958e38050c6e58602faff9531db30c8"
+    },
+    "paths_and_operations": [
+      362,
+      2111
+    ],
+    "scene_allowance": [
+      885,
+      17442
+    ],
+    "fps": 30,
+    "host": {
+      "architecture": "x86_64",
+      "logical_cpus": 9,
+      "affinity_cpus": 9,
+      "effective_cpu_upper_bound": 8.0,
+      "cpu_max": "800000 100000",
+      "model": "INTEL(R) XEON(R) PLATINUM 8573C"
+    },
+    "peak_tree_rss_bytes": 66265088,
+    "cancelled": false,
+    "memory_policy": "strict",
+    "oom_event_delta": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    }
+  },
+  "refined": {
+    "geometry_seconds": 0.12646622500005833,
+    "raster_seconds": 0.44790269299983265,
+    "wall_seconds": 0.6216024880000077,
+    "hashes": {
+      "3": "4899a73878a33feef65675cb12cb40d3d50181ffc3459d3e98182b8a83038ee0",
+      "20": "13a1e291085aedba5a91f5b6186269325030156639f3b2d63332a819f0370b4b",
+      "34": "282420386b22044c2004a2c1d4e2b047843ba40c8da7af8cef235f0d8c542d72",
+      "46": "1d93a7df236b4865a6398dd6b25a2d2e18b20fe4b43790c786da013eefdf7d99",
+      "47": "2517d3045c56bebff319ab0432cba64a13befdbf17776f3bafe7f37b250199cf",
+      "58": "491e511d9b79bb88d274922b12c34acfe8e3ae457f6d8c44e7a901d9968ee7c8",
+      "59": "a0056c522390e8b56323333d1a30fd8511b735b64a6b0d4a9fa3474665e69257",
+      "64": "dd818661772a27c3a6fcb34b8fdf225103d453bccad48fb54ad4ca2f3a527917",
+      "65": "e3d0728e2cdb8fa8dbd283ec9f714b431952eb67360a0a327a47e971411b8efc",
+      "70": "22df92df89effda03566b22ee563e5dc9112723eec4e73d1cbaa701df3feb095",
+      "76": "18a36e246f2a530faefeb8977a77be3f76df253ce6dccb1304040de0b612c903",
+      "83": "fb1a5ff89ea4e7e5a086359ed92119c0f72fffb79374d21ebd571ca61fdbfea6",
+      "89": "431080a8e41cc9301a471b4d68993a12df54bbac3aaaf77dd9ff1b1c67b7589b"
+    },
+    "paths_and_operations": [
+      364,
+      2121
+    ],
+    "scene_allowance": [
+      885,
+      17442
+    ],
+    "fps": 30,
+    "host": {
+      "architecture": "x86_64",
+      "logical_cpus": 9,
+      "affinity_cpus": 9,
+      "effective_cpu_upper_bound": 8.0,
+      "cpu_max": "800000 100000",
+      "model": "INTEL(R) XEON(R) PLATINUM 8573C"
+    },
+    "peak_tree_rss_bytes": 66289664,
+    "cancelled": false,
+    "memory_policy": "strict",
+    "oom_event_delta": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    }
+  },
+  "motion": {
+    "farm": {
+      "planted_contact_world": 2.842170943040401e-14,
+      "flat_foot_slide_world": 2.842170943040401e-14,
+      "limb_length_error": 7.105427357601002e-15,
+      "route_boundary_position_and_velocity": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          8.881784197001315e-15
+        ]
+      ],
+      "near_forearm_max_radians_per_frame": 0.21921282798833797,
+      "secondary_abs_max": {
+        "bag_angle": 0.04416225137342329,
+        "bag_y": 0.42705655967119915,
+        "hat_angle": 0.021637519181929066,
+        "hat_y": 0.2894782985930169,
+        "strap_sag": 0.5590286202998576,
+        "gaze": 0.92
+      }
+    },
+    "cold_ridge": {
+      "planted_contact_world": 2.842170943040401e-14,
+      "flat_foot_slide_world": 2.842170943040401e-14,
+      "limb_length_error": 7.105427357601002e-15,
+      "route_boundary_position_and_velocity": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          8.881784197001315e-15
+        ]
+      ],
+      "near_forearm_max_radians_per_frame": 0.21921282798833797,
+      "secondary_abs_max": {
+        "bag_angle": 0.04416225137342329,
+        "bag_y": 0.42705655967119915,
+        "hat_angle": 0.021637519181929066,
+        "hat_y": 0.2894782985930169,
+        "strap_sag": 0.5590286202998576,
+        "gaze": 0.92
+      }
+    },
+    "cold_frightened": {
+      "planted_contact_world": 2.842170943040401e-14,
+      "flat_foot_slide_world": 2.842170943040401e-14,
+      "limb_length_error": 7.105427357601002e-15,
+      "route_boundary_position_and_velocity": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          8.881784197001315e-15
+        ]
+      ],
+      "near_forearm_max_radians_per_frame": 0.2520947521865887,
+      "secondary_abs_max": {
+        "bag_angle": 0.04416225137342329,
+        "bag_y": 0.42705655967119915,
+        "hat_angle": 0.021637519181929066,
+        "hat_y": 0.2894782985930169,
+        "strap_sag": 0.5590286202998576,
+        "gaze": 0.92
+      }
+    }
+  }
+}

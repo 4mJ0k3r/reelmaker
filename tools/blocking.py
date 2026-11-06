@@ -8,6 +8,7 @@ from pathlib import Path
 
 from reelforge.blocking.contract import load_blocking
 from reelforge.blocking.sampling import blocking_frame, blocking_layers, inspect_frame
+from reelforge.characters.rowan_performance import NAME, REACTIONS
 from reelforge.core.errors import InputError, OperationError
 
 
@@ -17,6 +18,12 @@ def capabilities():
         "experimental": True,
         "production_render_ready": False,
         "character": "rowan_01",
+        "performance": {
+            "contract": "blocking-0.2",
+            "character": "rowan_01",
+            "name": NAME,
+            "reactions": list(REACTIONS),
+        },
         "base_versions": ["scene-0.1", "environment-0.1", "composition-0.1"],
         "frames": 90,
         "fps": 30,
@@ -45,7 +52,12 @@ def capabilities():
 
 def inspect_plan(plan):
     return {
-        "contract": "blocking-0.1",
+        "contract": "blocking-0.2" if plan.performance_reaction else "blocking-0.1",
+        **(
+            {"performance": {"name": NAME, "reaction": plan.performance_reaction}}
+            if plan.performance_reaction
+            else {}
+        ),
         "frames": 90,
         "corridor_world": plan.corridor,
         "support_world": plan.support,
