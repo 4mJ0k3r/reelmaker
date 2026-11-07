@@ -142,7 +142,7 @@ def sample_interaction(plan, frame):
     return sit_sample(plan.actor, t) if plan.identity == "sit_stand" else manipulation_sample(plan, t)
 
 
-def interaction_layers(plan, frame, *, camera_override=None):
+def interaction_layers(plan, frame, *, camera_override=None, atmosphere_frame=None):
     sample = sample_interaction(plan, frame)
     actor, prop = (next(n for n in plan.scene.hierarchy if n.id == key)
                    for key in ("actor", "interaction_prop"))
@@ -156,7 +156,8 @@ def interaction_layers(plan, frame, *, camera_override=None):
     hierarchy = tuple(replace(n, world=prop_world) if n.id == prop.id else n for n in plan.scene.hierarchy)
     compiled = replace(plan.scene, hierarchy=hierarchy)
     layers = evaluate_layers(compiled, frame, character_override=CharacterFrame(
-        actor.id, actor.world, actor_commands), camera_override=camera_override)
+        actor.id, actor.world, actor_commands), camera_override=camera_override,
+        atmosphere_frame=atmosphere_frame)
     if plan.identity != "push_cart":
         return layers
 
@@ -176,8 +177,9 @@ def interaction_layers(plan, frame, *, camera_override=None):
                  if layer.id == prop.layer else layer for layer in layers)
 
 
-def interaction_frame(plan, frame, *, camera_override=None):
-    return tuple(c for layer in interaction_layers(plan, frame, camera_override=camera_override)
+def interaction_frame(plan, frame, *, camera_override=None, atmosphere_frame=None):
+    return tuple(c for layer in interaction_layers(
+                     plan, frame, camera_override=camera_override, atmosphere_frame=atmosphere_frame)
                  for c in layer.commands)
 
 

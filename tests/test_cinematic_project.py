@@ -31,7 +31,7 @@ def test_plan_is_canonical_and_reacts_to_edit(request_data):
 
 
 @pytest.mark.parametrize(("field", "value", "path"), [
-    ("mood", "windy", "/beats/0/world"),
+    ("mood", "windy", "/beats/0/mood"),
     ("actor", "rowan_01", "/beats/0/actor"),
     ("variant", "loaded", "/beats/0/variant"),
     ("start", 90, "/beats/0"),
@@ -78,3 +78,30 @@ def test_captions_are_planned_on_both_sides_of_cut(request_data):
     ]
     assert [s["caption_indices"] for s in compile_project(request_data, REGISTRY).timeline()[
         "shots"]] == [[0], [0]]
+
+
+@pytest.mark.parametrize(("action", "actor", "world", "mood", "variant"), [
+    ("pickup_carry_place", "scout_01", "village_lane", "evening", "wrapped"),
+    ("push_cart", "mechanic_01", "woodland_creek", "windy", "loaded"),
+])
+def test_interaction_state_spans_independent_camera_shots(
+    request_data, action, actor, world, mood, variant
+):
+    from math import dist
+
+    from reelforge.cinematic_projects.sampling import state_at, visual_frame
+
+    request_data["beats"][0].update(action=action, actor=actor, world=world, mood=mood,
+                                    variant=variant)
+    plan = compile_project(request_data, REGISTRY)
+    before, after = state_at(plan, 89), state_at(plan, 90)
+    assert before["shot"] != after["shot"]
+    assert (before["authored_frame"], after["authored_frame"]) == (89, 90)
+    assert before["contact"] and after["contact"]
+    assert max(before["hand_socket_error"], after["hand_socket_error"]) < 1e-7
+    assert dist(before["root_world"], after["root_world"]) < 3
+    assert dist(before["prop_world"], after["prop_world"]) < 3
+    first = visual_frame(plan, 90)
+    assert visual_frame(plan, 89) != first
+    assert visual_frame(plan, 90) == first
+    assert state_at(plan, 90) == after

@@ -213,9 +213,11 @@ def evaluate_layers(
     *,
     character_override: CharacterFrame | None = None,
     camera_override: Camera | None = None,
+    atmosphere_frame: int | None = None,
 ) -> tuple[EvaluatedLayer, ...]:
     camera = camera_at(compiled, frame) if camera_override is None else camera_override
     scene = compiled.scene
+    seconds = (frame if atmosphere_frame is None else atmosphere_frame) / 30
     lookup = {n.id: n for n in scene.nodes}
     resolved = {n.id: n for n in compiled.hierarchy}
     layers = []
@@ -253,7 +255,7 @@ def evaluate_layers(
                     scene.warmth,
                     scene.atmosphere,
                     scene.breeze,
-                    frame / 30,
+                    seconds,
                     n.character,
                 )
             )
