@@ -74,3 +74,28 @@ def test_alert_variant_and_legacy_scope():
     data["schema_version"] = "cinematic-project-0.1"
     with pytest.raises(InputError):
         compile_project(data, REGISTRY)
+
+
+def test_recognition_adds_a_staggered_gesture_without_moving_feet_or_camera():
+    before, after = project("after"), project("after", "relief_recognize")
+    for frame in range(90, 360):
+        old_shot, local = before.at(frame)
+        new_shot, _ = after.at(frame)
+        old = [acting_at(old_shot.beat, local, partner=partner) for partner in (False, True)]
+        new = [acting_at(new_shot.beat, local, partner=partner) for partner in (False, True)]
+        assert camera_for(old_shot, old[0], frame, partner=old[1]) == camera_for(
+            new_shot, new[0], frame, partner=new[1]
+        )
+        for earlier, current, identity, peak in zip(
+            old, new, ("scout_01", "mechanic_01"), (195, 211)
+        ):
+            assert current.pose.root == earlier.pose.root
+            rig = living.RIGS[identity]
+            a, b = rig.evaluate(earlier.pose), rig.evaluate(current.pose)
+            for foot in ("near_foot", "far_foot"):
+                assert (a[foot].x, a[foot].y) == pytest.approx((b[foot].x, b[foot].y), abs=1e-8)
+            if frame == peak:
+                assert b["near_hand"].y < a["near_hand"].y - 5
+                assert b["near_hand"].x > a["near_hand"].x + 10
+            if frame < peak - 12 or frame >= peak + 33:
+                assert earlier == current

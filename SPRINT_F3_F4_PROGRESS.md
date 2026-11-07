@@ -26,3 +26,13 @@ feet and unchanged historical defaults. Preview the lamp in matching
 off/on framing at frame 1530 before committing to a full render. Keep
 the existing registered-audio path and supply only a synthetic timing
 signal until a real private recording arrives.
+
+## F3.1 motion
+
+Added the opt-in `relief_recognize` stationary cue. Mira initiates the
+gesture with a stronger arm lift and Bram answers on his own delayed
+clock. The camera, horizontal root, foot contacts and settled endpoints
+match the existing relief study. The existing `walk_to_settle` handles
+the approach. The motion/operator selection passed 16 tests. Matching
+camera motion clips are being produced from the same study, with silence
+in both versions so the change is isolated.

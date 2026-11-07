@@ -7,7 +7,7 @@ from reelforge.characters.contact import ease
 from reelforge.characters.rig import Rigid
 
 # anticipation frames, then rational clip speed. No camera or wall clock enters this map.
-CUE_STYLES = ("alert", "relief", "alert_settle", "relief_settle")
+CUE_STYLES = ("alert", "relief", "alert_settle", "relief_settle", "relief_recognize")
 STAGED_TRANSITIONS = (*living_transitions.TRANSITIONS, "walk_to_settle")
 LOCOMOTION = ("walk", "run", "idle_to_walk", "walk_to_stop", "walk_to_settle")
 PACING = {"measured": (12, 1, 1), "tense": (24, 3, 2), "urgent": (0, 2, 1)}
@@ -48,7 +48,8 @@ def grounded_signal_response(performer, pose, since_cue, style):
     """Layer one stationary response over idle while keeping both feet planted."""
     anticipation, _, _ = PACING.get(performer.pacing, (0, 1, 1))
     elapsed = since_cue - performer.delay - anticipation
-    polished = style.endswith("_settle")
+    recognize = style == "relief_recognize"
+    polished = recognize or style.endswith("_settle")
     alert = style.startswith("alert")
     if elapsed <= 0:
         if polished:
@@ -71,6 +72,20 @@ def grounded_signal_response(performer, pose, since_cue, style):
         recoil = ease(elapsed / 9) * (1 - ease((elapsed - 17) / 23))
         if recoil:
             pose = _planted_upper_body(performer.actor, pose, 0, recoil)
+    if recognize:
+        reach = ease((elapsed - 5) / 12) * (1 - ease((elapsed - 28) / 21))
+        if reach:
+            angles = dict(pose.angles)
+            # Mira lifts her hand toward the signal. Bram answers with a
+            # smaller arm lift and a forward change of weight.
+            mira = performer.actor == "scout_01"
+            angles["near_shoulder"] -= (.52 if mira else .28) * reach
+            angles["near_elbow"] -= (.92 if mira else .58) * reach
+            angles["head"] -= (.16 if mira else .10) * reach
+            angles["torso"] += (.04 if mira else .17) * reach
+            pose = living_transitions.replant(
+                performer.actor, pose.root, angles, ((-10, -5), (10, -5))
+            )
     expression = performer.expression
     if not alert and elapsed >= 14:
         expression = "happy"

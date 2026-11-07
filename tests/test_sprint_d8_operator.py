@@ -30,7 +30,9 @@ def test_capabilities_expose_resources_formats_and_bounded_choices():
     assert info['operator']['durations']['audio_max_frames'] == 900
     assert set(info['shot_intents']) >= {'reveal', 'resolve', 'wait'}
     assert 'grounded_signal_story_30s' in info['operator']['examples']
-    assert set(info['grounded_signal_cue_styles']) == {'alert', 'relief', 'alert_settle', 'relief_settle'}
+    assert set(info['grounded_signal_cue_styles']) == {
+        'alert', 'relief', 'alert_settle', 'relief_settle', 'relief_recognize',
+    }
 
 
 def test_cli_invalid_json_and_arguments_are_structured(tmp_path):
