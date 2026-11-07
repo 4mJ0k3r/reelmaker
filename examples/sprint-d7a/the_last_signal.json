@@ -21,7 +21,7 @@
     {
       "id": "blackout", "start": 360, "end": 450,
       "actor": "scout_01", "world": "abandoned_outpost", "mood": "storm",
-      "action": "react", "expression": "frightened", "stage_x": 137,
+      "action": "notice_to_react", "expression": "frightened", "stage_x": 137,
       "facing": "right", "signal": "unlit",
       "partner": {
         "actor": "mechanic_01", "action": "react", "expression": "surprised",
@@ -32,9 +32,9 @@
   "shots": [
     {"id": "road_into_the_storm", "camera": "follow", "motion": "pullback"},
     {"id": "bram_checks_the_post", "camera": "two_shot", "motion": "pan"},
-    {"id": "mira_sees_a_flash", "camera": "reaction", "motion": "push_in"},
+    {"id": "mira_sees_a_flash", "camera": "reaction", "motion": "reframe"},
     {"id": "the_lamp_answers", "camera": "object_reveal", "motion": "push_in"},
-    {"id": "the_signal_dies", "camera": "two_shot", "motion": "pullback"}
+    {"id": "the_signal_dies", "camera": "two_shot", "motion": "reframe"}
   ],
   "captions": [],
   "audio": null
