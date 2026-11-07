@@ -10,6 +10,7 @@ assembled reel is verified independently for exactly ``frames`` decoded frames a
 
 from __future__ import annotations
 
+import hashlib
 import json
 import time
 from fractions import Fraction
@@ -84,7 +85,10 @@ def _assert_compatible(streams: list[dict]) -> None:
 def _concat_copy(chunk_videos: list[Path], output: Path, cancelled: Event) -> list[str]:
     """Join chunk MP4s with the concat demuxer and stream copy (no re-encode)."""
     listing = output.parent / "concat_list.txt"
-    listing.write_text("".join(f"file '{p.as_posix()}'\n" for p in chunk_videos), encoding="ascii")
+    listing.write_text(
+        "".join(f"file '{p.relative_to(output.parent).as_posix()}'\n" for p in chunk_videos),
+        encoding="ascii",
+    )
     args = [
         FFMPEG,
         "-nostdin",
@@ -153,9 +157,11 @@ def _verify_pts(path: Path, frames: int, cancelled: Event) -> dict:
 
 
 def render_production(
-    plan: Production, output_dir: Path, *, registry_root: Path, cancelled: Event | None = None
+    plan: Production, output_dir: Path, *, registry_root: Path,
+    cancelled: Event | None = None, episode_renderer=None
 ) -> dict:
     cancellation = cancelled if cancelled is not None else Event()
+    render_chunk = render_episode if episode_renderer is None else episode_renderer
     started = time.perf_counter()
     output_dir = output_dir.resolve()
     if output_dir.exists() or output_dir.is_symlink():
@@ -187,7 +193,7 @@ def render_production(
     for chunk in plan.chunks:
         _cancelled(cancellation)
         chunk_out = chunks_dir / f"chunk_{chunk.index:02d}"
-        report = render_episode(
+        report = render_chunk(
             chunk.episode, chunk_out, registry_root=registry_root, cancelled=cancellation
         )
         result["chunk_reports"].append(
@@ -235,6 +241,7 @@ def render_production(
     result["verification"] = {
         "decoded_frames": len(assembled_hashes),
         "unique_decoded_frames": len(set(assembled_hashes)),
+        "decoded_sequence_sha256": hashlib.sha256("".join(assembled_hashes).encode()).hexdigest(),
         "metadata": _probe_metadata(final, cancellation),
         "mp4_top_level_boxes": faststart_boxes(final),
     }

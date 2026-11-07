@@ -1,20 +1,36 @@
 """Adapt the bounded cinematic plan to the existing episode AV renderer."""
 
+import hashlib
+import json
+import os
+import resource
+import time
 from dataclasses import dataclass
 from pathlib import Path
 from threading import Event
 
+from reelforge.audio.registry import digest
+from reelforge.contracts.project import load_project, project_digest
+from reelforge.core.errors import OperationError
+from reelforge.core.transaction import OwnedDirectory
 from reelforge.episodes.workflow import encode_episode_frames
-from reelforge.reels.workflow import render_av
+from reelforge.media.verify import faststart_boxes
+from reelforge.productions.contract import Production, ProductionChunk
+from reelforge.productions.workflow import _full_decode_hashes, render_production
+from reelforge.reels.workflow import cancelled_check, render_av, stream_check, temporary_size
+from reelforge.resources.deployment import check_workspace, memory_observability
+from reelforge.resources.monitor import JobMonitor, preflight_memory
 
 from .captions import caption_paths
+from .contract import CHUNK_SHOTS, SHOT_FRAMES, Project, load_cinematic_project
 from .sampling import visual_frame
 from .schema import VERSION
+from .storyboard import black_frames, write_storyboard
 
 
 @dataclass(frozen=True)
 class EpisodeSlice:
-    project: object
+    project: Project
     start: int
     frames: int
 
@@ -41,20 +57,184 @@ def frame_sampler(project):
     return sample
 
 
-def render_episode_slice(plan: EpisodeSlice, output: Path, *, registry_root: Path,
-                         cancelled: Event):
+def render_episode_slice(
+    plan: EpisodeSlice, output: Path, *, registry_root: Path, cancelled: Event
+):
     def render_silent(visual, target, *, encoder_staging, cancelled):
         sample = frame_sampler(visual.project)
         result = encode_episode_frames(
-            visual.frames, lambda frame: sample(visual.start + frame), target,
-            encoder_staging=encoder_staging, cancelled=cancelled,
+            visual.frames,
+            lambda frame: sample(visual.start + frame),
+            target,
+            encoder_staging=encoder_staging,
+            cancelled=cancelled,
         )
         result["global_start_frame"] = visual.start
         result["encoding"] = "Global acting and caption clocks; explicit camera cuts"
         return result
 
     return render_av(
-        plan, output, frames=plan.frames, visual_plan=plan, render_silent=render_silent,
-        registry_root=registry_root, cancelled=cancelled, contract_version=VERSION,
+        plan,
+        output,
+        frames=plan.frames,
+        visual_plan=plan,
+        render_silent=render_silent,
+        registry_root=registry_root,
+        cancelled=cancelled,
+        contract_version=VERSION,
         silent=plan.silent,
     )
+
+
+def _write_json(path, content):
+    with path.open("x", encoding="utf-8") as handle:
+        json.dump(content, handle, indent=2, sort_keys=True, allow_nan=False)
+        handle.write("\n")
+        handle.flush()
+        os.fsync(handle.fileno())
+
+
+def _engine(project, stage, registry_root, cancellation):
+    if len(project.shots) <= CHUNK_SHOTS:
+        return render_episode_slice(
+            EpisodeSlice(project, 0, project.frames),
+            stage / "engine",
+            registry_root=registry_root,
+            cancelled=cancellation,
+        )
+    chunks = []
+    for i, start in enumerate(range(0, project.frames, CHUNK_SHOTS * SHOT_FRAMES)):
+        length = min(project.frames - start, CHUNK_SHOTS * SHOT_FRAMES)
+        chunks.append(ProductionChunk(i, start, EpisodeSlice(project, start, length)))
+    production = Production(project.title, project.shots, tuple(chunks))
+    return render_production(
+        production,
+        stage / "engine",
+        registry_root=registry_root,
+        cancelled=cancellation,
+        episode_renderer=render_episode_slice,
+    )
+
+
+def render_project(project, output, *, registry_root, cancelled=None):
+    """Publish only a complete verified directory. An occupied target is never replaced."""
+    started = time.perf_counter()
+    own = time.process_time()
+    children = resource.getrusage(resource.RUSAGE_CHILDREN)
+    cancellation = cancelled if cancelled is not None else Event()
+    output = output.parent.resolve() / output.name
+    if os.path.lexists(output):
+        raise OperationError("OUTPUT_EXISTS", "Choose a new output directory")
+    cancelled_check(cancellation)
+    preflight_memory()
+    check_workspace(output.parent)
+    owner = OwnedDirectory(output.parent, ".reelforge-cinematic-")
+    committed = False
+    try:
+        stage = owner.path
+        plan = project.timeline()
+        with JobMonitor(workspace=stage, cancelled=cancellation) as monitor:
+            engine = _engine(project, stage, registry_root, cancellation)
+            if not engine["success"]:
+                detail = (
+                    engine.get("error")
+                    or engine.get("resource_error")
+                    or engine.get("cleanup_error")
+                )
+                raise OperationError("CINEMATIC_ENGINE", f"Verified media unavailable: {detail}")
+            video = stage / "reel.mp4"
+            os.link(stage / "engine/reel.mp4", video)
+            streams = engine.get("streams")
+            if streams is None:
+                streams = stream_check(video, cancellation, project.frames, silent=True)
+            black = black_frames(video, cancellation)
+            storyboard = write_storyboard(project, video, stage, cancellation)
+            _write_json(stage / "project.json", project.request)
+            _write_json(stage / "timeline.json", plan)
+            package_size = temporary_size(stage)
+            video_hash = digest(video)
+        if (
+            not monitor.oom_telemetry_continuous
+            or memory_observability(monitor.initial, monitor.final)["oom_events_changed"]
+        ):
+            raise OperationError("CINEMATIC_RESOURCE", "OOM telemetry refused publication")
+        cancelled_check(cancellation)
+        after = resource.getrusage(resource.RUSAGE_CHILDREN)
+        report = {
+            "contract": VERSION,
+            "success": True,
+            "media_verified": True,
+            "plan_sha256": plan["plan_sha256"],
+            "video_sha256": video_hash,
+            "frames": project.frames,
+            "streams": streams,
+            "black_frame_check": black,
+            "storyboard": storyboard,
+            "verification": engine["verification"],
+            "assembly_frame_hash_match": engine.get("assembly_frame_hash_match"),
+            "audio_verification": engine.get("audio_verification"),
+            "wall_seconds": time.perf_counter() - started,
+            "cpu_seconds": {
+                "parent": time.process_time() - own,
+                "children_user": after.ru_utime - children.ru_utime,
+                "children_system": after.ru_stime - children.ru_stime,
+            },
+            "memory": monitor.report(),
+            "stage_logical_bytes": package_size,
+            "engine_report": "engine/report.json",
+        }
+        _write_json(stage / "report.json", report)
+        cancelled_check(cancellation)
+        owner.publish_as(output)
+        committed = True
+        return report
+    finally:
+        if not committed:
+            owner.cleanup()
+
+
+def verify_project(directory, *, registry_root):
+    """Recompile the snapshot and independently decode the delivered MP4."""
+    project = load_cinematic_project(directory / "project.json", registry_root)
+    timeline = project.timeline()
+    if project_digest(load_project(directory / "timeline.json")) != project_digest(timeline):
+        raise OperationError("CINEMATIC_INTEGRITY", "Timeline differs from compiled request")
+    report = load_project(directory / "report.json")
+    video = directory / "reel.mp4"
+    if (
+        report.get("success") is not True
+        or report.get("plan_sha256") != timeline["plan_sha256"]
+        or report.get("video_sha256") != digest(video)
+    ):
+        raise OperationError("CINEMATIC_INTEGRITY", "Plan or MP4 identity differs from report")
+    cancellation = Event()
+    with JobMonitor(workspace=directory, cancelled=cancellation) as monitor:
+        streams = stream_check(video, cancellation, project.frames, silent=project.silent)
+        hashes = _full_decode_hashes(video, project.frames, cancellation)
+        if len(hashes) != project.frames:
+            raise OperationError("CINEMATIC_DECODE", "Decoded frame count differs")
+        sequence = hashlib.sha256("".join(hashes).encode()).hexdigest()
+        recorded = report["verification"]
+        if (
+            "decoded_rgb_sha256" in recorded
+            and hashes != recorded["decoded_rgb_sha256"]
+            or "decoded_sequence_sha256" in recorded
+            and sequence != recorded["decoded_sequence_sha256"]
+        ):
+            raise OperationError("CINEMATIC_INTEGRITY", "Decoded video differs from recorded media")
+        faststart_boxes(video)
+        black = black_frames(video, cancellation)
+    if (
+        not monitor.oom_telemetry_continuous
+        or memory_observability(monitor.initial, monitor.final)["oom_events_changed"]
+    ):
+        raise OperationError("CINEMATIC_RESOURCE", "OOM telemetry refused verification")
+    return {
+        "verified": True,
+        "frames": len(hashes),
+        "streams": streams,
+        "decoded_sequence_sha256": sequence,
+        "black_frame_check": black,
+        "plan_sha256": timeline["plan_sha256"],
+        "video_sha256": digest(video),
+    }

@@ -9,3 +9,5 @@ C2 uses one analytical world-space pose and prop clock per beat. At frame 90, bo
 C3 adds precomputed Cairo glyph contours, a tested mobile contrast path, and global cue scheduling through the existing registered PCM16/AAC workflow. Two original diagnostic tones are reproducible with tools/cinematic_fixture_audio.py. Focused tests passed (24).
 
 C4 adds eight target-aware compositions, approved lamp and set dressing, and first/middle/last decoded-frame evidence. The pickup's detail camera was raised after inspection to leave the boots and parcel clear of subtitle space.
+
+C5 connects the one-command renderer to episode AV and production chunk assembly. It commits a complete verified directory via a no-replace rename. The project-level fault and race suite plus contract tests passed (37), and the 180-frame pickup published a verified package.

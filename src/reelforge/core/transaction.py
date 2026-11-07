@@ -1,5 +1,7 @@
 """Explicit ownership for a single private directory; never reacquire a removed pathname."""
 
+import ctypes
+import errno
 import os
 import shutil
 import stat
@@ -13,7 +15,9 @@ class OwnedDirectory:
     """Own one inode through cleanup, with no GC finalizer or previous-job reconciliation."""
 
     def __init__(self, parent: Path, prefix: str, *, files: frozenset[str] | None = None):
-        self.path = Path(tempfile.mkdtemp(dir=parent.resolve(), prefix=prefix))
+        parent = parent.resolve()
+        self._parent_identity = self._key(parent.stat())
+        self.path = Path(tempfile.mkdtemp(dir=parent, prefix=prefix))
         self._fd = os.open(self.path, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
         self._identity = self._key(os.fstat(self._fd))
         self._files = files
@@ -44,6 +48,33 @@ class OwnedDirectory:
         if not self._attempted:
             raise OperationError("TRANSACTION_CLEANUP", "Private directory cleanup did not run")
         self.assert_absent()
+
+    def publish_as(self, destination: Path) -> None:
+        """Commit a complete package using the Linux no-replacement directory rename."""
+        if self._attempted or destination.parent != self.path.parent:
+            raise OperationError("TRANSACTION_PUBLISH", "Publish a live directory to a sibling")
+        parent_fd = os.open(self.path.parent, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        try:
+            source = os.stat(self.path.name, dir_fd=parent_fd, follow_symlinks=False)
+            if (self._key(os.fstat(parent_fd)) != self._parent_identity
+                    or self._key(source) != self._identity or not stat.S_ISDIR(source.st_mode)):
+                raise OperationError("TRANSACTION_IDENTITY", "Private directory identity changed")
+            rename = getattr(ctypes.CDLL(None, use_errno=True), "renameat2", None)
+            if rename is None:
+                raise OperationError("TRANSACTION_PLATFORM", "Linux renameat2 is required")
+            rename.argtypes = (ctypes.c_int, ctypes.c_char_p, ctypes.c_int,
+                               ctypes.c_char_p, ctypes.c_uint)
+            rename.restype = ctypes.c_int
+            if rename(parent_fd, os.fsencode(self.path.name), parent_fd,
+                      os.fsencode(destination.name), 1):
+                error = ctypes.get_errno()
+                if error in (errno.EEXIST, errno.ENOTEMPTY):
+                    raise OperationError("OUTPUT_EXISTS", "Choose a new output directory")
+                raise OperationError("TRANSACTION_PUBLISH", os.strerror(error))
+            self._attempted = True
+            os.close(self._fd)
+        finally:
+            os.close(parent_fd)
 
     def cleanup(self) -> None:
         if self._attempted:

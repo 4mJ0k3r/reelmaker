@@ -30,16 +30,19 @@ def test_plan_is_canonical_and_reacts_to_edit(request_data):
     assert first["shots"][1]["continuity"] == "continuous_beat"
 
 
-@pytest.mark.parametrize(("field", "value", "path"), [
-    ("mood", "windy", "/beats/0/mood"),
-    ("actor", "rowan_01", "/beats/0/actor"),
-    ("variant", "loaded", "/beats/0/variant"),
-    ("start", 90, "/beats/0"),
-    ("end", 180.0, "/beats/0"),
-    ("stage_x", 120, "/beats/0"),
-    ("effect", {"id": "rain_field_01", "variant": "autumn"}, "/beats/0/effect/variant"),
-    ("action", "../../run.py", "/beats/0/action"),
-])
+@pytest.mark.parametrize(
+    ("field", "value", "path"),
+    [
+        ("mood", "windy", "/beats/0/mood"),
+        ("actor", "rowan_01", "/beats/0/actor"),
+        ("variant", "loaded", "/beats/0/variant"),
+        ("start", 90, "/beats/0"),
+        ("end", 180.0, "/beats/0"),
+        ("stage_x", 120, "/beats/0"),
+        ("effect", {"id": "rain_field_01", "variant": "autumn"}, "/beats/0/effect/variant"),
+        ("action", "../../run.py", "/beats/0/action"),
+    ],
+)
 def test_rejects_incompatible_or_unsafe_beat(request_data, field, value, path):
     request_data["beats"][0][field] = value
     with pytest.raises(InputError) as caught:
@@ -47,10 +50,16 @@ def test_rejects_incompatible_or_unsafe_beat(request_data, field, value, path):
     assert caught.value.issue.path == path
 
 
-@pytest.mark.parametrize("invalid", [
-    '{"x":0,"x":1}', '{"x":NaN}', '{"x":1e900}', '[' * 33 + ']' * 33,
-    ' ' * 1_048_577,
-])
+@pytest.mark.parametrize(
+    "invalid",
+    [
+        '{"x":0,"x":1}',
+        '{"x":NaN}',
+        '{"x":1e900}',
+        "[" * 33 + "]" * 33,
+        " " * 1_048_577,
+    ],
+)
 def test_load_uses_strict_bounded_parser(tmp_path, invalid):
     file = tmp_path / "invalid.json"
     file.write_text(invalid)
@@ -76,14 +85,18 @@ def test_captions_are_planned_on_both_sides_of_cut(request_data):
     request_data["captions"] = [
         {"start": 89, "end": 91, "style": "subtitle", "lines": ["Across the cut."]}
     ]
-    assert [s["caption_indices"] for s in compile_project(request_data, REGISTRY).timeline()[
-        "shots"]] == [[0], [0]]
+    assert [
+        s["caption_indices"] for s in compile_project(request_data, REGISTRY).timeline()["shots"]
+    ] == [[0], [0]]
 
 
-@pytest.mark.parametrize(("action", "actor", "world", "mood", "variant"), [
-    ("pickup_carry_place", "scout_01", "village_lane", "evening", "wrapped"),
-    ("push_cart", "mechanic_01", "woodland_creek", "windy", "loaded"),
-])
+@pytest.mark.parametrize(
+    ("action", "actor", "world", "mood", "variant"),
+    [
+        ("pickup_carry_place", "scout_01", "village_lane", "evening", "wrapped"),
+        ("push_cart", "mechanic_01", "woodland_creek", "windy", "loaded"),
+    ],
+)
 def test_interaction_state_spans_independent_camera_shots(
     request_data, action, actor, world, mood, variant
 ):
@@ -91,8 +104,9 @@ def test_interaction_state_spans_independent_camera_shots(
 
     from reelforge.cinematic_projects.sampling import state_at, visual_frame
 
-    request_data["beats"][0].update(action=action, actor=actor, world=world, mood=mood,
-                                    variant=variant)
+    request_data["beats"][0].update(
+        action=action, actor=actor, world=world, mood=mood, variant=variant
+    )
     plan = compile_project(request_data, REGISTRY)
     before, after = state_at(plan, 89), state_at(plan, 90)
     assert before["shot"] != after["shot"]
@@ -119,17 +133,33 @@ def test_caption_outlines_render_as_filled_mobile_geometry():
     renderer = CairoRenderer()
     with renderer.surface(360, 640) as target:
         renderer.draw(target, paths, background=color("000000"), logical_size=(360, 640))
-        ink = sum(target.pixel_rgba8_premultiplied(x, y)[0] > 160
-                  for x in range(35, 302) for y in range(495, 521))
+        ink = sum(
+            target.pixel_rgba8_premultiplied(x, y)[0] > 160
+            for x in range(35, 302)
+            for y in range(495, 521)
+        )
         assert ink > 200
 
 
 def test_registered_audio_plans_role_and_frame_aligned_trim(request_data):
-    request_data["audio"] = dict(sample_rate=48000, channels=2, codec="aac", bitrate=128000,
-                                narration=None, cues=[dict(asset_id="diag_suspense",
-                                start_frame=83, trim_start_frame=2, trim_end_frame=15, gain=.5)])
+    request_data["audio"] = dict(
+        sample_rate=48000,
+        channels=2,
+        codec="aac",
+        bitrate=128000,
+        narration=None,
+        cues=[
+            dict(
+                asset_id="diag_suspense",
+                start_frame=83,
+                trim_start_frame=2,
+                trim_end_frame=15,
+                gain=0.5,
+            )
+        ],
+    )
     project = compile_project(request_data, REGISTRY)
-    cue, = project.audio_cues
+    (cue,) = project.audio_cues
     assert cue["start_sample"] == 83 * 1600
     assert cue["effective_samples"] == 13 * 1600
     assert [shot["audio_indices"] for shot in project.timeline()["shots"]] == [[0], [0]]

@@ -24,21 +24,67 @@ def main():
     for name in ("validate", "plan", "inspect"):
         command = commands.add_parser(name)
         command.add_argument("request", type=Path)
+    frame = commands.add_parser("frame")
+    frame.add_argument("request", type=Path)
+    frame.add_argument("index", type=int)
+    frame.add_argument("--png", type=Path)
+    render = commands.add_parser("render")
+    render.add_argument("request", type=Path)
+    render.add_argument("directory", type=Path)
+    verify = commands.add_parser("verify")
+    verify.add_argument("directory", type=Path)
     args = parser.parse_args()
     try:
         if args.command == "schema":
             result = project_schema()
         elif args.command in ("capabilities", "list"):
             result = capabilities(args.registry)
+        elif args.command == "verify":
+            from reelforge.cinematic_projects.workflow import verify_project
+
+            result = verify_project(args.directory, registry_root=args.registry)
+        elif args.command == "render":
+            from reelforge.cinematic_projects.workflow import render_project
+
+            project = load_cinematic_project(args.request, args.registry)
+            report = render_project(project, args.directory, registry_root=args.registry)
+            result = {k: report[k] for k in ("success", "frames", "plan_sha256", "video_sha256")}
+            result["output"] = str(args.directory)
+        elif args.command == "frame":
+            from reelforge.cinematic_projects.sampling import state_at
+
+            project = load_cinematic_project(args.request, args.registry)
+            result = state_at(project, args.index)
+            if args.png:
+                from reelforge.cinematic_projects.workflow import frame_sampler
+                from reelforge.rendering.backends.cairo import CairoRenderer
+                from reelforge.rendering.diagnostic import color
+
+                renderer = CairoRenderer()
+                with renderer.surface(360, 640) as surface:
+                    renderer.draw(
+                        surface,
+                        frame_sampler(project)(args.index),
+                        background=color("243e49"),
+                        logical_size=(360, 640),
+                    )
+                    with args.png.open("xb") as handle:
+                        surface._open().write_to_png(handle)
         else:
             plan = load_cinematic_project(args.request, args.registry).timeline()
-            result = ({"valid": True, "frames": plan["frames"], "plan_sha256": plan["plan_sha256"]}
-                      if args.command == "validate" else plan)
+            result = (
+                {"valid": True, "frames": plan["frames"], "plan_sha256": plan["plan_sha256"]}
+                if args.command == "validate"
+                else plan
+            )
         print(json.dumps(result, indent=2, sort_keys=True, allow_nan=False))
         return 0
     except (InputError, OperationError, OSError, KeyboardInterrupt) as error:
-        result = (error.issue.as_dict() if isinstance(error, InputError)
-                  else {"code": getattr(error, "code", "CINEMATIC_IO"), "message": str(error)})
+        result = (
+            error.issue.as_dict()
+            if isinstance(error, InputError)
+            else {"code": getattr(error, "code", "CINEMATIC_IO"), "message": str(error)}
+        )
         print(json.dumps({"valid": False, "error": result}), file=sys.stderr)
         return 2
 

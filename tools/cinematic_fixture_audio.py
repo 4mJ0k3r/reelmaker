@@ -33,7 +33,7 @@ def build(root):
                 for first in range(0, samples, 1600):
                     block = bytearray()
                     for index in range(first, first + 1600):
-                        phase = (index * frequency + max(0, index - rise_frames * 1600) * 145)
+                        phase = index * frequency + max(0, index - rise_frames * 1600) * 145
                         triangle = 24000 - 2 * abs(phase % 48000 - 24000)
                         envelope = min(index + 16, samples - index, 960)
                         pcm = (triangle - 12000) * envelope // 1920
