@@ -82,3 +82,23 @@ staged camera. Regenerated the JSON and embedded HTML metadata from
 the current catalog and existing preview references. The camera list is
 the only gallery change. The focused gallery retest passed 10 and the
 corrected manifest, motion and operator retest passed 18.
+
+## F4.3 acceptance
+
+Reviewed the corrected 360×640 decode and actual original/refined
+comparisons. The final MP4 contains 1,800 frames at exact 30 fps,
+18 timed native captions, no detected black frames and one global
+synthetic AAC stream. The original frame-1530 lamp and caption clocks
+match. Its final video SHA-256 is `2f50f28a31af5a9280edb71eb1e70a466ef80dea70b2a1ed1cfd6d0162740cd2`.
+
+The full local run executed 494 tests with 492
+passing, two gallery metadata failures and zero skips. Both failures
+passed in the targeted rerun after regenerating metadata. The
+corrected benchmark passed 18 focused tests. Catalog 77 and zero
+drift are confirmed. Nine historical or existing F1–F2 plans and
+61 sampled frames match their references. The full and matching
+motion study comparisons are exported with the native package.
+
+Independent artistic acceptance, a user-supplied voice take and
+low-memory target-VM qualification remain open. The historical
+staging-name recurrence remains unattributed.
