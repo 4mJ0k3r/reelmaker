@@ -131,6 +131,13 @@ def _base_camera(shot, state, frame, *, partner=None):
                 for person in (state, partner))
         zoom = min(1.8, 255 / (abs(b - a) + 56))
         return _aim((a + b) / 2, state.anchor.y - 50, zoom, 180, 380)
+    if shot.camera == "signal_two_shot":
+        lamp = named_node(beat, "streetlamp").world
+        left, right = min(state.anchor.x, partner.anchor.x, lamp.x), max(
+            state.anchor.x, partner.anchor.x, lamp.x
+        )
+        zoom = min(2.65, 255 / (right - left + 20))
+        return _aim((left + right) / 2, lamp.y - 110 * lamp.scale, zoom, 180, 235)
     actor_id = beat.actor
     if shot.focus == "partner":
         state, actor_id = partner, beat.partner.actor

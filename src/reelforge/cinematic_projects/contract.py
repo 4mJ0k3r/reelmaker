@@ -29,6 +29,7 @@ from reelforge.visual_library.composition.living_worlds import MOODS, WORLD_KITS
 from .captions import fits_mobile_width
 from .schema import (
     CAMERAS,
+    STAGED_CAMERAS,
     CAPTION_LINE,
     CAPTION_STYLES,
     DRESSING,
@@ -487,6 +488,8 @@ def compile_project(data, registry_root: Path):
             )
         if (focus == "partner" or camera == "two_shot") and not beat.partner:
             fail(f"/shots/{i}", "This shot requires two actors in its beat")
+        if camera == "signal_two_shot" and not (beat.cue_style and focus == "actor"):
+            fail(f"/shots/{i}/camera", "signal_two_shot requires a grounded signal cue and shared focus")
         motion = raw.get("motion", "track" if intent in ("approach", "pursue", "depart") else "hold")
         shots.append(Shot(raw["id"], start, start + SHOT_FRAMES, camera, beat, focus, motion, intent, hold))
     captions = []
@@ -538,7 +541,7 @@ def capabilities(registry_root):
         "max_staged_narration_frames": MAX_FRAMES,
         "worlds": WORLD_KITS,
         "contract_versions": [VERSION, STAGED_VERSION],
-        "staged_cameras": [*CAMERAS, "two_shot", "auto"],
+        "staged_cameras": list(STAGED_CAMERAS),
         "camera_motions": MOTIONS,
         "shot_intents": INTENTS,
         "grounded_signal_cue_styles": CUE_STYLES,

@@ -276,12 +276,12 @@
     },
     {
       "id": "the_dark_lamp",
-      "camera": "object_reveal",
+      "camera": "signal_two_shot",
       "motion": "hold"
     },
     {
       "id": "the_lamp_answers",
-      "camera": "object_reveal",
+      "camera": "signal_two_shot",
       "motion": "hold"
     },
     {

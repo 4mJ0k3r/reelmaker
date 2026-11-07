@@ -47,3 +47,15 @@ remain in the same world and mood, with Bram's follow-up anchor near
 his interaction endpoint. Caption revisions name the route and distinguish
 the cart crossing from the pickup. Early stills exposed edge crops, so
 ridge coverage returns to the pair. The lamp coverage is refined next.
+
+## F3.3 lamp
+
+Existing object-reveal coverage enlarged the lamp but cropped Mira.
+An explicit `signal_two_shot` camera balances both stationary actors and
+the registered lamp, with shared focus and unchanged world lighting.
+The matched camera holds at frames 1529/1530. Mira and Bram lift their
+arms on separate authored clocks. The camera can only be selected for a
+grounded paired signal cue. The caption still starts at 1530. The authored
+plan validates, repeats byte for byte, and the F3 selection passed 40 tests.
+Six historical plans and 36 sampled Cairo frames still match archived
+digests. Catalog validation found 77 components and no generated drift.

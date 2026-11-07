@@ -31,6 +31,7 @@ CAMERAS = (
     "follow",
     "atmospheric_close",
 )
+STAGED_CAMERAS = (*CAMERAS, "two_shot", "signal_two_shot", "auto")
 MOTIONS = ("hold", "pan", "track", "push_in", "pullback", "reframe")
 INTENTS = ("establish", "approach", "observe", "react", "reveal", "interact",
            "pursue", "wait", "depart", "resolve", "cliffhanger")
@@ -103,7 +104,7 @@ def project_schema(version=VERSION):
             cue_frame=integer(1, 359), cue_style=choice(CUE_STYLES),
             partner=obj(actor_fields, ("delay_frames", "pacing")),
         )
-        shot_fields["camera"] = choice((*CAMERAS, "two_shot", "auto"))
+        shot_fields["camera"] = choice(STAGED_CAMERAS)
         shot_fields["focus"] = choice(("actor", "partner"))
         shot_fields["motion"] = choice(MOTIONS)
         shot_fields["intent"] = choice(INTENTS)

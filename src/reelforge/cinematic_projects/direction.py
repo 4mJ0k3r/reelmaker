@@ -33,7 +33,7 @@ def composition_audit(project):
                                        * transform.sy))
         # World/object/shared cameras ignore performer focus in the actual sampler.
         focus = ("world" if shot.camera in ("establishing", "atmospheric_close",
-                 "object_reveal", "two_shot") else shot.focus)
+                 "object_reveal", "two_shot", "signal_two_shot") else shot.focus)
         signature = (shot.camera, focus, shot.motion)
         repeated = signature == previous
         rows.append({
