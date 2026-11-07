@@ -17,7 +17,7 @@ from reelforge.visual_library.composition.interactions import (
     sample_interaction,
 )
 
-from .staging import Performer, face_left, pose_at
+from .staging import Performer, face_left, performer_clock, pose_at
 
 
 @dataclass(frozen=True)
@@ -41,18 +41,20 @@ def acting_at(beat, local, *, partner=False):
     anchor = named_node(beat, "partner" if partner else "actor").world
     if beat.refined and not beat.interaction:
         performer = beat.partner if partner else Performer(
-            beat.actor, beat.action, beat.expression, beat.facing, beat.delay
+            beat.actor, beat.action, beat.expression, beat.facing, beat.delay, beat.pacing
         )
         pose, clock = pose_at(performer, local, refined=True)
         facing = "right" if beat.cue_frame is not None and local >= beat.cue_frame else performer.facing
-        expression = performer.expression if local >= performer.delay else "neutral"
+        _, active = performer_clock(performer, local)
+        expression = performer.expression if active else "neutral"
         if performer.action == "react" and clock >= (36 if performer.actor == "scout_01" else 47):
             expression = "concerned" if expression in ("surprised", "frightened") else expression
         if beat.cue_frame is not None and local >= beat.cue_frame:
+            cue_clock, cue_active = performer_clock(replace(performer, delay=0), local - beat.cue_frame)
             if performer.action in ("idle", "notice", "react"):
                 pose = living.sample_pose(performer.actor, "notice",
-                                          (local - beat.cue_frame) / 30, refined=True)
-            expression = "determined" if local - beat.cue_frame >= 15 else "surprised"
+                                          cue_clock / 30, refined=True) if cue_active else pose
+            expression = ("determined" if cue_clock >= 15 else "surprised") if cue_active else expression
         return Acting(anchor, pose, expression, None, clock, facing)
     if beat.interaction:
         authored_frame = min(local, INTERACTIONS[beat.action].frames - 1)

@@ -1,0 +1,41 @@
+{
+  "schema_version": "cinematic-project-0.2",
+  "title": "Pacing comparison tense",
+  "beats": [
+    {
+      "id": "the_sound",
+      "start": 0,
+      "end": 180,
+      "actor": "scout_01",
+      "world": "abandoned_outpost",
+      "mood": "storm",
+      "action": "idle_to_notice",
+      "expression": "concerned",
+      "stage_x": 109,
+      "pacing": "tense",
+      "partner": {
+        "actor": "mechanic_01",
+        "action": "notice_to_react",
+        "expression": "surprised",
+        "stage_x": 220,
+        "facing": "left",
+        "delay_frames": 18
+      }
+    }
+  ],
+  "shots": [
+    {
+      "id": "listen",
+      "camera": "auto",
+      "intent": "observe"
+    },
+    {
+      "id": "bram_reacts",
+      "camera": "auto",
+      "intent": "react",
+      "focus": "partner"
+    }
+  ],
+  "captions": [],
+  "audio": null
+}

@@ -43,7 +43,7 @@ from .schema import (
     VERSION,
     project_schema,
 )
-from .staging import Performer, pose_at
+from .staging import PACING, Performer, pose_at
 
 
 def fail(path, message):
@@ -68,6 +68,7 @@ class Beat:
     partner: Performer | None = None
     cue_frame: int | None = None
     grade: str | None = None
+    pacing: str | None = None
 
 
 @dataclass(frozen=True)
@@ -135,6 +136,11 @@ class Project:
                     **({"focus": shot.focus, "motion": shot.motion}
                        if self.version == STAGED_VERSION else {}),
                     "beat": beat.id,
+                    **({"pacing": beat.pacing,
+                        "timing": {"lead": asdict(Performer(beat.actor, beat.action,
+                            beat.expression, beat.facing, beat.delay, beat.pacing)),
+                            "partner": asdict(beat.partner) if beat.partner else None}}
+                       if beat.pacing or (beat.partner and beat.partner.pacing) else {}),
                     "acting_frame_at_start": shot.start - beat.start,
                     "continuity": (
                         "continuous_beat" if shot.start > beat.start else "authored_blocking"
@@ -217,14 +223,17 @@ def _decorate(scene, raw, path):
         scene["nodes"].append(node("dressed_prop", "midground", 10, identity, variant, x, y, scale))
 
 
-def _performer(raw):
+def _performer(raw, inherited_pacing=None):
     return Performer(raw["actor"], raw["action"], raw.get("expression", "neutral"),
-                     raw.get("facing", "right"), raw.get("delay_frames", 0))
+                     raw.get("facing", "right"), raw.get("delay_frames", 0),
+                     raw.get("pacing", inherited_pacing))
 
 
 def _swept_bounds(performer, anchor, length, path, cue):
     if type(performer.delay) is not int or performer.delay >= length:
         fail(path + "/delay_frames", "Use an integer delay inside this beat")
+    if performer.delay + PACING.get(performer.pacing, (0, 1, 1))[0] >= length:
+        fail(path + "/pacing", "Pacing anticipation and delay must leave an active frame")
     first = anchor["x"]
     pose, _ = pose_at(performer, length - 1, refined=True)
     signed = 1 if performer.facing == "right" else -1
@@ -250,13 +259,15 @@ def _compile_beat(raw, path, *, staged=False):
         fail(path + "/mood", f"Choose {', '.join(WORLD_KITS[world])} for {world}")
     expression = raw.get("expression", "neutral")
     spec = INTERACTIONS.get(action)
-    partner = _performer(raw["partner"]) if "partner" in raw else None
+    partner = _performer(raw["partner"], raw.get("pacing")) if "partner" in raw else None
     cue = raw.get("cue_frame")
     lead = _performer(raw)
     if cue is not None and (type(cue) is not int or cue >= length or cue % SHOT_FRAMES
                             or raw.get("signal") != "lit" or not partner):
         fail(path + "/cue_frame", "Use an editorial cut within a paired beat with a lit signal")
     if spec:
+        if "pacing" in raw:
+            fail(path + "/pacing", "Registered interactions keep their fixed contact clock")
         if actor not in spec.actors:
             fail(path + "/actor", f"Choose {', '.join(spec.actors)} for {action}")
         if (world, mood) != (spec.kit, spec.mood):
@@ -333,6 +344,7 @@ def _compile_beat(raw, path, *, staged=False):
         raw.get("dressing"),
         staged, lead.facing, lead.delay, partner, cue,
         mood if world in MOODS else None,
+        raw.get("pacing"),
     )
 
 
@@ -496,6 +508,9 @@ def capabilities(registry_root):
         "staged_cameras": [*CAMERAS, "two_shot", "auto"],
         "camera_motions": MOTIONS,
         "shot_intents": INTENTS,
+        "pacing_styles": {name: {"anticipation_frames": values[0],
+                                 "clip_speed": [values[1], values[2]]}
+                          for name, values in PACING.items()},
         "actors": {
             **{
                 i: {

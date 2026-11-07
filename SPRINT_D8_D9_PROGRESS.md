@@ -25,3 +25,11 @@ when removing its partner, and a repetition audit treating world-camera focus
 as a composition difference even though the sampler ignores it. Corrected
 fixture and canonicalized world-camera audit focus. 40 focused tests pass;
 the initial 2-failure log is retained, not counted as a pass.
+
+D8.2: opt-in measured/tense/urgent clocks now select finite anticipation and
+rational clip speed independently per performer, with explicit partner override.
+Transitions hold frame 89; ordinary clips hold the admitted twelve-second endpoint.
+Interactions reject pacing rather than changing contact clocks. Historical
+requests retain their clocks/digests. Initial tests found out-of-bounds accelerated
+clocks and a fixture sampled before its own delay; corrected, with failed log
+retained. Native short comparisons and full release gates follow.
