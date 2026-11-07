@@ -49,7 +49,7 @@ def main():
     verify.add_argument("directory", type=Path)
     args = parser.parse_args()
     cancellation = Event()
-    if args.command in ("render", "verify"):
+    if args.command in ("render", "verify", "preflight"):
         signal.signal(signal.SIGTERM, lambda *_: cancellation.set())
         signal.signal(signal.SIGINT, lambda *_: cancellation.set())
     try:

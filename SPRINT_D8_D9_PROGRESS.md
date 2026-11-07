@@ -43,3 +43,14 @@ Native-free planning and operator/example/diagnostic tests pass. No new brief
 contract or duplicate production renderer was introduced.
 Next: integrate safe destination checks and persistent verification into atomic
 production, then instrument ownership/process faults.
+
+D8.3 checkpoint: dc68dd0. D8.4: primary render command now applies destination
+validation, checks parent identity, and independently verifies the private
+package before writing verification.json and atomic publication. Report adds
+input identity, output/audio format, whole-job CPU/wall and final-verifier RSS.
+Native six-second operator production succeeded. 28 production/operator tests
+pass, including injected final-verification failure and verification-before-
+publication. Existing transaction assertions were retained; its fake engine
+fixture mocks final verification rather than pretending its bytes are media.
+Next: early recovery bundle, then bounded transaction/process lifecycle tracing
+and controlled faults. Target deployment is still untested.

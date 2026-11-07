@@ -52,6 +52,7 @@ def staged(monkeypatch):
         "_engine": engine,
         "black_frames": lambda *a: {},
         "write_storyboard": lambda *a: [],
+        "verify_project": lambda *a, **kw: {"verified": True},
     }.items():
         monkeypatch.setattr(workflow, name, substitute)
 
@@ -64,6 +65,7 @@ def staged(monkeypatch):
         "stream_check",
         "black_frames",
         "write_storyboard",
+        "verify_project",
         "_write_json",
         "report",
         "publish_as",
@@ -217,3 +219,21 @@ def test_native_audio_registry_damage_refuses_publication(damage):
         with pytest.raises(OperationError, match="registry_validation"):
             workflow.render_project(project, root / "final", registry_root=registry)
         assert list(root.iterdir()) == [registry]
+
+
+def test_success_contains_verification_before_atomic_publish(tmp_path, monkeypatch, staged):
+    publish = OwnedDirectory.publish_as
+    observed = []
+
+    def inspect(owner, destination):
+        import json
+        assert json.loads((owner.path / 'verification.json').read_text())['verified']
+        assert (owner.path / 'report.json').is_file()
+        observed.append(True)
+        return publish(owner, destination)
+
+    monkeypatch.setattr(OwnedDirectory, 'publish_as', inspect)
+    workflow.render_project(load_cinematic_project(REQUEST, REGISTRY), tmp_path / 'final',
+                            registry_root=REGISTRY)
+    assert observed == [True]
+    assert (tmp_path / 'final/verification.json').exists()

@@ -23,6 +23,7 @@ from reelforge.resources.monitor import JobMonitor, preflight_memory
 
 from .captions import caption_paths
 from .contract import CHUNK_SHOTS, SHOT_FRAMES, Project, load_cinematic_project
+from .operator import output_destination
 from .sampling import visual_frame
 from .storyboard import black_frames, write_storyboard
 
@@ -135,9 +136,8 @@ def render_project(project, output, *, registry_root, cancelled=None):
     own = time.process_time()
     children = resource.getrusage(resource.RUSAGE_CHILDREN)
     cancellation = cancelled if cancelled is not None else Event()
-    output = output.parent.resolve() / output.name
-    if os.path.lexists(output):
-        raise OperationError("OUTPUT_EXISTS", "Choose a new output directory")
+    output = output_destination(output)
+    parent_identity = OwnedDirectory._key(output.parent.stat())
     cancelled_check(cancellation)
     preflight_memory()
     check_workspace(output.parent)
@@ -149,6 +149,8 @@ def render_project(project, output, *, registry_root, cancelled=None):
         plan = project.timeline()
         with JobMonitor(workspace=stage, cancelled=cancellation) as monitor:
             work = OwnedDirectory(output.parent, ".reelforge-cinematic-work-")
+            if OwnedDirectory._key(output.parent.stat()) != parent_identity:
+                raise OperationError("TRANSACTION_IDENTITY", "Output parent changed before rendering")
             engine = _engine(project, work.path, registry_root, cancellation)
             if not engine["success"]:
                 detail = (
@@ -184,7 +186,13 @@ def render_project(project, output, *, registry_root, cancelled=None):
             "media_verified": True,
             "plan_sha256": plan["plan_sha256"],
             "video_sha256": video_hash,
+            "input_sha256": project_digest(project.request),
             "frames": project.frames,
+            "duration_seconds": project.frames / 30,
+            "output_format": {"width": 720, "height": 1280, "fps": 30,
+                              "codec": "h264", "pixel_format": "yuv420p"},
+            "audio_status": "silent" if project.silent else "registered_pcm16_to_stereo_aac",
+            "warnings": ["Host success does not certify the target deployment VM"],
             "streams": streams,
             "black_frame_check": black,
             "storyboard": storyboard,
@@ -202,6 +210,22 @@ def render_project(project, output, *, registry_root, cancelled=None):
             "engine_report": "engine/report.json",
         }
         _write_json(stage / "report.json", report)
+        verification = verify_project(stage, registry_root=registry_root, cancelled=cancellation)
+        _write_json(stage / "verification.json", verification)
+        report["final_verification_memory"] = verification.get("memory")
+        report["wall_seconds"] = time.perf_counter() - started
+        after = resource.getrusage(resource.RUSAGE_CHILDREN)
+        report["cpu_seconds"] = {
+            "parent": time.process_time() - own,
+            "children_user": after.ru_utime - children.ru_utime,
+            "children_system": after.ru_stime - children.ru_stime,
+        }
+        # Replace only this invocation's private report, before atomic publication.
+        with (stage / "report.json").open("w", encoding="utf-8") as handle:
+            json.dump(report, handle, indent=2, sort_keys=True, allow_nan=False)
+            handle.write("\n")
+            handle.flush()
+            os.fsync(handle.fileno())
         cancelled_check(cancellation)
         owner.publish_as(output)
         committed = True
@@ -272,4 +296,5 @@ def verify_project(directory, *, registry_root, cancelled=None):
         "black_frame_check": black,
         "plan_sha256": timeline["plan_sha256"],
         "video_sha256": digest(video),
+        "memory": monitor.report(),
     }
