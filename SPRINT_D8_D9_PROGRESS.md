@@ -138,3 +138,17 @@ A final discovery correction adds an explicit recommended 0.2 contract while
 preserving the legacy contract field, exposes staged cameras in the gallery,
 and links original diagnostic fixture setup. Related metadata/operator/direction
 checks pass; final exports will use the current discovery output.
+
+Final qualification: outcome B is recommended — host engineering validated,
+cleanup/deployment blockers explicit. The tracked qualification table covers
+all required categories. Staging root cause remains unresolved; target VM and
+real browser are NOT TESTED; artistic acceptance remains independent/pending.
+Complete passing evidence covers all 462 final collected test IDs without
+summing overlapping runs. New branch hosted CI is NOT RUN because no publication
+is authorized. Latest code/discovery checkpoint: 70097f2; final documentation
+and identity are captured in the review packet.
+Next exact action: create full-history final bundle, restore it fresh, install
+locked runtime, compare plan/native frame proof, run short native operator smoke,
+verify archive checksums, and save complete report/ZIP/bundle/handoff. These
+post-commit results and exact final SHA/tree belong in the external identity
+report and handoff rather than a self-referential commit hash in this file.
