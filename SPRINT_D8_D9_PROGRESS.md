@@ -33,3 +33,13 @@ Interactions reject pacing rather than changing contact clocks. Historical
 requests retain their clocks/digests. Initial tests found out-of-bounds accelerated
 clocks and a fixture sampled before its own delay; corrected, with failed log
 retained. Native short comparisons and full release gates follow.
+
+D8.3: existing CLI now discovers resource/output/duration policy and five valid
+operator examples. inspect adds actual all-frame camera/root diagnostics without
+changing plan digest; preflight reuses the existing deployment doctor and audio
+registry validation. Invalid CLI arguments and manifest failures are structured.
+Output destination helper rejects traversal, symlink ancestors and occupied leaves.
+Native-free planning and operator/example/diagnostic tests pass. No new brief
+contract or duplicate production renderer was introduced.
+Next: integrate safe destination checks and persistent verification into atomic
+production, then instrument ownership/process faults.

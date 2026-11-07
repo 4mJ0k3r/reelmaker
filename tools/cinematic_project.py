@@ -17,8 +17,15 @@ from reelforge.core.errors import InputError, OperationError
 ROOT = Path(__file__).resolve().parents[1]
 
 
+class OperatorParser(argparse.ArgumentParser):
+    def error(self, message):
+        print(json.dumps({"valid": False, "error": {"code": "CINEMATIC_ARGUMENT",
+                          "path": "", "message": message}}), file=sys.stderr)
+        raise SystemExit(2)
+
+
 def main():
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = OperatorParser(description=__doc__)
     parser.add_argument("--registry", type=Path, default=ROOT / "assets/audio")
     commands = parser.add_subparsers(dest="command", required=True)
     commands.add_parser("schema").add_argument("--version", default="cinematic-project-0.1",
@@ -35,6 +42,9 @@ def main():
     render = commands.add_parser("render")
     render.add_argument("request", type=Path)
     render.add_argument("directory", type=Path)
+    preflight = commands.add_parser("preflight")
+    preflight.add_argument("request", type=Path)
+    preflight.add_argument("directory", type=Path)
     verify = commands.add_parser("verify")
     verify.add_argument("directory", type=Path)
     args = parser.parse_args()
@@ -47,6 +57,26 @@ def main():
             result = project_schema(args.version)
         elif args.command in ("capabilities", "list"):
             result = capabilities(args.registry)
+        elif args.command == "preflight":
+            from deployment_check import inspect_deployment
+            from reelforge.audio.registry import AudioRegistry
+            from reelforge.cinematic_projects.operator import output_destination
+            from reelforge.core.transaction import OwnedDirectory
+
+            project = load_cinematic_project(args.request, args.registry)
+            output = output_destination(args.directory)
+            result = inspect_deployment(output.parent)
+            if result["ok"] and project.audio:
+                owner = OwnedDirectory(output.parent, ".reelforge-preflight-")
+                try:
+                    AudioRegistry(args.registry).resolve(project.audio, project.frames,
+                        cancelled=cancellation, validation_root=owner.path)
+                finally:
+                    owner.cleanup()
+            result.update(plan_sha256=project.timeline()["plan_sha256"], frames=project.frames,
+                          output=str(output), advisory=True)
+            print(json.dumps(result, indent=2, sort_keys=True, allow_nan=False))
+            return 0 if result["ok"] else 2
         elif args.command == "verify":
             from reelforge.cinematic_projects.workflow import verify_project
 
@@ -83,7 +113,12 @@ def main():
                     with args.png.open("xb") as handle:
                         surface.write_png(handle)
         else:
-            plan = load_cinematic_project(args.request, args.registry).timeline()
+            project = load_cinematic_project(args.request, args.registry)
+            plan = project.timeline()
+            if args.command == "inspect":
+                from reelforge.cinematic_projects.direction import composition_audit
+
+                plan = {**plan, "composition_audit": composition_audit(project)}
             result = (
                 {"valid": True, "frames": plan["frames"], "plan_sha256": plan["plan_sha256"]}
                 if args.command == "validate"
@@ -91,11 +126,12 @@ def main():
             )
         print(json.dumps(result, indent=2, sort_keys=True, allow_nan=False))
         return 0
-    except (InputError, OperationError, OSError, KeyboardInterrupt) as error:
+    except (InputError, OperationError, OSError, KeyboardInterrupt, ImportError) as error:
         result = (
             error.issue.as_dict()
             if isinstance(error, InputError)
-            else {"code": getattr(error, "code", "CINEMATIC_IO"), "message": str(error)}
+            else {"code": getattr(error, "code", "NATIVE_DEPENDENCY" if isinstance(error, ImportError)
+                                  else "CINEMATIC_IO"), "path": "", "message": str(error)}
         )
         print(json.dumps({"valid": False, "error": result}), file=sys.stderr)
         return 2

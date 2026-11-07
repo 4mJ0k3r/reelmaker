@@ -498,7 +498,10 @@ def load_cinematic_project(path, registry_root):
 
 
 def capabilities(registry_root):
+    from .operator import operator_metadata
+
     return {
+        "operator": operator_metadata(),
         "contract": VERSION,
         "shot_frames": SHOT_FRAMES,
         "max_frames": MAX_FRAMES,
