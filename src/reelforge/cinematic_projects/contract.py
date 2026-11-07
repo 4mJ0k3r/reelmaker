@@ -34,6 +34,7 @@ from .schema import (
     DRESSING,
     EFFECT_IDS,
     ID,
+    INTENTS,
     MAX_FRAMES,
     MOTIONS,
     SIGNAL,
@@ -78,6 +79,8 @@ class Shot:
     beat: Beat
     focus: str = "actor"
     motion: str = "hold"
+    intent: str | None = None
+    hold: bool = False
 
 
 @dataclass(frozen=True)
@@ -125,6 +128,10 @@ class Project:
                     "start": shot.start,
                     "end": shot.end,
                     "camera": shot.camera,
+                    **({"direction": {"intent": shot.intent,
+                                      "reason": INTENT_REASONS[shot.intent],
+                                      "intentional_hold": shot.hold}}
+                       if shot.intent else {}),
                     **({"focus": shot.focus, "motion": shot.motion}
                        if self.version == STAGED_VERSION else {}),
                     "beat": beat.id,
@@ -329,8 +336,47 @@ def _compile_beat(raw, path, *, staged=False):
     )
 
 
-def _coverage(beat, start, total, previous):
+INTENT_REASONS = {
+    "establish": "Orient the viewer in the selected registered world",
+    "approach": "Follow the moving focal performer toward the next beat",
+    "observe": "Show attention with alternating medium and close coverage",
+    "react": "Read the focal performer's emotional response",
+    "reveal": "Expose the registered practical light or story prop",
+    "interact": "Frame the registered hand-to-prop action",
+    "pursue": "Track the admitted locomotion without changing its clock",
+    "wait": "Hold suspense with alternating environmental and performer coverage",
+    "depart": "Follow the admitted departure motion",
+    "resolve": "Close with shared coverage when a second actor is present",
+    "cliffhanger": "End on a story object or an unresolved performer reaction",
+}
+
+
+def _coverage(beat, start, total, previous, *, intent=None, focus=None, hold=False):
     """Resolve requested automatic coverage from the beats, cues and existing shots."""
+    if intent:
+        subject = focus or ("partner" if beat.partner and previous
+                            and previous.focus == "actor" and intent == "react" else "actor")
+        if hold and previous and previous.beat is beat:
+            return previous.camera, previous.focus
+        if intent == "establish":
+            return "establishing", subject
+        if intent in ("approach", "pursue", "depart"):
+            return "follow", subject
+        if intent == "interact":
+            return "interaction_detail", subject
+        if intent == "reveal":
+            return "object_reveal", subject
+        if intent == "resolve":
+            return ("two_shot" if beat.partner else "atmospheric_close"), subject
+        if intent == "cliffhanger":
+            return ("object_reveal" if beat.signal or beat.dressing or beat.interaction
+                    else "reaction"), subject
+        if intent == "react":
+            return "reaction", subject
+        if intent == "wait":
+            return ("medium" if previous and previous.camera == "atmospheric_close"
+                    else "atmospheric_close"), subject
+        return ("close_up" if previous and previous.camera == "medium" else "medium"), subject
     if not previous:
         return "establishing", "actor"
     if beat.cue_frame is not None and start <= beat.start + beat.cue_frame < start + SHOT_FRAMES:
@@ -377,10 +423,25 @@ def compile_project(data, registry_root: Path):
         beat = beats[bisect_right(boundaries, start)]
         camera = raw["camera"]
         focus = raw.get("focus", "actor")
+        intent = raw.get("intent")
+        hold = raw.get("hold", False)
+        if (intent or "hold" in raw) and camera != "auto":
+            fail(f"/shots/{i}/intent", "Use intent/hold only with camera auto")
+        if "hold" in raw and not intent:
+            fail(f"/shots/{i}/hold", "Select a registered intent before requesting a hold")
+        if intent in ("approach", "pursue", "depart"):
+            action = beat.partner.action if focus == "partner" and beat.partner else beat.action
+            if action not in ("walk", "run", "idle_to_walk", "walk_to_stop"):
+                fail(f"/shots/{i}/intent", "Movement intent requires walk/run or a locomotion transition")
+        if intent == "interact" and (not beat.interaction or focus == "partner"):
+            fail(f"/shots/{i}/intent", "interact requires a registered lead interaction")
+        if hold and (not shots or shots[-1].beat is not beat or shots[-1].intent != intent):
+            fail(f"/shots/{i}/hold", "Hold only the same intention in this continuous beat")
         if camera == "auto":
-            if "focus" in raw:
+            if "focus" in raw and not intent:
                 fail(f"/shots/{i}/focus", "Automatic coverage selects its own focus")
-            camera, focus = _coverage(beat, start, total, shots[-1] if shots else None)
+            camera, focus = _coverage(beat, start, total, shots[-1] if shots else None,
+                                      intent=intent, focus=raw.get("focus"), hold=hold)
         if camera == "interaction_detail" and not beat.interaction:
             fail(f"/shots/{i}/camera", "interaction_detail requires a compatible interaction")
         if camera == "object_reveal" and not (beat.signal or beat.interaction or beat.dressing):
@@ -390,7 +451,8 @@ def compile_project(data, registry_root: Path):
             )
         if (focus == "partner" or camera == "two_shot") and not beat.partner:
             fail(f"/shots/{i}", "This shot requires two actors in its beat")
-        shots.append(Shot(raw["id"], start, start + SHOT_FRAMES, camera, beat, focus, raw.get("motion", "hold")))
+        motion = raw.get("motion", "track" if intent in ("approach", "pursue", "depart") else "hold")
+        shots.append(Shot(raw["id"], start, start + SHOT_FRAMES, camera, beat, focus, motion, intent, hold))
     captions = []
     end = 0
     for i, raw in enumerate(data["captions"]):
@@ -433,6 +495,7 @@ def capabilities(registry_root):
         "contract_versions": [VERSION, STAGED_VERSION],
         "staged_cameras": [*CAMERAS, "two_shot", "auto"],
         "camera_motions": MOTIONS,
+        "shot_intents": INTENTS,
         "actors": {
             **{
                 i: {

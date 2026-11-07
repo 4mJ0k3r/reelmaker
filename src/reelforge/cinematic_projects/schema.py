@@ -31,6 +31,8 @@ CAMERAS = (
     "atmospheric_close",
 )
 MOTIONS = ("hold", "pan", "track", "push_in", "pullback", "reframe")
+INTENTS = ("establish", "approach", "observe", "react", "reveal", "interact",
+           "pursue", "wait", "depart", "resolve", "cliffhanger")
 CAPTION_STYLES = tuple(STYLES)
 CAPTION_LINE = r"[A-Za-z0-9 .,!?':&()\-]{1,32}"
 TITLE = r"^[A-Za-z0-9][A-Za-z0-9 .,!?':&()\-]{0,119}$"
@@ -93,6 +95,8 @@ def project_schema(version=VERSION):
         shot_fields["camera"] = choice((*CAMERAS, "two_shot", "auto"))
         shot_fields["focus"] = choice(("actor", "partner"))
         shot_fields["motion"] = choice(MOTIONS)
+        shot_fields["intent"] = choice(INTENTS)
+        shot_fields["hold"] = {"type": "boolean"}
     return {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "$id": f"urn:reelforge:{version}",
@@ -101,7 +105,7 @@ def project_schema(version=VERSION):
                 "schema_version": {"const": version},
                 "title": {"type": "string", "pattern": TITLE, "maxLength": 120},
                 "beats": array(beat, 1, MAX_SEGMENTS),
-                "shots": array(obj(shot_fields, ("focus", "motion")), 1, MAX_SEGMENTS),
+                "shots": array(obj(shot_fields, ("focus", "motion", "intent", "hold")), 1, MAX_SEGMENTS),
                 "captions": array(
                     obj(
                         {
