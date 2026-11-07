@@ -1,0 +1,52 @@
+{
+  "schema_version": "cinematic-project-0.1",
+  "title": "Audio and caption cut proof",
+  "beats": [
+    {
+      "id": "pickup",
+      "start": 0,
+      "end": 180,
+      "actor": "scout_01",
+      "world": "village_lane",
+      "mood": "evening",
+      "action": "pickup_carry_place",
+      "variant": "wrapped"
+    }
+  ],
+  "shots": [
+    {
+      "id": "reach",
+      "camera": "medium"
+    },
+    {
+      "id": "carry",
+      "camera": "interaction_detail"
+    }
+  ],
+  "captions": [
+    {
+      "start": 66,
+      "end": 122,
+      "style": "subtitle",
+      "lines": [
+        "One parcel. One last stop."
+      ]
+    }
+  ],
+  "audio": {
+    "sample_rate": 48000,
+    "channels": 2,
+    "codec": "aac",
+    "bitrate": 128000,
+    "narration": null,
+    "cues": [
+      {
+        "asset_id": "test_creek_signal",
+        "start_frame": 75,
+        "trim_start_frame": 0,
+        "trim_end_frame": 30,
+        "gain": 0.5
+      }
+    ]
+  }
+}

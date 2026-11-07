@@ -105,3 +105,34 @@ def test_interaction_state_spans_independent_camera_shots(
     assert visual_frame(plan, 89) != first
     assert visual_frame(plan, 90) == first
     assert state_at(plan, 90) == after
+
+
+def test_caption_outlines_render_as_filled_mobile_geometry():
+    pytest.importorskip("cairo")
+    from reelforge.cinematic_projects.captions import caption_paths
+    from reelforge.cinematic_projects.contract import Caption
+    from reelforge.rendering.backends.cairo import CairoRenderer
+    from reelforge.rendering.diagnostic import color
+
+    paths = caption_paths(Caption(0, 30, "subtitle", ("Text must be visible.",)))
+    assert len(paths) == 3 and len(paths[-1].path) > 30
+    renderer = CairoRenderer()
+    with renderer.surface(360, 640) as target:
+        renderer.draw(target, paths, background=color("000000"), logical_size=(360, 640))
+        ink = sum(target.pixel_rgba8_premultiplied(x, y)[0] > 160
+                  for x in range(35, 302) for y in range(495, 521))
+        assert ink > 200
+
+
+def test_registered_audio_plans_role_and_frame_aligned_trim(request_data):
+    request_data["audio"] = dict(sample_rate=48000, channels=2, codec="aac", bitrate=128000,
+                                narration=None, cues=[dict(asset_id="diag_suspense",
+                                start_frame=83, trim_start_frame=2, trim_end_frame=15, gain=.5)])
+    project = compile_project(request_data, REGISTRY)
+    cue, = project.audio_cues
+    assert cue["start_sample"] == 83 * 1600
+    assert cue["effective_samples"] == 13 * 1600
+    assert [shot["audio_indices"] for shot in project.timeline()["shots"]] == [[0], [0]]
+    request_data["audio"]["cues"][0]["asset_id"] = "diag_opening"
+    with pytest.raises(InputError, match="expected registered role sfx"):
+        compile_project(request_data, REGISTRY)
