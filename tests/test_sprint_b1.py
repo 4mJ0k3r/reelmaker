@@ -171,8 +171,8 @@ def test_continuous_transition_and_ground_contacts(actor,transition):
         assert samples[-1].pose.root.x == samples[-5].pose.root.x
 
 
-@pytest.mark.parametrize("failure_frame",[0,15,29])
-def test_native_frame_failure_reaps_encoder(tmp_path,monkeypatch,failure_frame):
+@pytest.mark.parametrize("failure_shot,failure_frame",[(0,0),(1,15),(2,29)])
+def test_native_frame_failure_reaps_encoder(tmp_path,monkeypatch,failure_shot,failure_frame):
     pytest.importorskip("cairo")
     from reelforge.scenes.contract import validate_scene
     from reelforge.scenes.graph import compile_scene,scene_frame
@@ -194,7 +194,9 @@ def test_native_frame_failure_reaps_encoder(tmp_path,monkeypatch,failure_frame):
     monkeypatch.setattr(encoder, "FFmpegEncoder", record)
     output=tmp_path / "film"
     with pytest.raises(RuntimeError,match="frame fault"):
-        living_worlds.render_sequence([(scene,fail_at)],output)
+        shots = [(scene,None)] * 3
+        shots[failure_shot] = (scene,fail_at)
+        living_worlds.render_sequence(shots,output)
     assert not output.exists()
     assert not list(tmp_path.glob(".reelforge-*"))
     assert encoders
