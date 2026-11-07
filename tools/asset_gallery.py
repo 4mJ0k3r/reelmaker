@@ -33,7 +33,8 @@ KEY = re.compile(r"[a-z][a-z0-9_.-]*\Z")
 
 
 def cinematic_examples():
-    directories = (ROOT / "examples/cinematic-projects", ROOT / "examples/sprint-d")
+    directories = tuple(ROOT / "examples" / name for name in
+                        ("cinematic-projects", "sprint-d", "sprint-d7a", "sprint-d7b", "sprint-d8-d9"))
     registry = ROOT / "assets/audio"
     # Diagnostic audio examples carry an explicit fixture-setup link in the operator guide.
     projects = []
@@ -49,7 +50,7 @@ def cinematic_examples():
             "request": "../../" + path.relative_to(ROOT).as_posix(),
         })
     discovery = capabilities(registry)
-    return {"guide": "../CINEMATIC_PROJECTS.md", "examples": projects,
+    return {"guide": "../REELMAKER_OPERATOR_GUIDE.md", "examples": projects,
             "cameras": discovery["cameras"], "contract": discovery["contract"]}
 
 

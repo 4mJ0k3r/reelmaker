@@ -2660,7 +2660,7 @@
     }
   ],
   "cinematic_projects": {
-    "guide": "../CINEMATIC_PROJECTS.md",
+    "guide": "../REELMAKER_OPERATOR_GUIDE.md",
     "examples": [
       {
         "title": "Audio and caption cut proof",
@@ -2757,6 +2757,60 @@
         "seconds": 12.0,
         "diagnostic_audio": false,
         "request": "../../examples/sprint-d/unexpected_meeting.json"
+      },
+      {
+        "title": "The Last Signal",
+        "seconds": 15.0,
+        "diagnostic_audio": false,
+        "request": "../../examples/sprint-d7a/the_last_signal.json"
+      },
+      {
+        "title": "Before the Storm",
+        "seconds": 60.0,
+        "diagnostic_audio": false,
+        "request": "../../examples/sprint-d7b/before_the_storm.json"
+      },
+      {
+        "title": "The Answering Light",
+        "seconds": 30.0,
+        "diagnostic_audio": true,
+        "request": "../../examples/sprint-d7b/the_answering_light.json"
+      },
+      {
+        "title": "The Unexpected Meeting",
+        "seconds": 12.0,
+        "diagnostic_audio": false,
+        "request": "../../examples/sprint-d8-d9/coverage_before.json"
+      },
+      {
+        "title": "The Unexpected Meeting",
+        "seconds": 12.0,
+        "diagnostic_audio": false,
+        "request": "../../examples/sprint-d8-d9/directed_discovery.json"
+      },
+      {
+        "title": "Pacing comparison measured",
+        "seconds": 6.0,
+        "diagnostic_audio": false,
+        "request": "../../examples/sprint-d8-d9/pacing_measured.json"
+      },
+      {
+        "title": "Pacing comparison tense",
+        "seconds": 6.0,
+        "diagnostic_audio": false,
+        "request": "../../examples/sprint-d8-d9/pacing_tense.json"
+      },
+      {
+        "title": "Pacing comparison urgent",
+        "seconds": 6.0,
+        "diagnostic_audio": false,
+        "request": "../../examples/sprint-d8-d9/pacing_urgent.json"
+      },
+      {
+        "title": "The Last Transmission",
+        "seconds": 30.0,
+        "diagnostic_audio": true,
+        "request": "../../examples/sprint-d8-d9/the_last_transmission.json"
       }
     ],
     "cameras": [

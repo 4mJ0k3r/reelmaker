@@ -90,3 +90,13 @@ D9.3 docs/gallery are updated; browser interaction is NOT TESTED (no local
 browser/Playwright). Static checks resolve 175 references and preserve all 77
 historical component metadata records. Full regression/security/restore gates
 and final qualification remain pending. No GitHub mutations.
+
+D9.3: versioned operator guide 1.0 and weak-agent quickstart are linked from the
+offline gallery; all 77 component preview records are preserved and 175 local
+references resolve. Real browser interaction remains NOT TESTED, with explicit
+follow-up procedure. D9.4 CI selections now include direction, pacing, operator,
+trace, native-fault and security suites; no per-push 60s render is added.
+An oversized security-test parameter initially exceeded the OS environment
+argument limit before reaching the CLI. A short explicit pytest case ID fixes
+the harness without relaxing the 1 MiB input test. Its failed raw log is retained
+compressed; 37 security/direction/operator cases pass after correction.
