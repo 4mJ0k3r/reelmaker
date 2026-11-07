@@ -130,8 +130,8 @@
     },
     {
       "id": "mira_reaches_bram",
-      "camera": "auto",
-      "intent": "approach"
+      "camera": "two_shot",
+      "motion": "track"
     },
     {
       "id": "bram_listens",
@@ -142,7 +142,7 @@
     {
       "id": "wait_for_the_pulse",
       "camera": "auto",
-      "intent": "observe"
+      "intent": "wait"
     },
     {
       "id": "the_last_flash",
@@ -152,7 +152,8 @@
     {
       "id": "sudden_blackout",
       "camera": "auto",
-      "intent": "react"
+      "intent": "react",
+      "focus": "actor"
     },
     {
       "id": "the_lower_path",
@@ -161,8 +162,8 @@
     },
     {
       "id": "mira_checks_the_bank",
-      "camera": "auto",
-      "intent": "observe"
+      "camera": "two_shot",
+      "motion": "track"
     },
     {
       "id": "bram_waits_for_an_answer",

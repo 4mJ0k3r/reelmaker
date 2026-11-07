@@ -66,6 +66,10 @@ def test_repetition_is_a_warning_and_hold_is_explicit():
     assert row['repeats_previous_composition'] and row['intentional_hold']
     assert not row['review_repetition']
     data['shots'][1].pop('hold')
+    assert compile_project(data, REGISTRY).shots[1].camera == 'two_shot'
+    # Explicit authored repetition remains allowed and is diagnosed, not rejected.
+    data['shots'][1].pop('intent')
+    data['shots'][1]['camera'] = 'establishing'
     assert composition_audit(compile_project(data, REGISTRY))['shots'][1]['review_repetition']
 
 

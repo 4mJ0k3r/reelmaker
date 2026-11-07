@@ -371,6 +371,8 @@ def _coverage(beat, start, total, previous, *, intent=None, focus=None, hold=Fal
         if hold and previous and previous.beat is beat:
             return previous.camera, previous.focus
         if intent == "establish":
+            if previous and previous.beat is beat and previous.camera == "establishing":
+                return ("two_shot" if beat.partner else "medium"), subject
             return "establishing", subject
         if intent in ("approach", "pursue", "depart"):
             return "follow", subject
@@ -384,6 +386,8 @@ def _coverage(beat, start, total, previous, *, intent=None, focus=None, hold=Fal
             return ("object_reveal" if beat.signal or beat.dressing or beat.interaction
                     else "reaction"), subject
         if intent == "react":
+            if previous and previous.camera == "reaction" and previous.focus == subject:
+                return "medium", subject
             return "reaction", subject
         if intent == "wait":
             return ("medium" if previous and previous.camera == "atmospheric_close"

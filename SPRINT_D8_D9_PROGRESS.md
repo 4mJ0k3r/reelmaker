@@ -100,3 +100,14 @@ An oversized security-test parameter initially exceeded the OS environment
 argument limit before reaching the CLI. A short explicit pytest case ID fixes
 the harness without relaxing the 1 MiB input test. Its failed raw log is retained
 compressed; 37 security/direction/operator cases pass after correction.
+
+D9.2: the single focused final-demo refinement is fully encoded/verified and
+no-clobber checked through the clean operator CLI (seven additional commands).
+All final decoded mobile shot rows were inspected. Shared arrival/bank views,
+environmental wait and explicit Mira blackout focus fix actual cropped-partner
+and reaction-readability defects. Discovery/pacing examples received matching
+source-only coverage corrections. Actual encoded before/after sheets are saved.
+Finite direction now varies redundant same-beat wides and same-subject reactions;
+explicit holds and authored repetition remain supported. Submitter rubric scores
+include 3s for motion, facial range, rhythm, clarity/coherence and polish; final
+artistic approval is pending, not inferred from tests. No rig redesign.

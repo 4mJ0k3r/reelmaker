@@ -26,8 +26,7 @@
   "shots": [
     {
       "id": "listen",
-      "camera": "auto",
-      "intent": "observe"
+      "camera": "two_shot"
     },
     {
       "id": "bram_reacts",

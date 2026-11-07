@@ -19,7 +19,7 @@
         "actor": "mechanic_01",
         "action": "react",
         "expression": "surprised",
-        "stage_x": 170,
+        "stage_x": 205,
         "facing": "left",
         "delay_frames": 90
       }
