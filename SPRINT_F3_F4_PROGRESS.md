@@ -59,3 +59,10 @@ grounded paired signal cue. The caption still starts at 1530. The authored
 plan validates, repeats byte for byte, and the F3 selection passed 40 tests.
 Six historical plans and 36 sampled Cairo frames still match archived
 digests. Catalog validation found 77 components and no generated drift.
+
+## F4.1 operator worksheet
+
+Added a private WAV, supplied script and authored timing worksheet with an
+explicit 20-shot map and the admitted synthetic example. No human take was
+supplied. Registration, preflight, production and verification continue
+through the existing F1 audio path.

@@ -224,3 +224,14 @@ clear only during bounded observation. The bounded optional engineering trace:
 Exit 3 means delayed recurrence detected even if the MP4 is valid. The observer
 never deletes recreated names. The target VM and real offline-gallery browser
 interaction must be qualified independently when those environments are available.
+
+## Refined Empty Town workflow
+
+The [narration worksheet](SPRINT_F3_F4_NARRATION_WORKSHEET.md) maps the
+60-second reference edit to user-supplied script timestamps. The example
+requires the separately registered synthetic timing fixture. Its
+`relief_recognize` cue adds a staggered arm lift to the stationary, lit-ending
+relief setup. Use `signal_two_shot` for explicit shared coverage of both
+performers and the lamp during a grounded cue. Identical hold shots can span
+the signal edge with the same framing. Existing camera and cue selections
+retain their previous behavior.
