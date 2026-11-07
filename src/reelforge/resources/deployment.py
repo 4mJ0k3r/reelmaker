@@ -124,10 +124,15 @@ def check_workspace(
         )
     if write_probe:
         path = None
+        fd = None
+        identity = None
         try:
             fd, name = tempfile.mkstemp(prefix=".reelforge-write-check-", dir=workspace)
             path = Path(name)
-            with os.fdopen(fd, "wb") as handle:
+            info = os.fstat(fd)
+            identity = info.st_dev, info.st_ino
+            # Retain the inode until pathname cleanup, just as owned directories do.
+            with os.fdopen(fd, "wb", closefd=False) as handle:
                 handle.write(b"reelforge-deployment-check\n")
                 handle.flush()
                 os.fsync(handle.fileno())
@@ -136,8 +141,20 @@ def check_workspace(
                 "WORKSPACE_WRITE", "Workspace must permit ordinary-user writes/fsync"
             ) from error
         finally:
-            if path is not None:
-                path.unlink(missing_ok=True)
+            try:
+                if path is not None:
+                    try:
+                        info = path.lstat()
+                    except FileNotFoundError:
+                        pass
+                    else:
+                        if identity != (info.st_dev, info.st_ino):
+                            raise OperationError("WORKSPACE_IDENTITY",
+                                f"Write probe replaced; foreign path preserved: {path}")
+                        path.unlink()
+            finally:
+                if fd is not None:
+                    os.close(fd)
     return {
         "path": str(workspace),
         "free_bytes": usage.free,

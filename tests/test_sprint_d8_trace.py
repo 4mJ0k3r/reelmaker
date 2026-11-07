@@ -43,3 +43,18 @@ def test_trace_is_bounded_and_rejects_unbounded_configuration():
     assert len(trace.events) == 2 and trace.dropped == 8
     with pytest.raises(ValueError):
         LifecycleTrace(100000)
+
+
+def test_isolated_transactions_contend_without_clobbering(tmp_path):
+    first = OwnedDirectory(tmp_path, '.job-')
+    second = OwnedDirectory(tmp_path, '.job-')
+    assert first.path != second.path
+    (first.path / 'payload').write_bytes(b'first')
+    (second.path / 'payload').write_bytes(b'second')
+    target = tmp_path / 'finished'
+    first.publish_as(target)
+    with pytest.raises(OperationError) as error:
+        second.publish_as(target)
+    assert error.value.code == 'OUTPUT_EXISTS'
+    second.cleanup()
+    assert (target / 'payload').read_bytes() == b'first'

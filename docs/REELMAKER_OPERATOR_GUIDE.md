@@ -153,7 +153,7 @@ Enum errors list valid alternatives; validate again after correction.
 | AUDIO_ASSET / AUDIO_CHANGED / CINEMATIC_ENGINE registry_validation | Restore pinned WAV/registry or register a new legitimate ID |
 | NATIVE_DEPENDENCY / TOOL_UNAVAILABLE | Provision the documented pinned runtime |
 | REEL_CANCELLED / PRODUCTION_CANCELLED / CANCELLED | Treat as cancellation; preserve prior completed outputs |
-| CINEMATIC_OWNERSHIP / TRANSACTION_IDENTITY / TRANSACTION_PRESERVED | Stop and investigate the reported preserved work; never delete by prefix |
+| CINEMATIC_OWNERSHIP / WORKSPACE_IDENTITY / TRANSACTION_IDENTITY / TRANSACTION_PRESERVED | Stop and investigate the reported preserved work; never delete by prefix |
 | CINEMATIC_INTEGRITY / CINEMATIC_DECODE | Treat the package as rejected; preserve evidence |
 
 SIGINT/SIGTERM set cooperative cancellation through the existing process

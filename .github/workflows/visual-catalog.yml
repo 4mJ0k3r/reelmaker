@@ -40,6 +40,8 @@ jobs:
           python -m pytest -q tests/test_cinematic_project.py tests/test_cinematic_transaction.py
           tests/test_sprint_d_motion.py tests/test_sprint_d_staging.py tests/test_sprint_d_camera.py
           tests/test_sprint_d_worlds.py
+          tests/test_sprint_d8_direction.py tests/test_sprint_d8_pacing.py
+          tests/test_sprint_d8_operator.py tests/test_sprint_d8_trace.py tests/test_sprint_d9_security.py
           -k "not caption_outlines and not native_audio_registry"
 
   native:
@@ -60,3 +62,6 @@ jobs:
           tests/test_encoder_cleanup.py tests/test_sprint_b1.py
           tests/test_sprint_d_motion.py tests/test_sprint_d_staging.py tests/test_sprint_d_camera.py
           tests/test_sprint_d_worlds.py
+          tests/test_sprint_d8_direction.py tests/test_sprint_d8_pacing.py
+          tests/test_sprint_d8_operator.py tests/test_sprint_d8_trace.py
+          tests/test_sprint_d8_native_faults.py tests/test_sprint_d9_security.py

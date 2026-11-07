@@ -111,3 +111,11 @@ Finite direction now varies redundant same-beat wides and same-subject reactions
 explicit holds and authored repetition remain supported. Submitter rubric scores
 include 3s for motion, facial range, rhythm, clarity/coherence and polish; final
 artistic approval is pending, not inferred from tests. No rig redesign.
+
+D9.4 security hardening: source inspection identified the legacy workspace
+write probe's unconditional pathname unlink. It now retains its original fd
+through removal, compares device/inode, and preserves a replacement with
+WORKSPACE_IDENTITY. The new real-fsync substitution test plus operator/security
+selection passes (28 cases). No numeric/security/resource assertion was weakened.
+The full-suite capture is being completed with JUnit evidence; final qualification
+will use the post-hardening source and a fresh-tree native smoke check.
