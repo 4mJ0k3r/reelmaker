@@ -5,7 +5,7 @@ Approved baseline commit `ee1787c3fa322a88ca77c1c5bb6b0032a371f89b`, tree `2b082
 | Stage | Status |
 | --- | --- |
 | E1 | Checkpointed. Workspace recurrence reproduced, alternate bounded run clear, attribution unresolved. |
-| E2 | Pending |
+| E2 | Checkpointed. Review-host checks passed. TARGET_VM_NOT_TESTED. |
 | E3 | Pending |
 | E4 | Pending |
 | E5 | Pending |
