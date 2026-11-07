@@ -15,6 +15,10 @@ exclusive. Shots stay on the 90-frame grid. Captions can use finer authored
 intervals and must be sorted, non-overlapping, and at most two 32-character
 ASCII lines each. Check reading duration and mobile layout.
 
+| Source time in/out | Supplied script excerpt | Mark precision | Film time and frames | Beat and action | World and camera | Approved caption | Audio start frame |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Fill from the private take | Copy approved words | Approximate or measured | Author both clocks | Select admitted values | Select admitted values | Copy approved text | Fill once per take |
+
 Audio starts once. If a source line starts at source frame 120, the take
 is trimmed from source frame 30, and the audio starts at film frame 15,
 the line lands at film frame 105, or 3.500 s. Each film frame is exactly

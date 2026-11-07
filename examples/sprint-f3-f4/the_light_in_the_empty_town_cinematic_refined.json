@@ -299,7 +299,7 @@
     {
       "start": 0,
       "end": 180,
-      "style": "subtitle",
+      "style": "chapter",
       "lines": [
         "They took the forest road."
       ]
@@ -323,7 +323,7 @@
     {
       "start": 360,
       "end": 450,
-      "style": "subtitle",
+      "style": "chapter",
       "lines": [
         "The creek crossed their route."
       ]
@@ -355,7 +355,7 @@
     {
       "start": 720,
       "end": 810,
-      "style": "subtitle",
+      "style": "chapter",
       "lines": [
         "The village stood silent."
       ]
@@ -403,7 +403,7 @@
     {
       "start": 1260,
       "end": 1440,
-      "style": "subtitle",
+      "style": "chapter",
       "lines": [
         "They decided to wait."
       ]

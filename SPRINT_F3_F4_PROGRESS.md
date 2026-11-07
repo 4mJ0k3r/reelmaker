@@ -66,3 +66,19 @@ Added a private WAV, supplied script and authored timing worksheet with an
 explicit 20-shot map and the admitted synthetic example. No human take was
 supplied. Registration, preflight, production and verification continue
 through the existing F1 audio path.
+
+## F4.2 decoded correction
+
+The first complete decode confirmed the 1,800 frames, 18 caption clocks,
+lamp edge and sample clock. It also showed the lower caption band crossing
+faces in the forest, creek, village and wait wides at frames 45, 405, 765
+and 1305. Native preview confirmed the existing upper chapter layout
+cleared those actors, so four caption styles changed. The timing, wording
+and lamp reveal remain fixed. The only corrective full render uses a
+fresh destination and preserves the first pass.
+
+The full regression exposed stale gallery metadata for the additional
+staged camera. Regenerated the JSON and embedded HTML metadata from
+the current catalog and existing preview references. The camera list is
+the only gallery change. The focused gallery retest passed 10 and the
+corrected manifest, motion and operator retest passed 18.
