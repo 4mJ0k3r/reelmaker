@@ -160,3 +160,60 @@ def test_episode_adapter_propagates_errors_at_any_render_frame(monkeypatch, tmp_
         workflow.render_episode_slice(
             workflow.EpisodeSlice(project, 0, 180), tmp_path, registry_root=REGISTRY, cancelled=None
         )
+
+
+def test_package_allowlist_excludes_native_staging(tmp_path):
+    source = tmp_path / "native"
+    source.mkdir()
+    for name in ("report.json", "reel.mp4", ".stray-staging"):
+        (source / name).write_text(name)
+    destination = tmp_path / "package"
+    workflow._collect_engine(source, destination, {})
+    assert {p.name for p in destination.iterdir()} == {"report.json", "reel.mp4"}
+    assert (source / ".stray-staging").read_text() == ".stray-staging"
+
+
+@pytest.mark.parametrize("damage", ["missing", "corrupt"])
+def test_native_audio_registry_damage_refuses_publication(damage):
+    import shutil
+    import tempfile
+
+    from reelforge.cinematic_projects.contract import compile_project
+    from reelforge.contracts.project import load_project
+
+    if not shutil.which("ffmpeg") or not shutil.which("ffprobe"):
+        pytest.skip("FFmpeg and ffprobe are required")
+    request = load_project(REQUEST)
+    request["audio"] = {
+        "sample_rate": 48000,
+        "channels": 2,
+        "codec": "aac",
+        "bitrate": 128000,
+        "narration": None,
+        "cues": [
+            {
+                "asset_id": "diag_fence",
+                "start_frame": 87,
+                "trim_start_frame": 0,
+                "trim_end_frame": 10,
+                "gain": 0.25,
+            }
+        ],
+    }
+    with tempfile.TemporaryDirectory(prefix="cinematic-audio-test-", dir=ROOT / "outputs") as tmp:
+        root = Path(tmp)
+        registry = root / "registry"
+        shutil.copytree(REGISTRY, registry)
+        project = compile_project(request, registry)
+        audio = registry / "diag_fence.wav"
+        if damage == "missing":
+            audio.unlink()
+        else:
+            with audio.open("r+b") as handle:
+                handle.seek(100)
+                sample = handle.read(1)
+                handle.seek(100)
+                handle.write(bytes([sample[0] ^ 1]))
+        with pytest.raises(OperationError, match="registry_validation"):
+            workflow.render_project(project, root / "final", registry_root=registry)
+        assert list(root.iterdir()) == [registry]

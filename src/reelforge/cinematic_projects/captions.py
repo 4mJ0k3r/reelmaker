@@ -12,6 +12,19 @@ STYLES = {
 }
 
 
+def fits_mobile_width(style, line):
+    """Conservative DejaVu Sans Bold advances at the minimum mobile text size."""
+
+    def advance(char):
+        if char in "mMwW&":
+            return 1.15
+        if char.isupper():
+            return 0.95
+        return 0.74 if char.isalnum() else 0.55
+
+    return 11 * sum(map(advance, line)) <= STYLES[style][2] - 30
+
+
 def caption_paths(caption):
     import cairo
 

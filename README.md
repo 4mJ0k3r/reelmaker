@@ -16,7 +16,8 @@ request -> planner (src/reelforge/mvp) -> production manifest -> contract valida
 | `QUICK_START.md` | five-step walkthrough |
 | `AGENTS.md` | operating instructions for AI agents |
 | `docs/AGENT_CAPABILITIES.md` | exactly what can be requested |
-| `docs/AUDIO_WORKFLOW.md` | audio status (one-command output is silent) |
+| `docs/AUDIO_WORKFLOW.md` | registered audio workflow for legacy entry points |
+| [Structured cinematic projects](docs/CINEMATIC_PROJECTS.md) | JSON projects, timed captions, registered audio, and verified reel packages |
 | `run_reel.py` | the one-command entry point (`--help`) |
 | `setup.sh` / `setup.ps1` | first-run environment setup (Linux/WSL, Windows) |
 

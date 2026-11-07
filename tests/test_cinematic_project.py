@@ -178,3 +178,11 @@ def test_offline_gallery_exposes_real_cinematic_examples():
     assert {x["seconds"] for x in published["examples"]} >= {6, 15, 30, 60}
     for example in published["examples"]:
         assert (gallery / example["request"]).is_file()
+
+
+def test_overwide_ascii_caption_fails_during_native_free_admission(request_data):
+    request_data["captions"] = [
+        {"start": 0, "end": 80, "style": "lower_third", "lines": ["W" * 32]}
+    ]
+    with pytest.raises(InputError, match="mobile-safe"):
+        compile_project(request_data, REGISTRY)

@@ -157,8 +157,12 @@ def _verify_pts(path: Path, frames: int, cancelled: Event) -> dict:
 
 
 def render_production(
-    plan: Production, output_dir: Path, *, registry_root: Path,
-    cancelled: Event | None = None, episode_renderer=None
+    plan: Production,
+    output_dir: Path,
+    *,
+    registry_root: Path,
+    cancelled: Event | None = None,
+    episode_renderer=None,
 ) -> dict:
     cancellation = cancelled if cancelled is not None else Event()
     render_chunk = render_episode if episode_renderer is None else episode_renderer

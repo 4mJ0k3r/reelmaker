@@ -56,17 +56,26 @@ class OwnedDirectory:
         parent_fd = os.open(self.path.parent, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
         try:
             source = os.stat(self.path.name, dir_fd=parent_fd, follow_symlinks=False)
-            if (self._key(os.fstat(parent_fd)) != self._parent_identity
-                    or self._key(source) != self._identity or not stat.S_ISDIR(source.st_mode)):
+            if (
+                self._key(os.fstat(parent_fd)) != self._parent_identity
+                or self._key(source) != self._identity
+                or not stat.S_ISDIR(source.st_mode)
+            ):
                 raise OperationError("TRANSACTION_IDENTITY", "Private directory identity changed")
             rename = getattr(ctypes.CDLL(None, use_errno=True), "renameat2", None)
             if rename is None:
                 raise OperationError("TRANSACTION_PLATFORM", "Linux renameat2 is required")
-            rename.argtypes = (ctypes.c_int, ctypes.c_char_p, ctypes.c_int,
-                               ctypes.c_char_p, ctypes.c_uint)
+            rename.argtypes = (
+                ctypes.c_int,
+                ctypes.c_char_p,
+                ctypes.c_int,
+                ctypes.c_char_p,
+                ctypes.c_uint,
+            )
             rename.restype = ctypes.c_int
-            if rename(parent_fd, os.fsencode(self.path.name), parent_fd,
-                      os.fsencode(destination.name), 1):
+            if rename(
+                parent_fd, os.fsencode(self.path.name), parent_fd, os.fsencode(destination.name), 1
+            ):
                 error = ctypes.get_errno()
                 if error in (errno.EEXIST, errno.ENOTEMPTY):
                     raise OperationError("OUTPUT_EXISTS", "Choose a new output directory")

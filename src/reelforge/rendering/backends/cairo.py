@@ -4,7 +4,7 @@ import hashlib
 import sys
 from pathlib import Path
 from threading import Event
-from typing import Self
+from typing import BinaryIO, Self
 
 import cairo
 
@@ -99,8 +99,8 @@ class _OwnedSurface:
         finally:
             view.release()
 
-    def write_png(self, path: Path) -> None:
-        self._open().write_to_png(str(path))
+    def write_png(self, path: Path | BinaryIO) -> None:
+        self._open().write_to_png(str(path) if isinstance(path, Path) else path)
 
     def write_opaque_bgra(self, fd: int, *, deadline: float, cancelled: Event | None = None) -> int:
         native = self._open()

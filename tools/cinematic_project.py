@@ -3,8 +3,10 @@
 
 import argparse
 import json
+import signal
 import sys
 from pathlib import Path
+from threading import Event
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
@@ -34,6 +36,10 @@ def main():
     verify = commands.add_parser("verify")
     verify.add_argument("directory", type=Path)
     args = parser.parse_args()
+    cancellation = Event()
+    if args.command in ("render", "verify"):
+        signal.signal(signal.SIGTERM, lambda *_: cancellation.set())
+        signal.signal(signal.SIGINT, lambda *_: cancellation.set())
     try:
         if args.command == "schema":
             result = project_schema()
@@ -42,12 +48,16 @@ def main():
         elif args.command == "verify":
             from reelforge.cinematic_projects.workflow import verify_project
 
-            result = verify_project(args.directory, registry_root=args.registry)
+            result = verify_project(
+                args.directory, registry_root=args.registry, cancelled=cancellation
+            )
         elif args.command == "render":
             from reelforge.cinematic_projects.workflow import render_project
 
             project = load_cinematic_project(args.request, args.registry)
-            report = render_project(project, args.directory, registry_root=args.registry)
+            report = render_project(
+                project, args.directory, registry_root=args.registry, cancelled=cancellation
+            )
             result = {k: report[k] for k in ("success", "frames", "plan_sha256", "video_sha256")}
             result["output"] = str(args.directory)
         elif args.command == "frame":
@@ -69,7 +79,7 @@ def main():
                         logical_size=(360, 640),
                     )
                     with args.png.open("xb") as handle:
-                        surface._open().write_to_png(handle)
+                        surface.write_png(handle)
         else:
             plan = load_cinematic_project(args.request, args.registry).timeline()
             result = (

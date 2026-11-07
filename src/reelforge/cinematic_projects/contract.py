@@ -26,6 +26,7 @@ from reelforge.visual_library.composition.interactions import (
 )
 from reelforge.visual_library.composition.living_worlds import WORLD_KITS, node, world_manifest
 
+from .captions import fits_mobile_width
 from .schema import (
     CAMERAS,
     CAPTION_LINE,
@@ -301,6 +302,8 @@ def compile_project(data, registry_root: Path):
             fail(f"/captions/{i}", "Use sorted, non-overlapping integer spans within the project")
         if any(not line.strip() or not re.fullmatch(CAPTION_LINE, line) for line in raw["lines"]):
             fail(f"/captions/{i}/lines", "Use nonblank supported ASCII text")
+        if any(not fits_mobile_width(raw["style"], line) for line in raw["lines"]):
+            fail(f"/captions/{i}/lines", "Split wide text into shorter mobile-safe lines")
         captions.append(Caption(start, raw["end"], raw["style"], tuple(raw["lines"])))
         end = raw["end"]
     if data["audio"] is not None and len(shots) > CHUNK_SHOTS:

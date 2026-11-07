@@ -116,6 +116,20 @@ def _engine(project, stage, registry_root, cancellation):
     )
 
 
+def _collect_engine(source, stage, engine):
+    """Link only the delivered evidence. The native staging tree is never published."""
+    paths = [Path("report.json"), Path("reel.mp4")]
+    for chunk in engine.get("chunk_reports", ()):
+        root = Path("chunks") / f"chunk_{chunk['index']:02d}"
+        paths.extend((root / "report.json", root / "reel.mp4"))
+    for relative in paths:
+        origin, target = source / relative, stage / relative
+        if origin.is_symlink() or not origin.is_file():
+            raise OperationError("CINEMATIC_PACKAGE", f"Missing verified engine file {relative}")
+        target.parent.mkdir(parents=True, exist_ok=True)
+        os.link(origin, target, follow_symlinks=False)
+
+
 def render_project(project, output, *, registry_root, cancelled=None):
     """Publish only a complete verified directory. An occupied target is never replaced."""
     started = time.perf_counter()
@@ -130,11 +144,13 @@ def render_project(project, output, *, registry_root, cancelled=None):
     check_workspace(output.parent)
     owner = OwnedDirectory(output.parent, ".reelforge-cinematic-")
     committed = False
+    work = None
     try:
         stage = owner.path
         plan = project.timeline()
         with JobMonitor(workspace=stage, cancelled=cancellation) as monitor:
-            engine = _engine(project, stage, registry_root, cancellation)
+            work = OwnedDirectory(output.parent, ".reelforge-cinematic-work-")
+            engine = _engine(project, work.path, registry_root, cancellation)
             if not engine["success"]:
                 detail = (
                     engine.get("error")
@@ -142,6 +158,9 @@ def render_project(project, output, *, registry_root, cancelled=None):
                     or engine.get("cleanup_error")
                 )
                 raise OperationError("CINEMATIC_ENGINE", f"Verified media unavailable: {detail}")
+            _collect_engine(work.path / "engine", stage / "engine", engine)
+            work.cleanup()
+            work = None
             video = stage / "reel.mp4"
             os.link(stage / "engine/reel.mp4", video)
             streams = engine.get("streams")
@@ -189,11 +208,15 @@ def render_project(project, output, *, registry_root, cancelled=None):
         committed = True
         return report
     finally:
-        if not committed:
-            owner.cleanup()
+        try:
+            if work is not None:
+                work.cleanup()
+        finally:
+            if not committed:
+                owner.cleanup()
 
 
-def verify_project(directory, *, registry_root):
+def verify_project(directory, *, registry_root, cancelled=None):
     """Recompile the snapshot and independently decode the delivered MP4."""
     project = load_cinematic_project(directory / "project.json", registry_root)
     timeline = project.timeline()
@@ -202,26 +225,37 @@ def verify_project(directory, *, registry_root):
     report = load_project(directory / "report.json")
     video = directory / "reel.mp4"
     if (
-        report.get("success") is not True
+        not isinstance(report, dict)
+        or report.get("success") is not True
         or report.get("plan_sha256") != timeline["plan_sha256"]
         or report.get("video_sha256") != digest(video)
     ):
         raise OperationError("CINEMATIC_INTEGRITY", "Plan or MP4 identity differs from report")
-    cancellation = Event()
+    cancellation = cancelled if cancelled is not None else Event()
+    cancelled_check(cancellation)
     with JobMonitor(workspace=directory, cancelled=cancellation) as monitor:
         streams = stream_check(video, cancellation, project.frames, silent=project.silent)
         hashes = _full_decode_hashes(video, project.frames, cancellation)
         if len(hashes) != project.frames:
             raise OperationError("CINEMATIC_DECODE", "Decoded frame count differs")
         sequence = hashlib.sha256("".join(hashes).encode()).hexdigest()
-        recorded = report["verification"]
-        if (
-            "decoded_rgb_sha256" in recorded
-            and hashes != recorded["decoded_rgb_sha256"]
-            or "decoded_sequence_sha256" in recorded
-            and sequence != recorded["decoded_sequence_sha256"]
+        recorded = report.get("verification", {})
+        if not isinstance(recorded, dict) or not (
+            hashes == recorded.get("decoded_rgb_sha256")
+            or sequence == recorded.get("decoded_sequence_sha256")
         ):
             raise OperationError("CINEMATIC_INTEGRITY", "Decoded video differs from recorded media")
+        assembly_matches = None
+        if len(project.shots) > CHUNK_SHOTS:
+            chunk_limit = CHUNK_SHOTS * SHOT_FRAMES
+            chunk_hashes = []
+            for index, start in enumerate(range(0, project.frames, chunk_limit)):
+                chunk = directory / "engine" / "chunks" / f"chunk_{index:02d}" / "reel.mp4"
+                count = min(chunk_limit, project.frames - start)
+                chunk_hashes.extend(_full_decode_hashes(chunk, count, cancellation))
+            if chunk_hashes != hashes:
+                raise OperationError("CINEMATIC_ASSEMBLY", "Decoded chunk sequence differs")
+            assembly_matches = True
         faststart_boxes(video)
         black = black_frames(video, cancellation)
     if (
@@ -229,11 +263,13 @@ def verify_project(directory, *, registry_root):
         or memory_observability(monitor.initial, monitor.final)["oom_events_changed"]
     ):
         raise OperationError("CINEMATIC_RESOURCE", "OOM telemetry refused verification")
+    cancelled_check(cancellation)
     return {
         "verified": True,
         "frames": len(hashes),
         "streams": streams,
         "decoded_sequence_sha256": sequence,
+        "assembly_frame_hash_match": assembly_matches,
         "black_frame_check": black,
         "plan_sha256": timeline["plan_sha256"],
         "video_sha256": digest(video),

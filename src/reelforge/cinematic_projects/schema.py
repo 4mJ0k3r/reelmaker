@@ -10,6 +10,8 @@ from reelforge.visual_library.composition.interactions import INTERACTIONS
 from reelforge.visual_library.composition.living_worlds import WORLD_KITS
 from reelforge.visual_library.living_assets import EFFECTS
 
+from .captions import STYLES
+
 VERSION = "cinematic-project-0.1"
 EFFECT_IDS = (*EFFECTS, "ground_mist_01")
 SIGNAL = "streetlamp_01"
@@ -27,7 +29,7 @@ CAMERAS = (
     "follow",
     "atmospheric_close",
 )
-CAPTION_STYLES = ("subtitle", "chapter", "lower_third")
+CAPTION_STYLES = tuple(STYLES)
 CAPTION_LINE = r"[A-Za-z0-9 .,!?':&()\-]{1,32}"
 TITLE = r"^[A-Za-z0-9][A-Za-z0-9 .,!?':&()\-]{0,119}$"
 ID = {"type": "string", "pattern": "^[a-z][a-z0-9_]{0,47}$"}
