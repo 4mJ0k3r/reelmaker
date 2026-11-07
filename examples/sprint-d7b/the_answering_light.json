@@ -1,0 +1,170 @@
+{
+  "schema_version": "cinematic-project-0.2",
+  "title": "The Answering Light",
+  "beats": [
+    {
+      "id": "lost_in_the_ravine",
+      "start": 0,
+      "end": 180,
+      "actor": "scout_01",
+      "world": "forest_ravine",
+      "mood": "night",
+      "action": "walk_to_stop",
+      "stage_x": 95,
+      "expression": "concerned",
+      "signal": "unlit"
+    },
+    {
+      "id": "nothing_answers",
+      "start": 180,
+      "end": 270,
+      "actor": "scout_01",
+      "world": "forest_ravine",
+      "mood": "night",
+      "action": "idle_to_notice",
+      "stage_x": 123,
+      "expression": "concerned",
+      "signal": "unlit"
+    },
+    {
+      "id": "leave_the_dark_bank",
+      "start": 270,
+      "end": 360,
+      "actor": "scout_01",
+      "world": "forest_ravine",
+      "mood": "night",
+      "action": "idle_to_walk",
+      "stage_x": 123,
+      "expression": "determined"
+    },
+    {
+      "id": "shelter_on_the_rise",
+      "start": 360,
+      "end": 450,
+      "actor": "scout_01",
+      "world": "abandoned_outpost",
+      "mood": "storm",
+      "action": "walk_to_stop",
+      "stage_x": 109,
+      "expression": "concerned",
+      "signal": "unlit"
+    },
+    {
+      "id": "someone_was_waiting",
+      "start": 450,
+      "end": 810,
+      "actor": "scout_01",
+      "world": "abandoned_outpost",
+      "mood": "storm",
+      "action": "idle",
+      "stage_x": 137,
+      "expression": "concerned",
+      "signal": "lit",
+      "cue_frame": 180,
+      "partner": {
+        "actor": "mechanic_01",
+        "action": "idle_to_notice",
+        "expression": "concerned",
+        "stage_x": 190,
+        "facing": "left",
+        "delay_frames": 45
+      }
+    },
+    {
+      "id": "no_longer_alone",
+      "start": 810,
+      "end": 900,
+      "actor": "scout_01",
+      "world": "abandoned_outpost",
+      "mood": "storm",
+      "action": "react_to_idle",
+      "stage_x": 137,
+      "expression": "happy",
+      "signal": "lit",
+      "partner": {
+        "actor": "mechanic_01",
+        "action": "react_to_idle",
+        "expression": "happy",
+        "stage_x": 190,
+        "facing": "right"
+      }
+    }
+  ],
+  "shots": [
+    {
+      "id": "ravine_after_dark",
+      "camera": "establishing",
+      "motion": "pan"
+    },
+    {
+      "id": "mira_stops_to_listen",
+      "camera": "follow",
+      "motion": "push_in"
+    },
+    {
+      "id": "the_dead_lamp",
+      "camera": "object_reveal",
+      "motion": "hold"
+    },
+    {
+      "id": "choose_the_upper_path",
+      "camera": "follow",
+      "motion": "track"
+    },
+    {
+      "id": "outpost_in_the_rain",
+      "camera": "establishing",
+      "motion": "pan"
+    },
+    {
+      "id": "bram_in_the_rain",
+      "camera": "reaction",
+      "motion": "reframe",
+      "focus": "partner"
+    },
+    {
+      "id": "mira_recognizes_bram",
+      "camera": "reaction",
+      "motion": "push_in"
+    },
+    {
+      "id": "the_lamp_returns",
+      "camera": "object_reveal",
+      "motion": "hold"
+    },
+    {
+      "id": "they_watch_the_answer",
+      "camera": "two_shot",
+      "motion": "pullback"
+    },
+    {
+      "id": "shelter_together",
+      "camera": "two_shot",
+      "motion": "hold"
+    }
+  ],
+  "captions": [],
+  "audio": {
+    "sample_rate": 48000,
+    "channels": 2,
+    "codec": "aac",
+    "bitrate": 128000,
+    "narration": null,
+    "cues": [
+      {
+        "asset_id": "diag_suspense",
+        "start_frame": 180,
+        "trim_start_frame": 0,
+        "trim_end_frame": 45,
+        "gain": 0.18
+      },
+      {
+        "asset_id": "diag_fence",
+        "start_frame": 630,
+        "trim_start_frame": 0,
+        "trim_end_frame": 12,
+        "gain": 0.25
+      }
+    ]
+  }
+}
