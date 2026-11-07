@@ -77,3 +77,16 @@ D7B comparison are documented in docs/SPRINT_D8_RESOURCE_QUALIFICATION.md.
 Next: fresh-checkout operator acceptance (invalid correction, no-clobber,
 controlled failure recovery), final current-interface 30s demonstration, then
 full security/regression/gallery qualification and final archive.
+
+D8.6 checkpoint: 10d1b85. Operator guide/quickstart and final task checkpoint:
+93fc500. D9.1: clean cached-wheel install and three fresh input workflows passed
+20 documented CLI invocations: 15s production, structured-invalid correction,
+no-clobber hash preservation, registered-WAV failure/restoration with 30s AAC
+production, and approved 60s full decode/chunk re-verification. No engine edits
+were needed in the operator checkout. See operator acceptance and command log.
+D9.2: decoded review found partial non-focal partners in arrival/wait/bank shots;
+a single source-level coverage refinement is underway, preserving first media.
+D9.3 docs/gallery are updated; browser interaction is NOT TESTED (no local
+browser/Playwright). Static checks resolve 175 references and preserve all 77
+historical component metadata records. Full regression/security/restore gates
+and final qualification remain pending. No GitHub mutations.
