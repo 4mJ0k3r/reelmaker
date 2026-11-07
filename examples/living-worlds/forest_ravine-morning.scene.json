@@ -1,0 +1,244 @@
+{
+  "schema_version": "scene-0.1",
+  "title": "Forest Ravine \u2014 morning",
+  "camera": "gentle_drift",
+  "output": {
+    "width": 720,
+    "height": 1280,
+    "fps": 30,
+    "frames": 90,
+    "codec": "h264",
+    "pixel_format": "yuv420p"
+  },
+  "art_direction": {
+    "warmth": 0.72,
+    "atmosphere": 0.35,
+    "breeze": 0.2
+  },
+  "nodes": [
+    {
+      "id": "root",
+      "kind": "root",
+      "parent": null,
+      "order": 0,
+      "visible": true,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "id": "sky_plane",
+      "kind": "layer",
+      "parent": "root",
+      "order": 0,
+      "visible": true,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation_degrees": 0
+      },
+      "depth": 0
+    },
+    {
+      "id": "distance",
+      "kind": "layer",
+      "parent": "root",
+      "order": 1,
+      "visible": true,
+      "transform": {
+        "x": 0.0,
+        "y": 0.0,
+        "scale": 1.0,
+        "rotation_degrees": 0
+      },
+      "depth": 0.18
+    },
+    {
+      "id": "terrain",
+      "kind": "layer",
+      "parent": "root",
+      "order": 2,
+      "visible": true,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation_degrees": 0
+      },
+      "depth": 1
+    },
+    {
+      "id": "midground",
+      "kind": "layer",
+      "parent": "root",
+      "order": 3,
+      "visible": true,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation_degrees": 0
+      },
+      "depth": 1
+    },
+    {
+      "id": "foreground",
+      "kind": "layer",
+      "parent": "root",
+      "order": 4,
+      "visible": true,
+      "transform": {
+        "x": 0.0,
+        "y": 0.0,
+        "scale": 1.0,
+        "rotation_degrees": 0
+      },
+      "depth": 1.4
+    },
+    {
+      "id": "sky",
+      "kind": "background",
+      "parent": "sky_plane",
+      "order": 0,
+      "visible": true,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation_degrees": 0
+      },
+      "asset_id": "forest_ravine_skyline_01",
+      "variant": "morning"
+    },
+    {
+      "id": "ground",
+      "kind": "environment",
+      "parent": "terrain",
+      "order": 0,
+      "visible": true,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation_degrees": 0
+      },
+      "asset_id": "forest_ravine_terrain_01",
+      "variant": "morning"
+    },
+    {
+      "id": "fir_left",
+      "kind": "asset",
+      "parent": "midground",
+      "order": 1,
+      "visible": true,
+      "transform": {
+        "x": 41,
+        "y": 515,
+        "scale": 0.87,
+        "rotation_degrees": 0
+      },
+      "asset_id": "pine_snow_01",
+      "variant": "pinnacle"
+    },
+    {
+      "id": "fir_right",
+      "kind": "asset",
+      "parent": "midground",
+      "order": 2,
+      "visible": true,
+      "transform": {
+        "x": 323,
+        "y": 499,
+        "scale": 1.05,
+        "rotation_degrees": 0
+      },
+      "asset_id": "pine_snow_01",
+      "variant": "windshear"
+    },
+    {
+      "id": "strata",
+      "kind": "asset",
+      "parent": "midground",
+      "order": 3,
+      "visible": true,
+      "transform": {
+        "x": 57,
+        "y": 544,
+        "scale": 1.4,
+        "rotation_degrees": 0
+      },
+      "asset_id": "rock_group_01",
+      "variant": "angular"
+    },
+    {
+      "id": "bough",
+      "kind": "asset",
+      "parent": "foreground",
+      "order": 2,
+      "visible": true,
+      "transform": {
+        "x": 367,
+        "y": 591,
+        "scale": 1.27,
+        "rotation_degrees": 0
+      },
+      "asset_id": "pine_snow_01",
+      "variant": "windshear"
+    },
+    {
+      "id": "shrub",
+      "kind": "asset",
+      "parent": "foreground",
+      "order": 3,
+      "visible": true,
+      "transform": {
+        "x": -2,
+        "y": 621,
+        "scale": 1.28,
+        "rotation_degrees": 0
+      },
+      "asset_id": "shrub_cluster_01",
+      "variant": "sparse"
+    },
+    {
+      "id": "leaves",
+      "kind": "asset",
+      "parent": "foreground",
+      "order": 5,
+      "visible": true,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation_degrees": 0
+      },
+      "asset_id": "wind_leaves_01",
+      "variant": "gentle"
+    },
+    {
+      "id": "actor",
+      "kind": "character",
+      "parent": "midground",
+      "order": 9,
+      "visible": true,
+      "transform": {
+        "x": 99,
+        "y": 581,
+        "scale": 0.78,
+        "rotation_degrees": 0
+      },
+      "asset_id": "scout_01",
+      "variant": "default",
+      "ground_id": "ground",
+      "character": {
+        "character": "scout_01",
+        "action": "idle",
+        "expression": "neutral"
+      }
+    }
+  ]
+}

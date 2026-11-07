@@ -1,0 +1,244 @@
+{
+  "schema_version": "scene-0.1",
+  "title": "Abandoned Outpost \u2014 storm",
+  "camera": "gentle_drift",
+  "output": {
+    "width": 720,
+    "height": 1280,
+    "fps": 30,
+    "frames": 90,
+    "codec": "h264",
+    "pixel_format": "yuv420p"
+  },
+  "art_direction": {
+    "warmth": 0.72,
+    "atmosphere": 0.35,
+    "breeze": 0.2
+  },
+  "nodes": [
+    {
+      "id": "root",
+      "kind": "root",
+      "parent": null,
+      "order": 0,
+      "visible": true,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "id": "sky_plane",
+      "kind": "layer",
+      "parent": "root",
+      "order": 0,
+      "visible": true,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation_degrees": 0
+      },
+      "depth": 0
+    },
+    {
+      "id": "distance",
+      "kind": "layer",
+      "parent": "root",
+      "order": 1,
+      "visible": true,
+      "transform": {
+        "x": 0.0,
+        "y": 0.0,
+        "scale": 1.0,
+        "rotation_degrees": 0
+      },
+      "depth": 0.18
+    },
+    {
+      "id": "terrain",
+      "kind": "layer",
+      "parent": "root",
+      "order": 2,
+      "visible": true,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation_degrees": 0
+      },
+      "depth": 1
+    },
+    {
+      "id": "midground",
+      "kind": "layer",
+      "parent": "root",
+      "order": 3,
+      "visible": true,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation_degrees": 0
+      },
+      "depth": 1
+    },
+    {
+      "id": "foreground",
+      "kind": "layer",
+      "parent": "root",
+      "order": 4,
+      "visible": true,
+      "transform": {
+        "x": 0.0,
+        "y": 0.0,
+        "scale": 1.0,
+        "rotation_degrees": 0
+      },
+      "depth": 1.4
+    },
+    {
+      "id": "sky",
+      "kind": "background",
+      "parent": "sky_plane",
+      "order": 0,
+      "visible": true,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation_degrees": 0
+      },
+      "asset_id": "abandoned_outpost_skyline_01",
+      "variant": "storm"
+    },
+    {
+      "id": "ground",
+      "kind": "environment",
+      "parent": "terrain",
+      "order": 0,
+      "visible": true,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation_degrees": 0
+      },
+      "asset_id": "abandoned_outpost_terrain_01",
+      "variant": "storm"
+    },
+    {
+      "id": "shelter",
+      "kind": "asset",
+      "parent": "midground",
+      "order": 3,
+      "visible": true,
+      "transform": {
+        "x": 246,
+        "y": 511,
+        "scale": 0.91,
+        "rotation_degrees": 0
+      },
+      "asset_id": "outpost_watch_shelter_01",
+      "variant": "storm"
+    },
+    {
+      "id": "streetlamp",
+      "kind": "asset",
+      "parent": "midground",
+      "order": 4,
+      "visible": true,
+      "transform": {
+        "x": 237,
+        "y": 546,
+        "scale": 0.85,
+        "rotation_degrees": 0
+      },
+      "asset_id": "streetlamp_01",
+      "variant": "lit"
+    },
+    {
+      "id": "fence",
+      "kind": "asset",
+      "parent": "midground",
+      "order": 2,
+      "visible": true,
+      "transform": {
+        "x": 65,
+        "y": 487,
+        "scale": 0.75,
+        "rotation_degrees": 0
+      },
+      "asset_id": "fence_01",
+      "variant": "default"
+    },
+    {
+      "id": "stone",
+      "kind": "asset",
+      "parent": "foreground",
+      "order": 1,
+      "visible": true,
+      "transform": {
+        "x": 361,
+        "y": 605,
+        "scale": 1.28,
+        "rotation_degrees": 0
+      },
+      "asset_id": "rock_group_01",
+      "variant": "angular"
+    },
+    {
+      "id": "scrub",
+      "kind": "asset",
+      "parent": "foreground",
+      "order": 2,
+      "visible": true,
+      "transform": {
+        "x": 15,
+        "y": 622,
+        "scale": 1.2,
+        "rotation_degrees": 0
+      },
+      "asset_id": "shrub_cluster_01",
+      "variant": "sparse"
+    },
+    {
+      "id": "rain",
+      "kind": "asset",
+      "parent": "foreground",
+      "order": 3,
+      "visible": true,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation_degrees": 0
+      },
+      "asset_id": "rain_field_01",
+      "variant": "steady"
+    },
+    {
+      "id": "actor",
+      "kind": "character",
+      "parent": "midground",
+      "order": 9,
+      "visible": true,
+      "transform": {
+        "x": 99,
+        "y": 581,
+        "scale": 0.78,
+        "rotation_degrees": 0
+      },
+      "asset_id": "scout_01",
+      "variant": "default",
+      "ground_id": "ground",
+      "character": {
+        "character": "scout_01",
+        "action": "idle",
+        "expression": "neutral"
+      }
+    }
+  ]
+}

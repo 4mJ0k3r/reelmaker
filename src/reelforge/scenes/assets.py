@@ -26,6 +26,7 @@ from reelforge.visual_library.nature.farm_tree import farm_tree
 
 from reelforge.visual_library.world_assets import WORLD_ASSETS, draw_world_asset
 
+from reelforge.visual_library import frontier_art
 from reelforge.visual_library.living_assets import EFFECTS, PROPS
 
 from .transforms import Placement
@@ -44,6 +45,13 @@ class Asset:
 
 
 ASSETS = (
+    *(Asset(f"{kit}_skyline_01", "background", moods, 48, 700, True)
+      for kit, moods in frontier_art.MOODS.items()),
+    *(Asset(f"{kit}_terrain_01", "environment", moods, 64, 800, True,
+            support_envelope=frontier_art.SUPPORT)
+      for kit, moods in frontier_art.MOODS.items()),
+    Asset("outpost_watch_shelter_01", "asset", frontier_art.MOODS["abandoned_outpost"],
+          64, 840, True),
     Asset("cinematic_dusk_sky_01", "background", ("default",), 8, 80, True),
     Asset("cinematic_dusk_hills_01", "background", ("rolling", "folded"), 4, 48, True),
     Asset(
@@ -170,7 +178,13 @@ def recipe(
     seconds: float,
     character: CharacterPreset | None,
 ) -> tuple[DrawPath, ...]:
-    if asset.id == "cinematic_dusk_sky_01":
+    if asset.id.endswith("_skyline_01") and asset.id.removesuffix("_skyline_01") in frontier_art.MOODS:
+        commands = frontier_art.skyline(asset.id.removesuffix("_skyline_01"), variant)
+    elif asset.id.endswith("_terrain_01") and asset.id.removesuffix("_terrain_01") in frontier_art.MOODS:
+        commands = frontier_art.terrain(asset.id.removesuffix("_terrain_01"), variant)
+    elif asset.id == "outpost_watch_shelter_01":
+        commands = frontier_art.watch_shelter(variant)
+    elif asset.id == "cinematic_dusk_sky_01":
         commands = dusk_sky(warmth, atmosphere)
     elif asset.id == "cinematic_dusk_hills_01":
         commands = dusk_hills(variant, atmosphere)

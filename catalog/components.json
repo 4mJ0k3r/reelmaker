@@ -10,6 +10,111 @@
           0
         ],
         "budget": {
+          "max_operations": 700,
+          "max_paths": 48
+        },
+        "scene_kind": "background",
+        "support_envelope": null,
+        "upright": true
+      },
+      "engine_capability": true,
+      "family": "nature",
+      "id": "abandoned_outpost_skyline_01",
+      "name": "Outpost skyline",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "daylight",
+            "sunset",
+            "storm"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/visual_library/frontier_art.py:skyline"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "daylight",
+        "sunset",
+        "storm"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "budget": {
+          "max_operations": 800,
+          "max_paths": 64
+        },
+        "scene_kind": "environment",
+        "support_envelope": [
+          -180,
+          535,
+          540,
+          790
+        ],
+        "upright": true
+      },
+      "engine_capability": true,
+      "family": "nature",
+      "id": "abandoned_outpost_terrain_01",
+      "name": "Outpost terrain",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "daylight",
+            "sunset",
+            "storm"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/visual_library/frontier_art.py:terrain"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "daylight",
+        "sunset",
+        "storm"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "budget": {
           "max_operations": 400,
           "max_paths": 24
         },
@@ -1262,6 +1367,111 @@
       ],
       "details": {
         "anchor": [
+          0,
+          0
+        ],
+        "budget": {
+          "max_operations": 700,
+          "max_paths": 48
+        },
+        "scene_kind": "background",
+        "support_envelope": null,
+        "upright": true
+      },
+      "engine_capability": true,
+      "family": "nature",
+      "id": "forest_ravine_skyline_01",
+      "name": "Ravine skyline",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "morning",
+            "misty",
+            "night"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/visual_library/frontier_art.py:skyline"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "morning",
+        "misty",
+        "night"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "budget": {
+          "max_operations": 800,
+          "max_paths": 64
+        },
+        "scene_kind": "environment",
+        "support_envelope": [
+          -180,
+          535,
+          540,
+          790
+        ],
+        "upright": true
+      },
+      "engine_capability": true,
+      "family": "nature",
+      "id": "forest_ravine_terrain_01",
+      "name": "Ravine terrain",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "morning",
+            "misty",
+            "night"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/visual_library/frontier_art.py:terrain"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "morning",
+        "misty",
+        "night"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
           180,
           640
         ],
@@ -2039,6 +2249,56 @@
         "lean",
         "compact",
         "windswept"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "budget": {
+          "max_operations": 840,
+          "max_paths": 64
+        },
+        "scene_kind": "asset",
+        "support_envelope": null,
+        "upright": true
+      },
+      "engine_capability": true,
+      "family": "architecture",
+      "id": "outpost_watch_shelter_01",
+      "name": "Outpost watch shelter",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "daylight",
+            "sunset",
+            "storm"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/visual_library/frontier_art.py:watch_shelter"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "daylight",
+        "sunset",
+        "storm"
       ]
     },
     {

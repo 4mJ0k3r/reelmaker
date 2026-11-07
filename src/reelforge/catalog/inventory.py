@@ -18,6 +18,7 @@ from reelforge.visual_library.composition import character_staging
 
 from reelforge.characters.living import PROFILES, draw_actor
 from reelforge.visual_library.living_assets import EFFECTS, PROPS
+from reelforge.visual_library import frontier_art
 from reelforge.visual_library.world_assets import WORLD_ASSETS
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -34,6 +35,12 @@ FAMILIES = (
 )
 # Curated labels and source pointers. Registration, variants and limits come from ASSETS.
 SCENE_LABELS = {
+    "abandoned_outpost_skyline_01": ("Outpost skyline", "nature", (frontier_art.skyline.__wrapped__,)),
+    "forest_ravine_skyline_01": ("Ravine skyline", "nature", (frontier_art.skyline.__wrapped__,)),
+    "abandoned_outpost_terrain_01": ("Outpost terrain", "nature", (frontier_art.terrain.__wrapped__,)),
+    "forest_ravine_terrain_01": ("Ravine terrain", "nature", (frontier_art.terrain.__wrapped__,)),
+    "outpost_watch_shelter_01": ("Outpost watch shelter", "architecture", (frontier_art.watch_shelter.__wrapped__,)),
+
     **{identity: (item.name, item.family, (item.draw,))
        for identity, item in {**WORLD_ASSETS, **PROPS, **EFFECTS}.items()},
     **{identity: (building.name, "architecture", (building.draw,))

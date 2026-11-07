@@ -3,12 +3,17 @@
 from reelforge.characters.living import PROFILES
 from reelforge.scenes.contract import validate_scene
 from reelforge.scenes.graph import compile_scene
+from reelforge.visual_library.frontier_art import MOODS
 from reelforge.visual_library.composition.farm import farm_manifest, transform
 
 WORLD_KITS = {
     "village_lane": ("daylight", "evening", "rainy_night"),
     "woodland_creek": ("clear", "misty", "windy"),
 }
+
+
+LEGACY_WORLD_KITS = dict(WORLD_KITS)
+WORLD_KITS.update(MOODS)
 
 
 def node(name, parent, order, identity, variant, x, y, scale=1, *, kind="asset", **fields):
@@ -43,6 +48,9 @@ def world_manifest(kit, mood, *, actor=None, action="idle", expression="neutral"
         ])
         if mood == "rainy_night":
             nodes.append(node("rain","foreground",3,"rain_field_01","steady",0,0))
+    elif kit in MOODS:
+        nodes = [n for n in nodes if n["kind"] in {"root", "layer"}]
+        nodes.extend(_frontier_nodes(kit, mood))
     else:
         nodes.extend([
             node("approach","terrain",2,"road_surface_01","packed_dirt",173,662,1.27),
@@ -72,3 +80,36 @@ def world_manifest(kit, mood, *, actor=None, action="idle", expression="neutral"
     scene["nodes"] = nodes
     compile_scene(validate_scene(scene))
     return scene
+
+
+def _frontier_nodes(kit, mood):
+    ground = [
+        node("sky", "sky_plane", 0, f"{kit}_skyline_01", mood, 0, 0, kind="background"),
+        node("ground", "terrain", 0, f"{kit}_terrain_01", mood, 0, 0, kind="environment"),
+    ]
+    if kit == "abandoned_outpost":
+        ground.extend((
+            node("shelter", "midground", 3, "outpost_watch_shelter_01", mood, 246, 511, .91),
+            node("streetlamp", "midground", 4, "streetlamp_01",
+                 "unlit" if mood == "daylight" else "lit", 237, 546, .85),
+            node("fence", "midground", 2, "fence_01", "default", 65, 487, .75),
+            node("stone", "foreground", 1, "rock_group_01", "angular", 361, 605, 1.28),
+            node("scrub", "foreground", 2, "shrub_cluster_01", "sparse", 15, 622, 1.2),
+        ))
+        if mood == "storm":
+            ground.append(node("rain", "foreground", 3, "rain_field_01", "steady", 0, 0))
+        if mood == "sunset":
+            ground.append(node("dust", "terrain", 5, "smoke_wisp_01", "windblown", 89, 507, .72))
+    else:
+        ground.extend((
+            node("fir_left", "midground", 1, "pine_snow_01", "pinnacle", 41, 515, .87),
+            node("fir_right", "midground", 2, "pine_snow_01", "windshear", 323, 499, 1.05),
+            node("strata", "midground", 3, "rock_group_01", "angular", 57, 544, 1.4),
+            node("bough", "foreground", 2, "pine_snow_01", "windshear", 367, 591, 1.27),
+            node("shrub", "foreground", 3, "shrub_cluster_01", "sparse", -2, 621, 1.28),
+        ))
+        if mood != "morning":
+            ground.append(node("mist", "terrain", 5, "ground_mist_01", "thin", 102, 548, 1.5))
+        else:
+            ground.append(node("leaves", "foreground", 5, "wind_leaves_01", "gentle", 0, 0))
+    return ground
