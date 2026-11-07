@@ -9,3 +9,7 @@ This checkpoint reserves a single caption-free 450-frame film, The Last Signal,
 using the existing cinematic-project-0.2 contract. Render and review evidence
 belongs under the ignored outputs directory until recovery export. D7B–D9 and
 publication are outside this assignment.
+
+The first authored manifest is `examples/sprint-d7a/the_last_signal.json`.
+The story uses a solo approach, a paired signal beat and an editorial blackout
+beat. The first render targets `outputs/d7a/first-pass`.

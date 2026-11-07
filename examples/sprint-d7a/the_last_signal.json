@@ -1,0 +1,41 @@
+{
+  "schema_version": "cinematic-project-0.2",
+  "title": "The Last Signal",
+  "beats": [
+    {
+      "id": "arrival", "start": 0, "end": 90,
+      "actor": "scout_01", "world": "abandoned_outpost", "mood": "storm",
+      "action": "walk_to_stop", "expression": "concerned", "stage_x": 109,
+      "facing": "right", "signal": "unlit"
+    },
+    {
+      "id": "false_answer", "start": 90, "end": 360,
+      "actor": "scout_01", "world": "abandoned_outpost", "mood": "storm",
+      "action": "idle", "expression": "concerned", "stage_x": 137,
+      "facing": "right", "signal": "lit", "cue_frame": 90,
+      "partner": {
+        "actor": "mechanic_01", "action": "idle_to_notice", "expression": "concerned",
+        "stage_x": 190, "facing": "right"
+      }
+    },
+    {
+      "id": "blackout", "start": 360, "end": 450,
+      "actor": "scout_01", "world": "abandoned_outpost", "mood": "storm",
+      "action": "react", "expression": "frightened", "stage_x": 137,
+      "facing": "right", "signal": "unlit",
+      "partner": {
+        "actor": "mechanic_01", "action": "react", "expression": "surprised",
+        "stage_x": 190, "facing": "right", "delay_frames": 6
+      }
+    }
+  ],
+  "shots": [
+    {"id": "road_into_the_storm", "camera": "follow", "motion": "pullback"},
+    {"id": "bram_checks_the_post", "camera": "two_shot", "motion": "pan"},
+    {"id": "mira_sees_a_flash", "camera": "reaction", "motion": "push_in"},
+    {"id": "the_lamp_answers", "camera": "object_reveal", "motion": "push_in"},
+    {"id": "the_signal_dies", "camera": "two_shot", "motion": "pullback"}
+  ],
+  "captions": [],
+  "audio": null
+}
