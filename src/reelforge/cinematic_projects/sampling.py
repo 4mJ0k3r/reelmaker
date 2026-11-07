@@ -4,6 +4,7 @@ from dataclasses import dataclass, replace
 from math import dist
 
 from reelforge.characters import living, living_transitions, presets
+from reelforge.characters.contact import ease
 from reelforge.characters.rig import Pose
 from reelforge.environments.scene import Camera
 from reelforge.scenes.graph import CharacterFrame, evaluate_layers
@@ -105,7 +106,7 @@ def state_at(project, frame):
     return result
 
 
-def camera_for(shot, state, frame, *, partner=None):
+def _base_camera(shot, state, frame, *, partner=None):
     """All subjects and target positions are sampled before applying depth projection."""
     beat = shot.beat
     if shot.camera == "two_shot":
@@ -124,9 +125,9 @@ def camera_for(shot, state, frame, *, partner=None):
     progress = (frame - shot.start) / (shot.end - shot.start - 1)
     name = shot.camera
     if name == "establishing":
-        return Camera(-4 + 8 * progress, 0, 1.015)
+        return Camera(0 if beat.refined else -4 + 8 * progress, 0, 1.015)
     if name == "atmospheric_close":
-        return Camera(5 - 10 * progress, 0, 1.035)
+        return Camera(0 if beat.refined else 5 - 10 * progress, 0, 1.035)
     if name == "object_reveal":
         if beat.signal:
             lamp = named_node(beat, "streetlamp").world
@@ -139,12 +140,41 @@ def camera_for(shot, state, frame, *, partner=None):
         zoom = 1.95 if beat.action == "push_cart" else 2.35
         return _aim((x + prop_x) / 2, floor - height * 0.50, zoom, 177, 345)
     if name == "close_up":
-        return _aim(x, floor - height * 0.83, 3.0, 156, 320)
+        return _aim(x, floor - height * 0.83, 3.0, 204 if state.facing == "left" else 156, 320)
     if name == "reaction":
-        return _aim(x, floor - height * 0.74, 2.70, 145, 325)
+        return _aim(x, floor - height * 0.74, 2.70, 203 if state.facing == "left" else 145, 325)
     if name == "follow":
         return _aim(x + min(25, max(0, prop_x - x)), floor - height * 0.50, 1.62, 157, 388)
     return _aim((x + prop_x) / 2, floor - height * 0.50, 1.78, 164, 398)
+
+
+def camera_for(shot, state, frame, *, partner=None):
+    camera = _base_camera(shot, state, frame, partner=partner)
+    if not shot.beat.refined:
+        return camera
+    u = ease((frame - shot.start) / (shot.end - shot.start - 1))
+    motion = shot.motion
+    travel, scale = {
+        "hold": (0, 1), "pan": (30 * (u - .5), 1),
+        "track": (-12 * (u - .5), 1),
+        "push_in": (0, 1 + .11 * u),
+        "pullback": (0, 1.10 - .10 * u),
+        "reframe": (18 * (u - .5), 1 + .035 * u),
+    }[motion]
+    x, y = camera.x * scale + travel, camera.y * scale
+    zoom = min(3.3, camera.zoom * scale)
+    if shot.camera in ("two_shot", "medium", "follow", "interaction_detail"):
+        subjects = (state, partner) if shot.camera == "two_shot" else (
+            partner if shot.focus == "partner" else state,
+        )
+        centers = [person.point(person.pose.root.x, person.pose.root.y)[0] for person in subjects]
+        if shot.camera == "interaction_detail":
+            centers.append(state.point(*state.interaction.prop)[0])
+        # Clamp animated framing against subject margins in the depth-1 staging plane.
+        left, right = 180 + zoom * (min(centers) - 180), 180 + zoom * (max(centers) - 180)
+        lower, upper = right - 322, left - 38
+        x = min(max(x, lower), upper) if lower <= upper else (lower + upper) / 2
+    return Camera(x, y, zoom)
 
 
 def _aim(x, y, zoom, screen_x, screen_y):

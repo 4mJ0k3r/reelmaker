@@ -14,3 +14,5 @@ D2 measures both rigs and adds opt-in grounded gait blending. D1 checkpoint e6c5
 D3 registers both frontier kits and five assets. Six initial full/mobile previews captured. D2 checkpoint c505b467493081cb50a14fa0b4fd0ea91a508456.
 
 D4 adds the compatible 0.2 contract, bounded two-actor lanes and independent clocks. D3 checkpoint 72bed86cd3ecb1fa97c8efbbecf877ba28ab95fd.
+
+D5 adds bounded eased camera motion, focus look room and semantic coverage. D4 checkpoint 61ba8d569031f8f1cb78b84780846ff447dea682.

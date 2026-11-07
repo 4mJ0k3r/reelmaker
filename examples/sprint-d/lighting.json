@@ -1,0 +1,27 @@
+{
+  "schema_version": "cinematic-project-0.2",
+  "title": "Storm over the outpost",
+  "beats": [
+    {
+      "id": "beat_1",
+      "start": 0,
+      "end": 90,
+      "actor": "scout_01",
+      "world": "abandoned_outpost",
+      "mood": "storm",
+      "action": "notice",
+      "stage_x": 142,
+      "signal": "lit",
+      "expression": "concerned"
+    }
+  ],
+  "shots": [
+    {
+      "id": "shot_1",
+      "camera": "medium",
+      "motion": "reframe"
+    }
+  ],
+  "captions": [],
+  "audio": null
+}

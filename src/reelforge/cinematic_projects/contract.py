@@ -35,6 +35,7 @@ from .schema import (
     EFFECT_IDS,
     ID,
     MAX_FRAMES,
+    MOTIONS,
     SIGNAL,
     STAGED_VERSION,
     TITLE,
@@ -75,6 +76,7 @@ class Shot:
     camera: str
     beat: Beat
     focus: str = "actor"
+    motion: str = "hold"
 
 
 @dataclass(frozen=True)
@@ -122,7 +124,8 @@ class Project:
                     "start": shot.start,
                     "end": shot.end,
                     "camera": shot.camera,
-                    **({"focus": shot.focus} if self.version == STAGED_VERSION else {}),
+                    **({"focus": shot.focus, "motion": shot.motion}
+                       if self.version == STAGED_VERSION else {}),
                     "beat": beat.id,
                     "acting_frame_at_start": shot.start - beat.start,
                     "continuity": (
@@ -324,6 +327,25 @@ def _compile_beat(raw, path, *, staged=False):
     )
 
 
+def _coverage(beat, start, total, previous):
+    """Resolve requested automatic coverage from the beats, cues and existing shots."""
+    if not previous:
+        return "establishing", "actor"
+    if beat.cue_frame is not None and start <= beat.start + beat.cue_frame < start + SHOT_FRAMES:
+        return "object_reveal", "actor"
+    if start + SHOT_FRAMES == total:
+        return ("two_shot" if beat.partner else "atmospheric_close"), "actor"
+    if beat.partner:
+        return "reaction", "partner" if previous.focus == "actor" else "actor"
+    if beat.interaction:
+        return "interaction_detail", "actor"
+    if beat.action in ("walk", "run", "idle_to_walk", "walk_to_stop"):
+        return "follow", "actor"
+    if beat.action in ("notice", "react", "notice_to_react"):
+        return "reaction", "actor"
+    return ("medium" if previous.camera != "medium" else "establishing"), "actor"
+
+
 def compile_project(data, registry_root: Path):
     _structure(data)
     staged = data["schema_version"] == STAGED_VERSION
@@ -345,6 +367,11 @@ def compile_project(data, registry_root: Path):
         start = i * SHOT_FRAMES
         beat = beats[bisect_right(boundaries, start)]
         camera = raw["camera"]
+        focus = raw.get("focus", "actor")
+        if camera == "auto":
+            if "focus" in raw:
+                fail(f"/shots/{i}/focus", "Automatic coverage selects its own focus")
+            camera, focus = _coverage(beat, start, total, shots[-1] if shots else None)
         if camera == "interaction_detail" and not beat.interaction:
             fail(f"/shots/{i}/camera", "interaction_detail requires a compatible interaction")
         if camera == "object_reveal" and not (beat.signal or beat.interaction or beat.dressing):
@@ -352,10 +379,9 @@ def compile_project(data, registry_root: Path):
                 f"/shots/{i}/camera",
                 "object_reveal requires a signal, dressed prop or interaction prop",
             )
-        focus = raw.get("focus", "actor")
         if (focus == "partner" or camera == "two_shot") and not beat.partner:
             fail(f"/shots/{i}", "This shot requires two actors in its beat")
-        shots.append(Shot(raw["id"], start, start + SHOT_FRAMES, camera, beat, focus))
+        shots.append(Shot(raw["id"], start, start + SHOT_FRAMES, camera, beat, focus, raw.get("motion", "hold")))
     captions = []
     end = 0
     for i, raw in enumerate(data["captions"]):
@@ -396,7 +422,8 @@ def capabilities(registry_root):
         "max_audio_frames": CHUNK_SHOTS * SHOT_FRAMES,
         "worlds": WORLD_KITS,
         "contract_versions": [VERSION, STAGED_VERSION],
-        "staged_cameras": [*CAMERAS, "two_shot"],
+        "staged_cameras": [*CAMERAS, "two_shot", "auto"],
+        "camera_motions": MOTIONS,
         "actors": {
             **{
                 i: {

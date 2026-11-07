@@ -1,0 +1,31 @@
+{
+  "schema_version": "cinematic-project-0.2",
+  "title": "Outpost road coverage",
+  "beats": [
+    {
+      "id": "beat_1",
+      "start": 0,
+      "end": 180,
+      "actor": "scout_01",
+      "world": "abandoned_outpost",
+      "mood": "sunset",
+      "action": "walk",
+      "stage_x": 60,
+      "signal": "lit"
+    }
+  ],
+  "shots": [
+    {
+      "id": "shot_1",
+      "camera": "establishing",
+      "motion": "pan"
+    },
+    {
+      "id": "shot_2",
+      "camera": "follow",
+      "motion": "pullback"
+    }
+  ],
+  "captions": [],
+  "audio": null
+}
