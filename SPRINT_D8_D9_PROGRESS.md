@@ -67,3 +67,13 @@ exit, cancellation, replacement and SIGTERM cases plus transaction tests pass.
 See docs/SPRINT_D8_STAGING_INVESTIGATION.md and native traces for distinctions
 between simulated boundary faults and real media-process faults. Next: host
 resource qualification, fresh operator acceptance and versioned documentation.
+
+D8.5 checkpoint: d6817ee. Native/transaction ownership fault set: 27 passed in
+21.60s, including actual replacement preservation and active-encoder SIGTERM.
+D8.6: host deployment doctor passes with unchanged memory policy. Actual CPU,
+RAM and /tmp differ from target; root host run does not establish ordinary-user
+or target-VM qualification. Seven sequential representative native results and
+D7B comparison are documented in docs/SPRINT_D8_RESOURCE_QUALIFICATION.md.
+Next: fresh-checkout operator acceptance (invalid correction, no-clobber,
+controlled failure recovery), final current-interface 30s demonstration, then
+full security/regression/gallery qualification and final archive.
