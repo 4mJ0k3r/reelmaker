@@ -7,12 +7,12 @@ permissions:
 
 jobs:
   catalog:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
-      PYTHONPATH: src
+      PYTHONPATH: src:.
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
       - run: python -m pip install -r requirements-runtime.txt pytest==8.4.2
@@ -25,3 +25,34 @@ jobs:
           'tests/test_mvp_prompt_to_reel.py::test_plan_and_manifest_compile[15-5]'
           tests/test_production.py::test_episode_contracts_unchanged
       - run: python -m pytest -q tests/test_stage3a_cinematic_story.py tests/test_stage3a1_editorial_polish.py tests/test_stage3b_farm_story.py tests/test_stage3c_story_templates.py
+
+  contracts:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: src:.
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r requirements-runtime.txt pytest==8.4.2
+      - run: >-
+          python -m pytest -q tests/test_cinematic_project.py tests/test_cinematic_transaction.py
+          -k "not caption_outlines and not native_audio_registry"
+
+  native:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: src:.
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - run: sudo apt-get update && sudo apt-get install -y libcairo2-dev pkg-config ffmpeg
+      - run: python -m pip install -r requirements-runtime.txt -r requirements-renderer.txt pytest==8.4.2
+      - run: python run_reel.py --check
+      - run: >-
+          python -m pytest -q --basetemp outputs/ci-native
+          tests/test_cinematic_project.py tests/test_cinematic_transaction.py
+          tests/test_encoder_cleanup.py tests/test_sprint_b1.py
