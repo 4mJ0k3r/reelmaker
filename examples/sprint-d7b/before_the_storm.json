@@ -1,0 +1,270 @@
+{
+  "schema_version": "cinematic-project-0.2",
+  "title": "Before the Storm",
+  "beats": [
+    {
+      "id": "a_clear_morning",
+      "start": 0,
+      "end": 180,
+      "actor": "scout_01",
+      "world": "forest_ravine",
+      "mood": "morning",
+      "action": "walk_to_stop",
+      "stage_x": 67,
+      "expression": "happy",
+      "partner": {
+        "actor": "mechanic_01",
+        "action": "idle",
+        "expression": "happy",
+        "stage_x": 205,
+        "facing": "left"
+      }
+    },
+    {
+      "id": "mist_on_the_path",
+      "start": 180,
+      "end": 360,
+      "actor": "scout_01",
+      "world": "forest_ravine",
+      "mood": "misty",
+      "action": "idle_to_notice",
+      "stage_x": 95,
+      "expression": "concerned",
+      "partner": {
+        "actor": "mechanic_01",
+        "action": "notice_to_react",
+        "expression": "concerned",
+        "stage_x": 205,
+        "facing": "left",
+        "delay_frames": 45
+      }
+    },
+    {
+      "id": "bram_takes_the_lower_route",
+      "start": 360,
+      "end": 540,
+      "actor": "mechanic_01",
+      "world": "woodland_creek",
+      "mood": "windy",
+      "action": "push_cart",
+      "variant": "loaded"
+    },
+    {
+      "id": "mira_takes_the_ridge",
+      "start": 540,
+      "end": 720,
+      "actor": "scout_01",
+      "world": "forest_ravine",
+      "mood": "misty",
+      "action": "walk",
+      "stage_x": 67,
+      "expression": "determined",
+      "effect": {
+        "id": "wind_leaves_01",
+        "variant": "gust"
+      }
+    },
+    {
+      "id": "rain_at_the_outpost",
+      "start": 720,
+      "end": 900,
+      "actor": "scout_01",
+      "world": "abandoned_outpost",
+      "mood": "storm",
+      "action": "walk_to_stop",
+      "stage_x": 109,
+      "expression": "concerned",
+      "signal": "unlit"
+    },
+    {
+      "id": "the_empty_road",
+      "start": 900,
+      "end": 1080,
+      "actor": "scout_01",
+      "world": "abandoned_outpost",
+      "mood": "storm",
+      "action": "idle_to_notice",
+      "stage_x": 137,
+      "expression": "concerned",
+      "signal": "unlit"
+    },
+    {
+      "id": "bram_brings_the_parcel",
+      "start": 1080,
+      "end": 1260,
+      "actor": "mechanic_01",
+      "world": "village_lane",
+      "mood": "evening",
+      "action": "pickup_carry_place",
+      "variant": "wrapped"
+    },
+    {
+      "id": "the_last_stop",
+      "start": 1260,
+      "end": 1350,
+      "actor": "mechanic_01",
+      "world": "village_lane",
+      "mood": "evening",
+      "action": "react_to_idle",
+      "stage_x": 133,
+      "expression": "happy",
+      "dressing": "delivered_parcel"
+    },
+    {
+      "id": "mira_keeps_watch",
+      "start": 1350,
+      "end": 1440,
+      "actor": "scout_01",
+      "world": "abandoned_outpost",
+      "mood": "storm",
+      "action": "notice_to_react",
+      "stage_x": 137,
+      "expression": "frightened",
+      "signal": "unlit"
+    },
+    {
+      "id": "bram_returns",
+      "start": 1440,
+      "end": 1620,
+      "actor": "scout_01",
+      "world": "abandoned_outpost",
+      "mood": "storm",
+      "action": "idle",
+      "stage_x": 137,
+      "expression": "concerned",
+      "signal": "lit",
+      "cue_frame": 90,
+      "partner": {
+        "actor": "mechanic_01",
+        "action": "walk_to_stop",
+        "expression": "determined",
+        "stage_x": 190,
+        "facing": "right"
+      }
+    },
+    {
+      "id": "storm_passed",
+      "start": 1620,
+      "end": 1800,
+      "actor": "scout_01",
+      "world": "abandoned_outpost",
+      "mood": "sunset",
+      "action": "react_to_idle",
+      "stage_x": 137,
+      "expression": "happy",
+      "signal": "lit",
+      "partner": {
+        "actor": "mechanic_01",
+        "action": "react_to_idle",
+        "expression": "happy",
+        "stage_x": 218,
+        "facing": "right"
+      }
+    }
+  ],
+  "shots": [
+    {
+      "id": "two_travelers_at_dawn",
+      "camera": "establishing",
+      "motion": "pan"
+    },
+    {
+      "id": "bram_checks_the_route",
+      "camera": "two_shot",
+      "motion": "push_in"
+    },
+    {
+      "id": "mira_sees_the_mist",
+      "camera": "reaction",
+      "motion": "hold"
+    },
+    {
+      "id": "the_parting_look",
+      "camera": "reaction",
+      "motion": "reframe",
+      "focus": "partner"
+    },
+    {
+      "id": "the_lower_crossing",
+      "camera": "medium",
+      "motion": "pan"
+    },
+    {
+      "id": "wheels_in_the_wind",
+      "camera": "interaction_detail",
+      "motion": "track"
+    },
+    {
+      "id": "mira_above_the_channel",
+      "camera": "establishing",
+      "motion": "pan"
+    },
+    {
+      "id": "along_the_ravine",
+      "camera": "follow",
+      "motion": "track"
+    },
+    {
+      "id": "the_shelter_road",
+      "camera": "establishing",
+      "motion": "pullback"
+    },
+    {
+      "id": "mira_reaches_the_post",
+      "camera": "follow",
+      "motion": "push_in"
+    },
+    {
+      "id": "still_no_light",
+      "camera": "object_reveal",
+      "motion": "hold"
+    },
+    {
+      "id": "waiting_in_rain",
+      "camera": "reaction",
+      "motion": "push_in"
+    },
+    {
+      "id": "bram_lifts_the_supply",
+      "camera": "medium",
+      "motion": "hold"
+    },
+    {
+      "id": "the_parcel_at_the_drop_point",
+      "camera": "interaction_detail",
+      "motion": "hold"
+    },
+    {
+      "id": "delivery_complete",
+      "camera": "object_reveal",
+      "motion": "pullback"
+    },
+    {
+      "id": "mira_fears_the_worst",
+      "camera": "reaction",
+      "motion": "hold"
+    },
+    {
+      "id": "footsteps_on_the_road",
+      "camera": "two_shot",
+      "motion": "track"
+    },
+    {
+      "id": "the_post_lights_up",
+      "camera": "object_reveal",
+      "motion": "hold"
+    },
+    {
+      "id": "the_storm_has_passed",
+      "camera": "two_shot",
+      "motion": "pullback"
+    },
+    {
+      "id": "both_home",
+      "camera": "two_shot",
+      "motion": "hold"
+    }
+  ],
+  "captions": [],
+  "audio": null
+}

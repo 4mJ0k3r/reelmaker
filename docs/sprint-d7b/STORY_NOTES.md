@@ -32,7 +32,7 @@ audio is generated. The visible story must also work muted.
 Mira and Bram leave the ravine together in morning light. Incoming mist
 makes them choose separate routes. Bram pushes the supply cart across the
 woodland bridge while Mira takes the upper path to the outpost. She waits
-in rain beside a dead lamp. Bram makes the village delivery, then returns.
+in rain beside a dead lamp. Bram makes the village supply drop, then returns.
 The post lights as he arrives. Sunset replaces the storm; both are safe.
 
 | Seconds | Direction | Visible story beat |
@@ -41,7 +41,7 @@ The post lights as he arrives. Sunset replaces the storm; both are safe.
 | 12–18 | Cart medium and hand/wheel detail | Bram takes supplies across creek |
 | 18–24 | Ravine wide and follow | Mira takes the upper path |
 | 24–36 | Outpost arrival, lamp and reaction | Rain arrives; Mira waits alone |
-| 36–45 | Village pickup/place and prop reveal | Bram completes the delivery |
+| 36–45 | Village pickup/place and prop reveal | Bram completes the drop |
 | 45–48 | Reaction | Mira fears he will not return |
 | 48–54 | Bram arrival, lamp insert | Reunion and returning light |
 | 54–60 | Shared sunset frames | Both home after the storm |
