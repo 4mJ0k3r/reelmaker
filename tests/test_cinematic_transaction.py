@@ -237,3 +237,21 @@ def test_success_contains_verification_before_atomic_publish(tmp_path, monkeypat
                             registry_root=REGISTRY)
     assert observed == [True]
     assert (tmp_path / 'final/verification.json').exists()
+
+
+def test_descendant_ownership_failure_preserves_foreign_content(tmp_path, monkeypatch, staged):
+    def uncertain(project, stage, registry, cancelled):
+        foreign = stage / 'engine/replaced/foreign'
+        foreign.parent.mkdir(parents=True)
+        foreign.write_bytes(b'never delete')
+        return {'success': False, 'cleanup_error': {'code': 'TRANSACTION_IDENTITY'}}
+
+    monkeypatch.setattr(workflow, '_engine', uncertain)
+    with pytest.raises(OperationError) as error:
+        workflow.render_project(load_cinematic_project(REQUEST, REGISTRY), tmp_path / 'final',
+                                registry_root=REGISTRY)
+    assert error.value.code == 'CINEMATIC_OWNERSHIP'
+    [preserved] = tmp_path.glob('.reelforge-cinematic-work-*')
+    assert (preserved / 'engine/replaced/foreign').read_bytes() == b'never delete'
+    assert not (tmp_path / 'final').exists()
+    assert not list(tmp_path.glob('.reelforge-cinematic-[!w]*'))

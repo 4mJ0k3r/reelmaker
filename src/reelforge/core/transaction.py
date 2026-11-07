@@ -9,6 +9,7 @@ import tempfile
 from pathlib import Path
 
 from .errors import OperationError
+from .trace import event, path_state
 
 
 class OwnedDirectory:
@@ -23,6 +24,8 @@ class OwnedDirectory:
         self._files = files
         self._attempted = False
         self._error: OperationError | None = None
+        event("owned_created", path=str(self.path), state=path_state(self.path),
+              parent_identity=self._parent_identity)
 
     @staticmethod
     def _key(info: os.stat_result) -> tuple[int, int]:
@@ -51,6 +54,8 @@ class OwnedDirectory:
 
     def publish_as(self, destination: Path) -> None:
         """Commit a complete package using the Linux no-replacement directory rename."""
+        event("publish_attempt", path=str(self.path), destination=str(destination),
+              state=path_state(self.path))
         if self._attempted or destination.parent != self.path.parent:
             raise OperationError("TRANSACTION_PUBLISH", "Publish a live directory to a sibling")
         parent_fd = os.open(self.path.parent, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
@@ -82,6 +87,8 @@ class OwnedDirectory:
                 raise OperationError("TRANSACTION_PUBLISH", os.strerror(error))
             self._attempted = True
             os.close(self._fd)
+            event("published", path=str(self.path), destination=str(destination),
+                  old_path_state=path_state(self.path), destination_state=path_state(destination))
         finally:
             os.close(parent_fd)
 
@@ -90,6 +97,7 @@ class OwnedDirectory:
             self.confirm_cleanup()
             return
         self._attempted = True
+        event("cleanup_attempt", path=str(self.path), state=path_state(self.path))
         try:
             # Hold the original directory fd until removal completes. A new inode at the
             # same pathname is a different owner, even if its name has our private prefix.
@@ -122,7 +130,10 @@ class OwnedDirectory:
                 raise OperationError("TRANSACTION_IDENTITY", "Directory changed during cleanup")
             os.rmdir(self.path)
             self.assert_absent()
+            event("owned_removed", path=str(self.path), state=path_state(self.path))
         except (OSError, OperationError) as error:
+            event("cleanup_failed", path=str(self.path), state=path_state(self.path),
+                  code=getattr(error, "code", type(error).__name__))
             self._error = (
                 error
                 if isinstance(error, OperationError)
@@ -135,3 +146,15 @@ class OwnedDirectory:
             raise self._error from error
         finally:
             os.close(self._fd)
+
+    def preserve(self) -> None:
+        """Close ownership without deletion when a descendant's ownership is uncertain.
+
+        There is deliberately no later automatic reconciliation of this pathname.
+        """
+        if not self._attempted:
+            self._attempted = True
+            self._error = OperationError("TRANSACTION_PRESERVED",
+                                         f"Ownership uncertain; preserved for investigation: {self.path}")
+            os.close(self._fd)
+            event("owned_preserved", path=str(self.path), state=path_state(self.path))

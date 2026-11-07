@@ -54,3 +54,16 @@ publication. Existing transaction assertions were retained; its fake engine
 fixture mocks final verification rather than pretending its bytes are media.
 Next: early recovery bundle, then bounded transaction/process lifecycle tracing
 and controlled faults. Target deployment is still untested.
+
+D8.4 checkpoint: a0d2a51; full-history D8.4 recovery bundle and status exported
+and saved successfully before further development.
+D8.5: bounded lifecycle tracing reproduced delayed old-name recurrence with a
+different inode after successful publication and no observed live descendants.
+Root cause remains unresolved; no foreign path was deleted by the observer.
+A separate nested ownership-error cleanup defect was reproduced and corrected:
+the outer work transaction now preserves its tree rather than deleting a
+child's replacement content. Native first/middle/final frame, startup, nonzero
+exit, cancellation, replacement and SIGTERM cases plus transaction tests pass.
+See docs/SPRINT_D8_STAGING_INVESTIGATION.md and native traces for distinctions
+between simulated boundary faults and real media-process faults. Next: host
+resource qualification, fresh operator acceptance and versioned documentation.

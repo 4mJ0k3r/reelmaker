@@ -13,6 +13,7 @@ from typing import Self
 
 from reelforge.core.streams import check_interrupt
 from reelforge.core.transaction import OwnedDirectory
+from reelforge.core.trace import event
 from reelforge.rendering.interface import PixelLayout, Surface
 
 from .process import VideoError, run_bounded, stop_process
@@ -215,6 +216,7 @@ class FFmpegEncoder:
                 bufsize=0,
                 start_new_session=True,
             )
+            event("encoder_started", child_pid=self.proc.pid, pending=str(self._pending))
             os.set_blocking(self.proc.stdin.fileno(), False)
             self._reader = threading.Thread(
                 target=self._read_stderr, name="ffmpeg-stderr", daemon=True
@@ -301,6 +303,7 @@ class FFmpegEncoder:
                 if self.proc.poll() is None or not self._finished:
                     stop_process(self.proc)
                 self.returncode = self.proc.returncode
+                event("encoder_reaped", child_pid=self.proc.pid, returncode=self.returncode)
                 if not self.proc.stdin.closed:
                     self.proc.stdin.close()
                 self._finish_reader()

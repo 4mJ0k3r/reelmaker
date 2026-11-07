@@ -9,6 +9,7 @@ from threading import Event
 
 from reelforge.core.errors import OperationError
 from reelforge.core.streams import check_interrupt
+from reelforge.core.trace import event
 
 
 class VideoError(OperationError):
@@ -17,6 +18,7 @@ class VideoError(OperationError):
 
 def stop_process(proc: subprocess.Popen) -> None:
     """Reap our session leader and terminate its process group; never an unbounded wait."""
+    event("child_stop", child_pid=proc.pid)
     try:
         os.killpg(proc.pid, signal.SIGTERM)
     except ProcessLookupError:
@@ -34,6 +36,7 @@ def stop_process(proc: subprocess.Popen) -> None:
         proc.wait(timeout=2)
     except subprocess.TimeoutExpired as error:
         raise VideoError("PROCESS_CLEANUP", "Child did not exit after kill") from error
+    event("child_reaped", child_pid=proc.pid, returncode=proc.returncode)
 
 
 def run_bounded(
@@ -56,7 +59,9 @@ def run_bounded(
             start_new_session=True,
         )
     except OSError as error:
+        event("child_start_failed", tool=os.path.basename(args[0]))
         raise VideoError("TOOL_UNAVAILABLE", f"Cannot start {args[0]}") from error
+    event("child_started", child_pid=proc.pid, tool=os.path.basename(args[0]))
     buffers = [bytearray(), bytearray()]
     deadline = time.monotonic() + timeout
     completed = False
@@ -87,3 +92,4 @@ def run_bounded(
             stop_process(proc)
         proc.stdout.close()
         proc.stderr.close()
+        event("child_exited", child_pid=proc.pid, returncode=proc.returncode)

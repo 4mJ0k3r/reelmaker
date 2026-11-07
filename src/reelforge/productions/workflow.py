@@ -218,6 +218,7 @@ def render_production(
         )
         if not report.get("success"):
             result["error"] = {"stage": f"chunk_{chunk.index}", "report": report.get("error")}
+            result["cleanup_error"] = report.get("cleanup_error")
             result["memory"]["final"] = memory_snapshot()
             return result
         video = chunk_out / "reel.mp4"

@@ -153,6 +153,13 @@ def render_project(project, output, *, registry_root, cancelled=None):
                 raise OperationError("TRANSACTION_IDENTITY", "Output parent changed before rendering")
             engine = _engine(project, work.path, registry_root, cancellation)
             if not engine["success"]:
+                if engine.get("cleanup_error"):
+                    retained = work.path
+                    work.preserve()
+                    work = None
+                    raise OperationError("CINEMATIC_OWNERSHIP",
+                        f"Child ownership uncertain; work preserved at {retained}: "
+                        f"{engine['cleanup_error']}")
                 detail = (
                     engine.get("error")
                     or engine.get("resource_error")
