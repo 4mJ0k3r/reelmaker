@@ -4,9 +4,13 @@ import argparse
 import json
 from dataclasses import replace
 from pathlib import Path
-from tempfile import TemporaryDirectory
+import os
 
-from reelforge.characters.living import ACTIONS, EXPRESSIONS, PROFILES
+from reelforge.contracts.project import load_project
+from reelforge.core.transaction import OwnedDirectory
+
+from reelforge.characters.living import ACTIONS, EXPRESSIONS, PROFILES, draw_pose
+from reelforge.characters.living_transitions import TRANSITIONS, sample_transition
 from reelforge.core.errors import InputError, OperationError
 from reelforge.environments.scene import Camera
 from reelforge.media.verify import verify_video
@@ -15,7 +19,7 @@ from reelforge.resources.monitor import JobMonitor
 from reelforge.scenes.contract import validate_scene
 from reelforge.scenes.graph import compile_scene
 from reelforge.visual_library.composition.interactions import (
-    INTERACTIONS, compile_interaction, interaction_frame, sample_interaction,
+    INTERACTIONS, compile_interaction, framed_interaction_frame, interaction_camera, sample_interaction,
 )
 from reelforge.visual_library.composition.living_worlds import WORLD_KITS, node, world_manifest
 
@@ -47,6 +51,26 @@ def actor_shot(identity, action, expression, frames=45):
     return scene, frame
 
 
+
+def transition_shot(identity, transition):
+    from reelforge.scenes.graph import CharacterFrame, evaluate_layers
+
+    data = world_manifest("village_lane", "evening", actor=identity, frames=90)
+    compiled = compile_scene(validate_scene(data))
+
+    def frame(scene, index):
+        sample = sample_transition(identity, transition, index)
+        node = next(n for n in scene.hierarchy if n.id == "actor")
+        center_x = node.world.x + node.world.scale*sample.pose.root.x
+        center_y = node.world.y - PROFILES[identity].height*node.world.scale*.48
+        camera = Camera(2.05*(center_x-180),2.05*(center_y-400)+10,2.05)
+        override = CharacterFrame("actor", node.world, draw_pose(identity,sample.pose,"concerned"))
+        return tuple(c for layer in evaluate_layers(scene,index,character_override=override,
+                                                    camera_override=camera) for c in layer.commands)
+
+    return compiled, frame
+
+
 def film_shots(identity):
     key, actor, variant = FILMS[identity]
     plan = compile_interaction(interaction_request(key, actor, variant))
@@ -66,61 +90,112 @@ def film_shots(identity):
         if ending and key == "push_cart":
             scene["nodes"].append(node("creek_wisp","midground",7,"smoke_wisp_01","rising",198,533,.9))
         scene["camera"] = "approach" if ending else "gentle_drift"
-        shots.append((compile_scene(validate_scene(scene)), None))
+        compiled = compile_scene(validate_scene(scene))
+        endpoint = spec.frames - 1 if ending else 0
+        camera = interaction_camera(plan, endpoint)
+        if not ending:
+            camera = Camera(camera.x*.64, camera.y*.64, 1+(camera.zoom-1)*.64)
+
+        def bookend_shot(world, frame, *, fixed=camera, closing=ending):
+            from reelforge.scenes.graph import evaluate_layers
+            from reelforge.characters import living
+            from reelforge.scenes.graph import CharacterFrame
+
+            override = None
+            if closing:
+                node = next(n for n in world.hierarchy if n.id == "actor")
+                # Give the viewer a short recognition hold before the reaction.
+                time = max(0, (frame-10)/30)
+                pose = living.sample_pose(actor, "react", time)
+                override = CharacterFrame("actor", node.world, living.draw_pose(actor,pose,"surprised"))
+            return tuple(c for layer in evaluate_layers(world,frame,character_override=override,
+                                                        camera_override=fixed) for c in layer.commands)
+        shots.append((compiled, bookend_shot))
 
     def close_shot(_scene, frame):
-        u = frame / (spec.frames - 1)
-        return interaction_frame(plan, frame, camera_override=Camera(-26+45*u, 129, 1.55))
+        return framed_interaction_frame(plan, frame)
 
     return [shots[0], (plan.scene, close_shot), shots[1]]
 
 
 def read_request(path):
-    with path.open("rb") as source:
-        encoded = source.read(4097)
-    if len(encoded) > 4096:
-        raise ValueError("Preset request exceeds 4096 bytes")
-    return json.loads(encoded)
+    return load_project(path)
+
+
+def film_request(data):
+    if (not isinstance(data, dict) or set(data) != {"schema_version", "film"}
+            or data["schema_version"] != "living-film-0.1"
+            or not isinstance(data["film"], str) or data["film"] not in FILMS):
+        raise ValueError("Choose a registered living-film-0.1 preset")
+    return data["film"]
 
 
 def render_sequence(shots, output):
-    """Reuse the scene renderer per shot, then the production stream-copy join."""
-    output = output.resolve()
+    """Verify in an owned subtree, then publish into a reserved output directory."""
+    output = output.absolute()
     output.mkdir(parents=True, exist_ok=False)
+    output_identity = OwnedDirectory._key(output.lstat())
+    published = {}
+    complete = False
     reports = []
-    final = output / "film.mp4"
-    # Keep multi-shot intermediates out of the review output. A same-device
-    # staging path permits a final rename after full decode verification.
-    scratch_root = Path("/var/tmp")
-    if not scratch_root.is_dir() or scratch_root.stat().st_dev != output.stat().st_dev:
-        scratch_root = output.parent
-    with TemporaryDirectory(prefix=".reelforge-shots-", dir=scratch_root) as temporary:
-        scratch = Path(temporary)
-        paths = []
-        for index, (scene, evaluator) in enumerate(shots):
-            shot = scratch / f"shot_{index}"
-            report = render_scene(scene, shot, frame_evaluator=evaluator)
-            reports.append(report)
-            paths.append(shot / "scene.mp4")
-        frames = sum(r["frames"] for r in reports)
-        with JobMonitor(workspace=scratch) as monitor:
+    owner = None
+    try:
+        owner = OwnedDirectory(output.parent, ".reelforge-shots-")
+        scratch = owner.path
+        with JobMonitor(workspace=scratch) as job_monitor:
+            paths = []
+            for index, (scene, evaluator) in enumerate(shots):
+                shot = scratch / f"shot_{index}"
+                report = render_scene(scene, shot, frame_evaluator=evaluator)
+                reports.append(report)
+                paths.append(shot / "scene.mp4")
+                job_monitor.sample()
+                if job_monitor.cancelled.is_set():
+                    raise ValueError(f"Sequence resource guard failed: {job_monitor.limit_reason}")
+            frames = sum(r["frames"] for r in reports)
             joined = scratch / "film.mp4"
-            _concat_copy(paths, joined, monitor.cancelled)
+            _concat_copy(paths, joined, job_monitor.cancelled)
             verification = verify_video(joined, width=720, height=1280, frames=frames,
-                                        cancelled=monitor.cancelled)
-            timestamps = _verify_pts(joined, frames, monitor.cancelled)
+                                        cancelled=job_monitor.cancelled)
+            timestamps = _verify_pts(joined, frames, job_monitor.cancelled)
             original = [h for report in reports for h in report["verification"]["decoded_rgb_sha256"]]
             if verification["decoded_rgb_sha256"] != original:
                 raise ValueError("Stream-copy result changed decoded shot frames")
-        if monitor.cancelled.is_set() or not monitor.oom_telemetry_continuous:
-            raise ValueError("Assembly resource guard failed")
-        if final.exists() or final.is_symlink():
-            raise ValueError("Film output already exists")
-        joined.rename(final)
-    report = {"frames": frames, "verification": verification, "timestamps": timestamps,
-              "shots": reports, "assembly_memory": monitor.report()}
-    (output / "film_report.json").write_text(json.dumps(report, indent=2) + "\n")
-    return report
+            job_monitor.sample()
+        if job_monitor.cancelled.is_set() or not job_monitor.oom_telemetry_continuous:
+            raise ValueError("Sequence resource guard failed")
+        report = {"frames": frames, "verification": verification, "timestamps": timestamps,
+                  "shots": reports, "assembly_memory": job_monitor.report()}
+        (scratch / "film_report.json").write_text(json.dumps(report, indent=2) + "\n")
+        if output.is_symlink() or OwnedDirectory._key(output.lstat()) != output_identity:
+            raise ValueError("Reserved film output identity changed")
+        for name in ("film.mp4", "film_report.json"):
+            source = scratch / name
+            os.link(source, output / name)
+            published[name] = OwnedDirectory._key(source.stat())
+        owner.cleanup()
+        owner.confirm_cleanup()
+        complete = True
+        return report
+    finally:
+        try:
+            if owner is not None:
+                owner.cleanup()
+                owner.confirm_cleanup()
+        finally:
+            # Only remove files this invocation published into its original directory.
+            # A replaced path or foreign file is left for its owner.
+            if (not complete and not output.is_symlink() and output.exists()
+                    and OwnedDirectory._key(output.lstat()) == output_identity):
+                for name, identity in published.items():
+                    path = output / name
+                    if path.exists() and OwnedDirectory._key(path.lstat()) == identity:
+                        path.unlink()
+                try:
+                    output.rmdir()
+                except OSError:
+                    if not any(output.iterdir()):
+                        raise
 
 
 def main():
@@ -136,6 +211,10 @@ def main():
     interaction = commands.add_parser("interaction")
     interaction.add_argument("request", type=Path)
     interaction.add_argument("--output-dir", type=Path, required=True)
+    transition = commands.add_parser("transition")
+    transition.add_argument("actor", choices=PROFILES)
+    transition.add_argument("transition", choices=TRANSITIONS)
+    transition.add_argument("--output-dir", type=Path, required=True)
     film_request = commands.add_parser("film-request")
     film_request.add_argument("request", type=Path)
     film_request.add_argument("--output-dir", type=Path, required=True)
@@ -155,15 +234,15 @@ def main():
         elif args.command == "interaction":
             plan = compile_interaction(read_request(args.request))
             report = render_scene(plan.scene, args.output_dir,
-                                  frame_evaluator=lambda _, f: interaction_frame(plan, f))
+                                  frame_evaluator=lambda _, f: framed_interaction_frame(plan, f))
+            result = {"frames": report["frames"], "passed": report["verification"]["passed"]}
+        elif args.command == "transition":
+            scene, evaluator = transition_shot(args.actor, args.transition)
+            report = render_scene(scene, args.output_dir, frame_evaluator=evaluator)
             result = {"frames": report["frames"], "passed": report["verification"]["passed"]}
         elif args.command == "film-request":
-            data = read_request(args.request)
-            if (not isinstance(data, dict) or set(data) != {"schema_version", "film"}
-                    or data["schema_version"] != "living-film-0.1"
-                    or not isinstance(data["film"], str) or data["film"] not in FILMS):
-                raise ValueError("Choose a registered living-film-0.1 preset")
-            report = render_sequence(film_shots(data["film"]), args.output_dir)
+            identity = film_request(read_request(args.request))
+            report = render_sequence(film_shots(identity), args.output_dir)
             result = {"frames": report["frames"], "passed": report["verification"]["passed"]}
         else:
             shots = film_shots(args.identity) if args.command == "film" else [

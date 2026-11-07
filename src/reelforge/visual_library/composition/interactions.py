@@ -175,3 +175,22 @@ def interaction_layers(plan, frame, *, camera_override=None):
 def interaction_frame(plan, frame, *, camera_override=None):
     return tuple(c for layer in interaction_layers(plan, frame, camera_override=camera_override)
                  for c in layer.commands)
+
+
+def interaction_camera(plan, frame):
+    """Keep the actor and manipulated object legible in the 360×640 view."""
+    from reelforge.environments.scene import Camera
+
+    sample = sample_interaction(plan, frame)
+    actor = next(n for n in plan.scene.hierarchy if n.id == "actor")
+    scale = actor.world.scale
+    lead = {"pickup_carry_place": 10, "sit_stand": 0, "push_cart": 41}[plan.identity]
+    height = 158 if plan.actor == "rowan_01" else living.PROFILES[plan.actor].height
+    center_x = actor.world.x + scale*(sample.pose.root.x + lead)
+    center_y = actor.world.y - scale*height*.48
+    zoom = 1.95 if plan.identity == "push_cart" else 2.15
+    return Camera(zoom*(center_x-180), zoom*(center_y-400)+10, zoom)
+
+
+def framed_interaction_frame(plan, frame):
+    return interaction_frame(plan, frame, camera_override=interaction_camera(plan, frame))
