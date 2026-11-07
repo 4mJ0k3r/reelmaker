@@ -1,0 +1,24 @@
+{
+  "schema_version": "cinematic-project-0.2",
+  "title": "The Unexpected Meeting",
+  "beats": [
+    {
+      "id": "meeting", "start": 0, "end": 360,
+      "actor": "scout_01", "world": "abandoned_outpost", "mood": "sunset",
+      "action": "walk_to_stop", "expression": "concerned", "stage_x": 67,
+      "facing": "right", "signal": "lit", "cue_frame": 180,
+      "partner": {
+        "actor": "mechanic_01", "action": "react", "expression": "surprised",
+        "stage_x": 170, "facing": "left", "delay_frames": 90
+      }
+    }
+  ],
+  "shots": [
+    {"id": "scout_arrives", "camera": "follow"},
+    {"id": "mechanic_notices", "camera": "reaction", "focus": "partner"},
+    {"id": "signal_answers", "camera": "object_reveal"},
+    {"id": "both_at_the_outpost", "camera": "two_shot"}
+  ],
+  "captions": [],
+  "audio": null
+}

@@ -211,7 +211,7 @@ def evaluate_layers(
     compiled: CompiledScene,
     frame: int,
     *,
-    character_override: CharacterFrame | None = None,
+    character_override: CharacterFrame | tuple[CharacterFrame, ...] | None = None,
     camera_override: Camera | None = None,
     atmosphere_frame: int | None = None,
 ) -> tuple[EvaluatedLayer, ...]:
@@ -220,6 +220,11 @@ def evaluate_layers(
     seconds = (frame if atmosphere_frame is None else atmosphere_frame) / 30
     lookup = {n.id: n for n in scene.nodes}
     resolved = {n.id: n for n in compiled.hierarchy}
+    overrides = ((character_override,) if isinstance(character_override, CharacterFrame)
+                 else character_override or ())
+    actor_overrides = {actor.node_id: actor for actor in overrides}
+    if len(overrides) != len(actor_overrides):
+        fail("/override", "Duplicate trusted character override")
     layers = []
     for layer in sorted(
         (n for n in scene.nodes if n.kind == "layer"), key=lambda n: (n.order, n.id)
@@ -235,11 +240,7 @@ def evaluate_layers(
             n = lookup[name]
             sealed = next((g for g in compiled.generated if g.asset.id == n.asset_id), None)
             asset = sealed.asset if sealed else asset_by_id(n.asset_id)
-            override = (
-                character_override
-                if character_override and character_override.node_id == name
-                else None
-            )
+            override = actor_overrides.get(name)
             if override and n.kind != "character":
                 fail("/override", "Only a trusted character frame override is supported")
             world = camera_world.compose(override.world if override else r.world)

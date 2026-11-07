@@ -36,10 +36,12 @@ from .schema import (
     ID,
     MAX_FRAMES,
     SIGNAL,
+    STAGED_VERSION,
     TITLE,
     VERSION,
     project_schema,
 )
+from .staging import Performer, pose_at
 
 
 def fail(path, message):
@@ -58,6 +60,11 @@ class Beat:
     interaction: InteractionPlan | None
     signal: str | None
     dressing: str | None
+    refined: bool = False
+    facing: str = "right"
+    delay: int = 0
+    partner: Performer | None = None
+    cue_frame: int | None = None
 
 
 @dataclass(frozen=True)
@@ -67,6 +74,7 @@ class Shot:
     end: int
     camera: str
     beat: Beat
+    focus: str = "actor"
 
 
 @dataclass(frozen=True)
@@ -85,6 +93,10 @@ class Project:
     audio: AudioPlan | None
     audio_cues: tuple[dict, ...]
     request: dict
+
+    @property
+    def version(self):
+        return self.request["schema_version"]
 
     @property
     def frames(self):
@@ -110,6 +122,7 @@ class Project:
                     "start": shot.start,
                     "end": shot.end,
                     "camera": shot.camera,
+                    **({"focus": shot.focus} if self.version == STAGED_VERSION else {}),
                     "beat": beat.id,
                     "acting_frame_at_start": shot.start - beat.start,
                     "continuity": (
@@ -130,7 +143,7 @@ class Project:
                 }
             )
         body = {
-            "contract": VERSION,
+            "contract": self.version,
             "title": self.title,
             "frames": self.frames,
             "fps": 30,
@@ -151,7 +164,10 @@ class Project:
 
 
 def _structure(data):
-    for error in Draft202012Validator(project_schema()).iter_errors(data):
+    version = data.get("schema_version") if isinstance(data, dict) else None
+    if version not in (VERSION, STAGED_VERSION):
+        fail("/schema_version", f"Use {VERSION} or {STAGED_VERSION}")
+    for error in Draft202012Validator(project_schema(version)).iter_errors(data):
         fail(_pointer(error.absolute_path), error.message[:280])
     if not re.fullmatch(TITLE.removeprefix("^").removesuffix("$"), data["title"]):
         fail("/title", "Use a single line of supported printable characters")
@@ -190,18 +206,45 @@ def _decorate(scene, raw, path):
         scene["nodes"].append(node("dressed_prop", "midground", 10, identity, variant, x, y, scale))
 
 
-def _compile_beat(raw, path):
+def _performer(raw):
+    return Performer(raw["actor"], raw["action"], raw.get("expression", "neutral"),
+                     raw.get("facing", "right"), raw.get("delay_frames", 0))
+
+
+def _swept_bounds(performer, anchor, length, path, cue):
+    if type(performer.delay) is not int or performer.delay >= length:
+        fail(path + "/delay_frames", "Use an integer delay inside this beat")
+    first = anchor["x"]
+    pose, _ = pose_at(performer, length - 1, refined=True)
+    signed = 1 if performer.facing == "right" else -1
+    last = first + signed * anchor["scale"] * pose.root.x
+    if cue is not None and signed < 0 and abs(first - last) > 1e-8:
+        fail(path + "/facing", "A moving actor facing left cannot pivot at a cue")
+    low, high = min(first, last), max(first, last)
+    if low < 32 or high > 320:
+        fail(path + "/stage_x", "Actor travel must remain inside the supported staging lane")
+    return low, high
+
+
+def _compile_beat(raw, path, *, staged=False):
     start, end = raw["start"], raw["end"]
     if type(start) is not int or type(end) is not int:
         fail(path, "Use integer frame indices")
     length = end - start
-    if start % SHOT_FRAMES or length not in (SHOT_FRAMES, 2 * SHOT_FRAMES):
-        fail(path, "Use one or two consecutive 90-frame shots per beat")
+    max_shots = 4 if staged else 2
+    if start % SHOT_FRAMES or length not in range(SHOT_FRAMES, (max_shots + 1) * SHOT_FRAMES, SHOT_FRAMES):
+        fail(path, f"Use one to {max_shots} consecutive 90-frame shots per beat")
     action, actor, world, mood = (raw[k] for k in ("action", "actor", "world", "mood"))
     if mood not in WORLD_KITS[world]:
         fail(path + "/mood", f"Choose {', '.join(WORLD_KITS[world])} for {world}")
     expression = raw.get("expression", "neutral")
     spec = INTERACTIONS.get(action)
+    partner = _performer(raw["partner"]) if "partner" in raw else None
+    cue = raw.get("cue_frame")
+    lead = _performer(raw)
+    if cue is not None and (type(cue) is not int or cue >= length
+                            or raw.get("signal") != "lit" or not partner):
+        fail(path + "/cue_frame", "Use an integer frame within a paired beat with a lit signal")
     if spec:
         if actor not in spec.actors:
             fail(path + "/actor", f"Choose {', '.join(spec.actors)} for {action}")
@@ -209,7 +252,7 @@ def _compile_beat(raw, path):
             fail(path + "/world", f"{action} requires {spec.kit}/{spec.mood}")
         if raw.get("variant") not in spec.variants:
             fail(path + "/variant", f"{spec.prop} requires one of {', '.join(spec.variants)}")
-        if length < spec.frames or {"expression", "stage_x"} & raw.keys():
+        if length != 180 or {"expression", "stage_x", "facing", "delay_frames", "partner"} & raw.keys():
             fail(path, "Reserve 180 frames and use the interaction's fixed staging and acting")
         data = interaction_manifest(
             {
@@ -225,16 +268,34 @@ def _compile_beat(raw, path):
             fail(path + "/variant", "Prop variants belong to a registered interaction")
         if actor not in living.PROFILES:
             fail(path + "/actor", "Rowan is supported only for sit_stand")
-        if action in living_transitions.TRANSITIONS and length != living_transitions.FRAMES:
+        if not staged and action in living_transitions.TRANSITIONS and length != living_transitions.FRAMES:
             fail(path + "/end", "A registered transition occupies exactly 90 frames")
-        data = world_manifest(world, mood, actor=actor, frames=length)
+        data = world_manifest(world, mood, actor=actor, frames=min(length, 180))
         actor_node = next(n for n in data["nodes"] if n["id"] == "actor")
         if "stage_x" in raw:
             if type(raw["stage_x"]) is not int:
                 fail(path + "/stage_x", "Use an integer stage position")
             actor_node["transform"]["x"] = raw["stage_x"]
         anchor = actor_node["transform"]
-        if action in ("walk", "run"):
+        if staged:
+            bounds = _swept_bounds(lead, anchor, length, path, cue)
+            if partner:
+                if actor == partner.actor:
+                    fail(path + "/partner/actor", "Choose a different registered actor")
+                other = raw["partner"]
+                if type(other["stage_x"]) is not int:
+                    fail(path + "/partner/stage_x", "Use an integer stage position")
+                info = {"character": partner.actor, "action": "idle", "expression": partner.expression}
+                extra = node("partner", "midground", 11, partner.actor, "default",
+                             other["stage_x"], anchor["y"], anchor["scale"], kind="character",
+                             ground_id="ground", character=info)
+                second = _swept_bounds(partner, extra["transform"], length, path + "/partner", cue)
+                gap = max(second[0] - bounds[1], bounds[0] - second[1])
+                if gap < 42:
+                    fail(path + "/partner/stage_x", "Keep the two swept lanes at least 42 units apart")
+                data["nodes"].append(extra)
+            final_pose = None
+        elif action in ("walk", "run"):
             final_pose = living.sample_pose(actor, action, (length - 1) / 30)
         elif action in living_transitions.TRANSITIONS:
             final_pose = living_transitions.sample_transition(actor, action, length - 1).pose
@@ -247,7 +308,7 @@ def _compile_beat(raw, path):
         scene = compile_scene(validate_scene(data))
     except InputError as error:
         fail(path, f"Scene admission rejected {error.issue.path}: {error}")
-    interaction = InteractionPlan(action, actor, raw["variant"], scene) if spec else None
+    interaction = InteractionPlan(action, actor, raw["variant"], scene, staged) if spec else None
     return Beat(
         raw["id"],
         start,
@@ -259,11 +320,13 @@ def _compile_beat(raw, path):
         interaction,
         raw.get("signal"),
         raw.get("dressing"),
+        staged, lead.facing, lead.delay, partner, cue,
     )
 
 
 def compile_project(data, registry_root: Path):
     _structure(data)
+    staged = data["schema_version"] == STAGED_VERSION
     total = len(data["shots"]) * SHOT_FRAMES
     beats = []
     end = 0
@@ -271,7 +334,7 @@ def compile_project(data, registry_root: Path):
         path = f"/beats/{i}"
         if raw["start"] != end or raw["end"] > total:
             fail(path, "Beats must cover the shot grid in order without gaps or overlaps")
-        beat = _compile_beat(raw, path)
+        beat = _compile_beat(raw, path, staged=staged)
         beats.append(beat)
         end = beat.end
     if end != total:
@@ -289,7 +352,10 @@ def compile_project(data, registry_root: Path):
                 f"/shots/{i}/camera",
                 "object_reveal requires a signal, dressed prop or interaction prop",
             )
-        shots.append(Shot(raw["id"], start, start + SHOT_FRAMES, camera, beat))
+        focus = raw.get("focus", "actor")
+        if (focus == "partner" or camera == "two_shot") and not beat.partner:
+            fail(f"/shots/{i}", "This shot requires two actors in its beat")
+        shots.append(Shot(raw["id"], start, start + SHOT_FRAMES, camera, beat, focus))
     captions = []
     end = 0
     for i, raw in enumerate(data["captions"]):
@@ -329,6 +395,8 @@ def capabilities(registry_root):
         "max_frames": MAX_FRAMES,
         "max_audio_frames": CHUNK_SHOTS * SHOT_FRAMES,
         "worlds": WORLD_KITS,
+        "contract_versions": [VERSION, STAGED_VERSION],
+        "staged_cameras": [*CAMERAS, "two_shot"],
         "actors": {
             **{
                 i: {

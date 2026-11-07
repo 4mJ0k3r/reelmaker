@@ -7,12 +7,13 @@ from reelforge.geometry.schema import array, obj
 from reelforge.productions.contract import FRAMES_PER_SEGMENT, MAX_SEGMENTS
 from reelforge.scenes.assets import asset_by_id
 from reelforge.visual_library.composition.interactions import INTERACTIONS
-from reelforge.visual_library.composition.living_worlds import WORLD_KITS
+from reelforge.visual_library.composition.living_worlds import LEGACY_WORLD_KITS, WORLD_KITS
 from reelforge.visual_library.living_assets import EFFECTS
 
 from .captions import STYLES
 
 VERSION = "cinematic-project-0.1"
+STAGED_VERSION = "cinematic-project-0.2"
 EFFECT_IDS = (*EFFECTS, "ground_mist_01")
 SIGNAL = "streetlamp_01"
 DRESSING = {
@@ -44,7 +45,11 @@ def integer(lo, hi):
     return {"type": "integer", "minimum": lo, "maximum": hi}
 
 
-def project_schema():
+def project_schema(version=VERSION):
+    if version not in (VERSION, STAGED_VERSION):
+        raise ValueError("Unknown cinematic project contract")
+    staged = version == STAGED_VERSION
+    worlds = WORLD_KITS if staged else LEGACY_WORLD_KITS
     span = {
         "start": integer(0, MAX_FRAMES - 1),
         "end": integer(1, MAX_FRAMES),
@@ -54,8 +59,8 @@ def project_schema():
             "id": ID,
             **span,
             "actor": choice((*PROFILES, "rowan_01")),
-            "world": choice(WORLD_KITS),
-            "mood": choice(sorted({m for moods in WORLD_KITS.values() for m in moods})),
+            "world": choice(worlds),
+            "mood": choice(sorted({m for moods in worlds.values() for m in moods})),
             "action": choice((*ACTIONS, *TRANSITIONS, *INTERACTIONS)),
             "expression": choice(EXPRESSIONS),
             "stage_x": integer(36, 276),
@@ -73,15 +78,28 @@ def project_schema():
         },
         ("expression", "stage_x", "variant", "effect", "signal", "dressing"),
     )
+    shot_fields = {"id": ID, "camera": choice(CAMERAS)}
+    if staged:
+        actor_fields = {
+            "actor": choice(PROFILES), "action": choice((*ACTIONS, *TRANSITIONS)),
+            "expression": choice(EXPRESSIONS), "stage_x": integer(36, 276),
+            "facing": choice(("right", "left")), "delay_frames": integer(0, 269),
+        }
+        beat["properties"].update(
+            facing=actor_fields["facing"], delay_frames=actor_fields["delay_frames"],
+            cue_frame=integer(1, 359), partner=obj(actor_fields, ("delay_frames",)),
+        )
+        shot_fields["camera"] = choice((*CAMERAS, "two_shot"))
+        shot_fields["focus"] = choice(("actor", "partner"))
     return {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
-        "$id": f"urn:reelforge:{VERSION}",
+        "$id": f"urn:reelforge:{version}",
         **obj(
             {
-                "schema_version": {"const": VERSION},
+                "schema_version": {"const": version},
                 "title": {"type": "string", "pattern": TITLE, "maxLength": 120},
                 "beats": array(beat, 1, MAX_SEGMENTS),
-                "shots": array(obj({"id": ID, "camera": choice(CAMERAS)}), 1, MAX_SEGMENTS),
+                "shots": array(obj(shot_fields, ("focus",)), 1, MAX_SEGMENTS),
                 "captions": array(
                     obj(
                         {

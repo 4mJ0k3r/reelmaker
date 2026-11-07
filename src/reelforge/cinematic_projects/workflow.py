@@ -24,7 +24,6 @@ from reelforge.resources.monitor import JobMonitor, preflight_memory
 from .captions import caption_paths
 from .contract import CHUNK_SHOTS, SHOT_FRAMES, Project, load_cinematic_project
 from .sampling import visual_frame
-from .schema import VERSION
 from .storyboard import black_frames, write_storyboard
 
 
@@ -81,7 +80,7 @@ def render_episode_slice(
         render_silent=render_silent,
         registry_root=registry_root,
         cancelled=cancelled,
-        contract_version=VERSION,
+        contract_version=plan.project.version,
         silent=plan.silent,
     )
 
@@ -180,7 +179,7 @@ def render_project(project, output, *, registry_root, cancelled=None):
         cancelled_check(cancellation)
         after = resource.getrusage(resource.RUSAGE_CHILDREN)
         report = {
-            "contract": VERSION,
+            "contract": project.version,
             "success": True,
             "media_verified": True,
             "plan_sha256": plan["plan_sha256"],

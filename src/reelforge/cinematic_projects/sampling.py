@@ -1,6 +1,6 @@
 """Random-access acting and composition on separate clocks."""
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from math import dist
 
 from reelforge.characters import living, living_transitions, presets
@@ -15,6 +15,8 @@ from reelforge.visual_library.composition.interactions import (
     sample_interaction,
 )
 
+from .staging import Performer, face_left, pose_at
+
 
 @dataclass(frozen=True)
 class Acting:
@@ -23,14 +25,26 @@ class Acting:
     expression: str
     interaction: Sample | None
     local_frame: int
+    facing: str = "right"
+
+    def point(self, x, y):
+        return self.anchor.point(-x if self.facing == "left" else x, y)
 
 
 def named_node(beat, name):
     return next(n for n in beat.scene.hierarchy if n.id == name)
 
 
-def acting_at(beat, local):
-    anchor = named_node(beat, "actor").world
+def acting_at(beat, local, *, partner=False):
+    anchor = named_node(beat, "partner" if partner else "actor").world
+    if beat.refined and not beat.interaction:
+        performer = beat.partner if partner else Performer(
+            beat.actor, beat.action, beat.expression, beat.facing, beat.delay
+        )
+        pose, clock = pose_at(performer, local, refined=True)
+        facing = "right" if beat.cue_frame is not None and local >= beat.cue_frame else performer.facing
+        expression = performer.expression if local >= performer.delay else "neutral"
+        return Acting(anchor, pose, expression, None, clock, facing)
     if beat.interaction:
         authored_frame = min(local, INTERACTIONS[beat.action].frames - 1)
         state = sample_interaction(beat.interaction, authored_frame)
@@ -48,7 +62,7 @@ def state_at(project, frame):
     state = acting_at(beat, local)
     rig = presets.SKELETON if beat.actor == "rowan_01" else living.RIGS[beat.actor]
     joints = rig.evaluate(state.pose)
-    point = state.anchor.point
+    point = state.point
     result = {
         "frame": frame,
         "shot": shot.id,
@@ -65,6 +79,19 @@ def state_at(project, frame):
             if c["start_sample"] <= frame * 1600 < c["end_sample"]
         ],
     }
+    if beat.refined:
+        result["facing"] = state.facing
+        result["expression"] = state.expression
+        if beat.partner:
+            other = acting_at(beat, local, partner=True)
+            other_joints = living.RIGS[beat.partner.actor].evaluate(other.pose)
+            result["partner"] = {
+                "actor": beat.partner.actor, "facing": other.facing, "expression": other.expression,
+                "authored_frame": other.local_frame,
+                "root_world": other.point(other.pose.root.x, other.pose.root.y),
+                "feet_world": {k: other.point(v.x, v.y) for k, v in other_joints.items()
+                               if k.endswith("_foot")},
+            }
     if state.interaction:
         prop = state.interaction.prop
         result.update(prop_world=point(*prop), contact=state.interaction.contact)
@@ -78,12 +105,20 @@ def state_at(project, frame):
     return result
 
 
-def camera_for(shot, state, frame):
+def camera_for(shot, state, frame, *, partner=None):
     """All subjects and target positions are sampled before applying depth projection."""
     beat = shot.beat
-    profile = living.PROFILES.get(beat.actor)
+    if shot.camera == "two_shot":
+        a, b = (person.point(person.pose.root.x, person.pose.root.y)[0]
+                for person in (state, partner))
+        zoom = min(1.8, 255 / (abs(b - a) + 56))
+        return _aim((a + b) / 2, state.anchor.y - 50, zoom, 180, 380)
+    actor_id = beat.actor
+    if shot.focus == "partner":
+        state, actor_id = partner, beat.partner.actor
+    profile = living.PROFILES.get(actor_id)
     height = state.anchor.scale * (profile.height if profile else 158)
-    x, _ = state.anchor.point(state.pose.root.x, state.pose.root.y)
+    x, _ = state.point(state.pose.root.x, state.pose.root.y)
     floor = state.anchor.y
     prop_x = state.anchor.point(*state.interaction.prop)[0] if state.interaction else x
     progress = (frame - shot.start) / (shot.end - shot.start - 1)
@@ -120,20 +155,32 @@ def visual_frame(project, frame):
     shot, local = project.at(frame)
     beat = shot.beat
     state = acting_at(beat, local)
-    camera = camera_for(shot, state, frame)
+    partner = acting_at(beat, local, partner=True) if beat.partner else None
+    camera = camera_for(shot, state, frame, partner=partner)
     if beat.interaction:
         return interaction_frame(
             beat.interaction, state.local_frame, camera_override=camera, atmosphere_frame=frame
         )
-    actor = CharacterFrame(
-        "actor", state.anchor, living.draw_pose(beat.actor, state.pose, state.expression)
-    )
+    def character(node, identity, acting):
+        commands = living.draw_pose(identity, acting.pose, acting.expression)
+        if acting.facing == "left":
+            commands = face_left(commands)
+        return CharacterFrame(node, acting.anchor, commands)
+
+    actors = (character("actor", beat.actor, state),)
+    if partner:
+        actors += (character("partner", beat.partner.actor, partner),)
+    scene = beat.scene
+    if beat.cue_frame is not None and local < beat.cue_frame:
+        nodes = tuple(replace(n, variant="unlit") if n.id == "streetlamp" else n
+                      for n in scene.scene.nodes)
+        scene = replace(scene, scene=replace(scene.scene, nodes=nodes))
     return tuple(
         command
         for layer in evaluate_layers(
-            beat.scene,
-            local,
-            character_override=actor,
+            scene,
+            min(local, scene.scene.frames - 1),
+            character_override=actors,
             camera_override=camera,
             atmosphere_frame=frame,
         )

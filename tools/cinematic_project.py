@@ -21,7 +21,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--registry", type=Path, default=ROOT / "assets/audio")
     commands = parser.add_subparsers(dest="command", required=True)
-    for name in ("schema", "capabilities", "list"):
+    commands.add_parser("schema").add_argument("--version", default="cinematic-project-0.1",
+        choices=("cinematic-project-0.1", "cinematic-project-0.2"))
+    for name in ("capabilities", "list"):
         commands.add_parser(name)
     for name in ("validate", "plan", "inspect"):
         command = commands.add_parser(name)
@@ -42,7 +44,7 @@ def main():
         signal.signal(signal.SIGINT, lambda *_: cancellation.set())
     try:
         if args.command == "schema":
-            result = project_schema()
+            result = project_schema(args.version)
         elif args.command in ("capabilities", "list"):
             result = capabilities(args.registry)
         elif args.command == "verify":
