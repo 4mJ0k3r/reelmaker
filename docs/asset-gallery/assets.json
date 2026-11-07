@@ -2394,6 +2394,22 @@
         "../visual-evidence/sprint-b/woodland_creek-windy-360.png"
       ]
     },
+    "transitions": {
+      "scout_01": {
+        "idle_to_walk": "../visual-evidence/sprint-b1/motion/scout_01-idle_to_walk.webp",
+        "walk_to_stop": "../visual-evidence/sprint-b1/motion/scout_01-walk_to_stop.webp",
+        "idle_to_notice": "../visual-evidence/sprint-b1/motion/scout_01-idle_to_notice.webp",
+        "notice_to_react": "../visual-evidence/sprint-b1/motion/scout_01-notice_to_react.webp",
+        "react_to_idle": "../visual-evidence/sprint-b1/motion/scout_01-react_to_idle.webp"
+      },
+      "mechanic_01": {
+        "idle_to_walk": "../visual-evidence/sprint-b1/motion/mechanic_01-idle_to_walk.webp",
+        "walk_to_stop": "../visual-evidence/sprint-b1/motion/mechanic_01-walk_to_stop.webp",
+        "idle_to_notice": "../visual-evidence/sprint-b1/motion/mechanic_01-idle_to_notice.webp",
+        "notice_to_react": "../visual-evidence/sprint-b1/motion/mechanic_01-notice_to_react.webp",
+        "react_to_idle": "../visual-evidence/sprint-b1/motion/mechanic_01-react_to_idle.webp"
+      }
+    },
     "worlds": {
       "village_lane": [
         "daylight",

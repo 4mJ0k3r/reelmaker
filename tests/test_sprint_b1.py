@@ -55,6 +55,18 @@ def sequence_stubs(monkeypatch):
     def join(paths, output, cancelled):
         output.write_bytes(b"joined")
     monkeypatch.setattr(living_worlds, "render_scene", render)
+    original_owner = living_worlds.OwnedDirectory
+    class LocalOwner(original_owner):
+        def __init__(self, parent, prefix):
+            # The fixture selects a local parent for injected transaction faults.
+            super().__init__(local_parent[0], prefix)
+    local_parent = [None]
+    original_sequence = living_worlds.render_sequence
+    def sequence(shots, output, **kwargs):
+        local_parent[0] = output.parent
+        return original_sequence(shots, output, **kwargs)
+    monkeypatch.setattr(living_worlds, "OwnedDirectory", LocalOwner)
+    monkeypatch.setattr(living_worlds, "render_sequence", sequence)
     monkeypatch.setattr(living_worlds, "_concat_copy", join)
     monkeypatch.setattr(living_worlds, "verify_video",
                         lambda *a,**k: {"decoded_rgb_sha256":["hash"]*3})
@@ -87,10 +99,10 @@ def test_sequence_fault_cleans_only_owned_work(tmp_path, monkeypatch, sequence_s
                                           "timestamps":"_verify_pts"}[point], fail)
     if point == "publication":
         link = living_worlds.os.link
-        def link_with_failure(source, destination):
+        def link_with_failure(source, destination, **kwargs):
             if str(destination).endswith(".json"):
                 raise RuntimeError(point)
-            link(source,destination)
+            link(source,destination,**kwargs)
         monkeypatch.setattr(living_worlds.os, "link", link_with_failure)
     with pytest.raises(RuntimeError, match=point):
         living_worlds.render_sequence(sequence_stubs,output)
@@ -101,7 +113,9 @@ def test_sequence_fault_cleans_only_owned_work(tmp_path, monkeypatch, sequence_s
 
 def test_sequence_success_and_no_clobber(tmp_path, sequence_stubs):
     output = tmp_path / "film"
-    living_worlds.render_sequence(sequence_stubs,output)
+    report = living_worlds.render_sequence(sequence_stubs,output)
+    assert report["assembly_memory"]["job_budget_bytes"] == 256 * 1024**2
+    assert report["assembly_memory"]["reserve_bytes"] == 64 * 1024**2
     before = (output / "film.mp4").stat()
     with pytest.raises(FileExistsError):
         living_worlds.render_sequence(sequence_stubs,output)
@@ -158,7 +172,7 @@ def test_continuous_transition_and_ground_contacts(actor,transition):
 
 
 @pytest.mark.parametrize("failure_frame",[0,15,29])
-def test_native_frame_failure_reaps_encoder(tmp_path,failure_frame):
+def test_native_frame_failure_reaps_encoder(tmp_path,monkeypatch,failure_frame):
     pytest.importorskip("cairo")
     from reelforge.scenes.contract import validate_scene
     from reelforge.scenes.graph import compile_scene,scene_frame
@@ -170,8 +184,131 @@ def test_native_frame_failure_reaps_encoder(tmp_path,failure_frame):
         if frame==failure_frame:
             raise RuntimeError("frame fault")
         return scene_frame(scene,frame)
+    from reelforge.media import encoder
+    factory = encoder.FFmpegEncoder
+    encoders = []
+    def record(*args, **kwargs):
+        instance = factory(*args, **kwargs)
+        encoders.append(instance)
+        return instance
+    monkeypatch.setattr(encoder, "FFmpegEncoder", record)
     output=tmp_path / "film"
     with pytest.raises(RuntimeError,match="frame fault"):
         living_worlds.render_sequence([(scene,fail_at)],output)
     assert not output.exists()
+    assert not list(tmp_path.glob(".reelforge-*"))
+    assert encoders
+    for instance in encoders:
+        assert instance.proc.poll() is not None
+        assert instance.proc.stdin.closed and instance.proc.stderr.closed
+        assert not instance._reader.is_alive()
+        instance.confirm_cleanup()
+        assert not instance.output.parent.parent.exists()
+
+
+def test_film_request_cli_dispatch(tmp_path, monkeypatch, capsys):
+    path = tmp_path / "film.json"
+    path.write_text('{"schema_version":"living-film-0.1","film":"the_forgotten_parcel"}')
+    monkeypatch.setattr("sys.argv",["living_worlds","film-request",str(path),
+                                   "--output-dir",str(tmp_path/"output")])
+    seen=[]
+    def render(shots,output):
+        seen.append((shots,output))
+        return {"frames":270,"verification":{"passed":True}}
+    monkeypatch.setattr(living_worlds,"render_sequence",render)
+    living_worlds.main()
+    assert len(seen)==1 and len(seen[0][0])==3
+    assert json.loads(capsys.readouterr().out)=={"frames":270,"passed":True}
+
+
+def test_user_file_created_during_publication_survives(tmp_path,monkeypatch,sequence_stubs):
+    output=tmp_path/"film"
+    link=living_worlds.os.link
+    def race(source,destination, **kwargs):
+        if str(destination).endswith(".json"):
+            (output / destination).write_bytes(b"user data")
+        link(source,destination,**kwargs)
+    monkeypatch.setattr(living_worlds.os,"link",race)
+    with pytest.raises(FileExistsError):
+        living_worlds.render_sequence(sequence_stubs,output)
+    assert {p.name for p in output.iterdir()}=={"film_report.json"}
+    assert (output/"film_report.json").read_bytes()==b"user data"
+    assert not list(tmp_path.glob(".reelforge-*"))
+
+
+@pytest.mark.parametrize("frame",[-1,90,True,1.5])
+def test_transition_frame_range(frame):
+    with pytest.raises(ValueError):
+        sample_transition("scout_01","idle_to_walk",frame)
+
+
+def test_offline_gallery_local_links():
+    from html.parser import HTMLParser
+    root=Path(__file__).resolve().parents[1]
+    gallery=root/"docs/asset-gallery"
+    class Links(HTMLParser):
+        def handle_starttag(self,tag,attrs):
+            for key,value in attrs:
+                if key in ("href","src") and value and not value.startswith("#"):
+                    assert "://" not in value
+                    assert (gallery/value).is_file()
+    Links().feed((gallery/"index.html").read_text())
+    data=json.loads((gallery/"assets.json").read_text())
+    for actor in living.PROFILES:
+        transitions=data["living_worlds"]["transitions"][actor]
+        assert set(transitions)==set(TRANSITIONS)
+        assert all((gallery/path).is_file() for path in transitions.values())
+
+
+def test_replacement_during_publication_uses_original_directory(tmp_path,monkeypatch,sequence_stubs):
+    output=tmp_path/"film"
+    original=tmp_path/"moved"
+    link=living_worlds.os.link
+    def substitute(source,destination,**kwargs):
+        if str(destination).endswith(".json"):
+            output.rename(original)
+            output.mkdir()
+            (output/"user").write_bytes(b"keep")
+        link(source,destination,**kwargs)
+    monkeypatch.setattr(living_worlds.os,"link",substitute)
+    with pytest.raises(ValueError,match="identity changed"):
+        living_worlds.render_sequence(sequence_stubs,output)
+    assert list(original.iterdir())==[]
+    assert (output/"user").read_bytes()==b"keep"
+    assert {p.name for p in output.iterdir()}=={"user"}
+
+
+def test_native_single_scene_publication(tmp_path):
+    pytest.importorskip("cairo")
+    from reelforge.scenes.contract import validate_scene
+    from reelforge.scenes.graph import compile_scene
+    from reelforge.visual_library.composition.living_worlds import world_manifest
+    if Path("/tmp") in tmp_path.parents:
+        pytest.skip("Native workspace requires --basetemp outside /tmp")
+    scene=compile_scene(validate_scene(world_manifest("village_lane","evening",frames=30)))
+    report=living_worlds.render_sequence([(scene,None)],tmp_path/"scene",single_scene=True)
+    assert report["verification"]["passed"] and report["frames"]==30
+    assert report["sequence_memory"]["limit_reason"] is None
+    assert {p.name for p in (tmp_path/"scene").iterdir()}=={"scene.mp4","render_report.json"}
+    assert not list(tmp_path.glob(".reelforge-*"))
+
+
+def test_sequence_cancellation_cleans_work(tmp_path,monkeypatch,sequence_stubs):
+    monitor_type=living_worlds.JobMonitor
+    monitors=[]
+    class RecordingMonitor(monitor_type):
+        def __enter__(self):
+            result=super().__enter__()
+            monitors.append(self)
+            return result
+    render=living_worlds.render_scene
+    def cancel_after_shot(*args,**kwargs):
+        result=render(*args,**kwargs)
+        monitors[-1].cancelled.set()
+        return result
+    monkeypatch.setattr(living_worlds,"JobMonitor",RecordingMonitor)
+    monkeypatch.setattr(living_worlds,"render_scene",cancel_after_shot)
+    with pytest.raises(ValueError,match="resource guard"):
+        living_worlds.render_sequence(sequence_stubs,tmp_path/"film")
+    assert not (tmp_path/"film").exists()
     assert not list(tmp_path.glob(".reelforge-*"))

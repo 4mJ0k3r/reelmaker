@@ -2465,6 +2465,22 @@ dialog form {display:flex; justify-content:flex-end}
         "../visual-evidence/sprint-b/woodland_creek-windy-360.png"
       ]
     },
+    "transitions": {
+      "scout_01": {
+        "idle_to_walk": "../visual-evidence/sprint-b1/motion/scout_01-idle_to_walk.webp",
+        "walk_to_stop": "../visual-evidence/sprint-b1/motion/scout_01-walk_to_stop.webp",
+        "idle_to_notice": "../visual-evidence/sprint-b1/motion/scout_01-idle_to_notice.webp",
+        "notice_to_react": "../visual-evidence/sprint-b1/motion/scout_01-notice_to_react.webp",
+        "react_to_idle": "../visual-evidence/sprint-b1/motion/scout_01-react_to_idle.webp"
+      },
+      "mechanic_01": {
+        "idle_to_walk": "../visual-evidence/sprint-b1/motion/mechanic_01-idle_to_walk.webp",
+        "walk_to_stop": "../visual-evidence/sprint-b1/motion/mechanic_01-walk_to_stop.webp",
+        "idle_to_notice": "../visual-evidence/sprint-b1/motion/mechanic_01-idle_to_notice.webp",
+        "notice_to_react": "../visual-evidence/sprint-b1/motion/mechanic_01-notice_to_react.webp",
+        "react_to_idle": "../visual-evidence/sprint-b1/motion/mechanic_01-react_to_idle.webp"
+      }
+    },
     "worlds": {
       "village_lane": [
         "daylight",
@@ -2675,6 +2691,16 @@ for (const [kit, moods] of Object.entries(data.living_worlds.worlds)) {
     }
   }
   motionLink(group, kit);
+  living.append(group);
+}
+for (const [actor, transitions] of Object.entries(data.living_worlds.transitions)) {
+  const group = element("p", actor + " · continuous transitions ");
+  if (!Object.keys(transitions).length) group.append(element("span", "Preview unavailable"));
+  for (const [name, path] of Object.entries(transitions)) {
+    const button = element("button", name.replaceAll("_", " "));
+    button.addEventListener("click", () => enlarge(path, actor + " · " + name));
+    group.append(button);
+  }
   living.append(group);
 }
 for (const [id, spec] of Object.entries(data.living_worlds.interactions)) {

@@ -20,6 +20,7 @@ from reelforge.visual_library.composition.building_showcase import building_show
 from reelforge.visual_library.world_assets import WORLD_ASSETS
 from reelforge.visual_library.living_assets import EFFECTS, PROPS
 from reelforge.characters.living import PROFILES
+from reelforge.characters.living_transitions import TRANSITIONS
 from reelforge.visual_library.composition.interactions import INTERACTIONS
 from reelforge.visual_library.composition.living_worlds import WORLD_KITS
 
@@ -71,6 +72,14 @@ def metadata(previews=None):
                 if (evidence / f"{kit}-{mood}-{width}.png").is_file()
             ]
             for kit, moods in WORLD_KITS.items() for mood in moods
+        },
+        "transitions": {
+            actor: {
+                key: f"../visual-evidence/sprint-b1/motion/{actor}-{key}.webp"
+                for key in TRANSITIONS
+                if (ROOT / f"docs/visual-evidence/sprint-b1/motion/{actor}-{key}.webp").is_file()
+            }
+            for actor in PROFILES
         },
         "worlds": WORLD_KITS,
         "interactions": {identity: vars(spec) for identity, spec in INTERACTIONS.items()},

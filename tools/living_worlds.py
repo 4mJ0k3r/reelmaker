@@ -130,7 +130,7 @@ def film_request(data):
     return data["film"]
 
 
-def render_sequence(shots, output):
+def render_sequence(shots, output, *, single_scene=False):
     """Verify in an owned subtree, then publish into a reserved output directory."""
     output = output.absolute()
     output.mkdir(parents=True, exist_ok=False)
@@ -139,8 +139,15 @@ def render_sequence(shots, output):
     complete = False
     reports = []
     owner = None
+    output_fd = None
     try:
-        owner = OwnedDirectory(output.parent, ".reelforge-shots-")
+        output_fd = os.open(output, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        if OwnedDirectory._key(os.fstat(output_fd)) != output_identity:
+            raise ValueError("Reserved film output identity changed")
+        scratch_root = Path("/var/tmp")
+        if not scratch_root.is_dir() or scratch_root.stat().st_dev != output.parent.stat().st_dev:
+            scratch_root = output.parent
+        owner = OwnedDirectory(scratch_root, ".reelforge-shots-")
         scratch = owner.path
         with JobMonitor(workspace=scratch) as job_monitor:
             paths = []
@@ -166,13 +173,22 @@ def render_sequence(shots, output):
             raise ValueError("Sequence resource guard failed")
         report = {"frames": frames, "verification": verification, "timestamps": timestamps,
                   "shots": reports, "assembly_memory": job_monitor.report()}
+        video_name, report_name = "film.mp4", "film_report.json"
+        if single_scene:
+            if len(reports) != 1:
+                raise ValueError("A scene publication requires exactly one shot")
+            report = {**reports[0], "verification": verification, "timestamps": timestamps,
+                      "sequence_memory": job_monitor.report()}
+            video_name, report_name = "scene.mp4", "render_report.json"
         (scratch / "film_report.json").write_text(json.dumps(report, indent=2) + "\n")
         if output.is_symlink() or OwnedDirectory._key(output.lstat()) != output_identity:
             raise ValueError("Reserved film output identity changed")
-        for name in ("film.mp4", "film_report.json"):
-            source = scratch / name
-            os.link(source, output / name)
-            published[name] = OwnedDirectory._key(source.stat())
+        for source_name, target_name in (("film.mp4", video_name), ("film_report.json", report_name)):
+            source = scratch / source_name
+            os.link(source, target_name, dst_dir_fd=output_fd)
+            published[target_name] = OwnedDirectory._key(source.stat())
+        if output.is_symlink() or OwnedDirectory._key(output.lstat()) != output_identity:
+            raise ValueError("Reserved film output identity changed during publication")
         owner.cleanup()
         owner.confirm_cleanup()
         complete = True
@@ -185,17 +201,25 @@ def render_sequence(shots, output):
         finally:
             # Only remove files this invocation published into its original directory.
             # A replaced path or foreign file is left for its owner.
-            if (not complete and not output.is_symlink() and output.exists()
-                    and OwnedDirectory._key(output.lstat()) == output_identity):
-                for name, identity in published.items():
-                    path = output / name
-                    if path.exists() and OwnedDirectory._key(path.lstat()) == identity:
-                        path.unlink()
-                try:
-                    output.rmdir()
-                except OSError:
-                    if not any(output.iterdir()):
-                        raise
+            try:
+                if not complete and output_fd is not None:
+                    for name, identity in published.items():
+                        try:
+                            info = os.stat(name, dir_fd=output_fd, follow_symlinks=False)
+                        except FileNotFoundError:
+                            continue
+                        if OwnedDirectory._key(info) == identity:
+                            os.unlink(name, dir_fd=output_fd)
+                    if (not output.is_symlink() and output.exists()
+                            and OwnedDirectory._key(output.lstat()) == output_identity):
+                        try:
+                            output.rmdir()
+                        except OSError:
+                            if not os.listdir(output_fd):
+                                raise
+            finally:
+                if output_fd is not None:
+                    os.close(output_fd)
 
 
 def main():
@@ -215,9 +239,9 @@ def main():
     transition.add_argument("actor", choices=PROFILES)
     transition.add_argument("transition", choices=TRANSITIONS)
     transition.add_argument("--output-dir", type=Path, required=True)
-    film_request = commands.add_parser("film-request")
-    film_request.add_argument("request", type=Path)
-    film_request.add_argument("--output-dir", type=Path, required=True)
+    film_parser = commands.add_parser("film-request")
+    film_parser.add_argument("request", type=Path)
+    film_parser.add_argument("--output-dir", type=Path, required=True)
     for name, choices in (("actor-reel", PROFILES), ("film", FILMS)):
         command = commands.add_parser(name)
         command.add_argument("identity", choices=choices)
@@ -227,18 +251,20 @@ def main():
         if args.command == "list":
             result = dict(worlds=WORLD_KITS, actors=list(PROFILES), actions=ACTIONS,
                           expressions=EXPRESSIONS, interactions={
-                              k: vars(v) for k,v in INTERACTIONS.items()}, films=FILMS)
+                              k: vars(v) for k,v in INTERACTIONS.items()}, films=FILMS,
+                          transitions=TRANSITIONS)
         elif args.command == "world":
             result = world_manifest(args.kit, args.mood, actor=args.actor,
                                     action=args.action, expression=args.expression)
         elif args.command == "interaction":
             plan = compile_interaction(read_request(args.request))
-            report = render_scene(plan.scene, args.output_dir,
-                                  frame_evaluator=lambda _, f: framed_interaction_frame(plan, f))
+            report = render_sequence(
+                [(plan.scene, lambda _, f: framed_interaction_frame(plan, f))],
+                args.output_dir, single_scene=True)
             result = {"frames": report["frames"], "passed": report["verification"]["passed"]}
         elif args.command == "transition":
             scene, evaluator = transition_shot(args.actor, args.transition)
-            report = render_scene(scene, args.output_dir, frame_evaluator=evaluator)
+            report = render_sequence([(scene,evaluator)], args.output_dir, single_scene=True)
             result = {"frames": report["frames"], "passed": report["verification"]["passed"]}
         elif args.command == "film-request":
             identity = film_request(read_request(args.request))
