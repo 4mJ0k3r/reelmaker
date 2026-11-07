@@ -1,0 +1,14 @@
+{
+  "schema_version": "cinematic-project-0.1",
+  "title": "Parcel continuity proof",
+  "beats": [
+    {"id":"pickup","start":0,"end":180,"actor":"scout_01","world":"village_lane",
+     "mood":"evening","action":"pickup_carry_place","variant":"wrapped"}
+  ],
+  "shots": [
+    {"id":"reach","camera":"medium"},
+    {"id":"carry","camera":"interaction_detail"}
+  ],
+  "captions": [],
+  "audio": null
+}

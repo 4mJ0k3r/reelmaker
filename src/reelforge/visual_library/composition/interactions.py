@@ -50,7 +50,7 @@ class Sample:
     travel: float = 0
 
 
-def compile_interaction(data):
+def interaction_manifest(data):
     fields = {"schema_version", "interaction", "actor", "prop", "variant"}
     if not isinstance(data, dict) or set(data) != fields or data["schema_version"] != "interaction-0.1":
         raise ValueError("Supply exactly the interaction-0.1 request fields")
@@ -71,8 +71,12 @@ def compile_interaction(data):
     scene["nodes"].append(node("interaction_prop", "midground", 8 if identity == "sit_stand" else 10,
                                spec.prop, variant, actor_node["transform"]["x"],
                                actor_node["transform"]["y"], scale * (2 if actor == "rowan_01" else 1)))
-    compiled = compile_scene(validate_scene(scene))
-    return InteractionPlan(identity, actor, variant, compiled)
+    return scene
+
+
+def compile_interaction(data):
+    scene = compile_scene(validate_scene(interaction_manifest(data)))
+    return InteractionPlan(data["interaction"], data["actor"], data["variant"], scene)
 
 
 def ramp(t, start, end):
