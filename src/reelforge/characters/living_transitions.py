@@ -52,16 +52,17 @@ def starting_foot(t, side):
     return (mix(previous, destination, ease(phase)), -5-8*math.sin(math.pi*phase)**2), False
 
 
-def sample_transition(identity, transition, frame):
+def sample_transition(identity, transition, frame, *, refined=False):
     if identity not in living.PROFILES or transition not in TRANSITIONS:
         raise ValueError("Choose a registered living actor and transition")
     if type(frame) is not int or not 0 <= frame < FRAMES:
         raise ValueError("Transition frame must be an integer within 0..89")
     t = frame / 30
+    motion = {"refined": True} if refined else {}
     if transition == "idle_to_walk":
         weight = ease((t-.2)/.8)
-        idle = living.sample_pose(identity, "idle", t)
-        walking = living.sample_pose(identity, "walk", max(0,t-.4))
+        idle = living.sample_pose(identity, "idle", t, **motion)
+        walking = living.sample_pose(identity, "walk", max(0,t-.4), **motion)
         angles = {key: mix(value, dict(walking.angles)[key], weight) for key,value in idle.angles}
         elapsed = max(0,t-.4)
         x = 30 * elapsed * ease(elapsed/.6)
@@ -72,8 +73,8 @@ def sample_transition(identity, transition, frame):
         duration = 2 * (1.5/1.13 - .4)
         u = max(0,min(1,(t-.4)/duration))
         clock = t if t <= .4 else .4 + duration * (u-u**3+.5*u**4)
-        walking = living.sample_pose(identity, "walk", clock)
-        idle = living.sample_pose(identity, "idle", t)
+        walking = living.sample_pose(identity, "walk", clock, **motion)
+        idle = living.sample_pose(identity, "idle", t, **motion)
         weight = ease(u)
         angles = {key: mix(value, dict(idle.angles)[key], weight) for key,value in walking.angles}
         root = Rigid(walking.root.x, mix(walking.root.y, idle.root.y, weight))
@@ -86,8 +87,8 @@ def sample_transition(identity, transition, frame):
             "notice_to_react": ("notice","react",.55),
             "react_to_idle": ("react","idle",.4),
         }[transition]
-        before = living.sample_pose(identity, source, t+offset)
-        after = living.sample_pose(identity, destination, max(0,t-.35))
+        before = living.sample_pose(identity, source, t+offset, **motion)
+        after = living.sample_pose(identity, destination, max(0,t-.35), **motion)
         weight = ease((t-.35)/.8)
         angles = {key: mix(value, dict(after.angles)[key], weight) for key,value in before.angles}
         root = Rigid(0,mix(before.root.y,after.root.y,weight))

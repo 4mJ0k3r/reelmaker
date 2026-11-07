@@ -7,4 +7,6 @@ D1 extends the preserved catalog workflow with native-free contract tests and a
 short Cairo/FFmpeg integration job on Ubuntu 24.04 and Python 3.12. The native
 job exercises the actual caption, registry, scene, encoder and rollback paths.
 Hosted confirmation requires publication of the later approved D branch.
-D0 checkpoint .
+D0 checkpoint 300f26fbbbd10a28f7dfe947a745a28507b75897.
+
+D2 measures both rigs and adds opt-in grounded gait blending. D1 checkpoint e6c5517f338f266f11e92ae42d42ba9bb2d11149.

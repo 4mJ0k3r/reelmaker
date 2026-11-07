@@ -39,6 +39,7 @@ class InteractionPlan:
     actor: str
     variant: str
     scene: object
+    refined: bool = False
 
 
 @dataclass(frozen=True)
@@ -110,7 +111,7 @@ def manipulation_sample(plan, t):
         crouch += 7.5 * lift * (1-lower)
         travel_time = 1.45 * ramp(t, 2.25, 3.75)
         gait = ramp(t,2.25,2.55) * (1-ramp(t,3.45,3.75))
-        pose = living.sample_pose(actor, "walk", travel_time, crouch=crouch, gait_weight=gait)
+        pose = living.sample_pose(actor, "walk", travel_time, crouch=crouch, gait_weight=gait, refined=plan.refined)
         hand_x = pose.root.x + 18
         hand_y = -16 - 38 * lift * (1-lower)
         grasp = pickup * (1-release)
@@ -123,7 +124,7 @@ def manipulation_sample(plan, t):
         travel_time = 2.15 * ramp(t, 1.15, 3.85)
         gait = ramp(t,1.15,1.45) * (1-ramp(t,3.55,3.85))
         crouch = (13.5 if actor == "scout_01" else 11.5) * grasp
-        pose = living.sample_pose(actor, "walk", travel_time, crouch=crouch, gait_weight=gait)
+        pose = living.sample_pose(actor, "walk", travel_time, crouch=crouch, gait_weight=gait, refined=plan.refined)
         hand_x, hand_y = pose.root.x + 24, -41
         prop_x, prop_y = hand_x + 51, 0
         expression = "determined" if grasp > .5 else "neutral"
@@ -131,7 +132,7 @@ def manipulation_sample(plan, t):
     hand = living.RIGS[actor].evaluate(pose)["near_hand"]
     target = (hand.x + (hand_x - hand.x) * grasp, hand.y + (hand_y - hand.y) * grasp)
     if grasp > 0:
-        pose = living.sample_pose(actor, "walk", travel_time, crouch=crouch, hand=target, gait_weight=gait)
+        pose = living.sample_pose(actor, "walk", travel_time, crouch=crouch, hand=target, gait_weight=gait, refined=plan.refined)
     return Sample(pose, (prop_x, prop_y), contact, expression, pose.root.x)
 
 

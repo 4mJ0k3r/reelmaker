@@ -70,7 +70,7 @@ def step_target(phase, stride, lift, offset):
             -5 - lift * math.sin(math.pi * swing) ** 2)
 
 
-def sample_pose(identity, action, seconds, *, crouch=0., hand=None, gait_weight=1.):
+def sample_pose(identity, action, seconds, *, crouch=0., hand=None, gait_weight=1., refined=False):
     profile = PROFILES[identity]
     if action not in ACTIONS or not math.isfinite(seconds) or not 0 <= seconds <= 12:
         raise ValueError("Select a registered action and time within twelve seconds")
@@ -83,6 +83,17 @@ def sample_pose(identity, action, seconds, *, crouch=0., hand=None, gait_weight=
     react = math.sin(math.pi * ease(min(seconds / 1.15, 1))) if action == "react" else 0
     lean *= gait_weight if walking else 1
     lean += .13 * notice - (.25 if identity == "scout_01" else .17) * react
+    # Keep the registered route and cadence for contact choreography. Free acting
+    # separates Scout's quicker recovery from Bram's heavier upper-body settling.
+    if refined and not (walking and (crouch or gait_weight != 1 or hand)):
+        agile = identity == "scout_01"
+        anticipation = math.sin(math.pi * ease(seconds / .34)) if seconds < .34 else 0
+        lean += (.045 if agile else .075) * math.sin(2 * math.pi * cycle)
+        lean -= (.055 if agile else .085) * anticipation * (action in ("notice", "react"))
+        if action == "notice":
+            notice = math.sin(math.pi * ease(min(seconds / (1.28 if agile else 1.62), 1)))
+        if action == "react":
+            react = math.sin(math.pi * ease(min(seconds / (1.20 if agile else 1.55), 1)))
     x = cycle * stride if walking else 0
     y = -(profile.upper + profile.lower + 2.5) + crouch
     if walking:
@@ -94,8 +105,8 @@ def sample_pose(identity, action, seconds, *, crouch=0., hand=None, gait_weight=
     for side, sign, offset in (("far", -1, .5), ("near", 1, 0)):
         foot = step_target(cycle, stride, 16 if fast else 8, offset) if walking else (sign * 10, -5)
         if walking:
-            foot = (x + sign * 10 + gait_weight * (foot[0] - x - sign * 10),
-                    -5 + gait_weight * (foot[1] + 5))
+            foot_x = foot[0] if refined else x + sign * 10 + gait_weight * (foot[0] - x - sign * 10)
+            foot = (foot_x, -5 + gait_weight * (foot[1] + 5))
         hip = x + sign * 5
         dx = foot[0] - hip
         legs.append((side, dx, foot[1]))
@@ -103,6 +114,10 @@ def sample_pose(identity, action, seconds, *, crouch=0., hand=None, gait_weight=
         y = max(y, foot[1] - math.sqrt(limit ** 2 - dx ** 2))
         angles[f"{side}_shoulder"] = sign * (.76 if fast else .48) * math.sin(2 * math.pi * cycle) * gait_weight - .8 * react
         angles[f"{side}_elbow"] = -.23 - .63 * react - (.52 if fast else .08)
+        if refined and not (crouch or hand or gait_weight != 1):
+            weight = 1.13 if identity == "scout_01" else .81
+            angles[f"{side}_shoulder"] = weight * angles[f"{side}_shoulder"] + .16 * notice * sign
+            angles[f"{side}_elbow"] -= .12 * notice * (sign == 1)
     for side, dx, ankle_y in legs:
         a, b = two_bone(dx, ankle_y - y, profile.upper, profile.lower)
         angles.update({f"{side}_hip": a, f"{side}_knee": b, f"{side}_foot": -a-b})
