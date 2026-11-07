@@ -9,4 +9,4 @@ Approved baseline commit `ee1787c3fa322a88ca77c1c5bb6b0032a371f89b`, tree `2b082
 | E3 | Checkpointed. Opt-in planted signal acting with independent reaction timing. |
 | E4 | Checkpointed. Refined manifest and mobile storyboard reviewed before final encoding. |
 | E5 | Checkpointed. Documented CLI accepted the film, media and no-clobber verified. |
-| E6 | Pending |
+| E6 | Checkpointed. Full local regression passed and release qualification recorded. |
