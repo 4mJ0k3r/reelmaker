@@ -1,0 +1,37 @@
+{
+  "schema_version": "cinematic-project-0.1",
+  "title": "Variant - Rowan Waits",
+  "beats": [
+    {
+      "id": "wait",
+      "start": 0,
+      "end": 180,
+      "actor": "rowan_01",
+      "world": "village_lane",
+      "mood": "daylight",
+      "action": "sit_stand",
+      "variant": "painted"
+    }
+  ],
+  "shots": [
+    {
+      "id": "settlement_bench",
+      "camera": "medium"
+    },
+    {
+      "id": "wait_for_reply",
+      "camera": "interaction_detail"
+    }
+  ],
+  "captions": [
+    {
+      "start": 61,
+      "end": 147,
+      "style": "subtitle",
+      "lines": [
+        "Rowan waits for a reply."
+      ]
+    }
+  ],
+  "audio": null
+}

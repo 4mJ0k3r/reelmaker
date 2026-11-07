@@ -1,0 +1,43 @@
+{
+  "schema_version": "cinematic-project-0.1",
+  "title": "Variant - Watch the Mist",
+  "beats": [
+    {
+      "id": "watch",
+      "start": 0,
+      "end": 180,
+      "actor": "scout_01",
+      "world": "woodland_creek",
+      "mood": "misty",
+      "action": "notice",
+      "stage_x": 160,
+      "expression": "frightened",
+      "signal": "lit",
+      "effect": {
+        "id": "ground_mist_01",
+        "variant": "dense"
+      }
+    }
+  ],
+  "shots": [
+    {
+      "id": "mist_under_the_bridge",
+      "camera": "establishing"
+    },
+    {
+      "id": "light_through_mist",
+      "camera": "object_reveal"
+    }
+  ],
+  "captions": [
+    {
+      "start": 68,
+      "end": 157,
+      "style": "chapter",
+      "lines": [
+        "Watch the Mist"
+      ]
+    }
+  ],
+  "audio": null
+}

@@ -1,0 +1,360 @@
+{
+  "schema_version": "cinematic-project-0.1",
+  "title": "The Empty Settlement",
+  "beats": [
+    {
+      "id": "rain_arrival",
+      "start": 0,
+      "end": 90,
+      "actor": "scout_01",
+      "world": "village_lane",
+      "mood": "rainy_night",
+      "action": "idle",
+      "stage_x": 55,
+      "signal": "unlit"
+    },
+    {
+      "id": "approach",
+      "start": 90,
+      "end": 180,
+      "actor": "scout_01",
+      "world": "village_lane",
+      "mood": "rainy_night",
+      "action": "idle_to_walk",
+      "stage_x": 55,
+      "signal": "unlit",
+      "expression": "concerned"
+    },
+    {
+      "id": "walk_in",
+      "start": 180,
+      "end": 360,
+      "actor": "scout_01",
+      "world": "village_lane",
+      "mood": "rainy_night",
+      "action": "walk",
+      "stage_x": 114,
+      "signal": "unlit",
+      "expression": "concerned"
+    },
+    {
+      "id": "stop_at_lamp",
+      "start": 360,
+      "end": 450,
+      "actor": "scout_01",
+      "world": "village_lane",
+      "mood": "rainy_night",
+      "action": "walk_to_stop",
+      "stage_x": 220,
+      "signal": "unlit",
+      "expression": "concerned"
+    },
+    {
+      "id": "lamp_out",
+      "start": 450,
+      "end": 540,
+      "actor": "scout_01",
+      "world": "village_lane",
+      "mood": "rainy_night",
+      "action": "idle_to_notice",
+      "stage_x": 250,
+      "signal": "unlit"
+    },
+    {
+      "id": "a_window",
+      "start": 540,
+      "end": 630,
+      "actor": "scout_01",
+      "world": "village_lane",
+      "mood": "evening",
+      "action": "notice",
+      "stage_x": 243,
+      "signal": "unlit",
+      "expression": "surprised"
+    },
+    {
+      "id": "read_the_sign",
+      "start": 630,
+      "end": 720,
+      "actor": "scout_01",
+      "world": "village_lane",
+      "mood": "evening",
+      "action": "idle",
+      "stage_x": 243,
+      "signal": "unlit",
+      "expression": "determined"
+    },
+    {
+      "id": "wait_for_daylight",
+      "start": 720,
+      "end": 900,
+      "actor": "scout_01",
+      "world": "village_lane",
+      "mood": "daylight",
+      "action": "sit_stand",
+      "variant": "weathered",
+      "signal": "unlit"
+    },
+    {
+      "id": "after_waiting",
+      "start": 900,
+      "end": 1080,
+      "actor": "scout_01",
+      "world": "village_lane",
+      "mood": "daylight",
+      "action": "idle",
+      "stage_x": 126,
+      "signal": "unlit",
+      "expression": "concerned",
+      "effect": {
+        "id": "ground_mist_01",
+        "variant": "thin"
+      }
+    },
+    {
+      "id": "first_smoke",
+      "start": 1080,
+      "end": 1170,
+      "actor": "scout_01",
+      "world": "village_lane",
+      "mood": "daylight",
+      "action": "idle_to_notice",
+      "stage_x": 126,
+      "signal": "unlit",
+      "expression": "surprised",
+      "effect": {
+        "id": "smoke_wisp_01",
+        "variant": "thin"
+      }
+    },
+    {
+      "id": "the_answer",
+      "start": 1170,
+      "end": 1260,
+      "actor": "scout_01",
+      "world": "village_lane",
+      "mood": "evening",
+      "action": "notice_to_react",
+      "stage_x": 126,
+      "signal": "lit",
+      "expression": "surprised",
+      "effect": {
+        "id": "smoke_wisp_01",
+        "variant": "rising"
+      }
+    },
+    {
+      "id": "the_lamp_lights",
+      "start": 1260,
+      "end": 1350,
+      "actor": "scout_01",
+      "world": "village_lane",
+      "mood": "evening",
+      "action": "idle",
+      "stage_x": 126,
+      "signal": "lit",
+      "expression": "happy"
+    },
+    {
+      "id": "settle",
+      "start": 1350,
+      "end": 1440,
+      "actor": "scout_01",
+      "world": "village_lane",
+      "mood": "evening",
+      "action": "react_to_idle",
+      "stage_x": 126,
+      "signal": "lit",
+      "expression": "happy"
+    },
+    {
+      "id": "walk_to_the_window",
+      "start": 1440,
+      "end": 1620,
+      "actor": "scout_01",
+      "world": "village_lane",
+      "mood": "evening",
+      "action": "walk",
+      "stage_x": 126,
+      "signal": "lit",
+      "expression": "happy"
+    },
+    {
+      "id": "window_glows",
+      "start": 1620,
+      "end": 1710,
+      "actor": "scout_01",
+      "world": "village_lane",
+      "mood": "evening",
+      "action": "notice",
+      "stage_x": 245,
+      "signal": "lit",
+      "expression": "happy"
+    },
+    {
+      "id": "warmth_returns",
+      "start": 1710,
+      "end": 1800,
+      "actor": "scout_01",
+      "world": "village_lane",
+      "mood": "evening",
+      "action": "idle",
+      "stage_x": 246,
+      "signal": "lit",
+      "expression": "happy",
+      "effect": {
+        "id": "smoke_wisp_01",
+        "variant": "rising"
+      }
+    }
+  ],
+  "shots": [
+    {
+      "id": "storm_over_empty_lane",
+      "camera": "establishing"
+    },
+    {
+      "id": "first_steps",
+      "camera": "medium"
+    },
+    {
+      "id": "walk_through_rain",
+      "camera": "follow"
+    },
+    {
+      "id": "no_one_in_the_lane",
+      "camera": "establishing"
+    },
+    {
+      "id": "stop_to_listen",
+      "camera": "medium"
+    },
+    {
+      "id": "lantern_dark",
+      "camera": "object_reveal"
+    },
+    {
+      "id": "mira_checks_the_shop",
+      "camera": "close_up"
+    },
+    {
+      "id": "a_place_to_wait",
+      "camera": "medium"
+    },
+    {
+      "id": "sit_under_the_eaves",
+      "camera": "medium"
+    },
+    {
+      "id": "morning_bench",
+      "camera": "interaction_detail"
+    },
+    {
+      "id": "hours_pass",
+      "camera": "establishing"
+    },
+    {
+      "id": "still_no_answer",
+      "camera": "close_up"
+    },
+    {
+      "id": "smoke_at_the_roof",
+      "camera": "establishing"
+    },
+    {
+      "id": "she_spots_someone",
+      "camera": "reaction"
+    },
+    {
+      "id": "lamp_flame",
+      "camera": "object_reveal"
+    },
+    {
+      "id": "mira_breathes",
+      "camera": "close_up"
+    },
+    {
+      "id": "towards_the_shop",
+      "camera": "follow"
+    },
+    {
+      "id": "lane_fills_with_light",
+      "camera": "establishing"
+    },
+    {
+      "id": "one_window_is_warm",
+      "camera": "medium"
+    },
+    {
+      "id": "the_village_stirs",
+      "camera": "atmospheric_close"
+    }
+  ],
+  "captions": [
+    {
+      "start": 24,
+      "end": 88,
+      "style": "chapter",
+      "lines": [
+        "The Empty Settlement"
+      ]
+    },
+    {
+      "start": 124,
+      "end": 195,
+      "style": "subtitle",
+      "lines": [
+        "No footsteps."
+      ]
+    },
+    {
+      "start": 375,
+      "end": 454,
+      "style": "subtitle",
+      "lines": [
+        "Even the streetlamp is dark."
+      ]
+    },
+    {
+      "start": 664,
+      "end": 744,
+      "style": "subtitle",
+      "lines": [
+        "Mira stays until morning."
+      ]
+    },
+    {
+      "start": 954,
+      "end": 1041,
+      "style": "subtitle",
+      "lines": [
+        "Still no one."
+      ]
+    },
+    {
+      "start": 1100,
+      "end": 1179,
+      "style": "lower_third",
+      "lines": [
+        "Smoke. Then a light."
+      ]
+    },
+    {
+      "start": 1268,
+      "end": 1340,
+      "style": "subtitle",
+      "lines": [
+        "Someone has come back."
+      ]
+    },
+    {
+      "start": 1698,
+      "end": 1795,
+      "style": "subtitle",
+      "lines": [
+        "The settlement is waking."
+      ]
+    }
+  ],
+  "audio": null
+}

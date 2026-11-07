@@ -1,0 +1,246 @@
+{
+  "schema_version": "cinematic-project-0.1",
+  "title": "Signal Across the Creek",
+  "beats": [
+    {
+      "id": "empty_bridge",
+      "start": 0,
+      "end": 90,
+      "actor": "mechanic_01",
+      "world": "woodland_creek",
+      "mood": "misty",
+      "action": "idle",
+      "stage_x": 60,
+      "signal": "unlit"
+    },
+    {
+      "id": "toward_the_bridge",
+      "start": 90,
+      "end": 180,
+      "actor": "mechanic_01",
+      "world": "woodland_creek",
+      "mood": "windy",
+      "action": "walk",
+      "stage_x": 60,
+      "expression": "concerned",
+      "signal": "unlit"
+    },
+    {
+      "id": "listen",
+      "start": 180,
+      "end": 270,
+      "actor": "mechanic_01",
+      "world": "woodland_creek",
+      "mood": "windy",
+      "action": "idle_to_notice",
+      "stage_x": 109,
+      "expression": "concerned",
+      "signal": "unlit"
+    },
+    {
+      "id": "move_the_cart",
+      "start": 270,
+      "end": 450,
+      "actor": "mechanic_01",
+      "world": "woodland_creek",
+      "mood": "windy",
+      "action": "push_cart",
+      "variant": "loaded",
+      "signal": "unlit"
+    },
+    {
+      "id": "answer",
+      "start": 450,
+      "end": 540,
+      "actor": "mechanic_01",
+      "world": "woodland_creek",
+      "mood": "windy",
+      "action": "notice_to_react",
+      "stage_x": 153,
+      "expression": "surprised",
+      "signal": "lit",
+      "dressing": "parked_cart"
+    },
+    {
+      "id": "signal",
+      "start": 540,
+      "end": 630,
+      "actor": "mechanic_01",
+      "world": "woodland_creek",
+      "mood": "windy",
+      "action": "idle",
+      "stage_x": 154,
+      "expression": "concerned",
+      "signal": "lit",
+      "dressing": "parked_cart"
+    },
+    {
+      "id": "turn_toward_light",
+      "start": 630,
+      "end": 720,
+      "actor": "mechanic_01",
+      "world": "woodland_creek",
+      "mood": "windy",
+      "action": "react_to_idle",
+      "stage_x": 154,
+      "expression": "happy",
+      "signal": "lit",
+      "dressing": "parked_cart"
+    },
+    {
+      "id": "crossing",
+      "start": 720,
+      "end": 810,
+      "actor": "mechanic_01",
+      "world": "woodland_creek",
+      "mood": "windy",
+      "action": "walk",
+      "stage_x": 155,
+      "expression": "determined",
+      "signal": "lit",
+      "dressing": "parked_cart"
+    },
+    {
+      "id": "answer_keeps_shining",
+      "start": 810,
+      "end": 900,
+      "actor": "mechanic_01",
+      "world": "woodland_creek",
+      "mood": "clear",
+      "action": "idle",
+      "stage_x": 208,
+      "expression": "happy",
+      "signal": "lit",
+      "dressing": "parked_cart"
+    }
+  ],
+  "shots": [
+    {
+      "id": "creek_under_mist",
+      "camera": "establishing"
+    },
+    {
+      "id": "listen_to_the_span",
+      "camera": "follow"
+    },
+    {
+      "id": "dark_far_bank",
+      "camera": "medium"
+    },
+    {
+      "id": "hands_to_the_cart",
+      "camera": "medium"
+    },
+    {
+      "id": "wheels_on_the_approach",
+      "camera": "interaction_detail"
+    },
+    {
+      "id": "bram_sees_the_answer",
+      "camera": "reaction"
+    },
+    {
+      "id": "lamp_over_the_water",
+      "camera": "object_reveal"
+    },
+    {
+      "id": "bram_recognizes_it",
+      "camera": "close_up"
+    },
+    {
+      "id": "onward",
+      "camera": "follow"
+    },
+    {
+      "id": "creek_at_rest",
+      "camera": "atmospheric_close"
+    }
+  ],
+  "captions": [
+    {
+      "start": 15,
+      "end": 82,
+      "style": "chapter",
+      "lines": [
+        "Signal Across the Creek"
+      ]
+    },
+    {
+      "start": 126,
+      "end": 201,
+      "style": "subtitle",
+      "lines": [
+        "No light on the far bank."
+      ]
+    },
+    {
+      "start": 289,
+      "end": 343,
+      "style": "subtitle",
+      "lines": [
+        "Keep the wheels moving."
+      ]
+    },
+    {
+      "start": 475,
+      "end": 529,
+      "style": "lower_third",
+      "lines": [
+        "Bram hears a reply."
+      ]
+    },
+    {
+      "start": 567,
+      "end": 638,
+      "style": "subtitle",
+      "lines": [
+        "The far lamp answers."
+      ]
+    },
+    {
+      "start": 775,
+      "end": 881,
+      "style": "subtitle",
+      "lines": [
+        "Someone is still here."
+      ]
+    }
+  ],
+  "audio": {
+    "sample_rate": 48000,
+    "channels": 2,
+    "codec": "aac",
+    "bitrate": 128000,
+    "narration": null,
+    "cues": [
+      {
+        "asset_id": "test_wood_pulse",
+        "start_frame": 176,
+        "trim_start_frame": 0,
+        "trim_end_frame": 11,
+        "gain": 0.4
+      },
+      {
+        "asset_id": "test_wood_pulse",
+        "start_frame": 353,
+        "trim_start_frame": 0,
+        "trim_end_frame": 12,
+        "gain": 0.35
+      },
+      {
+        "asset_id": "test_creek_signal",
+        "start_frame": 532,
+        "trim_start_frame": 0,
+        "trim_end_frame": 34,
+        "gain": 0.5
+      },
+      {
+        "asset_id": "test_creek_signal",
+        "start_frame": 719,
+        "trim_start_frame": 0,
+        "trim_end_frame": 21,
+        "gain": 0.26
+      }
+    ]
+  }
+}

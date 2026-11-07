@@ -1,0 +1,41 @@
+{
+  "schema_version": "cinematic-project-0.1",
+  "title": "Variant - Bram and the Utility Parcel",
+  "beats": [
+    {
+      "id": "pickup",
+      "start": 0,
+      "end": 180,
+      "actor": "mechanic_01",
+      "world": "village_lane",
+      "mood": "evening",
+      "action": "pickup_carry_place",
+      "variant": "utility",
+      "effect": {
+        "id": "wind_leaves_01",
+        "variant": "autumn"
+      }
+    }
+  ],
+  "shots": [
+    {
+      "id": "approach",
+      "camera": "follow"
+    },
+    {
+      "id": "parcel_detail",
+      "camera": "interaction_detail"
+    }
+  ],
+  "captions": [
+    {
+      "start": 45,
+      "end": 124,
+      "style": "lower_third",
+      "lines": [
+        "Utility parcel in the wind."
+      ]
+    }
+  ],
+  "audio": null
+}

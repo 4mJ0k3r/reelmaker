@@ -1,0 +1,106 @@
+{
+  "schema_version": "cinematic-project-0.1",
+  "title": "The Last Delivery",
+  "beats": [
+    {
+      "id": "arrival",
+      "start": 0,
+      "end": 90,
+      "actor": "scout_01",
+      "world": "village_lane",
+      "mood": "evening",
+      "action": "walk",
+      "stage_x": 42
+    },
+    {
+      "id": "notice",
+      "start": 90,
+      "end": 180,
+      "actor": "scout_01",
+      "world": "village_lane",
+      "mood": "evening",
+      "action": "idle_to_notice",
+      "stage_x": 106,
+      "expression": "concerned"
+    },
+    {
+      "id": "delivery",
+      "start": 180,
+      "end": 360,
+      "actor": "scout_01",
+      "world": "village_lane",
+      "mood": "evening",
+      "action": "pickup_carry_place",
+      "variant": "wrapped"
+    },
+    {
+      "id": "safe_at_the_door",
+      "start": 360,
+      "end": 450,
+      "actor": "scout_01",
+      "world": "village_lane",
+      "mood": "evening",
+      "action": "react_to_idle",
+      "stage_x": 133,
+      "expression": "happy",
+      "dressing": "delivered_parcel"
+    }
+  ],
+  "shots": [
+    {
+      "id": "village_at_dusk",
+      "camera": "establishing"
+    },
+    {
+      "id": "one_more_stop",
+      "camera": "medium"
+    },
+    {
+      "id": "reach_for_the_parcel",
+      "camera": "medium"
+    },
+    {
+      "id": "carry_and_set_down",
+      "camera": "interaction_detail"
+    },
+    {
+      "id": "last_delivery_home",
+      "camera": "object_reveal"
+    }
+  ],
+  "captions": [
+    {
+      "start": 14,
+      "end": 77,
+      "style": "chapter",
+      "lines": [
+        "The Last Delivery"
+      ]
+    },
+    {
+      "start": 109,
+      "end": 170,
+      "style": "subtitle",
+      "lines": [
+        "One parcel left after dusk."
+      ]
+    },
+    {
+      "start": 246,
+      "end": 304,
+      "style": "subtitle",
+      "lines": [
+        "Steady now."
+      ]
+    },
+    {
+      "start": 379,
+      "end": 446,
+      "style": "subtitle",
+      "lines": [
+        "Delivered before dark."
+      ]
+    }
+  ],
+  "audio": null
+}
