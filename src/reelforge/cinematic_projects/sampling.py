@@ -17,7 +17,7 @@ from reelforge.visual_library.composition.interactions import (
     sample_interaction,
 )
 
-from .staging import Performer, face_left, performer_clock, pose_at
+from .staging import Performer, face_left, grounded_signal_response, performer_clock, pose_at
 
 
 @dataclass(frozen=True)
@@ -44,6 +44,11 @@ def acting_at(beat, local, *, partner=False):
             beat.actor, beat.action, beat.expression, beat.facing, beat.delay, beat.pacing
         )
         pose, clock = pose_at(performer, local, refined=True)
+        if beat.cue_style:
+            pose, expression = grounded_signal_response(
+                performer, pose, local - beat.cue_frame, beat.cue_style
+            )
+            return Acting(anchor, pose, expression, None, clock, performer.facing)
         facing = "right" if beat.cue_frame is not None and local >= beat.cue_frame else performer.facing
         _, active = performer_clock(performer, local)
         expression = performer.expression if active else "neutral"
@@ -103,6 +108,8 @@ def state_at(project, frame):
                 "feet_world": {k: other.point(v.x, v.y) for k, v in other_joints.items()
                                if k.endswith("_foot")},
             }
+    if beat.cue_style:
+        result["signal"] = signal_variant(beat, local)
     if state.interaction:
         prop = state.interaction.prop
         result.update(prop_world=point(*prop), contact=state.interaction.contact)
@@ -191,6 +198,12 @@ def _aim(x, y, zoom, screen_x, screen_y):
     return Camera(180 + zoom * (x - 180) - screen_x, 400 + zoom * (y - 400) - screen_y, zoom)
 
 
+def signal_variant(beat, local):
+    if beat.cue_frame is not None and local < beat.cue_frame:
+        return "lit" if beat.cue_style and beat.signal == "unlit" else "unlit"
+    return beat.signal
+
+
 def visual_frame(project, frame):
     shot, local = project.at(frame)
     beat = shot.beat
@@ -214,7 +227,8 @@ def visual_frame(project, frame):
         actors += (character("partner", beat.partner.actor, partner),)
     scene = beat.scene
     if beat.cue_frame is not None and local < beat.cue_frame:
-        nodes = tuple(replace(n, variant="unlit") if n.id == "streetlamp" else n
+        nodes = tuple(replace(n, variant=signal_variant(beat, local))
+                      if n.id == "streetlamp" else n
                       for n in scene.scene.nodes)
         scene = replace(scene, scene=replace(scene.scene, nodes=nodes))
     return tuple(

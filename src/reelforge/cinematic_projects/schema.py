@@ -11,7 +11,7 @@ from reelforge.visual_library.composition.living_worlds import LEGACY_WORLD_KITS
 from reelforge.visual_library.living_assets import EFFECTS
 
 from .captions import STYLES
-from .staging import PACING
+from .staging import CUE_STYLES, PACING
 
 VERSION = "cinematic-project-0.1"
 STAGED_VERSION = "cinematic-project-0.2"
@@ -93,7 +93,8 @@ def project_schema(version=VERSION):
         beat["properties"].update(
             facing=actor_fields["facing"], delay_frames=actor_fields["delay_frames"],
             pacing=actor_fields["pacing"],
-            cue_frame=integer(1, 359), partner=obj(actor_fields, ("delay_frames", "pacing")),
+            cue_frame=integer(1, 359), cue_style=choice(CUE_STYLES),
+            partner=obj(actor_fields, ("delay_frames", "pacing")),
         )
         shot_fields["camera"] = choice((*CAMERAS, "two_shot", "auto"))
         shot_fields["focus"] = choice(("actor", "partner"))

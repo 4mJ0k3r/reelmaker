@@ -43,7 +43,7 @@ from .schema import (
     VERSION,
     project_schema,
 )
-from .staging import PACING, Performer, pose_at
+from .staging import CUE_STYLES, PACING, Performer, pose_at
 
 
 def fail(path, message):
@@ -69,6 +69,7 @@ class Beat:
     cue_frame: int | None = None
     grade: str | None = None
     pacing: str | None = None
+    cue_style: str | None = None
 
 
 @dataclass(frozen=True)
@@ -141,6 +142,9 @@ class Project:
                             beat.expression, beat.facing, beat.delay, beat.pacing)),
                             "partner": asdict(beat.partner) if beat.partner else None}}
                        if beat.pacing or (beat.partner and beat.partner.pacing) else {}),
+                    **({"signal_cue": {"frame": beat.start + beat.cue_frame,
+                                       "style": beat.cue_style, "after": beat.signal}}
+                       if beat.cue_style else {}),
                     "acting_frame_at_start": shot.start - beat.start,
                     "continuity": (
                         "continuous_beat" if shot.start > beat.start else "authored_blocking"
@@ -262,8 +266,20 @@ def _compile_beat(raw, path, *, staged=False):
     partner = _performer(raw["partner"], raw.get("pacing")) if "partner" in raw else None
     cue = raw.get("cue_frame")
     lead = _performer(raw)
-    if cue is not None and (type(cue) is not int or cue >= length or cue % SHOT_FRAMES
-                            or raw.get("signal") != "lit" or not partner):
+    cue_style = raw.get("cue_style")
+    if cue_style:
+        if cue is None or type(cue) is not int or not partner or not raw.get("signal"):
+            fail(path + "/cue_style", "Use a signal frame and a paired beat")
+        if action != "idle" or partner.action != "idle":
+            fail(path + "/cue_style", "Grounded signal acting requires two stationary idle actors")
+        if cue_style == "relief" and raw["signal"] != "lit":
+            fail(path + "/signal", "Relief requires the lamp to turn on")
+        for performer in (lead, partner):
+            anticipation = PACING.get(performer.pacing, (0, 1, 1))[0]
+            if cue + performer.delay + anticipation + 14 >= length:
+                fail(path + "/cue_frame", "Leave time for each actor's signal response")
+    elif cue is not None and (type(cue) is not int or cue >= length or cue % SHOT_FRAMES
+                              or raw.get("signal") != "lit" or not partner):
         fail(path + "/cue_frame", "Use an editorial cut within a paired beat with a lit signal")
     if spec:
         if "pacing" in raw:
@@ -344,7 +360,7 @@ def _compile_beat(raw, path, *, staged=False):
         raw.get("dressing"),
         staged, lead.facing, lead.delay, partner, cue,
         mood if world in MOODS else None,
-        raw.get("pacing"),
+        raw.get("pacing"), cue_style,
     )
 
 
@@ -516,6 +532,7 @@ def capabilities(registry_root):
         "staged_cameras": [*CAMERAS, "two_shot", "auto"],
         "camera_motions": MOTIONS,
         "shot_intents": INTENTS,
+        "grounded_signal_cue_styles": CUE_STYLES,
         "pacing_styles": {name: {"anticipation_frames": values[0],
                                  "clip_speed": [values[1], values[2]]}
                           for name, values in PACING.items()},
