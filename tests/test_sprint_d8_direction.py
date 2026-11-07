@@ -51,6 +51,7 @@ def test_invalid_intentions_are_actionable(change):
         data['shots'][0]['hold'] = True
     else:
         data['beats'][0].pop('partner')
+        data['beats'][0].pop('cue_frame')
         shot['focus'] = 'partner'
     with pytest.raises(InputError) as error:
         compile_project(data, REGISTRY)

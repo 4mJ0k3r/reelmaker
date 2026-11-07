@@ -19,3 +19,9 @@ are available without Cairo. Historical D7B plan digests remain unchanged.
 Before/after native evidence remains scheduled with the D8.2 comparison pass.
 Next: bounded pacing styles on independent performer clocks; no interaction
 retiming or historical sampling changes.
+
+D8.1 correction: first tests exposed a fixture retaining a paired-only cue
+when removing its partner, and a repetition audit treating world-camera focus
+as a composition difference even though the sampler ignores it. Corrected
+fixture and canonicalized world-camera audit focus. 40 focused tests pass;
+the initial 2-failure log is retained, not counted as a pass.
