@@ -39,3 +39,12 @@ def test_camera_moves_without_an_internal_jump(name):
             assert abs(a.x - b.x) < 4
             assert abs(a.y - b.y) < 3
             assert abs(a.zoom - b.zoom) < .05
+
+
+def test_actor_cue_must_land_on_an_editorial_cut():
+    from reelforge.core.errors import InputError
+
+    data = _project("unexpected_meeting")
+    data["beats"][0]["cue_frame"] = 181
+    with pytest.raises(InputError, match="editorial cut"):
+        compile_project(data, ROOT / "assets/audio")

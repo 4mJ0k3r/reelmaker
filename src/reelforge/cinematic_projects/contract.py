@@ -24,7 +24,7 @@ from reelforge.visual_library.composition.interactions import (
     InteractionPlan,
     interaction_manifest,
 )
-from reelforge.visual_library.composition.living_worlds import WORLD_KITS, node, world_manifest
+from reelforge.visual_library.composition.living_worlds import MOODS, WORLD_KITS, node, world_manifest
 
 from .captions import fits_mobile_width
 from .schema import (
@@ -246,9 +246,9 @@ def _compile_beat(raw, path, *, staged=False):
     partner = _performer(raw["partner"]) if "partner" in raw else None
     cue = raw.get("cue_frame")
     lead = _performer(raw)
-    if cue is not None and (type(cue) is not int or cue >= length
+    if cue is not None and (type(cue) is not int or cue >= length or cue % SHOT_FRAMES
                             or raw.get("signal") != "lit" or not partner):
-        fail(path + "/cue_frame", "Use an integer frame within a paired beat with a lit signal")
+        fail(path + "/cue_frame", "Use an editorial cut within a paired beat with a lit signal")
     if spec:
         if actor not in spec.actors:
             fail(path + "/actor", f"Choose {', '.join(spec.actors)} for {action}")
@@ -325,7 +325,7 @@ def _compile_beat(raw, path, *, staged=False):
         raw.get("signal"),
         raw.get("dressing"),
         staged, lead.facing, lead.delay, partner, cue,
-        mood if world in ("abandoned_outpost", "forest_ravine") else None,
+        mood if world in MOODS else None,
     )
 
 
@@ -337,6 +337,13 @@ def _coverage(beat, start, total, previous):
         return "object_reveal", "actor"
     if start + SHOT_FRAMES == total:
         return ("two_shot" if beat.partner else "atmospheric_close"), "actor"
+    if beat is not previous.beat:
+        ground = next(n.asset_id for n in beat.scene.scene.nodes if n.id == "ground")
+        previous_ground = next(
+            n.asset_id for n in previous.beat.scene.scene.nodes if n.id == "ground"
+        )
+        if ground != previous_ground:
+            return "establishing", "actor"
     if beat.partner:
         return "reaction", "partner" if previous.focus == "actor" else "actor"
     if beat.interaction:

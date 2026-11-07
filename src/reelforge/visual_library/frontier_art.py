@@ -5,7 +5,7 @@ from functools import lru_cache
 
 from reelforge.rendering.diagnostic import color
 from reelforge.rendering.model import Color, DrawPath, LinearGradient, rectangle
-from reelforge.visual_library.architecture.buildings import box, opening, plane
+from reelforge.visual_library.architecture.buildings import opening, plane
 from reelforge.visual_library.world_assets import oval, stroke
 
 MOODS = {

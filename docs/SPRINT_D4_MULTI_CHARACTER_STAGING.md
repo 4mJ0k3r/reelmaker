@@ -10,7 +10,7 @@ A paired beat reserves disjoint swept lanes and accepts registered idle,
 locomotion, reaction and transition actions. It accepts at most four shots.
 Two-actor prop manipulation and arbitrary choreography are outside this
 contract. A signal cue can turn the lamp on and pivot stationary actors to
-the right at a specified beat frame. Moving left-facing actors cannot pivot.
+the right at a specified editorial cut within the beat. Moving left-facing actors cannot pivot.
 
 The caption-free `unexpected_meeting.json` proves a delayed reaction across
 the first cut, the environmental cue, and the final shared composition.

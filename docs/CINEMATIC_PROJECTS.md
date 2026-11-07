@@ -57,7 +57,7 @@ A beat can place Scout and Mechanic in separate swept lanes with independent
 actions, expression, facing and delay. The same beat can span four camera
 shots. Use `focus`, `two_shot` and the bounded `motion` values shown by
 `capabilities`. The `auto` camera resolves semantic coverage from the beat
-and cue. An optional lamp cue is bounded to one frame inside a paired beat.
+and cue. An optional lamp cue must land on an editorial cut inside a paired beat.
 
 [The Unexpected Meeting](../examples/sprint-d/unexpected_meeting.json) is a
 caption-free example. The two camera studies and actor motion studies in
