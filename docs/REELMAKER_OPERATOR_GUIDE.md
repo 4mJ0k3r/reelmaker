@@ -118,6 +118,11 @@ per frame. Use at most one narration and four SFX cues; observe admitted gain
 and overlap restrictions. A CLI-selected `--registry DIRECTORY` must contain a
 valid trusted registry and its pinned WAVs. Do not edit registered bytes.
 
+Historical examples using test_wood_pulse/test_creek_signal need their separate
+original fixture registry. Run `.venv/bin/python tools/cinematic_fixture_audio.py outputs/test-audio`,
+then select it with `--registry outputs/test-audio` before the CLI subcommand.
+See [CINEMATIC_PROJECTS.md](CINEMATIC_PROJECTS.md) for the original setup.
+
 Captions use admitted ASCII, short mobile-safe lines, sorted non-overlapping
 frame spans and registered styles. Use no captions when testing visual story
 clarity. Unsupported Hindi glyph overlays require separate future work; do not

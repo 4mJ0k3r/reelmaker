@@ -507,6 +507,7 @@ def capabilities(registry_root):
     return {
         "operator": operator_metadata(),
         "contract": VERSION,
+        "recommended_contract": STAGED_VERSION,
         "shot_frames": SHOT_FRAMES,
         "max_frames": MAX_FRAMES,
         "max_audio_frames": CHUNK_SHOTS * SHOT_FRAMES,

@@ -2821,9 +2821,11 @@
       "object_reveal",
       "reaction",
       "follow",
-      "atmospheric_close"
+      "atmospheric_close",
+      "two_shot",
+      "auto"
     ],
-    "contract": "cinematic-project-0.1"
+    "contract": "cinematic-project-0.2"
   },
   "living_worlds": {
     "motion": {

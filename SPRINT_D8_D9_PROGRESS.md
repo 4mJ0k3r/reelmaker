@@ -128,3 +128,13 @@ Recorded wall 71.24s; CPU 36.31 + 62.14 + 2.61s; render and final-verifier RSS
 are reported separately and qualification uses their maximum. The clean
 operator run was at 93fc500; final-source restoration/smoke remains a separate
 gate. No 60s narration, human voice or studio-quality claim is made.
+
+Release gate results: complete 461-test sweep passed, zero skipped, with JUnit
+completion. After the narrow probe fix, native CI-equivalent selection passed
+194/194 and native-free contracts 120/120; catalog job selections passed with
+three expected Cairo skips. Passing JUnit IDs cover all 462 currently collected
+cases; these overlapping counts are not summed. Catalog remains 77 with no drift.
+A final discovery correction adds an explicit recommended 0.2 contract while
+preserving the legacy contract field, exposes staged cameras in the gallery,
+and links original diagnostic fixture setup. Related metadata/operator/direction
+checks pass; final exports will use the current discovery output.

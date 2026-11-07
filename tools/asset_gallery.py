@@ -51,7 +51,7 @@ def cinematic_examples():
         })
     discovery = capabilities(registry)
     return {"guide": "../REELMAKER_OPERATOR_GUIDE.md", "examples": projects,
-            "cameras": discovery["cameras"], "contract": discovery["contract"]}
+            "cameras": discovery["staged_cameras"], "contract": discovery["recommended_contract"]}
 
 
 def metadata(previews=None):

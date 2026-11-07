@@ -25,6 +25,7 @@ def test_machine_discovered_examples_validate(path):
 
 def test_capabilities_expose_resources_formats_and_bounded_choices():
     info = capabilities(ROOT / 'assets/audio')
+    assert info['recommended_contract'] == 'cinematic-project-0.2'
     assert info['operator']['resources']['process_tree_budget_bytes'] == 256 * 1024**2
     assert info['operator']['durations']['audio_max_frames'] == 900
     assert set(info['shot_intents']) >= {'reveal', 'resolve', 'wait'}
