@@ -8,5 +8,5 @@ Approved baseline commit `ee1787c3fa322a88ca77c1c5bb6b0032a371f89b`, tree `2b082
 | E2 | Checkpointed. Review-host checks passed. TARGET_VM_NOT_TESTED. |
 | E3 | Checkpointed. Opt-in planted signal acting with independent reaction timing. |
 | E4 | Checkpointed. Refined manifest and mobile storyboard reviewed before final encoding. |
-| E5 | Pending |
+| E5 | Checkpointed. Documented CLI accepted the film, media and no-clobber verified. |
 | E6 | Pending |
