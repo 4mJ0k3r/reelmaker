@@ -1,0 +1,217 @@
+{
+  "schema_version": "cinematic-project-0.2",
+  "title": "The Last Transmission",
+  "beats": [
+    {
+      "id": "bram_hears_the_post",
+      "start": 0,
+      "end": 90,
+      "actor": "mechanic_01",
+      "world": "abandoned_outpost",
+      "mood": "storm",
+      "action": "idle_to_notice",
+      "stage_x": 205,
+      "expression": "concerned",
+      "signal": "unlit",
+      "pacing": "tense"
+    },
+    {
+      "id": "mira_arrives",
+      "start": 90,
+      "end": 270,
+      "actor": "scout_01",
+      "world": "abandoned_outpost",
+      "mood": "storm",
+      "action": "walk_to_stop",
+      "stage_x": 67,
+      "expression": "concerned",
+      "signal": "unlit",
+      "pacing": "measured",
+      "partner": {
+        "actor": "mechanic_01",
+        "action": "notice_to_react",
+        "expression": "concerned",
+        "stage_x": 205,
+        "facing": "left",
+        "delay_frames": 30
+      }
+    },
+    {
+      "id": "one_last_flash",
+      "start": 270,
+      "end": 450,
+      "actor": "scout_01",
+      "world": "abandoned_outpost",
+      "mood": "storm",
+      "action": "idle",
+      "stage_x": 95,
+      "expression": "concerned",
+      "signal": "lit",
+      "cue_frame": 90,
+      "partner": {
+        "actor": "mechanic_01",
+        "action": "idle",
+        "expression": "concerned",
+        "stage_x": 205,
+        "facing": "right"
+      },
+      "pacing": "tense"
+    },
+    {
+      "id": "the_post_dies",
+      "start": 450,
+      "end": 540,
+      "actor": "scout_01",
+      "world": "abandoned_outpost",
+      "mood": "storm",
+      "action": "notice_to_react",
+      "stage_x": 95,
+      "expression": "frightened",
+      "signal": "unlit",
+      "partner": {
+        "actor": "mechanic_01",
+        "action": "react",
+        "expression": "concerned",
+        "stage_x": 205,
+        "facing": "right",
+        "delay_frames": 9
+      },
+      "pacing": "urgent"
+    },
+    {
+      "id": "down_to_the_ravine",
+      "start": 540,
+      "end": 720,
+      "actor": "scout_01",
+      "world": "forest_ravine",
+      "mood": "night",
+      "action": "walk_to_stop",
+      "stage_x": 67,
+      "expression": "determined",
+      "signal": "unlit",
+      "pacing": "urgent",
+      "partner": {
+        "actor": "mechanic_01",
+        "action": "idle_to_notice",
+        "expression": "concerned",
+        "stage_x": 205,
+        "facing": "right",
+        "delay_frames": 18,
+        "pacing": "measured"
+      }
+    },
+    {
+      "id": "an_answer_in_the_dark",
+      "start": 720,
+      "end": 900,
+      "actor": "scout_01",
+      "world": "forest_ravine",
+      "mood": "night",
+      "action": "idle",
+      "stage_x": 95,
+      "expression": "concerned",
+      "signal": "lit",
+      "cue_frame": 90,
+      "partner": {
+        "actor": "mechanic_01",
+        "action": "idle",
+        "expression": "concerned",
+        "stage_x": 205,
+        "facing": "right"
+      },
+      "pacing": "measured"
+    }
+  ],
+  "shots": [
+    {
+      "id": "storm_above_the_post",
+      "camera": "auto",
+      "intent": "establish"
+    },
+    {
+      "id": "mira_reaches_bram",
+      "camera": "auto",
+      "intent": "approach"
+    },
+    {
+      "id": "bram_listens",
+      "camera": "auto",
+      "intent": "react",
+      "focus": "partner"
+    },
+    {
+      "id": "wait_for_the_pulse",
+      "camera": "auto",
+      "intent": "observe"
+    },
+    {
+      "id": "the_last_flash",
+      "camera": "auto",
+      "intent": "reveal"
+    },
+    {
+      "id": "sudden_blackout",
+      "camera": "auto",
+      "intent": "react"
+    },
+    {
+      "id": "the_lower_path",
+      "camera": "auto",
+      "intent": "establish"
+    },
+    {
+      "id": "mira_checks_the_bank",
+      "camera": "auto",
+      "intent": "observe"
+    },
+    {
+      "id": "bram_waits_for_an_answer",
+      "camera": "auto",
+      "intent": "react",
+      "focus": "partner"
+    },
+    {
+      "id": "one_light_in_the_ravine",
+      "camera": "auto",
+      "intent": "cliffhanger"
+    }
+  ],
+  "captions": [],
+  "audio": {
+    "sample_rate": 48000,
+    "channels": 2,
+    "codec": "aac",
+    "bitrate": 128000,
+    "narration": null,
+    "cues": [
+      {
+        "asset_id": "diag_suspense",
+        "start_frame": 48,
+        "trim_start_frame": 0,
+        "trim_end_frame": 36,
+        "gain": 0.16
+      },
+      {
+        "asset_id": "diag_fence",
+        "start_frame": 360,
+        "trim_start_frame": 0,
+        "trim_end_frame": 12,
+        "gain": 0.22
+      },
+      {
+        "asset_id": "diag_suspense",
+        "start_frame": 450,
+        "trim_start_frame": 0,
+        "trim_end_frame": 36,
+        "gain": 0.18
+      },
+      {
+        "asset_id": "diag_fence",
+        "start_frame": 810,
+        "trim_start_frame": 0,
+        "trim_end_frame": 12,
+        "gain": 0.2
+      }
+    ]
+  }
+}
