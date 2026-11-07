@@ -16,11 +16,13 @@ Use a verified Python 3.12/Cairo/FFmpeg environment. The archive's
 Use a separate private registry for an actual user recording and authored
 timestamps. Follow the documented persistent output procedure.
 
-F2 motion work follows the verified F1 export. Target-VM qualification and
-the historical workspace staging recurrence remain unresolved.
+The verified F1 export predates F2. Target-VM qualification and the
+historical workspace staging recurrence remain unresolved.
 
 F2 added the opt-in `walk_to_settle`, `alert_settle` and `relief_settle`
 choices. Two verified 12-second clips compare the motion with matching
-cameras, background and synthetic AAC. The 60-second integration film keeps
-the approved Empty Town action choices and all 18 captions. The shorter
-study exercises the new motion and registered audio together.
+cameras, background and synthetic AAC. The shorter study exercises the new
+motion and registered audio together. F3 uses the approved Empty Town scene,
+cameras and 18 captions, with only the first stop and final relief cue
+switched to the F2 variants. The final export contains that exact project
+and the two silent chunks used for the single narration mux.
