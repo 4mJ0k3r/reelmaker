@@ -36,3 +36,14 @@ match the existing relief study. The existing `walk_to_settle` handles
 the approach. The motion/operator selection passed 16 tests. Matching
 camera motion clips are being produced from the same study, with silence
 in both versions so the change is isolated.
+
+## F3.2 geography and continuity
+
+The derivative keeps all 20 shot boundaries. Wide views establish the
+forest, creek bridge and village before cutting in to action. The ridge
+travel remains right-facing. The cart crossing and village pickup are
+separate editorial setups. The village pickup, place and dressed parcel
+remain in the same world and mood, with Bram's follow-up anchor near
+his interaction endpoint. Caption revisions name the route and distinguish
+the cart crossing from the pickup. Early stills exposed edge crops, so
+ridge coverage returns to the pair. The lamp coverage is refined next.
