@@ -9,6 +9,7 @@ EXAMPLES = {
     'two_character_discovery': 'examples/sprint-d8-d9/directed_discovery.json',
     'registered_prop_interaction': 'examples/sprint-d/pickup_refined.json',
     'registered_audio_30s': 'examples/sprint-d7b/the_answering_light.json',
+    'grounded_signal_story_30s': 'examples/sprint-e/the_last_transmission_refined.json',
     'silent_multi_world_60s': 'examples/sprint-d7b/before_the_storm.json',
 }
 

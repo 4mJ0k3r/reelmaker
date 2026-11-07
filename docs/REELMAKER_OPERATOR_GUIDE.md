@@ -88,8 +88,18 @@ An explicit delay precedes anticipation. A partner inherits beat pacing unless
 it overrides it. Transitions hold frame 89, ordinary clips hold their supported
 12-second endpoint. Pacing never resets at a cut. Registered interactions
 reject pacing and retain their contact clock. Omitted pacing preserves legacy
-sampling. A lamp cue is an internal editorial cut in a paired beat with a lit
-signal; a moving left-facing performer cannot pivot at the cue.
+sampling. A lamp cue without a style remains an internal editorial cut in a paired beat
+with a lit signal. A moving left-facing performer cannot pivot at that cue.
+
+For a stationary paired beat, opt in with `cue_style: "alert"` or
+`cue_style: "relief"`. Use two idle actors and set `cue_frame` relative to the
+beat. It can now fall inside a shot while the 90-frame shot grid stays fixed.
+The lamp starts in the opposite state and switches to the requested `signal`
+at that frame. Alert supports either edge. Relief requires a lit final state.
+The response retains the authored facing and both planted feet. Each actor's
+`delay_frames` and pacing anticipation offset the cue response independently.
+The reaction gesture plays once at its authored 1× speed. Leave time for both
+actors to respond. See the discoverable `grounded_signal_story_30s` example.
 
 `inspect` adds explanations, repeated-composition warnings, all-frame camera
 envelopes and mobile root/head diagnostics to the plan. The plan digest is
@@ -173,7 +183,10 @@ The memory policy is 256 MiB process-tree budget plus 64 MiB reserve, with
 strict guest/cgroup observations, no hidden override and no swap assumption.
 RSS is sampled, not an exact OS hard limit. Missing OOM telemetry is unknown,
 not zero. Historical delayed staging-name recurrence remains unresolved;
-see SPRINT_D8_STAGING_INVESTIGATION.md. The bounded optional engineering trace:
+see [Sprint E1](SPRINT_E1_STAGING_RELIABILITY.md). Choose a user-controlled
+durable output parent outside synchronized workspace paths and qualify its
+retention, identity and ordinary-user access. The alternate review path stayed
+clear only during bounded observation. The bounded optional engineering trace:
 
 ```sh
 .venv/bin/python tools/trace_cinematic.py PROJECT.json OUTPUT TRACE.json --observe-seconds 2

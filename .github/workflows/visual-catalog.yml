@@ -42,6 +42,7 @@ jobs:
           tests/test_sprint_d_worlds.py
           tests/test_sprint_d8_direction.py tests/test_sprint_d8_pacing.py
           tests/test_sprint_d8_operator.py tests/test_sprint_d8_trace.py tests/test_sprint_d9_security.py
+          tests/test_sprint_e_signal_acting.py
           -k "not caption_outlines and not native_audio_registry"
 
   native:
@@ -65,3 +66,4 @@ jobs:
           tests/test_sprint_d8_direction.py tests/test_sprint_d8_pacing.py
           tests/test_sprint_d8_operator.py tests/test_sprint_d8_trace.py
           tests/test_sprint_d8_native_faults.py tests/test_sprint_d9_security.py
+          tests/test_sprint_e_signal_acting.py
