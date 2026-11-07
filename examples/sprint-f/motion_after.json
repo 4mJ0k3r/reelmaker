@@ -1,0 +1,89 @@
+{
+  "schema_version": "cinematic-project-0.2",
+  "title": "Motion study",
+  "beats": [
+    {
+      "id": "arrival",
+      "start": 0,
+      "end": 90,
+      "world": "abandoned_outpost",
+      "mood": "storm",
+      "partner": {
+        "actor": "mechanic_01",
+        "action": "idle",
+        "stage_x": 207,
+        "expression": "concerned",
+        "facing": "right",
+        "delay_frames": 0
+      },
+      "actor": "scout_01",
+      "action": "walk_to_settle",
+      "stage_x": 83,
+      "expression": "determined",
+      "facing": "right",
+      "delay_frames": 0,
+      "signal": "unlit"
+    },
+    {
+      "id": "signal",
+      "start": 90,
+      "end": 360,
+      "world": "abandoned_outpost",
+      "mood": "storm",
+      "partner": {
+        "actor": "mechanic_01",
+        "action": "idle",
+        "stage_x": 207,
+        "expression": "concerned",
+        "facing": "right",
+        "delay_frames": 19
+      },
+      "actor": "scout_01",
+      "action": "idle",
+      "stage_x": 111,
+      "expression": "concerned",
+      "facing": "right",
+      "delay_frames": 3,
+      "signal": "lit",
+      "cue_style": "relief_settle",
+      "cue_frame": 85
+    }
+  ],
+  "shots": [
+    {
+      "id": "approach",
+      "camera": "two_shot",
+      "motion": "track"
+    },
+    {
+      "id": "the_wait",
+      "camera": "two_shot",
+      "motion": "hold"
+    },
+    {
+      "id": "the_signal",
+      "camera": "two_shot",
+      "motion": "hold"
+    },
+    {
+      "id": "the_release",
+      "camera": "two_shot",
+      "motion": "pullback"
+    }
+  ],
+  "captions": [],
+  "audio": {
+    "sample_rate": 48000,
+    "channels": 2,
+    "codec": "aac",
+    "bitrate": 128000,
+    "narration": {
+      "asset_id": "f_motion_signal",
+      "start_frame": 0,
+      "trim_start_frame": 0,
+      "trim_end_frame": 360,
+      "gain": 0.5
+    },
+    "cues": []
+  }
+}

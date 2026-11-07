@@ -43,7 +43,7 @@ from .schema import (
     VERSION,
     project_schema,
 )
-from .staging import CUE_STYLES, PACING, Performer, pose_at
+from .staging import CUE_STYLES, LOCOMOTION, PACING, STAGED_TRANSITIONS, Performer, pose_at
 
 
 def fail(path, message):
@@ -276,7 +276,7 @@ def _compile_beat(raw, path, *, staged=False):
             fail(path + "/cue_style", "Use a signal frame and a paired beat")
         if action != "idle" or partner.action != "idle":
             fail(path + "/cue_style", "Grounded signal acting requires two stationary idle actors")
-        if cue_style == "relief" and raw["signal"] != "lit":
+        if cue_style.startswith("relief") and raw["signal"] != "lit":
             fail(path + "/signal", "Relief requires the lamp to turn on")
         for performer in (lead, partner):
             anticipation = PACING.get(performer.pacing, (0, 1, 1))[0]
@@ -430,7 +430,7 @@ def _coverage(beat, start, total, previous, *, intent=None, focus=None, hold=Fal
         return "reaction", "partner" if previous.focus == "actor" else "actor"
     if beat.interaction:
         return "interaction_detail", "actor"
-    if beat.action in ("walk", "run", "idle_to_walk", "walk_to_stop"):
+    if beat.action in LOCOMOTION:
         return "follow", "actor"
     if beat.action in ("notice", "react", "notice_to_react"):
         return "reaction", "actor"
@@ -467,7 +467,7 @@ def compile_project(data, registry_root: Path):
             fail(f"/shots/{i}/hold", "Select a registered intent before requesting a hold")
         if intent in ("approach", "pursue", "depart"):
             action = beat.partner.action if focus == "partner" and beat.partner else beat.action
-            if action not in ("walk", "run", "idle_to_walk", "walk_to_stop"):
+            if action not in LOCOMOTION:
                 fail(f"/shots/{i}/intent", "Movement intent requires walk/run or a locomotion transition")
         if intent == "interact" and (not beat.interaction or focus == "partner"):
             fail(f"/shots/{i}/intent", "interact requires a registered lead interaction")
@@ -551,7 +551,7 @@ def capabilities(registry_root):
                     "name": p.name,
                     "actions": living.ACTIONS,
                     "expressions": living.EXPRESSIONS,
-                    "transitions": living_transitions.TRANSITIONS,
+                    "transitions": STAGED_TRANSITIONS,
                 }
                 for i, p in living.PROFILES.items()
             },

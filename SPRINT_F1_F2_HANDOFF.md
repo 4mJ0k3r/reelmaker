@@ -18,3 +18,9 @@ timestamps. Follow the documented persistent output procedure.
 
 F2 motion work follows the verified F1 export. Target-VM qualification and
 the historical workspace staging recurrence remain unresolved.
+
+F2 added the opt-in `walk_to_settle`, `alert_settle` and `relief_settle`
+choices. Two verified 12-second clips compare the motion with matching
+cameras, background and synthetic AAC. The 60-second integration film keeps
+the approved Empty Town action choices and all 18 captions. The shorter
+study exercises the new motion and registered audio together.

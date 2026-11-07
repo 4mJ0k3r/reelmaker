@@ -11,7 +11,7 @@ from reelforge.visual_library.composition.living_worlds import LEGACY_WORLD_KITS
 from reelforge.visual_library.living_assets import EFFECTS
 
 from .captions import STYLES
-from .staging import CUE_STYLES, PACING
+from .staging import CUE_STYLES, PACING, STAGED_TRANSITIONS
 
 VERSION = "cinematic-project-0.1"
 STAGED_VERSION = "cinematic-project-0.2"
@@ -85,13 +85,14 @@ def project_schema(version=VERSION):
     shot_fields = {"id": ID, "camera": choice(CAMERAS)}
     audio = episode_schema()["properties"]["audio"]
     if staged:
+        beat["properties"]["action"] = choice((*ACTIONS, *STAGED_TRANSITIONS, *INTERACTIONS))
         narration = audio["anyOf"][0]["properties"]["narration"]["anyOf"][1]
         narration["properties"]["start_frame"]["maximum"] = MAX_FRAMES - 1
         narration["properties"]["trim_start_frame"]["maximum"] = MAX_FRAMES - 1
         narration["properties"]["trim_end_frame"]["anyOf"][1]["maximum"] = MAX_FRAMES
         narration["required"].remove("start_frame")
         actor_fields = {
-            "actor": choice(PROFILES), "action": choice((*ACTIONS, *TRANSITIONS)),
+            "actor": choice(PROFILES), "action": choice((*ACTIONS, *STAGED_TRANSITIONS)),
             "expression": choice(EXPRESSIONS), "stage_x": integer(36, 276),
             "facing": choice(("right", "left")), "delay_frames": integer(0, 269),
             "pacing": choice(PACING),

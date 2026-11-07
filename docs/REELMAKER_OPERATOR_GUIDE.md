@@ -101,6 +101,13 @@ The response retains the authored facing and both planted feet. Each actor's
 The reaction gesture plays once at its authored 1× speed. Leave time for both
 actors to respond. See the discoverable `grounded_signal_story_30s` example.
 
+For opt-in motion polish, use `walk_to_settle` on a staged actor or partner.
+It keeps the original walk-to-stop travel, contact targets and endpoints,
+adding a brief weight transfer near the last step. Use `alert_settle` or
+`relief_settle` on a paired stationary lamp cue for a small listening pose
+and a grounded response. Authored partner delays still set the stagger.
+The older action and cue names retain their original motion.
+
 `inspect` adds explanations, repeated-composition warnings, all-frame camera
 envelopes and mobile root/head diagnostics to the plan. The plan digest is
 unchanged by inspection. Root/standing-head metrics are not silhouette,

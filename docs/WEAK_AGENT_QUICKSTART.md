@@ -8,8 +8,9 @@ reuse staging, overwrite an old film or push GitHub.
    operator example. Use `.venv/bin/python` with the documented Python 3.12
    renderer environment. No arbitrary natural-language script interpreter exists.
 2. Copy the selected JSON into a new input directory. Change only supported
-   schema fields. Current projects use 90-frame shots, 720×1280/30 fps. For 33–60 seconds use staged 0.2 with silence or one finished
-   registered narration and no sound effects. Registered interactions keep
+   schema fields. Current projects use 90-frame shots at 720×1280 and 30 fps.
+   For 33–60 seconds, use staged 0.2 with silence or one finished registered
+   narration and no sound effects. Registered interactions keep
    their fixed staging/contact clocks. `intent` requires `camera: "auto"`.
 3. Run `validate INPUT.json`. On failure, read code/path/message, select a
    listed valid alternative, fix that field and validate again. Never edit src.

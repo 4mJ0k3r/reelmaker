@@ -95,3 +95,20 @@ def sample_transition(identity, transition, frame, *, refined=False):
         feet, planted = ((-10,-5),(10,-5)), (True,True)
     pose = replant(identity, root, angles, feet)
     return TransitionSample(pose, feet, planted)
+
+
+def sample_settled_stop(identity, frame):
+    """One weight transfer through the last contact, with the original travel and feet."""
+    sample = sample_transition(identity, "walk_to_stop", frame, refined=True)
+    weight = ease((frame - 58) / 9) * (1 - ease((frame - 68) / 18))
+    if not weight:
+        return sample
+
+    pose = sample.pose
+    angles = dict(pose.angles)
+    angles["torso"] += .12 * weight
+    angles["head"] -= .10 * weight
+    angles["near_shoulder"] += .17 * weight
+    angles["far_shoulder"] -= .09 * weight
+    root = Rigid(pose.root.x, pose.root.y + 3.8 * weight)
+    return TransitionSample(replant(identity, root, angles, sample.feet), sample.feet, sample.planted)
