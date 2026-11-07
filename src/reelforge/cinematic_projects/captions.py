@@ -42,16 +42,21 @@ def caption_paths(caption):
             context.move_to(0, 0)
             context.text_path(line)
             # Pycairo path iteration is the public API. The first move anchors the contours.
-            ops = tuple(PathOp(op_names[code], tuple(points))
-                        for code, points in context.copy_path())
+            ops = tuple(
+                PathOp(op_names[code], tuple(points)) for code, points in context.copy_path()
+            )
             if not any(op.kind in ("L", "C") for op in ops):
                 raise OperationError("CAPTION_GLYPH", "Caption produced no visible outlines")
             left = x + (width - extents.width * scale) / 2 if center else x + 14
-            commands.append(DrawPath(
-                ops, color(foreground),
-                transform=Transform(left - extents.x_bearing * scale, baseline,
-                                    sx=scale, sy=scale),
-            ))
+            commands.append(
+                DrawPath(
+                    ops,
+                    color(foreground),
+                    transform=Transform(
+                        left - extents.x_bearing * scale, baseline, sx=scale, sy=scale
+                    ),
+                )
+            )
             baseline += spacing
     finally:
         surface.finish()

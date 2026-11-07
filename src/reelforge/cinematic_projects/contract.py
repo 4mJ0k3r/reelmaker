@@ -30,6 +30,7 @@ from .schema import (
     CAMERAS,
     CAPTION_LINE,
     CAPTION_STYLES,
+    DRESSING,
     EFFECT_IDS,
     ID,
     MAX_FRAMES,
@@ -55,6 +56,7 @@ class Beat:
     scene: CompiledScene
     interaction: InteractionPlan | None
     signal: str | None
+    dressing: str | None
 
 
 @dataclass(frozen=True)
@@ -101,28 +103,48 @@ class Project:
         rows = []
         for shot in self.shots:
             beat = shot.beat
-            rows.append({
-                "id": shot.id, "start": shot.start, "end": shot.end,
-                "camera": shot.camera, "beat": beat.id,
-                "acting_frame_at_start": shot.start - beat.start,
-                "continuity": ("continuous_beat" if shot.start > beat.start
-                               else "authored_blocking"),
-                "render": "interaction_frame" if beat.interaction else "evaluate_layers",
-                "caption_indices": [i for i, c in enumerate(self.captions)
-                                    if c.start < shot.end and c.end > shot.start],
-                "audio_indices": [i for i, c in enumerate(self.audio_cues)
-                                  if c["start_sample"] < shot.end * 1600
-                                  and c["end_sample"] > shot.start * 1600],
-            })
+            rows.append(
+                {
+                    "id": shot.id,
+                    "start": shot.start,
+                    "end": shot.end,
+                    "camera": shot.camera,
+                    "beat": beat.id,
+                    "acting_frame_at_start": shot.start - beat.start,
+                    "continuity": (
+                        "continuous_beat" if shot.start > beat.start else "authored_blocking"
+                    ),
+                    "render": "interaction_frame" if beat.interaction else "evaluate_layers",
+                    "caption_indices": [
+                        i
+                        for i, c in enumerate(self.captions)
+                        if c.start < shot.end and c.end > shot.start
+                    ],
+                    "audio_indices": [
+                        i
+                        for i, c in enumerate(self.audio_cues)
+                        if c["start_sample"] < shot.end * 1600
+                        and c["end_sample"] > shot.start * 1600
+                    ],
+                }
+            )
         body = {
-            "contract": VERSION, "title": self.title, "frames": self.frames, "fps": 30,
-            "output": [720, 1280], "request": self.request, "shots": rows,
-            "audio_cues": self.audio_cues, "captions": [asdict(c) for c in self.captions],
+            "contract": VERSION,
+            "title": self.title,
+            "frames": self.frames,
+            "fps": 30,
+            "output": [720, 1280],
+            "request": self.request,
+            "shots": rows,
+            "audio_cues": self.audio_cues,
+            "captions": [asdict(c) for c in self.captions],
             "editorial_cuts": [s.start for s in self.shots[1:]],
-            "route": "episode_av" if self.frames <= SHOT_FRAMES * CHUNK_SHOTS
-                     else "production-0.1-chunk-assembly",
-            "chunk_boundaries": list(range(SHOT_FRAMES * CHUNK_SHOTS, self.frames,
-                                           SHOT_FRAMES * CHUNK_SHOTS)),
+            "route": "episode_av"
+            if self.frames <= SHOT_FRAMES * CHUNK_SHOTS
+            else "production-0.1-chunk-assembly",
+            "chunk_boundaries": list(
+                range(SHOT_FRAMES * CHUNK_SHOTS, self.frames, SHOT_FRAMES * CHUNK_SHOTS)
+            ),
         }
         return {**body, "plan_sha256": project_digest(body)}
 
@@ -149,17 +171,22 @@ def _decorate(scene, raw, path):
         scene["nodes"] = [n for n in scene["nodes"] if n.get("asset_id") != effect_id]
         x, y, scale = {
             "ground_mist_01": (158, 611, 1.5),
-            "smoke_wisp_01": (254, 447, .9),
+            "smoke_wisp_01": (254, 447, 0.9),
         }.get(effect_id, (0, 0, 1))
-        scene["nodes"].append(node(
-            "project_effect", "foreground", 6, effect_id, effect["variant"], x, y, scale
-        ))
+        scene["nodes"].append(
+            node("project_effect", "foreground", 6, effect_id, effect["variant"], x, y, scale)
+        )
     if "signal" in raw:
         lamp = next((n for n in scene["nodes"] if n["id"] == "streetlamp"), None)
         if lamp is None:
-            lamp = node("streetlamp", "midground", 7, SIGNAL, raw["signal"], 230, 548, .86)
+            lamp = node("streetlamp", "midground", 7, SIGNAL, raw["signal"], 230, 548, 0.86)
             scene["nodes"].append(lamp)
         lamp["variant"] = raw["signal"]
+    if "dressing" in raw:
+        world, identity, variant, x, y, scale = DRESSING[raw["dressing"]]
+        if raw["world"] != world or raw["action"] in INTERACTIONS:
+            fail(path + "/dressing", f"Use only in {world}, outside active interactions")
+        scene["nodes"].append(node("dressed_prop", "midground", 10, identity, variant, x, y, scale))
 
 
 def _compile_beat(raw, path):
@@ -183,10 +210,15 @@ def _compile_beat(raw, path):
             fail(path + "/variant", f"{spec.prop} requires one of {', '.join(spec.variants)}")
         if length < spec.frames or {"expression", "stage_x"} & raw.keys():
             fail(path, "Reserve 180 frames and use the interaction's fixed staging and acting")
-        data = interaction_manifest({
-            "schema_version": "interaction-0.1", "interaction": action,
-            "actor": actor, "prop": spec.prop, "variant": raw["variant"],
-        })
+        data = interaction_manifest(
+            {
+                "schema_version": "interaction-0.1",
+                "interaction": action,
+                "actor": actor,
+                "prop": spec.prop,
+                "variant": raw["variant"],
+            }
+        )
     else:
         if "variant" in raw:
             fail(path + "/variant", "Prop variants belong to a registered interaction")
@@ -215,8 +247,18 @@ def _compile_beat(raw, path):
     except InputError as error:
         fail(path, f"Scene admission rejected {error.issue.path}: {error}")
     interaction = InteractionPlan(action, actor, raw["variant"], scene) if spec else None
-    return Beat(raw["id"], start, end, actor, action, expression, scene, interaction,
-                raw.get("signal"))
+    return Beat(
+        raw["id"],
+        start,
+        end,
+        actor,
+        action,
+        expression,
+        scene,
+        interaction,
+        raw.get("signal"),
+        raw.get("dressing"),
+    )
 
 
 def compile_project(data, registry_root: Path):
@@ -241,15 +283,21 @@ def compile_project(data, registry_root: Path):
         camera = raw["camera"]
         if camera == "interaction_detail" and not beat.interaction:
             fail(f"/shots/{i}/camera", "interaction_detail requires a compatible interaction")
-        if camera == "object_reveal" and not (beat.signal or beat.interaction):
-            fail(f"/shots/{i}/camera", "object_reveal requires a signal or interaction prop")
+        if camera == "object_reveal" and not (beat.signal or beat.interaction or beat.dressing):
+            fail(
+                f"/shots/{i}/camera",
+                "object_reveal requires a signal, dressed prop or interaction prop",
+            )
         shots.append(Shot(raw["id"], start, start + SHOT_FRAMES, camera, beat))
     captions = []
     end = 0
     for i, raw in enumerate(data["captions"]):
         start = raw["start"]
-        if (type(start) is not int or type(raw["end"]) is not int
-                or not end <= start < raw["end"] <= total):
+        if (
+            type(start) is not int
+            or type(raw["end"]) is not int
+            or not end <= start < raw["end"] <= total
+        ):
             fail(f"/captions/{i}", "Use sorted, non-overlapping integer spans within the project")
         if any(not line.strip() or not re.fullmatch(CAPTION_LINE, line) for line in raw["lines"]):
             fail(f"/captions/{i}/lines", "Use nonblank supported ASCII text")
@@ -259,8 +307,10 @@ def compile_project(data, registry_root: Path):
         fail("/audio", "Audio is admitted only for 3–30-second projects")
     audio = audio_from_data(data["audio"], total)
     draft = Project(data["title"], tuple(shots), tuple(captions), audio, (), deepcopy(data))
-    cues = () if audio is None else tuple(
-        cue_schedule(metadata_plan(draft, AudioRegistry(registry_root), total))
+    cues = (
+        ()
+        if audio is None
+        else tuple(cue_schedule(metadata_plan(draft, AudioRegistry(registry_root), total)))
     )
     return Project(draft.title, draft.shots, draft.captions, audio, cues, draft.request)
 
@@ -271,18 +321,35 @@ def load_cinematic_project(path, registry_root):
 
 def capabilities(registry_root):
     return {
-        "contract": VERSION, "shot_frames": SHOT_FRAMES, "max_frames": MAX_FRAMES,
-        "max_audio_frames": CHUNK_SHOTS * SHOT_FRAMES, "worlds": WORLD_KITS,
-        "actors": {**{i: {"name": p.name, "actions": living.ACTIONS,
-                         "expressions": living.EXPRESSIONS,
-                         "transitions": living_transitions.TRANSITIONS}
-                      for i, p in living.PROFILES.items()},
-                   "rowan_01": {"name": "Rowan Vale", "interactions_only": True}},
+        "contract": VERSION,
+        "shot_frames": SHOT_FRAMES,
+        "max_frames": MAX_FRAMES,
+        "max_audio_frames": CHUNK_SHOTS * SHOT_FRAMES,
+        "worlds": WORLD_KITS,
+        "actors": {
+            **{
+                i: {
+                    "name": p.name,
+                    "actions": living.ACTIONS,
+                    "expressions": living.EXPRESSIONS,
+                    "transitions": living_transitions.TRANSITIONS,
+                }
+                for i, p in living.PROFILES.items()
+            },
+            "rowan_01": {"name": "Rowan Vale", "interactions_only": True},
+        },
         "interactions": {k: asdict(v) for k, v in INTERACTIONS.items()},
-        "effects": {i: asset_by_id(i).variants for i in EFFECT_IDS}, "cameras": CAMERAS,
-        "caption_styles": CAPTION_STYLES, "signal": {SIGNAL: ["unlit", "lit"]},
+        "effects": {i: asset_by_id(i).variants for i in EFFECT_IDS},
+        "cameras": CAMERAS,
+        "caption_styles": CAPTION_STYLES,
+        "signal": {SIGNAL: ["unlit", "lit"]},
+        "dressing": {
+            k: {"world": v[0], "prop": v[1], "variant": v[2]} for k, v in DRESSING.items()
+        },
         "audio": {i: a.role for i, a in AudioRegistry(registry_root).assets.items()},
-        "limits": ["No request-selected paths, code, custom geometry or generated audio",
-                   "Acting is continuous within a beat; the next beat is authored blocking",
-                   "Only silent projects can exceed ten shots"],
+        "limits": [
+            "No request-selected paths, code, custom geometry or generated audio",
+            "Acting is continuous within a beat; the next beat is authored blocking",
+            "Only silent projects can exceed ten shots",
+        ],
     }
