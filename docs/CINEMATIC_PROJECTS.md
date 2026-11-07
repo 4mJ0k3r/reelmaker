@@ -45,3 +45,20 @@ Generate the original diagnostic test tones for the creek film or audio/caption 
 .venv/bin/python tools/cinematic_project.py --registry outputs/cinematic-test-audio \
   verify outputs/creek
 ```
+
+## Sprint D foundations and cinematic-project-0.2
+
+Run `tools/cinematic_project.py schema --version cinematic-project-0.2` to
+inspect the additive contract. Version 0.2 selects the refined actor motion
+and admits `abandoned_outpost` and `forest_ravine`. Both new worlds have three
+moods. Version 0.1 keeps the original validation and render path.
+
+A beat can place Scout and Mechanic in separate swept lanes with independent
+actions, expression, facing and delay. The same beat can span four camera
+shots. Use `focus`, `two_shot` and the bounded `motion` values shown by
+`capabilities`. The `auto` camera resolves semantic coverage from the beat
+and cue. An optional lamp cue is bounded to one frame inside a paired beat.
+
+[The Unexpected Meeting](../examples/sprint-d/unexpected_meeting.json) is a
+caption-free example. The two camera studies and actor motion studies in
+`examples/sprint-d` show the new worlds and motions independently.

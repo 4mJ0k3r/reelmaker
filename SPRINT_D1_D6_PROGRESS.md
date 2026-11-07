@@ -16,3 +16,5 @@ D3 registers both frontier kits and five assets. Six initial full/mobile preview
 D4 adds the compatible 0.2 contract, bounded two-actor lanes and independent clocks. D3 checkpoint 72bed86cd3ecb1fa97c8efbbecf877ba28ab95fd.
 
 D5 adds bounded eased camera motion, focus look room and semantic coverage. D4 checkpoint 61ba8d569031f8f1cb78b84780846ff447dea682.
+
+D6 adds grade, lamp spill, fir silhouettes, haze and timed acting refinements. D5 checkpoint 895ac9d5d510f462a899c50a614da951f301da07.

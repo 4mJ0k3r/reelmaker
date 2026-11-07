@@ -66,6 +66,7 @@ class Beat:
     delay: int = 0
     partner: Performer | None = None
     cue_frame: int | None = None
+    grade: str | None = None
 
 
 @dataclass(frozen=True)
@@ -324,6 +325,7 @@ def _compile_beat(raw, path, *, staged=False):
         raw.get("signal"),
         raw.get("dressing"),
         staged, lead.facing, lead.delay, partner, cue,
+        mood if world in ("abandoned_outpost", "forest_ravine") else None,
     )
 
 

@@ -35,6 +35,7 @@ FAMILIES = (
 )
 # Curated labels and source pointers. Registration, variants and limits come from ASSETS.
 SCENE_LABELS = {
+    "ravine_fir_01": ("Ravine fir", "nature", (frontier_art.ravine_fir.__wrapped__,)),
     "abandoned_outpost_skyline_01": ("Outpost skyline", "nature", (frontier_art.skyline.__wrapped__,)),
     "forest_ravine_skyline_01": ("Ravine skyline", "nature", (frontier_art.skyline.__wrapped__,)),
     "abandoned_outpost_terrain_01": ("Outpost terrain", "nature", (frontier_art.terrain.__wrapped__,)),
@@ -370,6 +371,16 @@ def registered_components(planner_assets):
                 "Dusk Farm staging is demonstrated. Other placements need scene-specific review.",
                 "Doorway reference is for staging. Openings and lighting are static.",
             ))
+        if asset.id in (
+            "abandoned_outpost_skyline_01", "abandoned_outpost_terrain_01",
+            "forest_ravine_skyline_01", "forest_ravine_terrain_01",
+            "outpost_watch_shelter_01", "ravine_fir_01",
+        ):
+            kit = "forest_ravine" if "ravine" in asset.id else "abandoned_outpost"
+            details["integration_evidence"] = [
+                f"docs/visual-evidence/sprint-d/{kit}-{mood}-720.png"
+                for mood in frontier_art.MOODS[kit]
+            ]
         if asset.id == "barn_01":
             parameters.update(
                 {f"art_direction.{key}": SCENE_ART[key] for key in ("warmth", "atmosphere")}

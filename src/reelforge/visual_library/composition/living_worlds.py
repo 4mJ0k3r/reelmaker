@@ -102,10 +102,10 @@ def _frontier_nodes(kit, mood):
             ground.append(node("dust", "terrain", 5, "smoke_wisp_01", "windblown", 89, 507, .72))
     else:
         ground.extend((
-            node("fir_left", "midground", 1, "pine_snow_01", "pinnacle", 41, 515, .87),
-            node("fir_right", "midground", 2, "pine_snow_01", "windshear", 323, 499, 1.05),
+            node("fir_left", "midground", 1, "ravine_fir_01", "bank", 41, 515, .87),
+            node("fir_right", "midground", 2, "ravine_fir_01", "edge", 323, 499, 1.05),
             node("strata", "midground", 3, "rock_group_01", "angular", 57, 544, 1.4),
-            node("bough", "foreground", 2, "pine_snow_01", "windshear", 367, 591, 1.27),
+            node("bough", "foreground", 2, "ravine_fir_01", "edge", 367, 591, 1.27),
             node("shrub", "foreground", 3, "shrub_cluster_01", "sparse", -2, 621, 1.28),
         ))
         if mood != "morning":

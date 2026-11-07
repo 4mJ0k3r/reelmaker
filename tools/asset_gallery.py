@@ -23,7 +23,7 @@ from reelforge.visual_library.living_assets import EFFECTS, PROPS
 from reelforge.characters.living import PROFILES
 from reelforge.characters.living_transitions import TRANSITIONS
 from reelforge.visual_library.composition.interactions import INTERACTIONS
-from reelforge.visual_library.composition.living_worlds import WORLD_KITS
+from reelforge.visual_library.composition.living_worlds import MOODS, WORLD_KITS
 
 TEMPLATE = Path(__file__).with_name("asset_gallery.html")
 SIZE = (720, 1280)
@@ -33,11 +33,11 @@ KEY = re.compile(r"[a-z][a-z0-9_.-]*\Z")
 
 
 def cinematic_examples():
-    directory = ROOT / "examples/cinematic-projects"
+    directories = (ROOT / "examples/cinematic-projects", ROOT / "examples/sprint-d")
     registry = ROOT / "assets/audio"
     # Diagnostic audio examples carry an explicit fixture-setup link in the operator guide.
     projects = []
-    for path in sorted(directory.glob("*.json")):
+    for path in sorted(p for directory in directories for p in directory.glob("*.json")):
         source = json.loads(path.read_text(encoding="utf-8"))
         if source["audio"] is None:
             project = load_cinematic_project(path, registry)
@@ -81,6 +81,10 @@ def metadata(previews=None):
             ),
         })
     evidence = ROOT / "docs/visual-evidence/sprint-b"
+    def world_paths(kit, mood):
+        folder = "sprint-d" if kit in MOODS else "sprint-b"
+        paths = [f"visual-evidence/{folder}/{kit}-{mood}-{width}.png" for width in (720, 360)]
+        return ["../" + path for path in paths if (ROOT / "docs" / path).is_file()]
     return {"components": entries, "cinematic_projects": cinematic_examples(), "living_worlds": {
         "motion": {
             key: f"../visual-evidence/sprint-b/motion/{key}.webp"
@@ -88,11 +92,7 @@ def metadata(previews=None):
             if (evidence / "motion" / f"{key}.webp").is_file()
         },
         "world_previews": {
-            f"{kit}-{mood}": [
-                f"../visual-evidence/sprint-b/{kit}-{mood}-{width}.png"
-                for width in (720, 360)
-                if (evidence / f"{kit}-{mood}-{width}.png").is_file()
-            ]
+            f"{kit}-{mood}": world_paths(kit, mood)
             for kit, moods in WORLD_KITS.items() for mood in moods
         },
         "transitions": {

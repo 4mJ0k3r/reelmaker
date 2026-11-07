@@ -1,9 +1,10 @@
 """Authored panorama and supporting terrain for the two frontier kits."""
 
+from dataclasses import replace
 from functools import lru_cache
 
 from reelforge.rendering.diagnostic import color
-from reelforge.rendering.model import DrawPath, LinearGradient, rectangle
+from reelforge.rendering.model import Color, DrawPath, LinearGradient, rectangle
 from reelforge.visual_library.architecture.buildings import box, opening, plane
 from reelforge.visual_library.world_assets import oval, stroke
 
@@ -68,11 +69,13 @@ def skyline(kit, mood):
 @lru_cache(maxsize=12)
 def terrain(kit, mood):
     _, _, distant, near, ground, route, edge = PALETTES[mood]
-    art = [box(-510, 398, 1390, 705, ground)]
+    floor = plane(ground, (-510, 457), (-125, 443), (25, 446), (111, 433), (173, 452),
+                  (273, 429), (434, 440), (880, 456), (880, 1103), (-510, 1103))
+    art = [floor]
     if kit == "abandoned_outpost":
         art.extend((
             plane(near, (-510, 419), (28, 426), (117, 468), (164, 437), (356, 410),
-                  (870, 450), (870, 398), (-510, 398)),
+                  (870, 450), (870, 474), (-510, 480), opacity=.89),
             plane(edge, (162, 403), (177, 405), (142, 464), (151, 499), (275, 546),
                   (582, 905), (-317, 990), (-106, 730), (42, 560), (102, 492), (112, 459)),
             plane(route, (165, 407), (175, 408), (146, 465), (156, 492), (270, 543),
@@ -84,8 +87,11 @@ def terrain(kit, mood):
                              (x-half+2, y+10), opacity=.64))
     else:
         art.extend((
-            plane(near, (-510, 398), (-36, 403), (59, 451), (158, 438), (280, 407),
-                  (870, 398), (870, 479), (271, 495), (140, 472), (-510, 515)),
+            plane(near, (-510, 454), (-36, 407), (59, 451), (158, 438), (280, 407),
+                  (870, 439), (870, 479), (271, 495), (140, 472), (-510, 515)),
+            plane(distant, (-510, 465), (-36, 415), (59, 456), (153, 446), (279, 416),
+                  (870, 447), (870, 455), (278, 425), (152, 455), (55, 465),
+                  (-36, 425), (-510, 475), opacity=.38),
             plane("263d46", (-510, 488), (-52, 497), (126, 478), (207, 452), (268, 455),
                   (233, 493), (99, 531), (-510, 748)),
             plane("547b86", (-510, 511), (-42, 505), (137, 482), (230, 455), (252, 459),
@@ -102,13 +108,25 @@ def terrain(kit, mood):
         x, y = -145 + (i * 97) % 640, 460 + (i * 67) % 401
         size = 2 + (y - 460) * .011
         art.append(oval(distant if i % 3 == 0 else near, x, y, size * 2, size * .48, .52))
+    if mood in ("misty", "night", "storm"):
+        art.append(DrawPath(rectangle(-510, 445, 1390, 139), LinearGradient(
+            (0, 445), (0, 584),
+            ((0, color(distant, 0)), (.4, color(distant, .21)), (1, color(distant, 0))),
+        )))
     return tuple(art)
 
 
 @lru_cache(maxsize=3)
 def watch_shelter(mood):
     practical = mood != "daylight"
+    glow = (
+        oval("e9a85a", -20, -115, 42, 43, .08),
+        oval("ffd394", -20, -115, 33, 35, .10),
+        oval("e9a85a", -17, 10, 62, 19, .17),
+        oval("ffcc82", -18, 11, 42, 11, .12),
+    ) if practical else ()
     return (
+        *glow,
         oval("272e33", 8, 0, 73, 11, .46),
         plane("423a38", (-41, -81), (-33, -82), (-33, 0), (-41, 0)),
         plane("554843", (30, -85), (39, -82), (39, 0), (30, 0)),
@@ -126,3 +144,52 @@ def watch_shelter(mood):
           for x, y in ((52, -63), (53, -47), (54, -31), (55, -15))),
         stroke("4d565a", 2, (16, -160), (12, -199), (32, -195)),
     )
+
+
+@lru_cache(maxsize=2)
+def ravine_fir(variant):
+    """Ground-anchored layered evergreen, sized for both bank and near edge."""
+    trunk, outer, inner, rim = (
+        ("253735", "263c37", "38534a", "4d6859") if variant == "bank"
+        else ("172a29", "192e2d", "273e39", "364f45")
+    )
+    return (
+        oval(trunk, 3, 0, 27, 5, .40),
+        stroke(trunk, 6, (-4, 1), (4, -133)),
+        _pine(2, -7, 151, outer),
+        _pine(-7, -24, 112, inner),
+        _pine(-7, -52, 73, rim),
+        stroke(inner, 3, (-2, -61), (18, -44)),
+        stroke(rim, 2, (-5, -88), (-24, -69)),
+    )
+
+
+# Trusted bounded color treatments for frontier actors only. Mix stays in RGB range.
+ACTOR_GRADES = {
+    "daylight": ("f5d6a4", .08), "sunset": ("ffc994", .13),
+    "storm": ("b4c8d2", .10), "morning": ("e0d9b2", .10),
+    "misty": ("c4d7d4", .11), "night": ("a1c3cd", .13),
+}
+
+
+def actor_light(commands, mood):
+    tint, amount = ACTOR_GRADES[mood]
+    key = color(tint)
+
+    def fill(paint):
+        if not isinstance(paint, Color):
+            return paint
+        return Color(
+            paint.r * (1 - amount) + key.r * amount,
+            paint.g * (1 - amount) + key.g * amount,
+            paint.b * (1 - amount) + key.b * amount,
+            paint.a,
+        )
+
+    # The first path is the contact shadow, whose luminance must stay low.
+    shadow, *body = commands
+    return (replace(shadow, fill=color("172629", .37)), *(
+        replace(path, fill=fill(path.fill), stroke=replace(path.stroke, paint=fill(path.stroke.paint))
+                if path.stroke else None)
+        for path in body
+    ))

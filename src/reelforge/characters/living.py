@@ -79,21 +79,19 @@ def sample_pose(identity, action, seconds, *, crouch=0., hand=None, gait_weight=
     cycle = seconds * (1.95 if fast else 1.13) if walking else 0.
     stride = (40 if fast else 22) * (1.08 if identity == "scout_01" else .94)
     lean = .22 if fast else .09 if walking else .015 * math.sin(seconds * 4)
-    notice = math.sin(math.pi * ease(min(seconds / 1.4, 1))) if action == "notice" else 0
-    react = math.sin(math.pi * ease(min(seconds / 1.15, 1))) if action == "react" else 0
+    agile = identity == "scout_01"
+    notice_duration = (1.28 if agile else 1.62) if refined else 1.4
+    reaction_duration = (1.20 if agile else 1.55) if refined else 1.15
+    notice = math.sin(math.pi * ease(min(seconds / notice_duration, 1))) if action == "notice" else 0
+    react = math.sin(math.pi * ease(min(seconds / reaction_duration, 1))) if action == "react" else 0
     lean *= gait_weight if walking else 1
     lean += .13 * notice - (.25 if identity == "scout_01" else .17) * react
     # Keep the registered route and cadence for contact choreography. Free acting
     # separates Scout's quicker recovery from Bram's heavier upper-body settling.
     if refined and not (walking and (crouch or gait_weight != 1 or hand)):
-        agile = identity == "scout_01"
         anticipation = math.sin(math.pi * ease(seconds / .34)) if seconds < .34 else 0
         lean += (.045 if agile else .075) * math.sin(2 * math.pi * cycle)
         lean -= (.055 if agile else .085) * anticipation * (action in ("notice", "react"))
-        if action == "notice":
-            notice = math.sin(math.pi * ease(min(seconds / (1.28 if agile else 1.62), 1)))
-        if action == "react":
-            react = math.sin(math.pi * ease(min(seconds / (1.20 if agile else 1.55), 1)))
     x = cycle * stride if walking else 0
     y = -(profile.upper + profile.lower + 2.5) + crouch
     if walking:

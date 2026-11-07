@@ -141,8 +141,8 @@
         "scale": 0.87,
         "rotation_degrees": 0
       },
-      "asset_id": "pine_snow_01",
-      "variant": "pinnacle"
+      "asset_id": "ravine_fir_01",
+      "variant": "bank"
     },
     {
       "id": "fir_right",
@@ -156,8 +156,8 @@
         "scale": 1.05,
         "rotation_degrees": 0
       },
-      "asset_id": "pine_snow_01",
-      "variant": "windshear"
+      "asset_id": "ravine_fir_01",
+      "variant": "edge"
     },
     {
       "id": "strata",
@@ -186,8 +186,8 @@
         "scale": 1.27,
         "rotation_degrees": 0
       },
-      "asset_id": "pine_snow_01",
-      "variant": "windshear"
+      "asset_id": "ravine_fir_01",
+      "variant": "edge"
     },
     {
       "id": "shrub",

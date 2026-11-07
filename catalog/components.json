@@ -13,6 +13,11 @@
           "max_operations": 700,
           "max_paths": 48
         },
+        "integration_evidence": [
+          "docs/visual-evidence/sprint-d/abandoned_outpost-daylight-720.png",
+          "docs/visual-evidence/sprint-d/abandoned_outpost-sunset-720.png",
+          "docs/visual-evidence/sprint-d/abandoned_outpost-storm-720.png"
+        ],
         "scene_kind": "background",
         "support_envelope": null,
         "upright": true
@@ -63,6 +68,11 @@
           "max_operations": 800,
           "max_paths": 64
         },
+        "integration_evidence": [
+          "docs/visual-evidence/sprint-d/abandoned_outpost-daylight-720.png",
+          "docs/visual-evidence/sprint-d/abandoned_outpost-sunset-720.png",
+          "docs/visual-evidence/sprint-d/abandoned_outpost-storm-720.png"
+        ],
         "scene_kind": "environment",
         "support_envelope": [
           -180,
@@ -1374,6 +1384,11 @@
           "max_operations": 700,
           "max_paths": 48
         },
+        "integration_evidence": [
+          "docs/visual-evidence/sprint-d/forest_ravine-morning-720.png",
+          "docs/visual-evidence/sprint-d/forest_ravine-misty-720.png",
+          "docs/visual-evidence/sprint-d/forest_ravine-night-720.png"
+        ],
         "scene_kind": "background",
         "support_envelope": null,
         "upright": true
@@ -1424,6 +1439,11 @@
           "max_operations": 800,
           "max_paths": 64
         },
+        "integration_evidence": [
+          "docs/visual-evidence/sprint-d/forest_ravine-morning-720.png",
+          "docs/visual-evidence/sprint-d/forest_ravine-misty-720.png",
+          "docs/visual-evidence/sprint-d/forest_ravine-night-720.png"
+        ],
         "scene_kind": "environment",
         "support_envelope": [
           -180,
@@ -2264,6 +2284,11 @@
           "max_operations": 840,
           "max_paths": 64
         },
+        "integration_evidence": [
+          "docs/visual-evidence/sprint-d/abandoned_outpost-daylight-720.png",
+          "docs/visual-evidence/sprint-d/abandoned_outpost-sunset-720.png",
+          "docs/visual-evidence/sprint-d/abandoned_outpost-storm-720.png"
+        ],
         "scene_kind": "asset",
         "support_envelope": null,
         "upright": true
@@ -2782,6 +2807,59 @@
         "light",
         "steady",
         "heavy"
+      ]
+    },
+    {
+      "dependencies": [
+        "scene-0.1"
+      ],
+      "details": {
+        "anchor": [
+          0,
+          0
+        ],
+        "budget": {
+          "max_operations": 240,
+          "max_paths": 16
+        },
+        "integration_evidence": [
+          "docs/visual-evidence/sprint-d/forest_ravine-morning-720.png",
+          "docs/visual-evidence/sprint-d/forest_ravine-misty-720.png",
+          "docs/visual-evidence/sprint-d/forest_ravine-night-720.png"
+        ],
+        "scene_kind": "asset",
+        "support_envelope": null,
+        "upright": true
+      },
+      "engine_capability": true,
+      "family": "nature",
+      "id": "ravine_fir_01",
+      "name": "Ravine fir",
+      "parameters": {
+        "variant": {
+          "choices": [
+            "bank",
+            "edge"
+          ]
+        }
+      },
+      "planner_exposure": "unavailable",
+      "production_status": "candidate",
+      "quality_review": "not_assessed",
+      "registration": [
+        "scene"
+      ],
+      "restrictions": [
+        "Use the registered scene node kind and scene-0.1 validation."
+      ],
+      "sources": [
+        "src/reelforge/scenes/assets.py:recipe",
+        "src/reelforge/visual_library/frontier_art.py:ravine_fir"
+      ],
+      "type": "scene_asset",
+      "variants": [
+        "bank",
+        "edge"
       ]
     },
     {

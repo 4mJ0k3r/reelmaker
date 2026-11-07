@@ -50,6 +50,7 @@ ASSETS = (
     *(Asset(f"{kit}_terrain_01", "environment", moods, 64, 800, True,
             support_envelope=frontier_art.SUPPORT)
       for kit, moods in frontier_art.MOODS.items()),
+    Asset("ravine_fir_01", "asset", ("bank", "edge"), 16, 240, True),
     Asset("outpost_watch_shelter_01", "asset", frontier_art.MOODS["abandoned_outpost"],
           64, 840, True),
     Asset("cinematic_dusk_sky_01", "background", ("default",), 8, 80, True),
@@ -182,6 +183,8 @@ def recipe(
         commands = frontier_art.skyline(asset.id.removesuffix("_skyline_01"), variant)
     elif asset.id.endswith("_terrain_01") and asset.id.removesuffix("_terrain_01") in frontier_art.MOODS:
         commands = frontier_art.terrain(asset.id.removesuffix("_terrain_01"), variant)
+    elif asset.id == "ravine_fir_01":
+        commands = frontier_art.ravine_fir(variant)
     elif asset.id == "outpost_watch_shelter_01":
         commands = frontier_art.watch_shelter(variant)
     elif asset.id == "cinematic_dusk_sky_01":

@@ -1,0 +1,28 @@
+{
+  "schema_version": "cinematic-project-0.2",
+  "title": "Grounded cart contact",
+  "beats": [
+    {
+      "id": "pickup",
+      "start": 0,
+      "end": 180,
+      "actor": "mechanic_01",
+      "world": "woodland_creek",
+      "mood": "windy",
+      "action": "push_cart",
+      "variant": "loaded"
+    }
+  ],
+  "shots": [
+    {
+      "id": "reach",
+      "camera": "medium"
+    },
+    {
+      "id": "carry",
+      "camera": "interaction_detail"
+    }
+  ],
+  "captions": [],
+  "audio": null
+}

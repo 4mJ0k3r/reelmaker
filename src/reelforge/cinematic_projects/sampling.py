@@ -9,6 +9,7 @@ from reelforge.characters.rig import Pose
 from reelforge.environments.scene import Camera
 from reelforge.scenes.graph import CharacterFrame, evaluate_layers
 from reelforge.scenes.transforms import Placement
+from reelforge.visual_library.frontier_art import actor_light
 from reelforge.visual_library.composition.interactions import (
     INTERACTIONS,
     Sample,
@@ -45,6 +46,13 @@ def acting_at(beat, local, *, partner=False):
         pose, clock = pose_at(performer, local, refined=True)
         facing = "right" if beat.cue_frame is not None and local >= beat.cue_frame else performer.facing
         expression = performer.expression if local >= performer.delay else "neutral"
+        if performer.action == "react" and clock >= (36 if performer.actor == "scout_01" else 47):
+            expression = "concerned" if expression in ("surprised", "frightened") else expression
+        if beat.cue_frame is not None and local >= beat.cue_frame:
+            if performer.action in ("idle", "notice", "react"):
+                pose = living.sample_pose(performer.actor, "notice",
+                                          (local - beat.cue_frame) / 30, refined=True)
+            expression = "determined" if local - beat.cue_frame >= 15 else "surprised"
         return Acting(anchor, pose, expression, None, clock, facing)
     if beat.interaction:
         authored_frame = min(local, INTERACTIONS[beat.action].frames - 1)
@@ -193,6 +201,8 @@ def visual_frame(project, frame):
         )
     def character(node, identity, acting):
         commands = living.draw_pose(identity, acting.pose, acting.expression)
+        if beat.grade:
+            commands = actor_light(commands, beat.grade)
         if acting.facing == "left":
             commands = face_left(commands)
         return CharacterFrame(node, acting.anchor, commands)
