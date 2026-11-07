@@ -119,3 +119,12 @@ WORKSPACE_IDENTITY. The new real-fsync substitution test plus operator/security
 selection passes (28 cases). No numeric/security/resource assertion was weakened.
 The full-suite capture is being completed with JUnit evidence; final qualification
 will use the post-hardening source and a fresh-tree native smoke check.
+
+D9.5: The Last Transmission final operator demonstration is complete: 900 decoded
+frames, 720×1280/30 fps H.264/yuv420p, registered stereo AAC, exact rational PTS,
+zero flagged black frames, independent package verification and no-clobber pass.
+Final video eaaeff92563c90b205a3dec8ec5c525899c2224d68c603ca4a8e6c963690afd4.
+Recorded wall 71.24s; CPU 36.31 + 62.14 + 2.61s; render and final-verifier RSS
+are reported separately and qualification uses their maximum. The clean
+operator run was at 93fc500; final-source restoration/smoke remains a separate
+gate. No 60s narration, human voice or studio-quality claim is made.
