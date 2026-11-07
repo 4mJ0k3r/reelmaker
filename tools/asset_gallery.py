@@ -85,11 +85,15 @@ def metadata(previews=None):
         folder = "sprint-d" if kit in MOODS else "sprint-b"
         paths = [f"visual-evidence/{folder}/{kit}-{mood}-{width}.png" for width in (720, 360)]
         return ["../" + path for path in paths if (ROOT / "docs" / path).is_file()]
+    def motion_path(key):
+        folder = "sprint-d" if key in MOODS else "sprint-b"
+        return f"visual-evidence/{folder}/motion/{key}.webp"
+
     return {"components": entries, "cinematic_projects": cinematic_examples(), "living_worlds": {
         "motion": {
-            key: f"../visual-evidence/sprint-b/motion/{key}.webp"
+            key: "../" + motion_path(key)
             for key in (*PROFILES, *WORLD_KITS, *INTERACTIONS)
-            if (evidence / "motion" / f"{key}.webp").is_file()
+            if (ROOT / "docs" / motion_path(key)).is_file()
         },
         "world_previews": {
             f"{kit}-{mood}": world_paths(kit, mood)

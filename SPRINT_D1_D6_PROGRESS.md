@@ -18,3 +18,5 @@ D4 adds the compatible 0.2 contract, bounded two-actor lanes and independent clo
 D5 adds bounded eased camera motion, focus look room and semantic coverage. D4 checkpoint 61ba8d569031f8f1cb78b84780846ff447dea682.
 
 D6 adds grade, lamp spill, fir silhouettes, haze and timed acting refinements. D5 checkpoint 895ac9d5d510f462a899c50a614da951f301da07.
+
+The final integration pass preserves the historical catalog digest and supplies offline animated previews for both new worlds. D6 lighting checkpoint 66c9e19971c61431c4e99ab771fc5a3a9f6f3f59.

@@ -371,11 +371,7 @@ def registered_components(planner_assets):
                 "Dusk Farm staging is demonstrated. Other placements need scene-specific review.",
                 "Doorway reference is for staging. Openings and lighting are static.",
             ))
-        if asset.id in (
-            "abandoned_outpost_skyline_01", "abandoned_outpost_terrain_01",
-            "forest_ravine_skyline_01", "forest_ravine_terrain_01",
-            "outpost_watch_shelter_01", "ravine_fir_01",
-        ):
+        if asset.id in frontier_art.FRONTIER_ASSET_IDS:
             kit = "forest_ravine" if "ravine" in asset.id else "abandoned_outpost"
             details["integration_evidence"] = [
                 f"docs/visual-evidence/sprint-d/{kit}-{mood}-720.png"

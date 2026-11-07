@@ -37,16 +37,16 @@
       ],
       "evidence": [
         {
-          "path": "../visual-evidence/sprint-d/abandoned_outpost-daylight-720.png",
-          "label": "Daylight integrated scene"
+          "path": "previews/history/sprint-d/abandoned_outpost-daylight-720.png",
+          "label": "Historical scene context"
         },
         {
-          "path": "../visual-evidence/sprint-d/abandoned_outpost-sunset-720.png",
-          "label": "Sunset integrated scene"
+          "path": "previews/history/sprint-d/abandoned_outpost-sunset-720.png",
+          "label": "Historical scene context"
         },
         {
-          "path": "../visual-evidence/sprint-d/abandoned_outpost-storm-720.png",
-          "label": "Storm integrated scene"
+          "path": "previews/history/sprint-d/abandoned_outpost-storm-720.png",
+          "label": "Historical scene context"
         }
       ],
       "preview_status": "context_only"
@@ -88,16 +88,16 @@
       ],
       "evidence": [
         {
-          "path": "../visual-evidence/sprint-d/abandoned_outpost-daylight-720.png",
-          "label": "Daylight integrated scene"
+          "path": "previews/history/sprint-d/abandoned_outpost-daylight-720.png",
+          "label": "Historical scene context"
         },
         {
-          "path": "../visual-evidence/sprint-d/abandoned_outpost-sunset-720.png",
-          "label": "Sunset integrated scene"
+          "path": "previews/history/sprint-d/abandoned_outpost-sunset-720.png",
+          "label": "Historical scene context"
         },
         {
-          "path": "../visual-evidence/sprint-d/abandoned_outpost-storm-720.png",
-          "label": "Storm integrated scene"
+          "path": "previews/history/sprint-d/abandoned_outpost-storm-720.png",
+          "label": "Historical scene context"
         }
       ],
       "preview_status": "context_only"
@@ -1000,16 +1000,16 @@
       ],
       "evidence": [
         {
-          "path": "../visual-evidence/sprint-d/forest_ravine-morning-720.png",
-          "label": "Morning integrated scene"
+          "path": "previews/history/sprint-d/forest_ravine-morning-720.png",
+          "label": "Historical scene context"
         },
         {
-          "path": "../visual-evidence/sprint-d/forest_ravine-misty-720.png",
-          "label": "Misty integrated scene"
+          "path": "previews/history/sprint-d/forest_ravine-misty-720.png",
+          "label": "Historical scene context"
         },
         {
-          "path": "../visual-evidence/sprint-d/forest_ravine-night-720.png",
-          "label": "Night integrated scene"
+          "path": "previews/history/sprint-d/forest_ravine-night-720.png",
+          "label": "Historical scene context"
         }
       ],
       "preview_status": "context_only"
@@ -1051,16 +1051,16 @@
       ],
       "evidence": [
         {
-          "path": "../visual-evidence/sprint-d/forest_ravine-morning-720.png",
-          "label": "Morning integrated scene"
+          "path": "previews/history/sprint-d/forest_ravine-morning-720.png",
+          "label": "Historical scene context"
         },
         {
-          "path": "../visual-evidence/sprint-d/forest_ravine-misty-720.png",
-          "label": "Misty integrated scene"
+          "path": "previews/history/sprint-d/forest_ravine-misty-720.png",
+          "label": "Historical scene context"
         },
         {
-          "path": "../visual-evidence/sprint-d/forest_ravine-night-720.png",
-          "label": "Night integrated scene"
+          "path": "previews/history/sprint-d/forest_ravine-night-720.png",
+          "label": "Historical scene context"
         }
       ],
       "preview_status": "context_only"
@@ -1620,16 +1620,16 @@
       ],
       "evidence": [
         {
-          "path": "../visual-evidence/sprint-d/abandoned_outpost-daylight-720.png",
-          "label": "Daylight integrated scene"
+          "path": "previews/history/sprint-d/abandoned_outpost-daylight-720.png",
+          "label": "Historical scene context"
         },
         {
-          "path": "../visual-evidence/sprint-d/abandoned_outpost-sunset-720.png",
-          "label": "Sunset integrated scene"
+          "path": "previews/history/sprint-d/abandoned_outpost-sunset-720.png",
+          "label": "Historical scene context"
         },
         {
-          "path": "../visual-evidence/sprint-d/abandoned_outpost-storm-720.png",
-          "label": "Storm integrated scene"
+          "path": "previews/history/sprint-d/abandoned_outpost-storm-720.png",
+          "label": "Historical scene context"
         }
       ],
       "preview_status": "context_only"
@@ -1999,16 +1999,16 @@
       ],
       "evidence": [
         {
-          "path": "../visual-evidence/sprint-d/forest_ravine-morning-720.png",
-          "label": "Morning integrated scene"
+          "path": "previews/history/sprint-d/forest_ravine-morning-720.png",
+          "label": "Historical scene context"
         },
         {
-          "path": "../visual-evidence/sprint-d/forest_ravine-misty-720.png",
-          "label": "Misty integrated scene"
+          "path": "previews/history/sprint-d/forest_ravine-misty-720.png",
+          "label": "Historical scene context"
         },
         {
-          "path": "../visual-evidence/sprint-d/forest_ravine-night-720.png",
-          "label": "Night integrated scene"
+          "path": "previews/history/sprint-d/forest_ravine-night-720.png",
+          "label": "Historical scene context"
         }
       ],
       "preview_status": "context_only"
@@ -2777,6 +2777,8 @@
       "mechanic_01": "../visual-evidence/sprint-b/motion/mechanic_01.webp",
       "village_lane": "../visual-evidence/sprint-b/motion/village_lane.webp",
       "woodland_creek": "../visual-evidence/sprint-b/motion/woodland_creek.webp",
+      "abandoned_outpost": "../visual-evidence/sprint-d/motion/abandoned_outpost.webp",
+      "forest_ravine": "../visual-evidence/sprint-d/motion/forest_ravine.webp",
       "pickup_carry_place": "../visual-evidence/sprint-b/motion/pickup_carry_place.webp",
       "sit_stand": "../visual-evidence/sprint-b/motion/sit_stand.webp",
       "push_cart": "../visual-evidence/sprint-b/motion/push_cart.webp"

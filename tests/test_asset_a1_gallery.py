@@ -26,9 +26,10 @@ GALLERY = ROOT / "docs/asset-gallery"
 from reelforge.visual_library.world_assets import WORLD_ASSETS
 
 from reelforge.characters.living import PROFILES
+from reelforge.visual_library.frontier_art import FRONTIER_ASSET_IDS
 from reelforge.visual_library.living_assets import EFFECTS, PROPS
 
-ADDITIONS = WORLD_ASSETS | PROFILES | PROPS | EFFECTS
+ADDITIONS = set(WORLD_ASSETS | PROFILES | PROPS | EFFECTS) | set(FRONTIER_ASSET_IDS)
 
 BASELINE_CATALOG = "df3c9ab5a6e4ee50c54a0f03c8d897512ef49623a67649fbb9ae82bf7288e6a7"
 VARIANTS = {

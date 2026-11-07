@@ -12,6 +12,10 @@ MOODS = {
     "abandoned_outpost": ("daylight", "sunset", "storm"),
     "forest_ravine": ("morning", "misty", "night"),
 }
+FRONTIER_ASSET_IDS = (
+    *(f"{kit}_{part}_01" for kit in MOODS for part in ("skyline", "terrain")),
+    "outpost_watch_shelter_01", "ravine_fir_01",
+)
 # Zenith, horizon, distant ridge, near ridge, terrain, route, route edge.
 PALETTES = {
     "daylight": ("536f89", "d8bb91", "949092", "636b73", "686756", "a59a81", "c1b196"),
