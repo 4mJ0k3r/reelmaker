@@ -83,7 +83,13 @@ def project_schema(version=VERSION):
         ("expression", "stage_x", "variant", "effect", "signal", "dressing"),
     )
     shot_fields = {"id": ID, "camera": choice(CAMERAS)}
+    audio = episode_schema()["properties"]["audio"]
     if staged:
+        narration = audio["anyOf"][0]["properties"]["narration"]["anyOf"][1]
+        narration["properties"]["start_frame"]["maximum"] = MAX_FRAMES - 1
+        narration["properties"]["trim_start_frame"]["maximum"] = MAX_FRAMES - 1
+        narration["properties"]["trim_end_frame"]["anyOf"][1]["maximum"] = MAX_FRAMES
+        narration["required"].remove("start_frame")
         actor_fields = {
             "actor": choice(PROFILES), "action": choice((*ACTIONS, *TRANSITIONS)),
             "expression": choice(EXPRESSIONS), "stage_x": integer(36, 276),
@@ -125,7 +131,7 @@ def project_schema(version=VERSION):
                     0,
                     24,
                 ),
-                "audio": episode_schema()["properties"]["audio"],
+                "audio": audio,
             }
         ),
     }

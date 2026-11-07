@@ -9,6 +9,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from threading import Event
 
+from reelforge.audio.processing import verify_aac_clock
 from reelforge.audio.registry import digest
 from reelforge.contracts.project import load_project, project_digest
 from reelforge.core.errors import OperationError
@@ -23,6 +24,7 @@ from reelforge.resources.monitor import JobMonitor, preflight_memory
 
 from .captions import caption_paths
 from .contract import CHUNK_SHOTS, SHOT_FRAMES, Project, load_cinematic_project
+from .narration import check_narration_storage, mux_narration, prepare_narration
 from .operator import output_destination
 from .sampling import visual_frame
 from .storyboard import black_frames, write_storyboard
@@ -33,6 +35,7 @@ class EpisodeSlice:
     project: Project
     start: int
     frames: int
+    silent_chunk: bool = False
 
     @property
     def title(self):
@@ -40,11 +43,11 @@ class EpisodeSlice:
 
     @property
     def silent(self):
-        return self.project.silent
+        return self.silent_chunk or self.project.silent
 
     @property
     def audio(self):
-        return self.project.audio
+        return None if self.silent_chunk else self.project.audio
 
 
 def frame_sampler(project):
@@ -105,7 +108,7 @@ def _engine(project, stage, registry_root, cancellation):
     chunks = []
     for i, start in enumerate(range(0, project.frames, CHUNK_SHOTS * SHOT_FRAMES)):
         length = min(project.frames - start, CHUNK_SHOTS * SHOT_FRAMES)
-        chunks.append(ProductionChunk(i, start, EpisodeSlice(project, start, length)))
+        chunks.append(ProductionChunk(i, start, EpisodeSlice(project, start, length, silent_chunk=True)))
     production = Production(project.title, project.shots, tuple(chunks))
     return render_production(
         production,
@@ -140,7 +143,10 @@ def render_project(project, output, *, registry_root, cancelled=None):
     parent_identity = OwnedDirectory._key(output.parent.stat())
     cancelled_check(cancellation)
     preflight_memory()
-    check_workspace(output.parent)
+    if project.long_narration:
+        check_narration_storage(output.parent, project.frames)
+    else:
+        check_workspace(output.parent)
     owner = OwnedDirectory(output.parent, ".reelforge-cinematic-")
     committed = False
     work = None
@@ -151,6 +157,9 @@ def render_project(project, output, *, registry_root, cancelled=None):
             work = OwnedDirectory(output.parent, ".reelforge-cinematic-work-")
             if OwnedDirectory._key(output.parent.stat()) != parent_identity:
                 raise OperationError("TRANSACTION_IDENTITY", "Output parent changed before rendering")
+            private_audio = work.path / "global-audio"
+            if project.long_narration:
+                track, snapshot = prepare_narration(project, registry_root, private_audio, cancellation)
             engine = _engine(project, work.path, registry_root, cancellation)
             if not engine["success"]:
                 if engine.get("cleanup_error"):
@@ -167,13 +176,21 @@ def render_project(project, output, *, registry_root, cancelled=None):
                 )
                 raise OperationError("CINEMATIC_ENGINE", f"Verified media unavailable: {detail}")
             _collect_engine(work.path / "engine", stage / "engine", engine)
+            video = stage / "reel.mp4"
+            if project.long_narration:
+                audio_verification = mux_narration(
+                    track, snapshot, project.frames, stage / "engine/reel.mp4",
+                    video, private_audio, cancellation,
+                )
+                streams = stream_check(video, cancellation, project.frames)
+            else:
+                audio_verification = engine.get("audio_verification")
+                os.link(stage / "engine/reel.mp4", video)
+                streams = engine.get("streams")
+                if streams is None:
+                    streams = stream_check(video, cancellation, project.frames, silent=True)
             work.cleanup()
             work = None
-            video = stage / "reel.mp4"
-            os.link(stage / "engine/reel.mp4", video)
-            streams = engine.get("streams")
-            if streams is None:
-                streams = stream_check(video, cancellation, project.frames, silent=True)
             black = black_frames(video, cancellation)
             storyboard = write_storyboard(project, video, stage, cancellation)
             _write_json(stage / "project.json", project.request)
@@ -205,7 +222,7 @@ def render_project(project, output, *, registry_root, cancelled=None):
             "storyboard": storyboard,
             "verification": engine["verification"],
             "assembly_frame_hash_match": engine.get("assembly_frame_hash_match"),
-            "audio_verification": engine.get("audio_verification"),
+            "audio_verification": audio_verification,
             "wall_seconds": time.perf_counter() - started,
             "cpu_seconds": {
                 "parent": time.process_time() - own,
@@ -286,6 +303,12 @@ def verify_project(directory, *, registry_root, cancelled=None):
             if chunk_hashes != hashes:
                 raise OperationError("CINEMATIC_ASSEMBLY", "Decoded chunk sequence differs")
             assembly_matches = True
+        audio_clock = None
+        if project.long_narration:
+            audio_clock = verify_aac_clock(video, project.frames, cancelled=cancellation)
+            proof = report.get("audio_verification") or {}
+            if proof.get("passed") is not True or any(proof.get(k) != v for k, v in audio_clock.items()):
+                raise OperationError("CINEMATIC_AUDIO", "AAC clock differs from verified narration")
         faststart_boxes(video)
         black = black_frames(video, cancellation)
     if (
@@ -300,6 +323,7 @@ def verify_project(directory, *, registry_root, cancelled=None):
         "streams": streams,
         "decoded_sequence_sha256": sequence,
         "assembly_frame_hash_match": assembly_matches,
+        **({"audio_clock": audio_clock} if audio_clock is not None else {}),
         "black_frame_check": black,
         "plan_sha256": timeline["plan_sha256"],
         "video_sha256": digest(video),

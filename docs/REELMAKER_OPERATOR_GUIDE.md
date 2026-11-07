@@ -108,25 +108,47 @@ occlusion or artistic certification; inspect decoded 360×640 sheets too.
 
 ## Audio and captions
 
-Audio is supported for 3–30 seconds (1–10 shots). Longer 33–60-second projects
-are silent and use verified sequential chunk assembly. There is no automatic
-60-second narration or TTS. The existing diag_* assets are synthetic diagnostic
-signals; never call them human narration or recorded environmental sound.
+The short route supports registered narration and sound-effect cues. Staged
+`cinematic-project-0.2` projects of 33–60 seconds accept one finished narration
+with an empty `cues` list, or silence. The renderer assembles its silent video
+chunks, then applies one global AAC-LC mux. Legacy `0.1` keeps the 30-second
+audio limit. The engine uses the operator's authored scene and caption timings.
+Provide those timings separately if precise semantic alignment matters. There
+is no voice generation, transcription, or inference of scenes from speech.
+Diagnostic assets are test signals.
 
-An operator with a real PCM16 WAV can register it using the trusted local tool:
+Receive the finished take and keep its original. If a separate format conversion
+is needed, write to a new file:
 
 ```sh
-PYTHONPATH=src .venv/bin/python tools/register_audio.py supplied.wav --id my_narration --role narration
+ffmpeg -nostdin -v error -i supplied.m4a -map 0:a:0 -vn -sn -dn \
+  -c:a pcm_s16le -ar 48000 -ac 2 -n prepared.wav
+PYTHONPATH=src .venv/bin/python tools/register_audio.py prepared.wav \
+  --id my_narration --role narration --registry /persistent/private-audio
 ```
 
-Registration changes the local trusted audio registry, not project-selected
-executable code. Project JSON references IDs only. Supported WAV rates are
-16/24/44.1/48 kHz, one or two channels, bounded to 8 MiB. The existing workflow
-validates hashes/metadata, snapshots WAVs, mixes globally at 48 kHz stereo and
-verifies AAC timing. Cue starts/trims are frame aligned; output has 1600 samples
-per frame. Use at most one narration and four SFX cues; observe admitted gain
-and overlap restrictions. A CLI-selected `--registry DIRECTORY` must contain a
-valid trusted registry and its pinned WAVs. Do not edit registered bytes.
+Use a private, operator-owned registry outside the repository. PCM16 sources may
+be mono or stereo at 16/24/44.1/48 kHz. A narration can be at most 60 seconds and
+11,585,536 bytes (the largest supported PCM16 payload plus 64 KiB RIFF overhead).
+The registry pins the file hash and measured metadata. Project JSON references
+the ID, with explicit linear gain. Keep the existing source unchanged.
+
+Copy `examples/sprint-f/the_light_in_the_empty_town_narration_test.json` and
+replace its test ID with `my_narration`. Author scene and caption timing as
+needed. On this long route the default `start_frame` is 0. An authored offset
+uses exactly 1,600 output samples per frame. With `trim_end_frame: null` the
+take includes the final sub-frame source tail, subject to resampling. Shorter
+recordings leave silence at the end. An overlong take or offset that would
+truncate it is rejected. An intentional trim requires explicit frame bounds.
+The renderer never adjusts playback speed.
+
+Use `tools/cinematic_project.py --registry /persistent/private-audio` followed
+by `validate INPUT`, `plan INPUT`, `inspect INPUT`, `preflight INPUT OUTPUT`,
+`render INPUT OUTPUT`, then `verify OUTPUT`. Confirm the narration entry and
+AAC clock in the reports before delivering `reel.mp4`. Keep both the
+private recording and registry outside public exports. For a reproducible
+synthetic test, run `tools/sprint_f_audio_fixture.py NEW.wav` and register it
+as `f_timing_signal` using the same procedure.
 
 Historical examples using test_wood_pulse/test_creek_signal need their separate
 original fixture registry. Run `.venv/bin/python tools/cinematic_fixture_audio.py outputs/test-audio`,

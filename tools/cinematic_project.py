@@ -66,6 +66,10 @@ def main():
             project = load_cinematic_project(args.request, args.registry)
             output = output_destination(args.directory)
             result = inspect_deployment(output.parent)
+            if result["ok"] and project.long_narration:
+                from reelforge.cinematic_projects.narration import check_narration_storage
+
+                result["narration_storage"] = check_narration_storage(output.parent, project.frames)
             if result["ok"] and project.audio:
                 owner = OwnedDirectory(output.parent, ".reelforge-preflight-")
                 try:

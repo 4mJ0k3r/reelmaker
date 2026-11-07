@@ -13,8 +13,9 @@ Do not invent IDs or assume unrestricted script interpretation/choreography.
 
 Preserve CPU Cairo, Python 3.12, 720×1280, 30 fps, H.264/yuv420p, sequential
 streaming, strict versioned JSON, and 256 MiB process-tree budget + 64 MiB reserve.
-Audio is registered PCM16 WAV for 3–30 seconds; longer 33–60-second projects
-are silent. Do not generate AI artwork/video/voice or introduce a browser renderer.
+Audio uses registered PCM16 WAV. Staged 33–60-second projects admit silence
+or one finished narration recording. Do not generate AI artwork/video/voice or
+introduce a browser renderer.
 
 Use a new output leaf under an existing persistent non-symlink parent outside
 /tmp. Never overwrite films, reuse native staging, lower limits, delete foreign

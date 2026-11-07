@@ -41,7 +41,10 @@ class AudioPlan:
         return ((self.narration,) if self.narration else ()) + self.cues
 
 
-def cue_from_data(data, frames: int, path: str) -> Cue:
+def cue_from_data(data, frames: int, path: str, *, long_narration=False) -> Cue:
+    if long_narration and isinstance(data, dict) and "start_frame" not in data:
+        data = {**data, "start_frame": 0}
+    trim_limit = 1800 if long_narration else 900
     exact(data, {"asset_id", "start_frame", "trim_start_frame", "trim_end_frame", "gain"}, path)
     if not isinstance(data["asset_id"], str) or not re.fullmatch(
         r"[a-z][a-z0-9_]{0,47}", data["asset_id"]
@@ -49,12 +52,12 @@ def cue_from_data(data, frames: int, path: str) -> Cue:
         reject(
             path + "/asset_id", "Select a registered snake_case ID; paths and URLs are forbidden"
         )
-    for key, low, high in (("start_frame", 0, frames - 1), ("trim_start_frame", 0, 899)):
+    for key, low, high in (("start_frame", 0, frames - 1), ("trim_start_frame", 0, trim_limit - 1)):
         value = data[key]
         if type(value) is not int or not low <= value <= high:
             reject(path + "/" + key, f"Use an integer frame in [{low}, {high}]")
     end = data["trim_end_frame"]
-    if end is not None and (type(end) is not int or not data["trim_start_frame"] < end <= 900):
+    if end is not None and (type(end) is not int or not data["trim_start_frame"] < end <= trim_limit):
         reject(
             path + "/trim_end_frame", "Use null for asset end, or an integer after trim_start_frame"
         )
@@ -67,7 +70,7 @@ def cue_from_data(data, frames: int, path: str) -> Cue:
     return Cue(**data)
 
 
-def audio_from_data(data, frames: int) -> AudioPlan | None:
+def audio_from_data(data, frames: int, *, long_narration=False) -> AudioPlan | None:
     if data is None:
         return None
     exact(data, {"sample_rate", "channels", "codec", "bitrate", "narration", "cues"}, "/audio")
@@ -79,7 +82,7 @@ def audio_from_data(data, frames: int) -> AudioPlan | None:
     if not isinstance(data["cues"], list) or len(data["cues"]) > 4:
         reject("/audio/cues", "Use at most four sound-effect cues")
     narration = (
-        cue_from_data(data["narration"], frames, "/audio/narration")
+        cue_from_data(data["narration"], frames, "/audio/narration", long_narration=long_narration)
         if data["narration"] is not None
         else None
     )

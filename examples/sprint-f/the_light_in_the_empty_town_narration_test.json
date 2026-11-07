@@ -1,0 +1,457 @@
+{
+  "schema_version": "cinematic-project-0.2",
+  "title": "THE LIGHT IN THE EMPTY TOWN",
+  "beats": [
+    {
+      "id": "forest_road",
+      "start": 0,
+      "end": 180,
+      "world": "forest_ravine",
+      "mood": "misty",
+      "actor": "scout_01",
+      "action": "walk_to_stop",
+      "stage_x": 68,
+      "expression": "determined",
+      "facing": "right",
+      "partner": {
+        "actor": "mechanic_01",
+        "action": "walk_to_stop",
+        "stage_x": 190,
+        "expression": "neutral",
+        "facing": "right",
+        "delay_frames": 13,
+        "pacing": "measured"
+      }
+    },
+    {
+      "id": "mist_closes_in",
+      "start": 180,
+      "end": 360,
+      "world": "forest_ravine",
+      "mood": "misty",
+      "actor": "scout_01",
+      "action": "idle_to_notice",
+      "stage_x": 96,
+      "expression": "concerned",
+      "facing": "right",
+      "partner": {
+        "actor": "mechanic_01",
+        "action": "notice_to_react",
+        "stage_x": 218,
+        "expression": "concerned",
+        "facing": "right",
+        "delay_frames": 81
+      }
+    },
+    {
+      "id": "the_creek_crossing",
+      "start": 360,
+      "end": 540,
+      "world": "woodland_creek",
+      "mood": "windy",
+      "actor": "mechanic_01",
+      "action": "push_cart",
+      "variant": "loaded"
+    },
+    {
+      "id": "the_last_path",
+      "start": 540,
+      "end": 720,
+      "world": "forest_ravine",
+      "mood": "night",
+      "actor": "scout_01",
+      "action": "walk_to_stop",
+      "stage_x": 83,
+      "expression": "determined",
+      "facing": "right",
+      "partner": {
+        "actor": "mechanic_01",
+        "action": "walk_to_stop",
+        "stage_x": 207,
+        "expression": "concerned",
+        "facing": "right",
+        "delay_frames": 20
+      },
+      "effect": {
+        "id": "wind_leaves_01",
+        "variant": "gust"
+      }
+    },
+    {
+      "id": "quiet_village",
+      "start": 720,
+      "end": 900,
+      "world": "village_lane",
+      "mood": "evening",
+      "actor": "scout_01",
+      "action": "walk_to_stop",
+      "stage_x": 47,
+      "expression": "concerned",
+      "facing": "right",
+      "partner": {
+        "actor": "mechanic_01",
+        "action": "walk_to_stop",
+        "stage_x": 123,
+        "expression": "determined",
+        "facing": "right",
+        "delay_frames": 10
+      },
+      "signal": "unlit"
+    },
+    {
+      "id": "bram_delivers",
+      "start": 900,
+      "end": 1080,
+      "world": "village_lane",
+      "mood": "evening",
+      "actor": "mechanic_01",
+      "action": "pickup_carry_place",
+      "variant": "wrapped",
+      "signal": "unlit"
+    },
+    {
+      "id": "the_parcel_stays",
+      "start": 1080,
+      "end": 1170,
+      "world": "village_lane",
+      "mood": "evening",
+      "actor": "mechanic_01",
+      "action": "react_to_idle",
+      "stage_x": 141,
+      "expression": "concerned",
+      "facing": "right",
+      "signal": "unlit",
+      "dressing": "delivered_parcel"
+    },
+    {
+      "id": "mira_listens",
+      "start": 1170,
+      "end": 1260,
+      "world": "village_lane",
+      "mood": "evening",
+      "actor": "scout_01",
+      "action": "idle_to_notice",
+      "stage_x": 87,
+      "expression": "concerned",
+      "facing": "right",
+      "partner": {
+        "actor": "mechanic_01",
+        "action": "idle",
+        "stage_x": 146,
+        "expression": "concerned",
+        "facing": "right"
+      },
+      "signal": "unlit",
+      "dressing": "delivered_parcel"
+    },
+    {
+      "id": "wait_in_the_lane",
+      "start": 1260,
+      "end": 1440,
+      "world": "village_lane",
+      "mood": "evening",
+      "actor": "scout_01",
+      "action": "idle",
+      "stage_x": 87,
+      "expression": "concerned",
+      "facing": "right",
+      "partner": {
+        "actor": "mechanic_01",
+        "action": "idle_to_notice",
+        "stage_x": 146,
+        "expression": "concerned",
+        "facing": "right",
+        "delay_frames": 102
+      },
+      "signal": "unlit",
+      "dressing": "delivered_parcel"
+    },
+    {
+      "id": "an_answer",
+      "start": 1440,
+      "end": 1800,
+      "world": "village_lane",
+      "mood": "evening",
+      "actor": "scout_01",
+      "action": "idle",
+      "stage_x": 87,
+      "expression": "concerned",
+      "facing": "right",
+      "partner": {
+        "actor": "mechanic_01",
+        "action": "idle",
+        "stage_x": 146,
+        "expression": "concerned",
+        "facing": "right",
+        "delay_frames": 19
+      },
+      "signal": "lit",
+      "cue_frame": 90,
+      "cue_style": "relief",
+      "delay_frames": 3,
+      "dressing": "delivered_parcel"
+    }
+  ],
+  "shots": [
+    {
+      "id": "into_the_forest",
+      "camera": "two_shot",
+      "motion": "hold"
+    },
+    {
+      "id": "two_on_the_ridge",
+      "camera": "two_shot",
+      "motion": "track"
+    },
+    {
+      "id": "mira_reads_the_sky",
+      "camera": "reaction",
+      "motion": "hold"
+    },
+    {
+      "id": "bram_considers_the_supplies",
+      "camera": "reaction",
+      "motion": "reframe",
+      "focus": "partner"
+    },
+    {
+      "id": "the_road_over_the_creek",
+      "camera": "medium",
+      "motion": "pan"
+    },
+    {
+      "id": "bram_guides_the_loaded_cart",
+      "camera": "interaction_detail",
+      "motion": "track"
+    },
+    {
+      "id": "mira_leads_the_way",
+      "camera": "follow",
+      "motion": "track"
+    },
+    {
+      "id": "wind_over_the_pass",
+      "camera": "two_shot",
+      "motion": "pullback"
+    },
+    {
+      "id": "the_village_beyond_the_road",
+      "camera": "two_shot",
+      "motion": "hold"
+    },
+    {
+      "id": "no_one_comes_out",
+      "camera": "two_shot",
+      "motion": "track"
+    },
+    {
+      "id": "bram_lifts_the_parcel",
+      "camera": "interaction_detail",
+      "motion": "hold"
+    },
+    {
+      "id": "the_parcel_touches_down",
+      "camera": "interaction_detail",
+      "motion": "pullback"
+    },
+    {
+      "id": "the_parcel_left_behind",
+      "camera": "medium",
+      "motion": "hold"
+    },
+    {
+      "id": "mira_searches_the_lane",
+      "camera": "close_up",
+      "motion": "reframe"
+    },
+    {
+      "id": "both_wait_by_the_road",
+      "camera": "two_shot",
+      "motion": "hold"
+    },
+    {
+      "id": "the_dark_lamp_insert",
+      "camera": "object_reveal",
+      "motion": "hold"
+    },
+    {
+      "id": "the_dark_lamp",
+      "camera": "two_shot",
+      "motion": "hold"
+    },
+    {
+      "id": "the_lamp_answers",
+      "camera": "two_shot",
+      "motion": "hold"
+    },
+    {
+      "id": "mira_and_bram_exhale",
+      "camera": "close_up",
+      "motion": "push_in"
+    },
+    {
+      "id": "a_light_in_the_empty_town",
+      "camera": "two_shot",
+      "motion": "pullback"
+    }
+  ],
+  "captions": [
+    {
+      "start": 0,
+      "end": 180,
+      "style": "subtitle",
+      "lines": [
+        "By dusk, the village was dark."
+      ]
+    },
+    {
+      "start": 180,
+      "end": 270,
+      "style": "subtitle",
+      "lines": [
+        "Mira refused to turn back."
+      ]
+    },
+    {
+      "start": 270,
+      "end": 360,
+      "style": "subtitle",
+      "lines": [
+        "Bram carried one last parcel."
+      ]
+    },
+    {
+      "start": 360,
+      "end": 450,
+      "style": "subtitle",
+      "lines": [
+        "The creek cut off the road."
+      ]
+    },
+    {
+      "start": 450,
+      "end": 540,
+      "style": "subtitle",
+      "lines": [
+        "The wind was getting stronger."
+      ]
+    },
+    {
+      "start": 540,
+      "end": 630,
+      "style": "subtitle",
+      "lines": [
+        "They kept moving."
+      ]
+    },
+    {
+      "start": 630,
+      "end": 720,
+      "style": "subtitle",
+      "lines": [
+        "Someone might still be alive."
+      ]
+    },
+    {
+      "start": 720,
+      "end": 810,
+      "style": "subtitle",
+      "lines": [
+        "The village stood silent."
+      ]
+    },
+    {
+      "start": 810,
+      "end": 900,
+      "style": "subtitle",
+      "lines": [
+        "No doors opened."
+      ]
+    },
+    {
+      "start": 900,
+      "end": 990,
+      "style": "subtitle",
+      "lines": [
+        "Bram brought the parcel."
+      ]
+    },
+    {
+      "start": 990,
+      "end": 1080,
+      "style": "subtitle",
+      "lines": [
+        "Beside the empty road."
+      ]
+    },
+    {
+      "start": 1080,
+      "end": 1170,
+      "style": "subtitle",
+      "lines": [
+        "He left it for whoever came."
+      ]
+    },
+    {
+      "start": 1170,
+      "end": 1260,
+      "style": "subtitle",
+      "lines": [
+        "Mira searched. No one answered."
+      ]
+    },
+    {
+      "start": 1260,
+      "end": 1440,
+      "style": "subtitle",
+      "lines": [
+        "They decided to wait."
+      ]
+    },
+    {
+      "start": 1440,
+      "end": 1530,
+      "style": "subtitle",
+      "lines": [
+        "One last moment..."
+      ]
+    },
+    {
+      "start": 1530,
+      "end": 1620,
+      "style": "subtitle",
+      "lines": [
+        "A lamp came on."
+      ]
+    },
+    {
+      "start": 1620,
+      "end": 1710,
+      "style": "subtitle",
+      "lines": [
+        "There was still hope."
+      ]
+    },
+    {
+      "start": 1710,
+      "end": 1800,
+      "style": "subtitle",
+      "lines": [
+        "They were not alone."
+      ]
+    }
+  ],
+  "audio": {
+    "sample_rate": 48000,
+    "channels": 2,
+    "codec": "aac",
+    "bitrate": 128000,
+    "narration": {
+      "asset_id": "f_timing_signal",
+      "trim_start_frame": 0,
+      "trim_end_frame": null,
+      "gain": 0.8
+    },
+    "cues": []
+  }
+}

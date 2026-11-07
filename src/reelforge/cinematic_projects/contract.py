@@ -114,6 +114,10 @@ class Project:
     def silent(self):
         return self.audio is None
 
+    @property
+    def long_narration(self):
+        return not self.silent and len(self.shots) > CHUNK_SHOTS
+
     def at(self, frame):
         if type(frame) is not int or not 0 <= frame < self.frames:
             fail("/frame", f"Use an integer frame in [0, {self.frames - 1}]")
@@ -501,9 +505,13 @@ def compile_project(data, registry_root: Path):
             fail(f"/captions/{i}/lines", "Split wide text into shorter mobile-safe lines")
         captions.append(Caption(start, raw["end"], raw["style"], tuple(raw["lines"])))
         end = raw["end"]
-    if data["audio"] is not None and len(shots) > CHUNK_SHOTS:
-        fail("/audio", "Audio is admitted only for 3–30-second projects")
-    audio = audio_from_data(data["audio"], total)
+    long_narration = data["audio"] is not None and len(shots) > CHUNK_SHOTS
+    if long_narration:
+        if not staged:
+            fail("/audio", "Legacy cinematic-project-0.1 audio is limited to 30 seconds")
+        if data["audio"]["narration"] is None or data["audio"]["cues"]:
+            fail("/audio", "Long staged projects admit one narration and no sound-effect cues")
+    audio = audio_from_data(data["audio"], total, long_narration=long_narration)
     draft = Project(data["title"], tuple(shots), tuple(captions), audio, (), deepcopy(data))
     cues = (
         ()
@@ -527,6 +535,7 @@ def capabilities(registry_root):
         "shot_frames": SHOT_FRAMES,
         "max_frames": MAX_FRAMES,
         "max_audio_frames": CHUNK_SHOTS * SHOT_FRAMES,
+        "max_staged_narration_frames": MAX_FRAMES,
         "worlds": WORLD_KITS,
         "contract_versions": [VERSION, STAGED_VERSION],
         "staged_cameras": [*CAMERAS, "two_shot", "auto"],
@@ -560,6 +569,6 @@ def capabilities(registry_root):
         "limits": [
             "No request-selected paths, code, custom geometry or generated audio",
             "Acting is continuous within a beat; the next beat is authored blocking",
-            "Only silent projects can exceed ten shots",
+            "Long staged projects admit silence or one registered narration without SFX",
         ],
     }

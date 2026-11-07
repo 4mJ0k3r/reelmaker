@@ -19,6 +19,9 @@ from .transaction import private_directory
 
 MAX_ASSETS, MAX_FILE_BYTES = 16, 8 * 1024**2
 RATES = (16000, 24000, 44100, 48000)
+NARRATION_SECONDS = 60
+# Largest supported PCM16 payload plus bounded RIFF headers and metadata.
+MAX_NARRATION_FILE_BYTES = NARRATION_SECONDS * max(RATES) * 2 * 2 + 64 * 1024
 
 
 def error(message: str) -> None:
@@ -60,6 +63,7 @@ class ResolvedCue:
     path: Path
     trim_end_frame: int
     output_samples: int
+    source_end_sample_48k: int | None = None
 
 
 def inspect_wav(
@@ -76,8 +80,9 @@ def inspect_wav(
         error("Use a regular .wav file and role narration or sfx; symlinks are forbidden")
     try:
         size = path.stat().st_size
-        if not 44 <= size <= MAX_FILE_BYTES:
-            error("WAV file must contain 44 bytes..8 MiB")
+        limit = MAX_NARRATION_FILE_BYTES if role == "narration" else MAX_FILE_BYTES
+        if not 44 <= size <= limit:
+            error(f"{role} WAV must contain 44..{limit} bytes")
         with path.open("rb") as f:
             header = f.read(12)
         if (
@@ -92,7 +97,7 @@ def inspect_wav(
                 error("Only uncompressed signed PCM16 WAV is supported")
             if rate not in RATES or channels not in (1, 2):
                 error("Use mono/stereo PCM at 16000, 24000, 44100 or 48000 Hz")
-            maximum = 30 if role == "narration" else 8
+            maximum = NARRATION_SECONDS if role == "narration" else 8
             if not (rate + 29) // 30 <= samples <= rate * maximum:
                 error(f"{role} duration must be at least one video frame and at most {maximum}s")
             count = 0
@@ -250,6 +255,13 @@ class AudioRegistry:
             role = "narration" if plan.narration is cue else "sfx"
             if asset.role != role:
                 error(f"{asset.id}: expected registered role {role}")
+            long_narration = role == "narration" and frames > 900
+            limit = MAX_NARRATION_FILE_BYTES if role == "narration" else MAX_FILE_BYTES
+            maximum = (NARRATION_SECONDS if long_narration else 30) if role == "narration" else 8
+            if (asset.sample_rate not in RATES or asset.channels not in (1, 2)
+                    or not 44 <= asset.size_bytes <= limit
+                    or not (asset.sample_rate + 29) // 30 <= asset.samples <= maximum * asset.sample_rate):
+                error(f"{asset.id}: invalid metadata or duration above {maximum}s for this route")
             path = self.root / asset.file
             if validate_media and (
                 path.is_symlink() or not path.resolve().is_relative_to(self.root)
@@ -269,13 +281,29 @@ class AudioRegistry:
             end = asset.usable_frames if cue.trim_end_frame is None else cue.trim_end_frame
             if not 0 <= cue.trim_start_frame < end <= asset.usable_frames:
                 error(f"{asset.id}: trim must lie within [0, {asset.usable_frames}] usable frames")
+            source_end = None
+            if long_narration:
+                source_end = end * 1600
+                if cue.trim_end_frame is None:
+                    source_end = (asset.samples * 48000 + asset.sample_rate - 1) // asset.sample_rate
+                samples = source_end - cue.trim_start_frame * 1600
+                if cue.start_frame * 1600 + samples > frames * 1600:
+                    error(f"{asset.id}: narration exceeds the available interval; "
+                          "prepare a shorter take or specify an explicit trim")
+            else:
+                samples = min(end - cue.trim_start_frame, frames - cue.start_frame) * 1600
             if validate_media:
-                with wave.open(str(path), "rb") as w:
+                validated = validation_root / asset.id / "input.wav" if validation_root else path
+                with wave.open(str(validated), "rb") as w:
                     first = cue.trim_start_frame * asset.sample_rate // 30
-                    remaining = end * asset.sample_rate // 30 - first
+                    stop = (asset.samples if long_narration and cue.trim_end_frame is None
+                            else end * asset.sample_rate // 30)
+                    remaining = stop - first
                     w.setpos(first)
                     audible = False
                     while remaining:
+                        if cancelled is not None and cancelled.is_set():
+                            raise OperationError("REEL_CANCELLED", "Audio validation cancelled")
                         block = w.readframes(min(4096, remaining))
                         remaining -= len(block) // (asset.channels * 2)
                         if not block:
@@ -283,8 +311,7 @@ class AudioRegistry:
                         audible = audible or any(block)
                     if not audible:
                         error(f"{asset.id}: selected trim is entirely silent")
-            samples = min(end - cue.trim_start_frame, frames - cue.start_frame) * 1600
-            result.append(ResolvedCue(cue, asset, path, end, samples))
+            result.append(ResolvedCue(cue, asset, path, end, samples, source_end))
         # Conservative peak headroom at each overlap, without normalizing quiet cues upward.
         events = []
         for r in result:

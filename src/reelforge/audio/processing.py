@@ -61,11 +61,12 @@ def mix_pcm(
             if r.asset.channels == 1
             else "aformat=channel_layouts=stereo,"
         )
+        end_sample = r.source_end_sample_48k or r.trim_end_frame * 1600
         filters.append(
             f"[{i}:a:0]{channel}aresample=48000:async=0:first_pts=0,"
             f"aformat=sample_fmts=fltp:channel_layouts=stereo,"
             f"atrim=start_sample={r.cue.trim_start_frame * 1600}:"
-            f"end_sample={r.trim_end_frame * 1600},"
+            f"end_sample={end_sample},"
             f"asetpts=PTS-STARTPTS,volume={r.cue.gain:.12g},"
             f"adelay={r.cue.start_frame * 1600}S:all=1[a{i}]"
         )
@@ -226,7 +227,7 @@ def activity(path: Path, start: int, end: int, threshold: float) -> tuple[int | 
 
 
 def envelope(path: Path, total: int, bin_samples: int = 2400) -> list[float]:
-    """At most 600 peak-envelope bins for the 30-second contract ceiling."""
+    """Bounded peak-envelope bins for the admitted duration."""
     peaks = []
     peak = 0.0
     count = 0
@@ -287,6 +288,36 @@ def bitstream_hash(path: Path, *, cancelled: Event | None = None) -> str:
         .strip()
     )
 
+
+
+def verify_aac_clock(final: Path, frames: int, *, cancelled: Event | None = None) -> dict:
+    """Decode AAC frames and require exact integer sample ticks across the entire stream."""
+    raw = command(
+        ["ffprobe", "-v", "error", "-select_streams", "a:0",
+         "-show_frames", "-show_streams",
+         "-show_entries", "frame=best_effort_timestamp,nb_samples:stream=time_base,start_pts,duration_ts",
+         "-of", "json", str(final)],
+        cancelled=cancelled,
+        max_bytes=512 * 1024,
+    )
+    data = json.loads(raw)
+    total = frames * 1600
+    if (len(data.get("streams", [])) != 1
+            or data["streams"][0].get("time_base") != "1/48000"
+            or data["streams"][0].get("start_pts") != 0
+            or data["streams"][0].get("duration_ts") != total):
+        raise OperationError("AUDIO_TIMESTAMP", "AAC presentation interval must match the sample grid")
+    position = 0
+    for frame in data.get("frames", []):
+        samples = frame.get("nb_samples")
+        if frame.get("best_effort_timestamp") != position or type(samples) is not int or samples < 1:
+            raise OperationError("AUDIO_DRIFT", "Decoded audio has an offset or nonuniform sample clock")
+        position += samples
+    if not total <= position <= total + 1024:
+        raise OperationError("AUDIO_PADDING", "Decoded AAC length outside one-packet padding allowance")
+    return {"decoded_audio_first_pts": "0.000000", "decoded_audio_clock_gapless": True,
+            "effective_samples_per_channel": total, "raw_decoded_samples_per_channel": position,
+            "terminal_padding_samples": position - total}
 
 def verify_audio(
     video: Path,
@@ -369,31 +400,9 @@ def verify_audio(
         raise OperationError(
             "AUDIO_CLIPPING", "Decoded AAC clips or is unexpectedly silent; reduce source gain"
         )
-    # Container edit-list / priming compensation must leave a gapless decoded audio sample clock.
-    raw = command(
-        [
-            "ffprobe",
-            "-v",
-            "error",
-            "-select_streams",
-            "a:0",
-            "-show_frames",
-            "-show_entries",
-            "frame=best_effort_timestamp_time,nb_samples",
-            "-of",
-            "json",
-            str(final),
-        ],
-        cancelled=cancelled,
-    )
-    clock = json.loads(raw)["frames"]
-    position = 0
-    for frame in clock:
-        if abs(float(frame["best_effort_timestamp_time"]) - position / 48000) > 0.000001:
-            raise OperationError(
-                "AUDIO_DRIFT", "Decoded audio has an initial offset or nonuniform sample clock"
-            )
-        position += frame["nb_samples"]
+    clock = verify_aac_clock(final, frames, cancelled=cancelled)
+    if clock["raw_decoded_samples_per_channel"] != b["samples_per_channel"]:
+        raise OperationError("AUDIO_LENGTH", "Decoded PCM length differs from the AAC frame clock")
     before, after = video_pts(video, cancelled=cancelled), video_pts(final, cancelled=cancelled)
     if (
         before != after
@@ -479,7 +488,7 @@ def verify_audio(
         "last_audible_error_samples": decoded_last - last,
         "audible_drift_samples": (decoded_last - last) - (decoded_first - first),
         "decoded_audio_clock_gapless": True,
-        "decoded_audio_first_pts": clock[0]["best_effort_timestamp_time"],
+        "decoded_audio_first_pts": clock["decoded_audio_first_pts"],
         "video_pts_unchanged": True,
         "video_pts": after,
         "h264_stream_copy_sha256": new_hash,
