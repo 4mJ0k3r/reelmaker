@@ -63,6 +63,7 @@ dialog form {display:flex; justify-content:flex-end}
 <div id="gallery" class="grid"></div>
 <p id="copy-status" role="status"></p>
 <details id="living-worlds"><summary>Living-world presets and scene examples</summary></details>
+<details id="cinematic-projects"><summary>Structured cinematic project examples</summary></details>
 </main>
 <dialog id="viewer" aria-labelledby="caption">
   <form method="dialog"><button>Close</button></form>
@@ -2429,6 +2430,70 @@ dialog form {display:flex; justify-content:flex-end}
       "preview_status": "context_only"
     }
   ],
+  "cinematic_projects": {
+    "guide": "../CINEMATIC_PROJECTS.md",
+    "examples": [
+      {
+        "title": "Audio and caption cut proof",
+        "seconds": 6.0,
+        "diagnostic_audio": true,
+        "request": "../../examples/cinematic-projects/av_cut_proof.json"
+      },
+      {
+        "title": "Parcel continuity proof",
+        "seconds": 6.0,
+        "diagnostic_audio": false,
+        "request": "../../examples/cinematic-projects/pickup_proof.json"
+      },
+      {
+        "title": "Signal Across the Creek",
+        "seconds": 30.0,
+        "diagnostic_audio": true,
+        "request": "../../examples/cinematic-projects/signal_across_the_creek.json"
+      },
+      {
+        "title": "The Empty Settlement",
+        "seconds": 60.0,
+        "diagnostic_audio": false,
+        "request": "../../examples/cinematic-projects/the_empty_settlement.json"
+      },
+      {
+        "title": "The Last Delivery",
+        "seconds": 15.0,
+        "diagnostic_audio": false,
+        "request": "../../examples/cinematic-projects/the_last_delivery.json"
+      },
+      {
+        "title": "Variant - Bram and the Utility Parcel",
+        "seconds": 6.0,
+        "diagnostic_audio": false,
+        "request": "../../examples/cinematic-projects/variant_mechanic_delivery.json"
+      },
+      {
+        "title": "Variant - Watch the Mist",
+        "seconds": 6.0,
+        "diagnostic_audio": false,
+        "request": "../../examples/cinematic-projects/variant_misty_creek.json"
+      },
+      {
+        "title": "Variant - Rowan Waits",
+        "seconds": 6.0,
+        "diagnostic_audio": false,
+        "request": "../../examples/cinematic-projects/variant_rowan_bench.json"
+      }
+    ],
+    "cameras": [
+      "establishing",
+      "medium",
+      "close_up",
+      "interaction_detail",
+      "object_reveal",
+      "reaction",
+      "follow",
+      "atmospheric_close"
+    ],
+    "contract": "cinematic-project-0.1"
+  },
   "living_worlds": {
     "motion": {
       "scout_01": "../visual-evidence/sprint-b/motion/scout_01.webp",
@@ -2712,6 +2777,22 @@ for (const [id, spec] of Object.entries(data.living_worlds.interactions)) {
   motionLink(group, id);
   living.append(group);
 }
+
+const projects = document.querySelector("#cinematic-projects");
+const projectData = data.cinematic_projects;
+const guide = element("a", "Operator guide and diagnostic audio setup");
+guide.href = projectData.guide;
+projects.append(element("p", projectData.contract + " · " + projectData.cameras.join(", ")), guide);
+const examples = element("ul");
+for (const project of projectData.examples) {
+  const item = element("li");
+  const link = element("a", project.title);
+  link.href = project.request;
+  item.append(link, document.createTextNode(" · " + project.seconds + " s" +
+    (project.diagnostic_audio ? " · diagnostic audio registry" : "")));
+  examples.append(item);
+}
+projects.append(examples);
 
 for (const family of [...new Set(entries.map((entry) => entry.family))].sort()) {
   category.add(new Option(family[0].toUpperCase() + family.slice(1), family));

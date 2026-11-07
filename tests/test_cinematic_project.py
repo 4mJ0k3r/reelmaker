@@ -166,3 +166,15 @@ def test_registered_audio_plans_role_and_frame_aligned_trim(request_data):
     request_data["audio"]["cues"][0]["asset_id"] = "diag_opening"
     with pytest.raises(InputError, match="expected registered role sfx"):
         compile_project(request_data, REGISTRY)
+
+
+def test_offline_gallery_exposes_real_cinematic_examples():
+    from tools.asset_gallery import cinematic_examples
+
+    gallery = ROOT / "docs/asset-gallery"
+    published = json.loads((gallery / "assets.json").read_text())["cinematic_projects"]
+    assert published == json.loads(json.dumps(cinematic_examples()))
+    assert (gallery / published["guide"]).is_file()
+    assert {x["seconds"] for x in published["examples"]} >= {6, 15, 30, 60}
+    for example in published["examples"]:
+        assert (gallery / example["request"]).is_file()

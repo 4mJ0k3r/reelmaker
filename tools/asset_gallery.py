@@ -10,6 +10,7 @@ import time
 from pathlib import Path
 
 from reelforge.catalog.inventory import ROOT, inventory
+from reelforge.cinematic_projects.contract import capabilities, load_cinematic_project
 from reelforge.scenes.assets import asset_by_id, cost, recipe
 from reelforge.scenes.contract import validate_scene
 from reelforge.scenes.graph import compile_scene, scene_frame
@@ -29,6 +30,27 @@ SIZE = (720, 1280)
 MOBILE = (360, 640)
 FRAMES = (0, 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 89)
 KEY = re.compile(r"[a-z][a-z0-9_.-]*\Z")
+
+
+def cinematic_examples():
+    directory = ROOT / "examples/cinematic-projects"
+    registry = ROOT / "assets/audio"
+    # Diagnostic audio examples carry an explicit fixture-setup link in the operator guide.
+    projects = []
+    for path in sorted(directory.glob("*.json")):
+        source = json.loads(path.read_text(encoding="utf-8"))
+        if source["audio"] is None:
+            project = load_cinematic_project(path, registry)
+            title, frames = project.title, project.frames
+        else:
+            title, frames = source["title"], len(source["shots"]) * 90
+        projects.append({
+            "title": title, "seconds": frames / 30, "diagnostic_audio": source["audio"] is not None,
+            "request": "../../" + path.relative_to(ROOT).as_posix(),
+        })
+    discovery = capabilities(registry)
+    return {"guide": "../CINEMATIC_PROJECTS.md", "examples": projects,
+            "cameras": discovery["cameras"], "contract": discovery["contract"]}
 
 
 def metadata(previews=None):
@@ -59,7 +81,7 @@ def metadata(previews=None):
             ),
         })
     evidence = ROOT / "docs/visual-evidence/sprint-b"
-    return {"components": entries, "living_worlds": {
+    return {"components": entries, "cinematic_projects": cinematic_examples(), "living_worlds": {
         "motion": {
             key: f"../visual-evidence/sprint-b/motion/{key}.webp"
             for key in (*PROFILES, *WORLD_KITS, *INTERACTIONS)
