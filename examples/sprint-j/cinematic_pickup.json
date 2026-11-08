@@ -1,0 +1,53 @@
+{
+  "schema_version": "reel-production-0.1",
+  "id": "cinematic_pickup",
+  "title": "Registered Pickup",
+  "backend": "cinematic-project-0.2",
+  "script": {
+    "text": "Engineering example: Registered Pickup",
+    "sha256": "d139ffadaf39005ac594357d17193f1d3d7fea0e6126518d47b79d17ca1eddc8"
+  },
+  "duration_seconds": 6,
+  "tail_policy": "pad_silence",
+  "allow_trim": false,
+  "narration": null,
+  "events": [
+    {
+      "id": "pickup",
+      "start": "0",
+      "end": "6",
+      "label": "pickup",
+      "required_assets": [],
+      "forbidden_assets": []
+    }
+  ],
+  "subtitles": [],
+  "cinematic": {
+    "schema_version": "cinematic-project-0.2",
+    "title": "Grounded pickup contact",
+    "beats": [
+      {
+        "id": "pickup",
+        "start": 0,
+        "end": 180,
+        "actor": "scout_01",
+        "world": "village_lane",
+        "mood": "evening",
+        "action": "pickup_carry_place",
+        "variant": "wrapped"
+      }
+    ],
+    "shots": [
+      {
+        "id": "reach",
+        "camera": "medium"
+      },
+      {
+        "id": "carry",
+        "camera": "interaction_detail"
+      }
+    ],
+    "captions": [],
+    "audio": null
+  }
+}

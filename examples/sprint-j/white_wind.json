@@ -1,0 +1,241 @@
+{
+  "schema_version": "reel-production-0.1",
+  "id": "white_wind",
+  "title": "Beyond the White Wind",
+  "backend": "director-v3",
+  "script": {
+    "text": "Engineering example: Beyond the White Wind",
+    "sha256": "0cecf239d0cc09a99dce582df134510fa2cfb8f2a7572a92a64088de3687b2bd"
+  },
+  "duration_seconds": 60,
+  "tail_policy": "pad_silence",
+  "allow_trim": false,
+  "narration": null,
+  "events": [
+    {
+      "id": "orient",
+      "start": "0",
+      "end": "9",
+      "label": "orient",
+      "world": "frost_peak",
+      "mood": "calm",
+      "shots": [
+        {
+          "preset": "establish",
+          "style": "standard",
+          "variant": 0,
+          "weather": false
+        },
+        {
+          "preset": "travel",
+          "style": "standard",
+          "variant": 0,
+          "weather": false
+        },
+        {
+          "preset": "reaction",
+          "style": "standard",
+          "variant": 1,
+          "weather": false
+        }
+      ],
+      "required_assets": [],
+      "forbidden_assets": [
+        "beacon_01",
+        "answer_light_01"
+      ]
+    },
+    {
+      "id": "weather",
+      "start": "9",
+      "end": "18",
+      "label": "weather",
+      "world": "frost_peak",
+      "mood": "storm",
+      "shots": [
+        {
+          "preset": "establish",
+          "style": "weather",
+          "variant": 1,
+          "weather": true
+        },
+        {
+          "preset": "reaction",
+          "style": "decision",
+          "variant": 0,
+          "weather": true
+        },
+        {
+          "preset": "travel",
+          "style": "weather",
+          "variant": 1,
+          "weather": true
+        }
+      ],
+      "required_assets": [
+        "ground_mist_01"
+      ],
+      "forbidden_assets": [
+        "beacon_01",
+        "answer_light_01"
+      ]
+    },
+    {
+      "id": "escape",
+      "start": "18",
+      "end": "30",
+      "label": "escape",
+      "world": "frost_peak",
+      "mood": "determined",
+      "shots": [
+        {
+          "preset": "travel_run",
+          "style": "standard",
+          "variant": 0,
+          "weather": true
+        },
+        {
+          "preset": "travel_run",
+          "style": "run_wide",
+          "variant": 0,
+          "weather": true
+        },
+        {
+          "preset": "travel_run",
+          "style": "run_tight",
+          "variant": 0,
+          "weather": true
+        },
+        {
+          "preset": "travel_run",
+          "style": "run_exit",
+          "variant": 0,
+          "weather": true
+        }
+      ],
+      "required_assets": [],
+      "forbidden_assets": [
+        "beacon_01",
+        "answer_light_01"
+      ]
+    },
+    {
+      "id": "arrival",
+      "start": "30",
+      "end": "42",
+      "label": "arrival",
+      "world": "orchard",
+      "mood": "hopeful",
+      "shots": [
+        {
+          "preset": "establish",
+          "style": "route",
+          "variant": 1,
+          "weather": false
+        },
+        {
+          "preset": "travel",
+          "style": "route",
+          "variant": 0,
+          "weather": false
+        },
+        {
+          "preset": "reaction",
+          "style": "settle",
+          "variant": 2,
+          "weather": false
+        },
+        {
+          "preset": "establish",
+          "style": "standard",
+          "variant": 2,
+          "weather": false
+        }
+      ],
+      "required_assets": [],
+      "forbidden_assets": [
+        "beacon_01",
+        "answer_light_01"
+      ]
+    },
+    {
+      "id": "safety",
+      "start": "42",
+      "end": "54",
+      "label": "safety",
+      "world": "orchard",
+      "mood": "warm",
+      "shots": [
+        {
+          "preset": "travel",
+          "style": "standard",
+          "variant": 1,
+          "weather": false
+        },
+        {
+          "preset": "reaction",
+          "style": "standard",
+          "variant": 0,
+          "weather": false
+        },
+        {
+          "preset": "establish",
+          "style": "route",
+          "variant": 0,
+          "weather": false
+        },
+        {
+          "preset": "reaction",
+          "style": "settle",
+          "variant": 1,
+          "weather": false
+        }
+      ],
+      "required_assets": [],
+      "forbidden_assets": [
+        "beacon_01",
+        "answer_light_01"
+      ]
+    },
+    {
+      "id": "resolve",
+      "start": "54",
+      "end": "60",
+      "label": "resolve",
+      "world": "orchard",
+      "mood": "warm",
+      "shots": [
+        {
+          "preset": "establish",
+          "style": "route",
+          "variant": 2,
+          "weather": false
+        },
+        {
+          "preset": "resolve",
+          "style": "relief_close",
+          "variant": 0,
+          "weather": false
+        }
+      ],
+      "required_assets": [],
+      "forbidden_assets": [
+        "beacon_01",
+        "answer_light_01"
+      ]
+    }
+  ],
+  "subtitles": [
+    {
+      "id": "label",
+      "start": "0.5",
+      "end": "2.5",
+      "language": "en",
+      "style": "subtitle",
+      "lines": [
+        "Synthetic timing fixture"
+      ]
+    }
+  ],
+  "cinematic": null
+}

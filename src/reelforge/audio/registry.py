@@ -245,6 +245,7 @@ class AudioRegistry:
         workspace: Path | None = None,
         validate_media: bool = True,
         validation_root: Path | None = None,
+        narration_full_tail: bool = False,
     ) -> tuple[ResolvedCue, ...]:
         result = []
         checked = {}
@@ -255,7 +256,7 @@ class AudioRegistry:
             role = "narration" if plan.narration is cue else "sfx"
             if asset.role != role:
                 error(f"{asset.id}: expected registered role {role}")
-            long_narration = role == "narration" and frames > 900
+            long_narration = role == "narration" and (frames > 900 or narration_full_tail)
             limit = MAX_NARRATION_FILE_BYTES if role == "narration" else MAX_FILE_BYTES
             maximum = (NARRATION_SECONDS if long_narration else 30) if role == "narration" else 8
             if (asset.sample_rate not in RATES or asset.channels not in (1, 2)
