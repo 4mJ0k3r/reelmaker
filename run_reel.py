@@ -169,12 +169,12 @@ def environment_status(output_root: Path) -> dict:
 
 
 # ---------------------------------------------------------------- planning
-def build_plan(prompt: str, duration: int, title: str | None):
+def build_plan(prompt: str, duration: int, title: str | None, *, strategy: str = "legacy"):
     """Return (plan, manifest, compiled). Raises PlanError or InputError."""
     from reelforge.mvp.planner import build_production_manifest, plan_story
     from reelforge.productions.contract import compile_production
 
-    plan = plan_story(prompt, duration, title=title)
+    plan = plan_story(prompt, duration, title=title, strategy=strategy)
     manifest = build_production_manifest(plan)
     compiled = compile_production(manifest)
     return plan, manifest, compiled
@@ -191,6 +191,7 @@ def support_summary() -> dict:
         "moods": planner.MOOD_KEYWORDS,
     }
     info["moods"] = sorted(_MOODS)
+    info["planner_strategies"] = ["legacy", "director-v2"]
     info["audio"] = "silent output only (no audio streams)"
     info["output"] = "720x1280 (9:16), 30 fps, H.264 yuv420p"
     return info
@@ -361,6 +362,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--prompt-file", help="read the prompt from a UTF-8 text file")
     parser.add_argument("--duration", type=int, default=60, help="15 or 60 seconds (default 60)")
     parser.add_argument("--title", default=None)
+    parser.add_argument("--strategy", choices=("legacy", "director-v2"), default="legacy",
+                        help="use the opt-in chronological story director (default: legacy)")
     parser.add_argument("--output-root", default=str(DEFAULT_OUTPUT_ROOT))
     parser.add_argument("--name", default=None, help="job folder name (refused if it exists)")
     parser.add_argument("--plan-only", action="store_true", help="validate the plan, do not render")
@@ -399,7 +402,7 @@ def main(argv: list[str] | None = None) -> int:
     from reelforge.mvp.planner import PlanError, plan_summary
 
     try:
-        plan, manifest, compiled = build_plan(prompt, args.duration, args.title)
+        plan, manifest, compiled = build_plan(prompt, args.duration, args.title, strategy=args.strategy)
     except PlanError as error:
         emit({"ok": False, "stage": "planning", "error": str(error),
               "supported": support_summary()})
@@ -410,6 +413,14 @@ def main(argv: list[str] | None = None) -> int:
         return EXIT_INVALID
 
     summary = plan_summary(plan)
+    if args.strategy == "director-v2":
+        from reelforge.mvp.director import inspect_directed_manifest
+
+        try:
+            summary["observed_staging"] = inspect_directed_manifest(plan, manifest)
+        except PlanError as error:
+            emit({"ok": False, "stage": "constraints", "error": str(error)})
+            return EXIT_INVALID
     summary["compiled"] = {"frames": compiled.frames, "seconds": compiled.seconds,
                            "segments": len(compiled.segments), "chunks": len(compiled.chunks)}
     if args.plan_only:
@@ -432,6 +443,8 @@ def main(argv: list[str] | None = None) -> int:
         return EXIT_BAD_ARGS
 
     (job / "production_manifest.json").write_text(json.dumps(manifest, indent=2))
+    if args.strategy == "director-v2":
+        (job / "story_plan.json").write_text(json.dumps(summary, indent=2) + "\n")
     info = {
         "status": "failed", "title": plan.title, "prompt": prompt, "duration": args.duration,
         "frames": compiled.frames, "environments": plan.environments, "beats": summary["beats"],

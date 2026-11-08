@@ -17,7 +17,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, field
 
-from .storylib import ENVIRONMENTS, SHOT_PRESETS, VARIANT_COUNT, build_shot
+from .storylib import ENVIRONMENTS, SHOT_PRESETS, VARIANT_COUNT, build_directed_shot, build_shot
 
 SUPPORTED_DURATIONS = {15: 5, 60: 20}  # seconds -> 90-frame segments
 
@@ -51,6 +51,8 @@ class Beat:
     title: str
     description: str
     variant: int = 0
+    style: str = "standard"
+    weather: bool = False
 
 
 @dataclass
@@ -61,6 +63,10 @@ class StoryPlan:
     beats: list[Beat] = field(default_factory=list)
     duration_seconds: int = 60
     notes: list[str] = field(default_factory=list)
+    strategy: str = "legacy"
+    events: list[dict] = field(default_factory=list)
+    constraints: dict = field(default_factory=dict)
+    warnings: list[str] = field(default_factory=list)
 
 
 class PlanError(ValueError):
@@ -149,12 +155,21 @@ _BEAT_TEXT = {
 }
 
 
-def plan_story(prompt: str, duration_seconds: int = 60, *, title: str | None = None) -> StoryPlan:
+def plan_story(
+    prompt: str, duration_seconds: int = 60, *, title: str | None = None,
+    strategy: str = "legacy",
+) -> StoryPlan:
     if duration_seconds not in SUPPORTED_DURATIONS:
         raise PlanError(
             f"Unsupported duration {duration_seconds}s; choose one of "
             f"{sorted(SUPPORTED_DURATIONS)} seconds"
         )
+    if strategy == "director-v2":
+        from .director import plan_directed
+
+        return plan_directed(prompt, duration_seconds, SUPPORTED_DURATIONS[duration_seconds], title)
+    if strategy != "legacy":
+        raise PlanError(f"Unknown planner strategy: {strategy}")
     signals = analyse(prompt)
     line = _beatline(signals)
     segments_needed = SUPPORTED_DURATIONS[duration_seconds]
@@ -268,13 +283,19 @@ def build_production_manifest(plan: StoryPlan) -> dict:
     """Realise a StoryPlan as a validated-shape production-0.1 manifest (not yet compiled)."""
     segments = []
     for i, b in enumerate(plan.beats):
-        sb = build_shot(
+        build = build_shot
+        options = {}
+        if plan.strategy == "director-v2":
+            build = build_directed_shot
+            options = {"style": b.style, "weather": b.weather, "beacon": plan.constraints["beacon"]}
+        sb = build(
             b.preset,
             b.env,
             title=b.title[:120],
             description=b.description[:800],
             mood=b.mood,
             variant=b.variant,
+            **options,
         )
         segments.append({"id": f"seg_{i + 1:02d}", "storyboard": sb})
     return {
@@ -287,7 +308,7 @@ def build_production_manifest(plan: StoryPlan) -> dict:
 
 def plan_summary(plan: StoryPlan) -> dict:
     """A compact, human/agent-readable description of the plan and its beats."""
-    return {
+    result = {
         "prompt": plan.prompt,
         "title": plan.title,
         "duration_seconds": plan.duration_seconds,
@@ -307,6 +328,13 @@ def plan_summary(plan: StoryPlan) -> dict:
             for i, b in enumerate(plan.beats)
         ],
     }
+    if plan.strategy == "director-v2":
+        result.update(strategy=plan.strategy, story_events=plan.events,
+                      constraints=plan.constraints, warnings=plan.warnings)
+        for i, (row, beat) in enumerate(zip(result["beats"], plan.beats, strict=True)):
+            row.update(style=beat.style, storm=beat.weather,
+                       start_frame=i*90, end_frame_exclusive=(i+1)*90)
+    return result
 
 
 def supported() -> dict:

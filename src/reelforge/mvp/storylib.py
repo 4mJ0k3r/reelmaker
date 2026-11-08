@@ -832,3 +832,68 @@ def build_shot(
     if preset in _VARIANT_PRESETS:
         kwargs["variant"] = variant
     return SHOT_PRESETS[preset](env, **kwargs)
+
+
+def build_directed_shot(
+    preset: str,
+    env: str,
+    *,
+    title: str,
+    description: str,
+    mood: str,
+    variant: int,
+    style: str,
+    weather: bool,
+    beacon: bool,
+) -> dict:
+    """Adapt registered staging for the opt-in director, leaving legacy shots intact."""
+    shot = build_shot(preset, env, title=title, description=description, mood=mood, variant=variant)
+    world = shot["world"]
+    if not beacon:
+        world["nodes"] = [
+            node for node in world["nodes"]
+            if node.get("asset_id") not in {"beacon_01", "answer_light_01"}
+        ]
+    if env == "frost_peak" and weather:
+        world["art_direction"].update(warmth=0.04, atmosphere=0.83, breeze=1.0)
+        next(node for node in world["nodes"] if node["id"] == "fg_drifts")["variant"] = "storm"
+
+    camera = shot["views"][0]
+    if weather:
+        camera["foreground"] = "declared_overlap"  # Snow passes in front of the actor.
+    if style == "route":
+        camera["zoom"] = [0.93, 1.01] if preset == "establish" else [1.42, 1.51]
+    elif style == "weather" and preset == "travel":
+        camera.update(zoom=[1.40, 1.50], screen=[195, 445])
+    elif style in {"decision", "settle"}:
+        screen = [184, 438] if env == "frost_peak" else [183, 548]
+        camera.update(
+            kind="push_in", zoom=[1.36, 1.66], screen=screen,
+            offset_start=[0, -24], offset_end=[0, -24], crop="full",
+        )
+        shot["beats"][-1]["action"]["expression"] = "determined" if style == "decision" else "happy"
+    elif style == "relief_close":
+        screen = [182, 380] if env == "frost_peak" else [182, 547]
+        camera.update(
+            kind="close_up", zoom=[2.65, 2.85], screen=screen,
+            offset_start=[0, -20], offset_end=[0, -20], crop="feet_crop",
+            foreground="declared_overlap",
+        )
+    elif style.startswith("run_"):
+        dx = {"run_wide": -16, "run_tight": 12, "run_exit": 27}[style]
+        shot["rowan"]["start"]["position"][0] += dx
+        # Shorter reset on continuation angles, retaining the admitted brace
+        # and acceleration while spending more of each shot in motion.
+        opening, brace, run = shot["beats"]
+        opening["frames"], brace["frames"], run["frames"] = 6, 12, 72
+        run["action"]["end_x"] += dx + 10
+        if style == "run_wide":
+            camera.update(
+                kind="establishing", subject="path", zoom=[0.95, 1.05],
+                screen=[302, 435], lead_seconds=0.0, crop="full",
+            )
+        elif style == "run_tight":
+            camera.update(zoom=[1.54, 1.66], screen=[147, 454], lead_seconds=0.17)
+        else:
+            camera.update(zoom=[1.08, 1.17], screen=[228, 468], lead_seconds=0.04)
+    return shot
