@@ -104,6 +104,19 @@ def test_historical_catalog_entries_preserved_with_barn_evidence_link():
     assert barn["details"].pop("integration_evidence") == [
         "docs/visual-evidence/stage0c/rowan-barn.jpg"
     ]
+    # Project only the reviewed additive Sprint I metadata back to its historical form.
+    # The baseline hash still guards every other field and entry.
+    for entry in previous:
+        if entry["id"] in {
+            "camera.direction.object_reveal", "camera.direction.push_in", "cinematic_dusk_sky_01",
+        }:
+            assert entry["planner_exposure"] == "preset_only"
+            entry["planner_exposure"] = "unavailable"
+        if entry["id"] == "yellow_mellow_v2":
+            assert entry["variants"] == ["default", "reference_slim"]
+            assert entry["parameters"]["variant"]["choices"] == ["default", "reference_slim"]
+            entry["variants"] = ["default"]
+            entry["parameters"]["variant"]["choices"] = ["default"]
     digest = hashlib.sha256(json.dumps(previous, sort_keys=True).encode()).hexdigest()
     assert digest == BASELINE_CATALOG
 
