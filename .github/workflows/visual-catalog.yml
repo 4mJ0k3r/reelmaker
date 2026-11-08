@@ -59,7 +59,7 @@ jobs:
       - run: python -m pip install -r requirements-runtime.txt -r requirements-renderer.txt pytest==8.4.2
       - run: python run_reel.py --check
       - run: >-
-          python -m pytest -q --basetemp outputs/ci-native
+          python -m pytest -q --basetemp "${RUNNER_TEMP:-/tmp}/ci-native"
           tests/test_cinematic_project.py tests/test_cinematic_transaction.py
           tests/test_encoder_cleanup.py tests/test_sprint_b1.py
           tests/test_sprint_d_motion.py tests/test_sprint_d_staging.py tests/test_sprint_d_camera.py
