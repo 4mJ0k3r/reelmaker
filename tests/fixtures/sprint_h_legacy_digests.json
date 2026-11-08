@@ -1,0 +1,26 @@
+[
+  {
+    "prompt": "Yellow Mellow finds an emergency signal in the snowy mountains.",
+    "duration": 15,
+    "plan_sha256": "7d582d51b9e5fd2adfbf03b7c0d192514c12979601b605bb7cc263bd19c3b11c",
+    "manifest_sha256": "8b9e7714b4e7cf25994a2defd51c91d0fcd8e56d8b318ea29ad569299034803f"
+  },
+  {
+    "prompt": "Yellow Mellow explores an orchard, discovers something unusual, and runs to safety.",
+    "duration": 15,
+    "plan_sha256": "f1cbbc5c9fe59cf7d845bd5de368cee5288ca000bc6cdd4ea651eedae4b5845e",
+    "manifest_sha256": "8228ae37e1a47c61914163d503ab9c76a665cc6ab303de833c9d399de4efa1a5"
+  },
+  {
+    "prompt": "Create a 60-second vertical animated survival story about Yellow Mellow. He is lost alone on an icy snowy mountain ridge when a blizzard begins. He notices the worsening storm, becomes worried, and chooses to run for safety. He travels down from the cold mountains into a peaceful warm orchard at dusk, stops and realizes he has escaped. The ending should feel relieved and hopeful. Use only supported registered worlds, shot presets, and character actions. No additional characters, no dialogue, and no custom assets.",
+    "duration": 60,
+    "plan_sha256": "c05a3cbb0823bf0289433338fccd771a1fab1668688f1a4399e5cc88ee543057",
+    "manifest_sha256": "81b34a41a616fb7bc52706c2a8a05b13434849a4efdb82aa1073f6c569bb209a"
+  },
+  {
+    "prompt": "Yellow Mellow is lost on a snowy mountain ridge. A blizzard begins. He runs downhill to escape. Later he reaches a warm orchard and slows down. He recognizes safety, relaxes and feels relieved. No emergency beacon should appear.",
+    "duration": 60,
+    "plan_sha256": "dc287091bbe3c8969531f8182f67aa1570054df4bdfb231a53d7396ce581dc15",
+    "manifest_sha256": "3c91d08a195c3bf4593bd3b409f61d85785c8d888b115dd6e401f456720b60e2"
+  }
+]

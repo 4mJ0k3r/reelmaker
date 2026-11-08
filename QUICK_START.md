@@ -43,3 +43,18 @@ Useful switches: `--plan-only` (check the story plan, no video), `--list-support
 - Characters / places: Yellow Mellow in a snowy mountain and/or a dusk orchard (see `docs/AGENT_CAPABILITIES.md`).
 - Output is **silent**. Sound is a separate workflow: `docs/AUDIO_WORKFLOW.md`.
 - Unsupported stories are reported honestly with the closest supported version; they are not faked.
+
+## Opt in to chronological story direction
+
+Use the Sprint H strategy when a prompt needs ordered danger, travel, arrival and relief.
+
+```bash
+python3 run_reel.py --strategy director-v2 --duration 60 --plan-only \
+  --prompt "Yellow Mellow sees a blizzard on the snowy ridge. He runs to safety. Later he reaches a warm orchard. No emergency beacon."
+```
+
+Inspect `story_events`, `constraints` and `observed_staging` before rendering. Keep the same
+prompt and flags, remove `--plan-only`, and supply a new `--name` under a persistent
+`--output-root`. The finished job saves the actual `story_plan.json` alongside the manifest.
+The existing default and `--strategy legacy` produce the historical plan.
+See [Autonomous story director](docs/AUTONOMOUS_STORY_DIRECTOR.md) for supported phrasing.
