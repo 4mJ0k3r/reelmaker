@@ -5,6 +5,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 
+from .dressing import DRESSING, STRATEGY as ASSET_STRATEGY
 from .planner import Beat, PlanError, StoryPlan
 from .storylib import ENVIRONMENTS
 
@@ -23,10 +24,22 @@ _PATTERNS = {
     "resolution": r"relie(?:f|ved)|relax(?:es|ed)?|safe|safety|calms down|finds peace",
     "audio": r"dialogue|voiceover|voice-over|narration|music|soundtrack|audio",
 }
-_MENTION = re.compile(
-    r"\b(?:" + "|".join(f"(?P<{key}>{value})" for key, value in _PATTERNS.items()) + r")\b",
-    re.IGNORECASE,
-)
+def _mention_pattern(patterns):
+    return re.compile(
+        r"\b(?:" + "|".join(f"(?P<{key}>{value})" for key, value in patterns.items()) + r")\b",
+        re.IGNORECASE,
+    )
+
+
+_MENTION = _mention_pattern(_PATTERNS)
+_ASSET_MENTION = _mention_pattern({
+    **_PATTERNS,
+    "parcel": r"(?:unusual |strange |mysterious )?objects?|(?:wrapped )?parcels?",
+    "lamp": r"streetlamps?|lamps?",
+    "shrubs": r"shrubs?|bushes",
+    "mist": r"(?:ground )?mist|fog",
+    "rocks": r"rock groups?|rocks?|boulders?",
+})
 _NEGATION = re.compile(
     r"\b(?:no|without|avoid(?:s|ing)?|exclude|omit|never|do not|does not|must not|should not|"
     r"don['’]t|doesn['’]t|mustn['’]t)\s+"
@@ -54,10 +67,10 @@ class Mention:
     forbidden: bool
 
 
-def _mentions(text: str) -> list[Mention]:
+def _mentions(text: str, pattern=_MENTION) -> list[Mention]:
     breaks = [match.end() for match in _CLAUSE_BREAK.finditer(text)]
     mentions: list[Mention] = []
-    for match in _MENTION.finditer(text):
+    for match in pattern.finditer(text):
         clause = sum(end <= match.start() for end in breaks)
         prefix = text[(breaks[clause - 1] if clause else 0):match.start()]
         previous = mentions[-1] if mentions else None
@@ -157,26 +170,29 @@ def _stage_shots(stage: Stage, count: int) -> list[Shot]:
 
 
 def _allocate(stages: list[Stage], target: int) -> list[int]:
-    sizes = [len(stage.shots) if stage.name == "beacon" else 1 for stage in stages]
+    sizes = [len(stage.shots) if stage.name in {"beacon", "discovery"} else 1 for stage in stages]
     if sum(sizes) > target:
         raise PlanError("The requested story beats need more than five shots. Use 60 seconds.")
     while sum(sizes) < target:
         # First fill each visual recipe once. If a long single-location story
         # still needs shots, distribute repeats across its shortest acts.
-        candidates = [i for i, stage in enumerate(stages) if stage.name != "beacon"]
+        candidates = [i for i, stage in enumerate(stages) if stage.name not in {"beacon", "discovery"}]
         available = [i for i in candidates if sizes[i] < len(stages[i].shots)]
         i = min(available or candidates, key=lambda i: (sizes[i], i))
         sizes[i] += 1
     return sizes
 
 
-def plan_directed(prompt: str, duration: int, target: int, title: str | None) -> StoryPlan:
+def plan_directed(
+    prompt: str, duration: int, target: int, title: str | None, *, strategy: str = VERSION
+) -> StoryPlan:
     if not isinstance(prompt, str) or not prompt.strip():
         raise PlanError("Provide a non-empty story prompt")
     if len(prompt) > 4000:
         raise PlanError("Director prompts are limited to 4,000 characters")
     text = prompt.lower()
-    mentions = _mentions(text)
+    asset_aware = strategy == ASSET_STRATEGY
+    mentions = _mentions(text, _ASSET_MENTION if asset_aware else _MENTION)
     requested = {m.tag for m in mentions if not m.forbidden}
     forbidden = {m.tag for m in mentions if m.forbidden}
     if clash := requested & forbidden:
@@ -247,11 +263,28 @@ def plan_directed(prompt: str, duration: int, target: int, title: str | None) ->
     if moving:
         stages.append(Stage("arrival", destination, "walk and stop", "caution to calm",
                             "editorial cut after origin travel", _ARRIVE))
+    if asset_aware and "parcel" in requested:
+        focal = next(m for m in mentions if m.tag == "parcel" and not m.forbidden)
+        if _place_for(text, focal, locations) != "orchard":
+            raise PlanError("Object discovery is admitted only in the orchard")
+        if moving and origin == "orchard" and run_mentions and run_mentions[0].start < focal.start:
+            raise PlanError("Name the orchard object before the escape from the orchard")
+        discovery = Stage(
+            "discovery", "orchard", "approach and look", "curiosity",
+            "after orienting to the orchard", (
+                Shot("reaction", "tense", "notice a wrapped parcel", "parcel_reveal"),
+                Shot("reaction", "calm", "consider the find"),
+            ),
+        )
+        index = 1 if origin == "orchard" else len(stages)
+        stages.insert(index, discovery)
     stages.append(Stage("resolution", destination, "stop and relax", "relief", "after travel or arrival", _END))
 
     warnings = []
     if re.search(r"\bdownhill\b", text):
         warnings.append("Downhill motion is unsupported. The run crosses the registered level ridge.")
+    if asset_aware and "parcel" in requested:
+        warnings.append("The admitted unusual object is a wrapped travel parcel; observation only.")
     counts = _allocate(stages, target)
     beats, events = [], []
     occurrences: dict[tuple[str, str], int] = {}
@@ -274,7 +307,7 @@ def plan_directed(prompt: str, duration: int, target: int, title: str | None) ->
     return StoryPlan(
         prompt=prompt, title=title or "Yellow Mellow — " + prompt.strip()[:65],
         environments=environments, beats=beats, duration_seconds=duration,
-        strategy=VERSION, events=events,
+        strategy=strategy, events=events,
         constraints={"requested": sorted(requested), "forbidden": sorted(forbidden),
                      "required_running": running, "beacon": beacon},
         warnings=warnings,
@@ -359,6 +392,14 @@ def inspect_directed_manifest(plan: StoryPlan, manifest: dict) -> dict:
         warnings.append("More than one fifth of shots reuse the same staging signature.")
     if longest_reaction > 2:
         warnings.append("Three or more consecutive reaction presets may feel repetitive.")
+    if plan.strategy == ASSET_STRATEGY:
+        present = {node.get("asset_id") for segment in manifest["segments"]
+                   for node in segment["storyboard"]["world"]["nodes"] if node["visible"]}
+        for name, item in DRESSING.items():
+            if name in plan.constraints["forbidden"] and item.asset in present:
+                violations.append(f"Forbidden {name} is present")
+            if name in plan.constraints["requested"] and item.asset not in present:
+                violations.append(f"Requested {name} has no admitted staging for this story")
     if violations:
         raise PlanError("; ".join(violations))
     return {

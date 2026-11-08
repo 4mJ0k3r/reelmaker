@@ -241,7 +241,9 @@ def planner_usage():
                 world = shot["world"]
                 asset_ids.update(node["asset_id"] for node in world["nodes"] if "asset_id" in node)
                 views.update(view["kind"] for view in shot["views"])
-    return asset_ids, views
+    from reelforge.mvp.dressing import accessible_assets
+
+    return asset_ids | accessible_assets(), views | {"object_reveal", "push_in"}
 
 
 def registered_components(planner_assets):

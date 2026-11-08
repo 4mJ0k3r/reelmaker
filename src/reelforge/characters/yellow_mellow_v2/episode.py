@@ -143,7 +143,7 @@ class YellowMellowDrawer:
     """
 
     def __init__(
-        self, specs: tuple[SegmentSpec, ...], *, draw_scale: float, seed: str, investigation=None
+        self, specs: tuple[SegmentSpec, ...], *, draw_scale: float, seed: str, investigation=None, appearance: str = "default"
     ):
         requests, start_expr, start_facing = requests_from_segments(specs)
         character = YellowMellowV2(facing=_facing_value(start_facing), seed=seed)
@@ -160,6 +160,7 @@ class YellowMellowDrawer:
                 f"Yellow Mellow segment must animate exactly 90 frames, got {self._perf.frames}"
             )
         self._draw_scale = draw_scale
+        self._appearance = appearance
 
     @property
     def draw_scale(self) -> float:
@@ -191,7 +192,7 @@ class YellowMellowDrawer:
         # (bob, crouch, jump) and the planted-foot contacts are kept by sampling the pose as-is.
         placement = ArtPlacement(self.local_origin(cf), 0.0, self._draw_scale, sign)
         shadows = contact_shadows(cf.state, placement)
-        body = character_commands(cf.state, cf.face, placement)
+        body = character_commands(cf.state, cf.face, placement, appearance=self._appearance)
         return shadows + body
 
 
@@ -201,7 +202,9 @@ def build_drawer(
     draw_scale: float = DEFAULT_DRAW_SCALE,
     seed: str = "yellow_mellow_v2",
     investigation=None,
+    appearance: str = "default",
 ):
     return YellowMellowDrawer(
-        tuple(specs), draw_scale=draw_scale, seed=seed, investigation=investigation
+        tuple(specs), draw_scale=draw_scale, seed=seed, investigation=investigation,
+        appearance=appearance,
     )

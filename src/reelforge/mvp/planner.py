@@ -17,7 +17,10 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, field
 
+from .dressing import STRATEGY as ASSET_STRATEGY, dress_storyboard
 from .storylib import ENVIRONMENTS, SHOT_PRESETS, VARIANT_COUNT, build_directed_shot, build_shot
+
+DIRECTOR_STRATEGIES = ("director-v2", ASSET_STRATEGY)
 
 SUPPORTED_DURATIONS = {15: 5, 60: 20}  # seconds -> 90-frame segments
 
@@ -164,10 +167,12 @@ def plan_story(
             f"Unsupported duration {duration_seconds}s; choose one of "
             f"{sorted(SUPPORTED_DURATIONS)} seconds"
         )
-    if strategy == "director-v2":
+    if strategy in DIRECTOR_STRATEGIES:
         from .director import plan_directed
 
-        return plan_directed(prompt, duration_seconds, SUPPORTED_DURATIONS[duration_seconds], title)
+        return plan_directed(
+            prompt, duration_seconds, SUPPORTED_DURATIONS[duration_seconds], title, strategy=strategy
+        )
     if strategy != "legacy":
         raise PlanError(f"Unknown planner strategy: {strategy}")
     signals = analyse(prompt)
@@ -285,7 +290,7 @@ def build_production_manifest(plan: StoryPlan) -> dict:
     for i, b in enumerate(plan.beats):
         build = build_shot
         options = {}
-        if plan.strategy == "director-v2":
+        if plan.strategy in DIRECTOR_STRATEGIES:
             build = build_directed_shot
             options = {"style": b.style, "weather": b.weather, "beacon": plan.constraints["beacon"]}
         sb = build(
@@ -297,6 +302,8 @@ def build_production_manifest(plan: StoryPlan) -> dict:
             variant=b.variant,
             **options,
         )
+        if plan.strategy == ASSET_STRATEGY:
+            dress_storyboard(sb, b, forbidden=plan.constraints["forbidden"])
         segments.append({"id": f"seg_{i + 1:02d}", "storyboard": sb})
     return {
         "schema_version": "production-0.1",
@@ -328,7 +335,7 @@ def plan_summary(plan: StoryPlan) -> dict:
             for i, b in enumerate(plan.beats)
         ],
     }
-    if plan.strategy == "director-v2":
+    if plan.strategy in DIRECTOR_STRATEGIES:
         result.update(strategy=plan.strategy, story_events=plan.events,
                       constraints=plan.constraints, warnings=plan.warnings)
         for i, (row, beat) in enumerate(zip(result["beats"], plan.beats, strict=True)):

@@ -58,3 +58,30 @@ The storm treatment reuses the registered foreground with a stronger, colder art
 preset. The weather reaches the frame before the escape and remains visible during the run.
 The director changes the camera and staging only for the opt-in path. The memory limits,
 renderer, media assembly and publication guards are shared with the legacy workflow.
+
+## Asset-aware strategy
+
+Select `--strategy director-v3` to use the same chronological planner with a small
+world-aware dressing palette and Yellow Mellow's `reference_slim` scene variant.
+The existing `legacy` default and the explicit `director-v2` strategy retain their output.
+Use `--list-support` to see the additional asset IDs.
+
+- Orchard shots use the cinematic dusk sky. Wider shots may add low shrubs. Hopeful or warm shots
+  may add a lit path lamp with authored local glow.
+- Wider ridge shots can add angular stones. Storm coverage can add low ground mist.
+- An unusual object or parcel in an orchard stages an approach and look at a wrapped travel parcel.
+  Its reveal uses the registered node-target camera. The actor does not pick it up.
+- Simple exclusions such as “No beacon or lamp” and “No parcel or shrubs” suppress those assets.
+  Explicit recognized requests with no compatible staging produce a planning constraint error.
+
+Run `--plan-only` first and inspect the story events and observed staging. After a successful
+`director-v3` render, run `python3 tools/audit_reel_assets.py /path/to/job` for per-shot asset evidence.
+The tool checks the verified film and original manifest hashes. It reports the registered IDs,
+visible scene-frame counts, and pixel contributions measured by rendering frames 15, 45 and 75
+of each shot with and without each asset. Scene activity describes the graph. A pixel result
+describes sampled pre-encode Cairo frames, so lack of contribution in a sample does not establish
+absence across the entire shot. The 77-entry catalog includes cameras, layouts, procedural
+families and other tools alongside drawable scene assets.
+
+The refined variant tapers the fabric below the shoulders while keeping sleeves and rig joints
+in place. It uses a light face shell and dark facial features with the same animation and beanie.

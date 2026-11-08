@@ -143,7 +143,10 @@ def _yellow_mellow_drawer(plan):
         investigation = (
             (plan.segments, plan.scale * DEFAULT_DRAW_SCALE) if plan.mellow_investigation else None
         )
-        drawer = build_drawer(_segment_specs(plan), investigation=investigation)
+        actor = next(node for node in plan.compiled.scene.nodes if node.id == plan.actor_id)
+        drawer = build_drawer(
+            _segment_specs(plan), investigation=investigation, appearance=actor.variant
+        )
         _YM_DRAWERS[plan] = drawer
     return drawer
 

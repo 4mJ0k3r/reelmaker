@@ -57,6 +57,8 @@ MOUTH = color("3a1517")
 TONGUE = color("d0535e")
 
 
+REFERENCE_VARIANT = "reference_slim"
+
 FRONT_VIEW_LIMIT = 0.45  # below this facing magnitude the far arm draws in front of the torso
 
 
@@ -283,7 +285,7 @@ def arm_commands(state: RigState, side: str) -> tuple[DrawPath, ...]:
 
 
 # ---------------------------------------------------------------- torso
-def _skin(state: RigState, squash: float):
+def _skin(state: RigState, squash: float, slim: bool):
     spine = state.joints["spine"]
     chest = state.joints["chest"]
     stretch = 1 + squash
@@ -292,6 +294,10 @@ def _skin(state: RigState, squash: float):
 
     def mapping(p):
         x, y = p[0] * widen, p[1] * stretch
+        if slim:
+            # Keep the neck and sleeve joints in place. Taper the cloth,
+            # pocket and ribbing together below the shoulder line.
+            x *= 1 - 0.12 * smoothstep((p[1] + 34) / 20)
         if p[1] > 0:  # hem follow-through
             x += hem_x * (p[1] / 8.0)
             y += hem_y * (p[1] / 8.0)
@@ -303,11 +309,11 @@ def _skin(state: RigState, squash: float):
     return mapping
 
 
-def torso_commands(state: RigState) -> tuple[DrawPath, ...]:
+def torso_commands(state: RigState, *, slim: bool = False) -> tuple[DrawPath, ...]:
     pose = state.pose
     f = state.f
     light = 1.0 if state.sign > 0 else -1.0
-    skin = _skin(state, pose.squash)
+    skin = _skin(state, pose.squash, slim)
     shift = 3.2 * f
     outline = P(
         ("M", -20.5, 6.0),
@@ -444,16 +450,17 @@ def hood_commands(state: RigState) -> tuple[DrawPath, ...]:
 
 
 # ---------------------------------------------------------------- head
-def head_commands(state: RigState, face: FaceState) -> tuple[DrawPath, ...]:
+def head_commands(state: RigState, face: FaceState, *, light_face: bool = False) -> tuple[DrawPath, ...]:
     head = state.joints["head"]
     pose = state.pose
     s = pose.squash
     rx, ry = HEAD_RX * (1 - 0.22 * s), HEAD_RY * (1 + 0.22 * s)
     light = 1.0 if state.sign > 0 else -1.0
     shell = rigid_ops(head, ellipse(0, 0, rx, ry))
+    shell_paint = color("fffdf5") if light_face else HEAD_BLACK
     cmds = [
-        DrawPath(shell, HEAD_BLACK, Stroke(EDGE, 2.6)),
-        DrawPath(shell, HEAD_BLACK),
+        DrawPath(shell, shell_paint, Stroke(EDGE, 2.6)),
+        DrawPath(shell, shell_paint),
     ]
     sheen = P(
         ("M", light * (rx - 4.5), -6.0),
@@ -461,30 +468,31 @@ def head_commands(state: RigState, face: FaceState) -> tuple[DrawPath, ...]:
         ("C", light * (rx - 4.6), 6.0, light * (rx - 4.0), 0.0, light * (rx - 4.5), -6.0),
         ("Z",),
     )
-    cmds.append(fill(rigid_ops(head, sheen), HEAD_SHEEN))
+    cmds.append(fill(rigid_ops(head, sheen), color("b9c9d5", 0.55) if light_face else HEAD_SHEEN))
     rim = []
     for i in range(13):
         a = -0.9 + i * (1.75 / 12)
         rim.append((light * (rx - 0.9) * math.cos(a), (ry - 0.9) * math.sin(a)))
     rim_ops = P(("M", *rim[0]), *[("L", *p) for p in rim[1:]])
     cmds.append(stroke(rigid_ops(head, rim_ops), RIM, 1.25))
-    cmds += face_commands(state, face, head, rx, ry)
+    cmds += face_commands(state, face, head, rx, ry, light_face=light_face)
     return tuple(cmds)
 
 
-def face_commands(state: RigState, face: FaceState, head: Rigid, rx: float, ry: float):
+def face_commands(state: RigState, face: FaceState, head: Rigid, rx: float, ry: float, *, light_face=False):
     pose = state.pose
     f = state.f
     dx = 4.6 * f + 5.0 * pose.head_yaw
     look_x, look_y = pose.look_x * 2.6, pose.look_y * 1.9
     out = []
+    ink = INK if light_face else WHITE
     eye_y = 2.6 + look_y
     o = face.eye_open
     for side, base in (("near", -7.3 * (1 - 0.12 * f)), ("far", 7.3 * (1 - 0.22 * f))):
         cx = dx + base + look_x
         squeeze = 1 - 0.18 * f if side == "far" else 1.0
         erx, ery = 3.35 * face.eye_scale * squeeze, 4.9 * face.eye_scale
-        out += eye_commands(head, cx, eye_y, erx, ery, o, face)
+        out += eye_commands(head, cx, eye_y, erx, ery, o, face, light_face=light_face)
         # brows
         asym = face.brow_asym if side == "far" else -0.35 * face.brow_asym
         by = eye_y - ery - 2.7 - face.brow_raise - asym
@@ -495,13 +503,14 @@ def face_commands(state: RigState, face: FaceState, head: Rigid, rx: float, ry: 
         iy, oy = by - tilt * 4.0, by + tilt * 4.0 * 0.4
         mid_y = (iy + oy) / 2 - 1.0
         brow = P(("M", ox, oy), ("C", lerp(ox, ix, 0.35), mid_y, lerp(ox, ix, 0.7), mid_y, ix, iy))
-        out.append(stroke(rigid_ops(head, brow), WHITE, 1.9))
-    out += mouth_commands(head, dx * 0.92 + look_x * 0.5, 12.6 + look_y * 0.4, face)
+        out.append(stroke(rigid_ops(head, brow), ink, 1.9))
+    out += mouth_commands(head, dx * 0.92 + look_x * 0.5, 12.6 + look_y * 0.4, face, ink=ink)
     return out
 
 
-def eye_commands(head, cx, cy, erx, ery, o, face: FaceState):
+def eye_commands(head, cx, cy, erx, ery, o, face: FaceState, *, light_face=False):
     out = []
+    ink = INK if light_face else WHITE
     closed = 1 - o
     top_cut = cy - ery + 2 * ery * max(0.5 * closed * 1.15, 0.42 * face.upper_lid)
     bottom_cut = cy + ery - 2 * ery * (0.5 * closed * 0.85)
@@ -513,7 +522,7 @@ def eye_commands(head, cx, cy, erx, ery, o, face: FaceState):
             ("M", cx - erx, y + 0.4),
             ("C", cx - erx * 0.4, y - arc, cx + erx * 0.4, y - arc, cx + erx, y + 0.4),
         )
-        out.append(stroke(rigid_ops(head, ops), WHITE, 1.6))
+        out.append(stroke(rigid_ops(head, ops), ink, 1.6))
         return out
     cheek = 2.4 * ery * 0.55 * face.lower_lid
     clip = P(
@@ -532,22 +541,24 @@ def eye_commands(head, cx, cy, erx, ery, o, face: FaceState):
         ("Z",),
     )
     clip_w = rigid_ops(head, clip)
-    out.append(fill(rigid_ops(head, ellipse(cx, cy, erx * 1.5, ery * 1.32)), EYE_GLOW, clip=clip_w))
-    out.append(fill(rigid_ops(head, ellipse(cx, cy, erx, ery)), WHITE, clip=clip_w))
-    out.append(
-        fill(
-            rigid_ops(head, ellipse(cx - erx * 0.25, cy - ery * 0.38, erx * 0.32, ery * 0.22)),
-            color("ffffff"),
-            clip=clip_w,
+    surround = color("bccdd8", 0.65) if light_face else EYE_GLOW
+    out.append(fill(rigid_ops(head, ellipse(cx, cy, erx * 1.5, ery * 1.32)), surround, clip=clip_w))
+    out.append(fill(rigid_ops(head, ellipse(cx, cy, erx, ery)), ink, clip=clip_w))
+    if not light_face:
+        out.append(
+            fill(
+                rigid_ops(head, ellipse(cx - erx * 0.25, cy - ery * 0.38, erx * 0.32, ery * 0.22)),
+                color("ffffff"),
+                clip=clip_w,
+            )
         )
-    )
     if face.upper_lid > 0.05 and closed < 0.5:
         lid = P(("M", cx - erx - 0.4, top_cut + 0.2), ("L", cx + erx + 0.4, top_cut + 0.2))
-        out.append(stroke(rigid_ops(head, lid), color("e8eef8"), 0.9))
+        out.append(stroke(rigid_ops(head, lid), ink if light_face else color("e8eef8"), 0.9))
     return out
 
 
-def mouth_commands(head, mx, my, face: FaceState):
+def mouth_commands(head, mx, my, face: FaceState, *, ink=WHITE):
     c = face.mouth_curve
     w = 4.5 * face.mouth_width * (1 - 0.35 * face.mouth_round)
     o = face.mouth_open
@@ -556,7 +567,7 @@ def mouth_commands(head, mx, my, face: FaceState):
             ("M", mx - w, my - c * 1.7),
             ("C", mx - w * 0.4, my + c * 1.5, mx + w * 0.4, my + c * 1.5, mx + w, my - c * 1.7),
         )
-        return [stroke(rigid_ops(head, ops), WHITE, 1.25)]
+        return [stroke(rigid_ops(head, ops), ink, 1.25)]
     r = face.mouth_round
     depth = 0.8 + o * 4.6
     yc = my - c * 1.5 * (1 - r)
@@ -582,7 +593,7 @@ def mouth_commands(head, mx, my, face: FaceState):
     if o > 0.35:
         tongue = ellipse(mx, lerp(bot_d, bot_o, r) - depth * 0.35, w * 0.55, depth * 0.32)
         out.append(fill(rigid_ops(head, tongue), TONGUE, clip=sw))
-    out.append(DrawPath(sw, stroke=Stroke(WHITE, 1.0)))
+    out.append(DrawPath(sw, stroke=Stroke(ink, 1.0)))
     return out
 
 
@@ -673,7 +684,7 @@ def beanie_commands(state: RigState) -> tuple[DrawPath, ...]:
 
 # ---------------------------------------------------------------- assembly
 def character_commands(
-    state: RigState, face: FaceState, placement: Placement
+    state: RigState, face: FaceState, placement: Placement, *, appearance: str = "default"
 ) -> tuple[DrawPath, ...]:
     """Painter's order: far arm, legs, shorts, hoodie, near arm, hood, head, beanie.
 
@@ -689,13 +700,14 @@ def character_commands(
     parts += shorts_cuff(state, "far")
     parts += shorts_cuff(state, "near")
     parts += shorts_body(state)
-    parts += torso_commands(state)
+    refined = appearance == REFERENCE_VARIANT
+    parts += torso_commands(state, slim=refined)
     if front_view:
         # Facing the camera both arms are in front of the hoodie.
         parts += arm_commands(state, "far")
     parts += arm_commands(state, "near")
     parts += hood_commands(state)
-    parts += head_commands(state, face)
+    parts += head_commands(state, face, light_face=refined)
     parts += beanie_commands(state)
     t = placement.transform()
     return tuple(

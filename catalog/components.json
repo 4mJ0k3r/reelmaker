@@ -491,7 +491,7 @@
           "type": "number"
         }
       },
-      "planner_exposure": "unavailable",
+      "planner_exposure": "preset_only",
       "production_status": "candidate",
       "quality_review": "not_assessed",
       "registration": [],
@@ -524,7 +524,7 @@
           "type": "number"
         }
       },
-      "planner_exposure": "unavailable",
+      "planner_exposure": "preset_only",
       "production_status": "candidate",
       "quality_review": "not_assessed",
       "registration": [],
@@ -860,7 +860,7 @@
           ]
         }
       },
-      "planner_exposure": "unavailable",
+      "planner_exposure": "preset_only",
       "production_status": "candidate",
       "quality_review": "not_assessed",
       "registration": [
@@ -1844,7 +1844,7 @@
           ]
         }
       },
-      "planner_exposure": "unavailable",
+      "planner_exposure": "preset_only",
       "production_status": "candidate",
       "quality_review": "not_assessed",
       "registration": [
@@ -2362,7 +2362,7 @@
           ]
         }
       },
-      "planner_exposure": "unavailable",
+      "planner_exposure": "preset_only",
       "production_status": "candidate",
       "quality_review": "not_assessed",
       "registration": [
@@ -3014,7 +3014,7 @@
           ]
         }
       },
-      "planner_exposure": "unavailable",
+      "planner_exposure": "preset_only",
       "production_status": "candidate",
       "quality_review": "not_assessed",
       "registration": [
@@ -3538,7 +3538,7 @@
           ]
         }
       },
-      "planner_exposure": "unavailable",
+      "planner_exposure": "preset_only",
       "production_status": "candidate",
       "quality_review": "not_assessed",
       "registration": [
@@ -3830,7 +3830,7 @@
           ]
         }
       },
-      "planner_exposure": "unavailable",
+      "planner_exposure": "preset_only",
       "production_status": "candidate",
       "quality_review": "not_assessed",
       "registration": [
@@ -4086,7 +4086,8 @@
         },
         "variant": {
           "choices": [
-            "default"
+            "default",
+            "reference_slim"
           ]
         }
       },
@@ -4112,7 +4113,8 @@
       ],
       "type": "character",
       "variants": [
-        "default"
+        "default",
+        "reference_slim"
       ]
     }
   ],

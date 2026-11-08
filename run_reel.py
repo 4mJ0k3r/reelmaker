@@ -191,7 +191,10 @@ def support_summary() -> dict:
         "moods": planner.MOOD_KEYWORDS,
     }
     info["moods"] = sorted(_MOODS)
-    info["planner_strategies"] = ["legacy", "director-v2"]
+    from reelforge.mvp.dressing import accessible_assets
+
+    info["planner_strategies"] = ["legacy", *planner.DIRECTOR_STRATEGIES]
+    info["director_v3_assets"] = sorted(accessible_assets())
     info["audio"] = "silent output only (no audio streams)"
     info["output"] = "720x1280 (9:16), 30 fps, H.264 yuv420p"
     return info
@@ -362,7 +365,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--prompt-file", help="read the prompt from a UTF-8 text file")
     parser.add_argument("--duration", type=int, default=60, help="15 or 60 seconds (default 60)")
     parser.add_argument("--title", default=None)
-    parser.add_argument("--strategy", choices=("legacy", "director-v2"), default="legacy",
+    parser.add_argument("--strategy", choices=("legacy", "director-v2", "director-v3"), default="legacy",
                         help="use the opt-in chronological story director (default: legacy)")
     parser.add_argument("--output-root", default=str(DEFAULT_OUTPUT_ROOT))
     parser.add_argument("--name", default=None, help="job folder name (refused if it exists)")
@@ -399,7 +402,7 @@ def main(argv: list[str] | None = None) -> int:
             return EXIT_BAD_ARGS
 
     from reelforge.core.errors import InputError
-    from reelforge.mvp.planner import PlanError, plan_summary
+    from reelforge.mvp.planner import DIRECTOR_STRATEGIES, PlanError, plan_summary
 
     try:
         plan, manifest, compiled = build_plan(prompt, args.duration, args.title, strategy=args.strategy)
@@ -413,7 +416,7 @@ def main(argv: list[str] | None = None) -> int:
         return EXIT_INVALID
 
     summary = plan_summary(plan)
-    if args.strategy == "director-v2":
+    if args.strategy in DIRECTOR_STRATEGIES:
         from reelforge.mvp.director import inspect_directed_manifest
 
         try:
@@ -443,7 +446,7 @@ def main(argv: list[str] | None = None) -> int:
         return EXIT_BAD_ARGS
 
     (job / "production_manifest.json").write_text(json.dumps(manifest, indent=2))
-    if args.strategy == "director-v2":
+    if args.strategy in DIRECTOR_STRATEGIES:
         (job / "story_plan.json").write_text(json.dumps(summary, indent=2) + "\n")
     info = {
         "status": "failed", "title": plan.title, "prompt": prompt, "duration": args.duration,
@@ -471,6 +474,8 @@ def main(argv: list[str] | None = None) -> int:
             final = job / "final.mp4"
             publish_final(work / "reel.mp4", final)
             verification = verify_mp4(final, compiled.frames)
+            if args.strategy == "director-v3":
+                verification["manifest_sha256"] = sha256_file(job / "production_manifest.json")
             info["verification"] = verification
             (job / "verification.json").write_text(json.dumps(verification, indent=2))
             if verification["passed"]:
