@@ -60,9 +60,10 @@ def preflight(plan, output, registry, cancelled=None):
     destination = private_destination(plan, output, registry)
     preflight_memory()
     check_narration_storage(destination.parent, plan.frames)
-    with JobMonitor(workspace=destination.parent, cancelled=cancelled):
+    with JobMonitor(workspace=destination.parent, cancelled=cancelled) as monitor:
         with owned(destination.parent, '.reelforge-unified-probe-') as owner:
             resolve_audio(plan, registry, owner.path, cancelled)
+    _resource_gate(monitor)
     return {'ready': True, 'advisory': True, 'plan_sha256': plan.timeline['plan_sha256']}
 
 
@@ -139,6 +140,7 @@ def render(plan, output, registry, cancelled=None):
     owner = OwnedDirectory(output.parent,'.reelforge-unified-')
     work = None
     committed = False
+    preserved = False
     try:
         stage = owner.path
         with JobMonitor(workspace=stage,cancelled=cancelled) as monitor:
@@ -149,8 +151,6 @@ def render(plan, output, registry, cancelled=None):
             engine = _visual(plan,stage/'engine',registry,cancelled)
             if not engine.get('success'):
                 if engine.get('cleanup_error'):
-                    owner.preserve()
-                    work.preserve()
                     raise OperationError('UNIFIED_OWNERSHIP',f'Child ownership uncertain; preserve {stage} and {work.path}')
                 raise OperationError('UNIFIED_ENGINE',str(engine.get('error') or engine))
             cancelled_check(cancelled)
@@ -199,11 +199,26 @@ def render(plan, output, registry, cancelled=None):
         owner.publish_as(output)
         committed=True
         return report
+    except OperationError as error:
+        # A nested renderer may retain work *inside* our stage. Never recursively
+        # remove that stage when a descendant's ownership is uncertain.
+        uncertain = error.code in {
+            'CINEMATIC_OWNERSHIP', 'UNIFIED_OWNERSHIP', 'WORKSPACE_IDENTITY',
+            'TRANSACTION_IDENTITY', 'TRANSACTION_PRESERVED', 'TRANSACTION_CONTENT',
+            'TRANSACTION_CLEANUP', 'ENCODER_OWNERSHIP', 'ENCODER_CLEANUP',
+        }
+        if uncertain:
+            owner.preserve()
+            if work is not None:
+                work.preserve()
+            preserved = True
+        raise
     finally:
-        try:
-            if work is not None:work.cleanup()
-        finally:
-            if not committed:owner.cleanup()
+        if not preserved:
+            try:
+                if work is not None:work.cleanup()
+            finally:
+                if not committed:owner.cleanup()
 
 
 def verify(directory, registry, cancelled=None):

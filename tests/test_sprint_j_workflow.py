@@ -124,3 +124,44 @@ def test_atomic_success_with_fake_media_only(tmp_path,plan,monkeypatch):
     assert (out/'reel.mp4').read_bytes()==b'fake-media-not-a-film'
     assert json.loads((out/'plan.json').read_text())==plan.timeline
     assert not list(tmp_path.glob('.reelforge-*'))
+
+
+@pytest.mark.parametrize('kind',['exception','report'])
+def test_nested_ownership_uncertainty_preserves_child_work(tmp_path,plan,monkeypatch,kind):
+    """No native media: a child renderer can preserve a subtree inside our stage."""
+    class Monitor:
+        def __init__(self,**kw):pass
+        def __enter__(self):return self
+        def __exit__(self,*args):pass
+    monkeypatch.setattr(w,'compile_request',lambda *a:deepcopy(plan))
+    monkeypatch.setattr(w,'preflight_memory',lambda:None)
+    monkeypatch.setattr(w,'check_narration_storage',lambda *a:None)
+    monkeypatch.setattr(w,'JobMonitor',Monitor)
+    retained=[]
+    def engine(p,out,*args):
+        out.mkdir()
+        child=out.parent/'child-preserved'
+        child.mkdir();(child/'ownership-evidence').write_text('must survive')
+        retained.append(child)
+        if kind=='exception':
+            raise OperationError('CINEMATIC_OWNERSHIP','child native ownership uncertain')
+        return {'success':False,'cleanup_error':{'code':'TRANSACTION_PRESERVED'}}
+    monkeypatch.setattr(w,'_visual',engine)
+    with pytest.raises(OperationError):w.render(plan,tmp_path/'delivery',ROOT/'assets/audio')
+    assert not (tmp_path/'delivery').exists()
+    assert (retained[0]/'ownership-evidence').read_text()=='must survive'
+    # Preserved resources belong to investigation; the production code must not delete them.
+
+
+def test_preflight_requires_continuous_oom_accounting(tmp_path,plan,monkeypatch):
+    class Monitor:
+        oom_telemetry_continuous=False
+        def __init__(self,**kw):pass
+        def __enter__(self):return self
+        def __exit__(self,*args):pass
+    monkeypatch.setattr(w,'preflight_memory',lambda:None)
+    monkeypatch.setattr(w,'check_narration_storage',lambda *a:None)
+    monkeypatch.setattr(w,'JobMonitor',Monitor)
+    with pytest.raises(OperationError,match='OOM telemetry'):
+        w.preflight(plan,tmp_path/'delivery',ROOT/'assets/audio')
+    assert not list(tmp_path.iterdir())

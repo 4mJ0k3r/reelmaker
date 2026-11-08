@@ -23,3 +23,11 @@ Catalog validated 77 components; generate --check passed (zero drift). No native
 
 J8 recovery gate: source checkpoints J1/J3/J4 exported as CRC-tested source ZIPs and verified full-history bundles. Final recovery archive/handoff/report are generated outside the checkout so exact final identities can be recorded without self-reference. No real voice was supplied; all external WAVs are synthetic timing signals. No completed production MP4, Hindi subtitle, long-form film or artistic acceptance is claimed. Resume J3/J4 on an admitted host before J5/J6.
 Final historical Director H/I regression: 32 passed in 130.89s, including legacy/V2 frozen digests and V3 native asset audit. Total distinct focused cases on final code: 67 passed across the 34-case new-suite run, one separately added publication unit, and 32 historical cases. No hosted Sprint J CI run.
+
+## Recovery/completion continuation
+
+Exact recovery490c5bef1af2cae344f310375f65b270d2dd1574/tree d3a1a32f1b048ac4dd220f95a8467a93a7e9c54e verified by clean bundle clone.
+Same host blocker confirmed without another full render: no cgroup mount or memory/OOM accounting, no mount capabilities. J3/J4 remain unqualified; J5/J6 remain gated.
+Reproduced nested ownership deletion (exception path failed, report path passed) and false-ready preflight on missing continuous OOM telemetry (failed). Reusable fixes preserve uncertain descendant work and enforce the existing final OOM gate during preflight. No resource limits changed.
+Added pinned synthetic-only qualification packet runner, mock-CLI tests, Ubuntu setup/operator guide and Windows BAT explicitly UNTESTED ON WINDOWS/WSL2. No GitHub publication.
+Recovery fix focused checks: workflow15 passed (12.56s), packet runner7 passed (0.32s). Both reproduced defects now covered. Full regression run in progress; initial invocation omitted PYTHONPATH and failed collection (40 errors), corrected without source changes; all invocation logs retained.
