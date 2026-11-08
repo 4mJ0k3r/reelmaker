@@ -16,3 +16,7 @@ J4 BLOCKED: actual production admission fails MEMORY_PREFLIGHT because cgroup/OO
 J5 NOT STARTED (J4 render gate not passed). J6 NOT STARTED (J5 gate not passed).
 J7 PARTIAL: guide/error remedies and negative tests; Windows wrapper/WSL2/target qualification not attempted.
 J8 IN PROGRESS: full suite, catalog check, recovery export and restore verification.
+
+Final focused retest: 34 tests passed in one run (190.80s), plus separate atomic mock-publication test 1 passed (12.31s). Mock media are explicitly NOT demonstrations.
+Broad full-suite attempt interrupted with exit 130 after 135 pass markers and 5 failure markers; no completed full-suite result. All 5 failing cases were isolated and diagnosed as existing MEMORY_PREFLIGHT refusal, not suppressed. See external evidence/full-failures-diagnosis.txt.
+Catalog validated 77 components; generate --check passed (zero drift). No native dependencies or guards changed. Local Cairo 1.29.2 provisioned; host Debian 13 / Python 3.12.14 has no cgroup memory/OOM mount.

@@ -45,8 +45,19 @@ def resolve_audio(plan, registry, private=None, cancelled=None, native=True):
     return tracks
 
 
-def preflight(plan, output, registry, cancelled=None):
+def private_destination(plan, output, registry):
     destination = output_destination(output)
+    checkout = Path(__file__).resolve().parents[3]
+    if (checkout / 'AGENTS.md').is_file():
+        if destination.is_relative_to(checkout):
+            raise OperationError('UNIFIED_PRIVATE_PATH', 'Keep production outputs outside the engine checkout')
+        if plan.audio is not None and Path(registry).resolve().is_relative_to(checkout):
+            raise OperationError('UNIFIED_PRIVATE_PATH', 'Keep production narration registry outside the engine checkout')
+    return destination
+
+
+def preflight(plan, output, registry, cancelled=None):
+    destination = private_destination(plan, output, registry)
     preflight_memory()
     check_narration_storage(destination.parent, plan.frames)
     with JobMonitor(workspace=destination.parent, cancelled=cancelled):
@@ -122,7 +133,7 @@ def render(plan, output, registry, cancelled=None):
     if fresh.timeline != plan.timeline:
         raise OperationError('UNIFIED_CHANGED', 'Plan changed since compilation')
     plan = fresh
-    output = output_destination(output)
+    output = private_destination(plan, output, registry)
     preflight_memory()
     check_narration_storage(output.parent,plan.frames)
     owner = OwnedDirectory(output.parent,'.reelforge-unified-')

@@ -81,3 +81,46 @@ def test_symlink_and_traversal(tmp_path,plan):
     (tmp_path/'link').symlink_to(tmp_path,target_is_directory=True)
     for path in (tmp_path/'link'/'new', tmp_path/'..'/'new'):
         with pytest.raises(OperationError):output_destination(path)
+
+
+def test_production_path_outside_engine(plan):
+    with pytest.raises(OperationError,match='outside the engine'):
+        w.private_destination(plan,ROOT/'outputs'/'sprint_j_forbidden',ROOT/'assets/audio')
+
+
+def test_insufficient_storage_creates_nothing(tmp_path,plan,monkeypatch):
+    monkeypatch.setattr(w,'compile_request',lambda *a:deepcopy(plan))
+    monkeypatch.setattr(w,'preflight_memory',lambda:None)
+    def full(*args):raise OperationError('WORKSPACE_SPACE','injected disk full')
+    monkeypatch.setattr(w,'check_narration_storage',full)
+    with pytest.raises(OperationError,match='disk full'):
+        w.render(plan,tmp_path/'new',ROOT/'assets/audio')
+    assert not list(tmp_path.iterdir())
+
+
+def test_atomic_success_with_fake_media_only(tmp_path,plan,monkeypatch):
+    class Monitor:
+        def __init__(self,**kw):pass
+        def __enter__(self):return self
+        def __exit__(self,*args):pass
+        def report(self):return {'fake_media_unit_test':True}
+    monkeypatch.setattr(w,'compile_request',lambda *a:deepcopy(plan))
+    monkeypatch.setattr(w,'preflight_memory',lambda:None)
+    monkeypatch.setattr(w,'check_narration_storage',lambda *a:None)
+    monkeypatch.setattr(w,'JobMonitor',Monitor)
+    monkeypatch.setattr(w,'_resource_gate',lambda *a:None)
+    def engine(p,out,*a):
+        out.mkdir();(out/'reel.mp4').write_bytes(b'fake-media-not-a-film')
+        return {'success':True}
+    monkeypatch.setattr(w,'_visual',engine)
+    monkeypatch.setattr(w,'write_storyboard',lambda *a:[])
+    monkeypatch.setattr(w,'verify',lambda *a,**k:{'unit_test_only':True})
+    from reelforge.mvp import asset_audit
+    monkeypatch.setattr(asset_audit,'audit_assets',lambda *a:{'unit_test_only':True})
+    out=tmp_path/'complete'
+    report=w.render(plan,out,ROOT/'assets/audio')
+    assert report['success']
+    assert (out/'verification.json').is_file()
+    assert (out/'reel.mp4').read_bytes()==b'fake-media-not-a-film'
+    assert json.loads((out/'plan.json').read_text())==plan.timeline
+    assert not list(tmp_path.glob('.reelforge-*'))
