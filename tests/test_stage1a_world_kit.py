@@ -24,7 +24,9 @@ def test_registered_recipes_are_deterministic_bounded_and_discoverable(asset_id)
     entry = next(item for item in inventory()["components"] if item["id"] == asset_id)
     assert entry["registration"] == ["scene"]
     assert entry["variants"] == list(asset.variants)
-    assert entry["planner_exposure"] == "unavailable"
+    # Sprint I admits the sky as a dressing choice without exposing the farm kit.
+    exposure = "preset_only" if asset_id == "cinematic_dusk_sky_01" else "unavailable"
+    assert entry["planner_exposure"] == exposure
     assert entry["production_status"] == "candidate"
     assert entry["quality_review"] == "not_assessed"
     for warmth, atmosphere in ((0, 0), (1, 1)):
