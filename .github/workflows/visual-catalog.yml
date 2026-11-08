@@ -67,3 +67,4 @@ jobs:
           tests/test_sprint_d8_operator.py tests/test_sprint_d8_trace.py
           tests/test_sprint_d8_native_faults.py tests/test_sprint_d9_security.py
           tests/test_sprint_e_signal_acting.py
+          tests/test_sprint_h_director.py tests/test_sprint_i_assets.py
