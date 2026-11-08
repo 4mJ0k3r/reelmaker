@@ -125,6 +125,9 @@ def compile_request(data, registry_root: Path):
     audio, cues = None, ()
     narration = d['narration']
     if narration is not None:
+        quantization.extend(stamp(narration[k]) for k in ('start','trim_start') )
+        if narration['trim_end'] is not None:
+            quantization.append(stamp(narration['trim_end']))
         reg = AudioRegistry(registry_root)
         asset = reg.assets.get(narration['asset_id'])
         if asset is None or asset.sha256 != narration['sha256'] or asset.role != 'narration':
@@ -164,13 +167,14 @@ def compile_request(data, registry_root: Path):
         coverage, warnings = [], ['Cinematic acting continues within beats; new beats are authored blocking cuts']
         for e, (start, end) in zip(d['events'], spans):
             beat = next(s.beat for s in visual.shots if s.beat.id == e['id'])
-            active = {n.asset_id for n in beat.scene.scene.nodes if n.visible and n.asset_id}
+            visible = {n.id for n in beat.scene.hierarchy if n.visible}
+            active = {n.asset_id for n in beat.scene.scene.nodes if n.id in visible and n.asset_id}
             _assets(e, active)
             coverage.append({'id': e['id'], 'start_frame': start, 'end_frame': end, 'assets': sorted(active), 'actor': beat.actor, 'action': beat.action})
     body = {'contract': VERSION, 'request_sha256': project_digest(d), 'frames': frames, 'fps': 30,
             'backend': d['backend'], 'backend_manifest': manifest, 'events': coverage,
             'captions': [dict(start=c.start, end=c.end, style=c.style, lines=list(c.lines)) for c in captions],
-            'audio_cues': cues, 'timestamp_conversion': quantization,
+            'audio_cues': list(cues), 'timestamp_conversion': quantization,
             'max_quantization_error_seconds': str(max((abs(Decimal(q['error_seconds'])) for q in quantization), default=Decimal(0))),
             'warnings': warnings, 'audio_provenance': narration['provenance'] if narration else 'silent'}
     return Plan(d, frames, visual, manifest, tuple(captions), audio, cues, {**body, 'plan_sha256': project_digest(body)})

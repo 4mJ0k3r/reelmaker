@@ -3,6 +3,8 @@
 import argparse
 import json
 import sys
+import signal
+from threading import Event
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
 from reelforge.contracts.project import load_project
@@ -23,6 +25,10 @@ def main():
             s.add_argument('output', type=Path)
     sub.add_parser('verify').add_argument('output', type=Path)
     args = p.parse_args()
+    cancellation = Event()
+    if args.command in ('render', 'preflight', 'verify'):
+        for sig in (signal.SIGINT, signal.SIGTERM):
+            signal.signal(sig, lambda *_: cancellation.set())
     try:
         if args.command == 'capabilities':
             result = {'contract': VERSION, 'backends': BACKENDS, 'seconds': [6,60,3], 'caption_languages': ['en'],
@@ -32,12 +38,12 @@ def main():
             result = schema()
         elif args.command == 'verify':
             from reelforge.unified.workflow import verify
-            result = verify(args.output, args.registry)
+            result = verify(args.output, args.registry, cancelled=cancellation)
         else:
             plan = compile_request(load_project(args.request), args.registry)
             if args.command in ('render','preflight'):
                 from reelforge.unified.workflow import preflight, render
-                result = preflight(plan,args.output,args.registry) if args.command == 'preflight' else render(plan,args.output,args.registry)
+                result = preflight(plan,args.output,args.registry,cancelled=cancellation) if args.command == 'preflight' else render(plan,args.output,args.registry,cancelled=cancellation)
             else:
                 result = {'valid':True,'plan_sha256':plan.timeline['plan_sha256']} if args.command == 'validate' else plan.timeline
         print(json.dumps(result, indent=2, ensure_ascii=True))
